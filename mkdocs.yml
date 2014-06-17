@@ -1,5 +1,9 @@
 site_name: Orestes documentation
 pages:
 - [index.md, Home]
-- [about.md, About]
-theme: readthedocs
+- [jclient.md, Client, Java]
+- [jsclient.md, Client, JavaScript]
+- [omongo.md, Server, Mongo]
+- [rest.md, Server, REST]
+- [server.md, Server, Orestes-Server]
+theme: cosmo
