@@ -6,4 +6,6 @@ pages:
 - [omongo.md, Server, Mongo]
 - [rest.md, Server, REST]
 - [server.md, Server, Orestes-Server]
+docs_dir: src
+site_dir: docs
 theme: cosmo
