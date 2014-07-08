@@ -1,11 +1,11 @@
 <project name="orestes-docs" default="dist" basedir=".">
 
-    <property name="build" message="build"/>
-    <property name="build.sources" message="${build}/sources"/>
-    <property name="dist" message="dist" />
-    <property name="dist.javadoc" message="${dist}/api" />
-    <property name="dist.mkdocs" message="${dist}/docs" />
-    <property name="mkdocs" message="src" />
+    <property name="build" value="build"/>
+    <property name="build.sources" value="${build}/sources"/>
+    <property name="dist" value="dist" />
+    <property name="dist.javadoc" value="${dist}/api" />
+    <property name="dist.mkdocs" value="${dist}/docs" />
+    <property name="mkdocs" value="src" />
 
     <target name="javadoc">
 
@@ -29,9 +29,9 @@
         <echo>${dist.mkdocs}</echo>
 
         <exec executable="mkdocs">
-            <arg message="build"/>
-            <arg message="--docs-dir=${mkdocs}" />
-            <arg message="--site-dir=${dist.mkdocs}" />
+            <arg value="build"/>
+            <arg value="--docs-dir=${mkdocs}" />
+            <arg value="--site-dir=${dist.mkdocs}" />
         </exec>
     </target>
 
