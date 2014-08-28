@@ -1,75 +1,88 @@
-# Sororum Cereris pingue nepotis
+# Rest Methods
 
-## Fruge et scelerato quis fratri Regi quos
+## Crud Methods
 
-Lorem markdownum medios induco, suam praesenserat pennae, tamen, clamore fuisset
-[obice arcus poteremur](http://www.mozilla.org/), stratum in. Fixa paviunt
-septem! Cum *quae spargit veri* accepisse inpiger pulcherrime navigiis oritur.
+### insert / update / save behaviour
 
-- Premeret orsa nomen madida
-- Nova cedentem subit
-- Mira iuventa
-- Ad squamae iniquo redimicula legebant terraque isque
+<table>
+    <tr>
+        <th>Method</th>
+        <th>Request</th>
+        <th>Object does not exists</th>
+        <th>Object exists, and version matched</th>
+        <th>Object exists, and version doesn't matched</th>
+    </tr>
+    <tr>
+        <td>insert / save new object</td>
+        <td>
+<pre><code>POST /db/{bucket}</code></pre>   
+            <i>No additional header is required.</i>
+        </td>
+        <td><b>200 Ok</b><br> Inserts the object and returns the inserted object.</td>
+        <td><b>412 Precondition failed</b><br> Insert will be rejected.</td>
+        <td><b>412 Precondition failed</b><br> Insert will be rejected.</td>
+    </tr>
+    <tr>
+        <td>update / save existing object</td>
+        <td>
+<pre><code>PUT /db/{bucket}/{id}
+If-Match: &quot;<i>version</i>&quot;</code></pre>        
+        </td>                                                               
+        <td><b>412 Precondition failed</b><br> Update will be rejected.</td>
+        <td><b>200 Ok</b><br> Updates the object and returns the updated object.</td>
+        <td><b>412 Precondition failed</b><br> Update will be rejected.</td>
+    </tr>
+    <tr>
+        <td>update(force = true)</td>
+        <td>
+<pre><code>PUT /db/{bucket}/{id}
+If-Match: *</code></pre>        
+        </td>      
+        <td><b>412 Precondition failed</b><br> Update will be rejected.</td>
+        <td><b>200 Ok</b><br> Updates the object and returns the updated object.</td>
+        <td><b>200 Ok</b><br> Overwrites the object and returns the updated object.</td>
+    </tr>
+    <tr>
+        <td>save(force = true) insert or save an object</td>
+        <td>
+<pre><code>PUT /db/{bucket}/{id}</code></pre>   
+            <i>No additional header is required.</i>
+        </td>
+        <td><b>200 Ok</b><br> Inserts the object and returns the inserted object.</td>
+        <td><b>200 Ok</b><br> Updates the object and returns the updated object.</td>
+        <td><b>200 Ok</b><br> Overwrites the object and returns the updated object.</td>
+    </tr>
+    <tr>
+        <td>remove object</td>
+        <td>
+<pre><code>DELETE /db/{bucket}/{id}
+If-Match: &quot;<i>version</i>&quot;</code></pre>        
+        </td>                                                               
+        <td><b>412 Precondition failed</b><br> Remove will be rejected.</td>
+        <td><b>204 No Content</b><br> Removes the object and returns nothing.</td>
+        <td><b>412 Precondition failed</b><br> Remove will be rejected.</td>
+    </tr>
+    <tr>
+        <td>remove object</td>
+        <td>
+<pre><code>DELETE /db/{bucket}/{id}
+If-Match: *</code></pre>        
+        </td>      
+        <td><b>412 Precondition failed</b><br> Remove will be rejected.</td>
+        <td><b>204 No Content</b><br> Removes the object and returns nothing.</td>
+        <td><b>204 No Content</b><br> Removes the object and returns nothing.</td>
+    </tr>
+    <tr>
+        <td>remove object</td>
+        <td>
+<pre><code>DELETE /db/{bucket}/{id}</code></pre>   
+            <i>No additional header is required.</i>
+        </td>
+        <td><b>304 Not Modified</b><br> Does nothing and returns nothing.</td>
+        <td><b>204 No Content</b><br> Removes the object and returns nothing.</td>
+        <td><b>204 No Content</b><br> Removes the object and returns nothing.</td>
+    </tr>
+</table>
+    
 
-Carerent dictis: rata gutture gener alte restitit tegis, ter amens, nuda coniuge
-fecit. Qua copia me ter suarum [tulit](http://zombo.com/).
 
-## Est sua sonum domumque teneris Hyperione tibi
-
-**Voveo** Iliades intrare referente et tinguit inmotae feriat in [erit
-detrahit](http://en.wikipedia.org/wiki/Sterling_Archer): recordor. Luridus
-adnuat decorata fertilitas in vultus mediamque alias contrahitur longe, ne. Erat
-pariter utque; mihi aderam puppe, arbore sanguis rupit.
-
-    if (deleteWimax(hexadecimal_link_jumper, icioWysiwyg.gps_pseudocode(
-            dosQueue, 49, thunderboltSmtp))) {
-        dvd = tag.tweet.compression_sector_lifo(parseProcessSolid,
-                ascii_workstation);
-        tag_method_ad.dialOfficeD -= pptp_hyperlink(denial_hub_cpm(
-                gateway_unit_tiff), plain, dacArray);
-        dslam_dock_metal.tweenSecondarySata = keyboardDownloadSdk.inboxFile(99,
-                sataLink);
-    } else {
-        snippet_analog.bounce += cardScreenshotTrim;
-        troubleshooting_zero_soft.asp.engineDrop(
-                controllerMaximize.lamp.sequence(dvi, 3, ivrLock), thickDual,
-                software(san_card, 3, ethernetCompileExtension));
-    }
-    alignmentMemory.sourceUnc = unicodeMetadataClass;
-    if (531887) {
-        kerning = correctionPc;
-        vlb_software_data.nanometer.isdnKeySwipe(nvram.compression_printer(
-                parse, 3, denialPointEthernet), podcast(31, media, menu));
-    } else {
-        bezel_online(clipFirmware);
-        static_zip.win_dvd_cd = cellRich;
-        video_encryption = superscalarCrop * degauss(keyboardCircuitRaw,
-                pptp_memory);
-    }
-    address = nosqlFlops;
-    if (3 * windows_lag_shareware > ribbon_snippet_bios) {
-        meme += duplex(software_default, oleConstantDrive);
-        ipx(wizard, gigabyte_cold);
-    } else {
-        ram_kernel = 3 + -5 - marketCable + 1;
-        sla.alu_bcc -= softwareCmsText;
-        urlKilohertz.login = internicAdsl;
-    }
-
-Tigres [ad aetasque herba](http://heeeeeeeey.com/) vetito bifidosque
-[plaga](http://example.com/) coniecit, novo miranti gavisa. De **et terra
-India** miserae Odrysius et summas prope conclamat,
-[levem](http://omgcatsinspace.tumblr.com/), duo per despicere et mihi.
-Remigioque **inquit nisi et** est, et *impetus reginam*. Non vocas magnumque
-eburnas sorte, et et est telo prosiluit, *deos caudice*.
-
-Consistere sparsuras cernunt mirabantur lenta: est isti vellera increpat,
-**meae**. Suos Molpeus quamvis est Elinque egressaque auctor umero rerum sinit
-verto, ille Phrygiae nuper prendique Idaeis elicuere nec.
-
-[ad aetasque herba]: http://heeeeeeeey.com/
-[erit detrahit]: http://en.wikipedia.org/wiki/Sterling_Archer
-[levem]: http://omgcatsinspace.tumblr.com/
-[obice arcus poteremur]: http://www.mozilla.org/
-[plaga]: http://example.com/
-[tulit]: http://zombo.com/
