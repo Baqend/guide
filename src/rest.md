@@ -18,9 +18,9 @@
 <pre><code>POST /db/{bucket}</code></pre>   
             <i>No additional header is required.</i>
         </td>
-        <td><b>200 Ok</b><br> Inserts the object and returns the inserted object.</td>
-        <td><b>412 Precondition failed</b><br> Insert will be rejected.</td>
-        <td><b>412 Precondition failed</b><br> Insert will be rejected.</td>
+        <td><b>201 Created</b><br> Inserts the object and returns the inserted object.</td>
+        <td><b>409 Conflict</b><br> Insert will be rejected.</td>
+        <td><b>409 Conflict</b><br> Insert will be rejected.</td>
     </tr>
     <tr>
         <td>update / save existing object</td>
@@ -78,7 +78,7 @@ If-Match: *</code></pre>
 <pre><code>DELETE /db/{bucket}/{id}</code></pre>   
             <i>No additional header is required.</i>
         </td>
-        <td><b>304 Not Modified</b><br> Does nothing and returns nothing.</td>
+        <td><b>204 No Content</b><br> Does nothing and returns nothing.</td>
         <td><b>204 No Content</b><br> Removes the object and returns nothing.</td>
         <td><b>204 No Content</b><br> Removes the object and returns nothing.</td>
     </tr>
