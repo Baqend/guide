@@ -11,6 +11,27 @@
         <th>Object does not exists</th>
         <th>Object exists, and version matched</th>
         <th>Object exists, and version doesn't matched</th>
+    </tr>    
+    <tr>
+        <td>get object</td>
+        <td>
+<pre><code>GET /db/{bucket}/{id}
+Cache-Control: max-age=0, no-cache
+If-None-Match: &quot;<i>version</i>&quot;</code></pre>        
+        </td>      
+        <td><b>404 Not Found</b><br> The object was not found, returns nothing.</td>
+        <td><b>304 Not Modified</b><br> The object isn't changed, returns nothing.</td>
+        <td><b>200 Ok</b><br> The requested object.</td>
+    </tr> 
+    <tr>
+        <td>refresh object</td>
+        <td>
+<pre><code>GET /db/{bucket}/{id}
+Cache-Control: max-age=0, no-cache</code></pre>        
+        </td>                                                               
+        <td><b>404 Not Found</b><br> The object was not found, returns nothing.</td>
+        <td><b>200 Ok</b><br> The requested object.</td>
+        <td><b>200 Ok</b><br> The requested object.</td>
     </tr>
     <tr>
         <td>insert / save new object</td>
