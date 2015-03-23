@@ -9,3 +9,4 @@ pages:
 docs_dir: src
 site_dir: docs
 theme_dir: theme
+markdown_extensions: [fenced_code]
