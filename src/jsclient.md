@@ -43,11 +43,11 @@ be established.
 ```js
 DB.connect('example.baqend.com', function() {
     //work with the DB
-    DB.Todo.get(...)
+    DB.Todo.load(...)
 });
 ```
 
-Behind the scenes your Baqend is requested, the metadata of your app is fetched and the [Data Models](#schema-and-types) will be created and initialized.
+Behind the scenes your Baqend is requested, the metadata of your app is loaded and the [Data Models](#schema-and-types) will be created and initialized.
 If you want to register a ready handler afterwards, you can use the ready method to wait on the SDK initialization.
 ```js
 DB.ready(function() { DB... // work with the DB });
@@ -156,23 +156,23 @@ todo.insert().then(function() {
 
 ## Read
 
-If an object is persisted, it can be fetched by id. This method is very handy with custom ids.
+If an object is persisted it can be loaded by id. This method is very handy with custom ids.
 
 ```js
-DB.Todo.get('Todo1').then(function(todo) {
+DB.Todo.load('Todo1').then(function(todo) {
     console.log(todo.name); // 'My first Todo'    
 });
 ```
 
-If an object ist loaded form the baqend all its attributes, collections and embedded objects will be fetched.
-References to other entities will not be fetched by default. For more details see the [Persistence](#persistence) chapter.
+If an object ist loaded form the baqend all its attributes, collections and embedded objects will be loaded.
+References to other entities will not be loaded by default. For more details see the [Persistence](#persistence) chapter.
 
-When you load the same object a second time, the object will be fetched from the local cache. This ensures that you
+When you load the same object a second time, the object will be loaded from the local cache. This ensures that you
 always get the same object instance for the same object id.
 
 ```js
-DB.Todo.get('Todo1').then(function(todo1) {
-    DB.Todo.get('Todo1').then(function(todo2) {
+DB.Todo.load('Todo1').then(function(todo1) {
+    DB.Todo.load('Todo1').then(function(todo2) {
         console.log(todo1 === todo2); // true
     });
 });
@@ -180,7 +180,7 @@ DB.Todo.get('Todo1').then(function(todo1) {
 
 ## Update
 
-After you have fetched an instance and have done some modifications, you usually want to write the modifications back to
+After you have loaded an instance and have done some modifications, you usually want to write the modifications back to
 the baqend.
 ```js
 todo.name = 'My first Todo of this day';
@@ -200,7 +200,7 @@ return todo.update().then(function() {
 });
 ```
 
-Note: When you try to update an already removed object, it will be also tread as a concurrent modification and the
+Note: When you try to update an already deleted object, it will be also tread as a concurrent modification and the
 update will be rejected.
 
 There are also some situation where we like to omit this behaviour and want to force to write our changes back to the
@@ -249,10 +249,31 @@ todo.save().then(function() { // inserts the object
 });
 ```
 
+## Reload
+Sometimes you have an entity already loaded form the baqend but you want to ensure that you have the latest version of 
+the entity before performing an update. In such cases you can use the `reload()` method on the entity instance to reload
+the latest version from the baqend. 
+```js
+todo.load().then(function() { // updates the local object with changes made on the baqend
+    todo.name = 'My first Todo of this day';   
+    todo.save(); // updates the object
+});
+```
+
+While performing an insert or update, you can also reload the object after performing the operation. To reload the 
+entity, you can pass the `reload` options flag to the `insert()`, `update()` or `save()` method.
+```js
+todo.save({reload: true}).then(...); // reload the object after saving it
+```        
+
+This flag is very useful if you have an [Baqend Code](#baqend-code) update handler which performs additional 
+modifications on the saving entity. By passing the `reload` flag you enforce that the modification will be loaded form 
+the baqend after the entity has been saved. 
+
 # Schema and Types
 
-Behind each object which will be persisted to and fetched from baqend is a schema which describes the structure of an object.
-Meaning which attributes of an object will be tracked and persisted, what is the type of an attribute and what are the
+Behind each object which will be persisted to and loaded from baqend is a schema which describes the structure of an object.
+Meaning which attributes of an object will be tracked and saved, what is the type of an attribute and what are the
 additional constraints of an attribute.
 
 The types that baqend supports can be classified in five categories.
@@ -309,27 +330,42 @@ to the save the complete object graph by reachability.
 firstTodo.save({depth: true});
 ```
 
-When en entity is fetched form baqend, referenced entities would not be fetched by default. Instead an unresolved object
-will be set for the referenced object. if you try to access an attribute of an unresolved object, an *object is not
+When en entity is loaded form baqend, referenced entities would not be loaded by default. Instead an unresolved entity
+will be set for the referenced entity. if you try to access attributes of an unresolved entity, an *object is not
 available* error will be thrown.
 ```js
-//while persisting the todo, the reference will be resolved to the referenced object id
-DB.Todo.get('7b2c...').then(function(firstTodo) {
+//while loading the todo, the reference will be resolved to the referenced entity
+DB.Todo.load('7b2c...').then(function(firstTodo) {
     console.log(firstTodo.name); // 'My first Todo'
     console.log(firstTodo.doNext.name); // will throw an object not available error
 });
 ```
 
-If your object graph is not very depth, you can also fetch all entities and their references by reachability.
+You can check with the `isReady` field, if an entity is already be resolved or not.
+```js
+DB.Todo.load('7b2c...').then(function(firstTodo) {
+    console.log(firstTodo.doNext.isReady); // false
+});
+```
+
+To resolve such unresolved entities, you can use the `load()` method of the unresolved entity.
+```js
+firstTodo.doNext.load(function() {
+  console.log(firstTodo.doNext.isReady); // true
+  console.log(firstTodo.doNext.name); // 'My second Todo'
+});
+``` 
+
+If your object graph is not very depth, you can also load all entities and their references by reachability.
 ```js
 //while persisting the todo, the reference will be resolved to the referenced object id
-DB.Todo.get('7b2c...', {depth: true}).then(function(firstTodo) {
+DB.Todo.load('7b2c...', {depth: true}).then(function(firstTodo) {
     console.log(firstTodo.name); // 'My first Todo'
     console.log(firstTodo.doNext.name); // 'My second Todo'
 });
 ```
 
-For further reading on persisting and fetching strategies see the [persistence](#persistence) chapter.
+For further reading on persisting and loading strategies see the [persistence](#persistence) chapter.
 
 ## Embedded Objects
 The second type of objects are embeddables. Embedded objects can be used within an entity or a
@@ -551,37 +587,37 @@ The following table list all available query filters and the types on which they
         <td>greaterThan('total', 3)</td>
         <td><a href="http://docs.mongodb.org/manual/reference/operator/query/gt/">$gt</a></td>
         <td>Numbers, Dates, String</td>
-        <td>gt() is an alias</td>
+        <td><code>gt()</code> is an alias</td>
     </tr>
     <tr>
         <td>greaterThanOrEqualTo('total', 3)</td>
         <td><a href="http://docs.mongodb.org/manual/reference/operator/query/gte/">$gte</a></td>
         <td>Numbers, Dates, String</td>
-        <td>gte() is an alias</td>
+        <td><code>gte()</code> is an alias</td>
     </tr>
     <tr>
         <td>lessThan('total', 3)</td>
         <td><a href="http://docs.mongodb.org/manual/reference/operator/query/lt/">$lt</a></td>
         <td>Numbers, Dates, String</td>
-        <td>lt() is an alias</td>
+        <td><code>lt()</code> is an alias</td>
     </tr>
     <tr>
         <td>lessThanOrEqualTo('total', 3)</td>
         <td><a href="http://docs.mongodb.org/manual/reference/operator/query/lte/">$lte</a></td>
         <td>Numbers, Dates, String</td>
-        <td>lte() is an alias</td>
+        <td><code>lte()</code> is an alias</td>
     </tr>
     <tr>
         <td>between('total', 3, 5)</td>
         <td>-</td>
         <td>Numbers, Dates, String</td>
-        <td>It is equivalent to gt('total', 3).lt('total', 5)</td>
+        <td>It is equivalent to <code>gt('total', 3).lt('total', 5)</code></td>
     </tr>
     <tr>
         <td>in('total', 3, 5[,...])</td>
         <td><a href="http://docs.mongodb.org/manual/reference/operator/query/in/">$in</a></td>
         <td>All types</td>
-        <td>The elements will be matched on Set and Lists, containsAny() is an alias</td>
+        <td>The elements will be matched on Set and Lists, <code>containsAny()</code> is an alias</td>
     </tr>
     <tr>
         <td>notIn('total', 3, 5[,...])</td>
@@ -593,13 +629,13 @@ The following table list all available query filters and the types on which they
         <td>isNull('name')</td>
         <td>-</td>
         <td>All types</td>
-        <td>Checks whenever the field has not a value, it is equivalent to equals('name', null)</td>
+        <td>Checks whenever the field has not a value, it is equivalent to <code>equal('name', null)</code></td>
     </tr>
     <tr>
         <td>isNotNull('name')</td>
         <td><a href="http://docs.mongodb.org/manual/reference/operator/query/exists/">$exists</a></td>
         <td>All types</td>
-        <td>Checks whenever the field has a value, it is equivalent to where({'name': {"$exists" true, "$ne", null})</td>
+        <td>Checks whenever the field has a value, it is equivalent to <code>where({'name': {"$exists" true, "$ne", null})</code></td>
     </tr>
     <tr>
         <td>containsAll('activities', activity1, activity2)</td>
@@ -617,7 +653,7 @@ The following table list all available query filters and the types on which they
         <td>matches('name', /^My [eman]{4}/)</td>
         <td><a href="http://docs.mongodb.org/manual/reference/operator/query/regex/">$regex</a></td>
         <td>String</td>
-        <td>The regular expression must be anchored (starts with an ^) and the ignore case and global flags are not
+        <td>The regular expression must be anchored (starts with an <code>^</code>) and the ignore case and global flags are not
         supported</td>
     </tr>
     <tr>
@@ -666,9 +702,18 @@ It makes a big difference if you call the `ascending('name')` before or after th
 The reverse order of the calls will first sort by name and afterwards by the active flag, which does not make really
 sense in this example.
 
+You can also set the sort criteria with the MongoDB [orderby](http://docs.mongodb.org/manual/reference/operator/meta/orderby/) 
+syntax when using the `sort()` method. An equivalent expression to the above one will looks like the following:
+```js
+DB.Todo.find()
+    .matches('name', /^My Todo/)
+    .sort({"name": 1, "active": -1})
+    .resultList(...)
+```
+
 ## Offset and Limit
-On larger data sets we usually do not want to fetch all the data at once. Furthermore we like to page through our query
-result. For such cases it is possible to skip objects from the query results and limit the results at all.
+On larger data sets you usually do not want to load all the data at once. Furthermore you like to page through your query
+results. For such cases it is possible to skip objects from the query results and limit the results at all.
 ```js
 var page = 3;
 var resultsPerPage = 30;
@@ -681,14 +726,234 @@ DB.Todo.find()
     .resultList(...)
 ```
 
+## Join filters with `and`, `or` and `nor`
+
+Filters joined with and by default. In more complex cases you may want to formulate a query with one or more 
+[and](http://docs.mongodb.org/manual/reference/operator/query/and/), 
+[or](http://docs.mongodb.org/manual/reference/operator/query/or/) or 
+[nor](http://docs.mongodb.org/manual/reference/operator/query/nor/)  
+expressions. For such cases the initial `find()` call returns a 
+[Query.Builder](http://www.baqend.com/js-sdk/latest/baqend.Query.Builder.html) instance. The builder provide additional 
+methods to join multiple filter expressions.
+
+The following query find all my todos which i am currently not work on and all your todos which you have not done yet:
+```js
+var queryBuilder = DB.Todo.find();
+var condition1 = queryBuilder
+    .matches('name', /^My Todo/)
+    .equal('active', false);
+
+var condition2 = queryBuilder
+    .matches('name', /^Your Todo/)
+    .equal('done', false);
+
+queryBuilder.or(condition1, condition2)
+    .ascending('name')
+    .resultList(...)
+```
 
 # User, Roles and Permissions
+
+Baqend comes with a powerful User, Role and Permission management module. It includes a generic registration and login 
+mechanism and allows you to restrict the insert, read, update, delete and query based access per class and the 
+read and write access per object level. The restriction can be formulated with allow and deny rules for any user and role.
+
+## Registration
+
+To restrict access to a specific role or user, the user needs an user account. Baqend supports a simple registration 
+process to create new User account. The User class is a predefined class which will be instantiated during the registration 
+process. A User object have an predefined `username` which uniquely identify the user and a `password`. The password 
+will be hashed by Baqend before it will be saved.   
+```js
+DB.User.register('john.doe@example.com', 'MySecretPassword').then(function() {
+    // Hey we are logged in
+    console.log(DB.User.me.username); // 'john.doe@example.com'
+});
+```      
+
+If you like to set additional user attributes for the registration, you can create a new User instance and register the 
+the new created instance with an password.
+```js
+var user = new DB.User({
+    'username': 'john.doe@example.com',
+    'firstName': 'John',   
+    'lastName': 'Doe',   
+    'age': 33
+});
+
+DB.User.register(user, 'MySecretPassword').then(function() {
+    // Hey we are logged in
+    console.log(DB.User.me === user); // true
+});
+```      
+
+## Login
+
+When a user is registered already, he can login with the `DB.User.login()` method. 
+```js
+DB.User.login('john.doe@example.com', 'MySecretPassword').then(function() {
+    // Hey we are logged in again
+    console.log(DB.User.me.username); // 'john.doe@example.com'    
+});
+```  
+
+After the login succeed a session will be established and all further request to the baqend will be authenticated 
+with the currently logged in user.
+
+## Logout 
+
+Sessions are stateless in baqend, that means a user is not be required to logout itself to close its session. When a 
+session is started a session token with a lifetime will be created. If this lifetime is exceeded, the session will  
+automatically be closed. A logout just deletes this session token and removes the current `DB.User.me` object.
+``` 
+DB.User.logout().then(function() {
+    // We are logged out again
+    console.log(DB.User.me); // null
+});
+```
+
+## Auto login
+
+The Baqend SDK will check while the initialization phase, if the user is already registered and has been previously 
+logged in. When he is a new user he is anonym and no user object will be associated with the DB otherwise the user will 
+be automatically relogged in and the `DB.User.me` object will be set.
+```js
+if (DB.User.me) {
+    // user is logged in
+    console.log('Hello ' + DB.User.me.username); // logs the username of the logged in user
+} else {
+    // user is anonym
+    console.log('Hello Anonymous');
+}
+```
+
+## Roles
+
+The Role class is also a predefined class which have a predefined `name` and `users` collection. The users collection 
+contains all the members of a role. A user have a specified role if he is listed in the roles `users` list. 
+
+``` 
+// create a new role
+var group = new DB.Role({name: 'My First Group'});
+// add our self as a member of the role
+group.addUser(DB.User.me);
+// protect the group membership 
+group.acl.allowWriteAccess(DB.User.me);
+group.save().then(...);
+```
+
+A role can be read and written by everyone by default. To protected the role that no one else can add himself to the 
+created role we restrict the write access to the current user. So only this user can admin the role in the future. 
+More about setting permission in the [Setting object permissions](#setting-object-permissions) chapter. 
+
+## Permissions
+
+There are two types of permissions, class based and object based permissions. The class based permission can be set by 
+privileged users on the Baqend Dashboard or by manipulating the class metadata. The object based permission can be set 
+by users which have write access to an object. If a normal user requests a operation the access must be granted class 
+based and object based to perform the specific operation. 
+
+Each permission persist on one allow and one deny list. In the allow list user and roles can be white listed and in the 
+deny list they can be black listed. 
+ 
+The access will be granted following these rules:
+
+- If the user has the admin role, access will always granted and none of the following rules will be applied
+- Or if the user has not the admin rule:
+    - If the user or one of its roles are listed in the deny list, access is always denied
+    - If no rules are defined in the allow list, public access is granted
+    - If rules are defined the user or one of its roles has to be listed in the allow list
+
+The following table shows the SDK methods and the related permissions the user must have, to perform the specific 
+operation.
+
+<table class="table">
+    <tr>
+        <th>Method</th>
+        <th width="50%">Class based permission</th>
+        <th>Object based permission</th>
+    </tr>
+    <tr>
+        <td><code>load()</code></td>
+        <td>type.loadPermission</td>
+        <td>object.acl.read</td>
+    </tr>
+    <tr>
+        <td><code>find()</code></td>
+        <td>type.queryPermission</td>
+        <td>object.acl.read</td>
+    </tr>
+    <tr>
+        <td><code>insert()</code></td>
+        <td>type.insertPermission</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td><code>update()</code></td>
+        <td>type.updatePermission</td>
+        <td>object.acl.write</td>
+    </tr>
+    <tr>
+        <td><code>remove()</code></td>
+        <td>type.deletePermission</td>
+        <td>object.acl.write</td>
+    </tr>
+    <tr>
+        <td><code>save()</code></td>
+        <td>type.insertPermission when the object is inserted<br>
+            type.updatePermission when the object is updated
+        </td>
+        <td>object.acl.write</td>
+    </tr>
+    <tr>
+        <td><code>save({force: true})</code></td>
+        <td>type.insertPermission and type.updatePermission will be checked because the object will be inserted if it 
+        does not exists and updated if it exists</td>
+        <td>object.acl.write</td>
+    </tr>
+</table>
+
+Note: It is currently not possible with the Baqend SDK to check if an user has all permissions to perform an operation. 
+
+## Anonymous users and the Public permission
+   
+Anonymous users have only the permission to serve public resources. An resource is accessible for the public, if no 
+class and object permission restricts the access to a specific user or group. To check whenever the object base 
+permissions allow anonymous access you can check the `acl.isPublicReadAllowed()` and the `todo.acl.isPublicWriteAllowed()` 
+methods.
+```js
+todo.acl.isPublicReadAllowed() // will return true by default
+todo.acl.isPublicWriteAllowed() // will return true by default
+```
+
+Note: The access can still be restricted to specific roles or users by class based permissions even if 
+  `acl.isPublicReadAllowed()` or `todo.acl.isPublicWriteAllowed()` returns `true`.
+
+## Setting object permissions
+
+The object permission are split up in read and write permissions. When inserting a new object, read and write access is
+always granted to everyone. You can manipulate the object permissions only if you have currently write permissions on 
+the object. If you want to restrict the write access to the current user but want to share an object within a group, you 
+can add the role to the read permissions and the user to the write permissions.
+```js 
+DB.Role.find().equal('name', 'My First Group').singleResult(function(group) {
+    var todo = new DB.Todo({name: 'My first Todo'});
+    todo.acl.allowReadAccess(group)
+        .allowWriteAccess(DB.User.me);
+    
+    return todo.save();
+}).then(...);
+```
+
+
 
 # Handler
 
 # Baqend Code
 
 # Persistence
+
+
 
 # Upcoming Features
 
