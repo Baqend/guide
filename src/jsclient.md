@@ -157,7 +157,6 @@ todo.insert().then(function() {
 ## Read
 
 If an object is persisted it can be loaded by id. This method is very handy with custom ids.
-
 ```js
 DB.Todo.load('Todo1').then(function(todo) {
     console.log(todo.name); // 'My first Todo'    
@@ -216,23 +215,23 @@ return todo.update({force: true}).then(function() {
 
 ## Delete
 
-You can delete an object by calling its `remove()` method. It will remove the entity form you baqend and drops the entity
+You can delete an object by calling its `delete()` method. It will delete the entity form you baqend and drops the entity
 out of your local cache.
 
 ```js
-todo.remove().then(function() {
-    // the object is removed
+todo.delete().then(function() {
+    // the object is deleted
 }, function() {
     // a concurrent modifications prevents the removal
 });
 ```
 
-As like the `update()` method, the remove method matches the local version with the version in the baqend and removes
+As like the `update()` method, the `delete()` method matches the local version with the version in the baqend and deletes
 the object only if the version still match.
 
 And again you can pass the force option to bypass the version check.
 ```js
-todo.remove({force: true});
+todo.delete({force: true});
 ```
 
 ## Save
@@ -894,7 +893,7 @@ operation.
         <td>object.acl.write</td>
     </tr>
     <tr>
-        <td><code>remove()</code></td>
+        <td><code>delete()</code></td>
         <td>type.deletePermission</td>
         <td>object.acl.write</td>
     </tr>
@@ -953,6 +952,46 @@ DB.Role.find().equal('name', 'My First Group').singleResult(function(group) {
 
 # Persistence
 
+The Baqend SDK internally tracks the state of all living entity instances and there attributes. If an attribute of an 
+entity is changed, the entity will be marked as dirty. Only dirty entities will be send back to the baqend while calling
+`save()` or `update()`. Also the collections and embedded objects of an entity will be tracked the same way and marks the 
+owning entity as dirty on modifications.
+```js
+DB.Todo.load('Todo1').then(function(todo) {
+    todo.save(); // will not perform any baqend request since the object is not dirty   
+});
+```
+
+## Depth Loading
+As described earlier in the [References](#references) chapter, references between entities will be handled different 
+then embedded objects or collections. They will not be loaded with the referencing entity by default.
+```js
+//while loading the todo, the reference will be resolved to the referenced entity
+DB.Todo.load('7b2c...').then(function(firstTodo) {
+    console.log(firstTodo.name); // 'My first Todo'
+    console.log(firstTodo.doNext.name); // will throw an object not available error
+});
+```
+
+In a more complex scenario you may have references in a collection, also this references will not be loaded by default.
+```js
+DB.Todo.load('7b2c...').then(function(firstTodo) {
+    console.log(firstTodo.upComingTodos.get(0).name); // will throw an object not available error
+});
+``` 
+
+As described earlier, you can pass the depth option while loading the entity. The depth option allows setting an 
+
+## Depth Saving
+
+These behaviour differs on references entities. If a referenced entity is changed only the referenced entity will be 
+marked as dirty not the referencing one. If call   
+```js
+var firstTodo = new DB.Todo({name: 'My first Todo'});
+var secondTodo = new DB.Todo({name: 'My second Todo'});
+
+firstTodo.doNext = secondTodo;
+```
 
 
 # Upcoming Features
