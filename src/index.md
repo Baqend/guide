@@ -843,22 +843,22 @@ For more information about setting permissions see in the [Setting object permis
 ## Permissions
 
 There are two types of permissions, class based and object based permissions. The class based permissions can be set by 
-privileged users on the Baqend Dashboard or by manipulating the class metadata. The object based permission can be set 
-by users which have write access to an object. If a normal user requests a operation the access must be granted class 
+privileged users on the Baqend Dashboard or by manipulating the class metadata. The object based permissions can be set 
+by users which have write access to an object. If a normal user requests an operation the access must be granted class 
 based and object based to perform the specific operation. 
 
-Each permission persist on one allow and one deny list. In the allow list user and roles can be white listed and in the 
+Each permission persists of one allow and one deny list. In the allow list user and roles can be white listed and in the 
 deny list they can be black listed. 
  
 The access will be granted following these rules:
 
-- If the user has the admin role, access will always granted and none of the following rules will be applied
-- Or if the user has not the admin rule:
+- If the user has the admin role, access is always granted and none of the following rules will be applied
+- Or if the user dose not have the admin role:
     - If the user or one of its roles are listed in the deny list, access is always denied
     - If no rules are defined in the allow list, public access is granted
     - If rules are defined the user or one of its roles has to be listed in the allow list
 
-The following table shows the SDK methods and the related permissions the user must have, to perform the specific 
+The following table shows the SDK methods and the related permissions the user has to have, to perform the specific 
 operation.
 
 <table class="table">
@@ -902,17 +902,17 @@ operation.
     <tr>
         <td><code>save({force: true})</code></td>
         <td>type.insertPermission and type.updatePermission will be checked because the object will be inserted if it 
-        does not exists and updated if it exists</td>
+        does not exist and updated if it exists</td>
         <td>object.acl.write</td>
     </tr>
 </table>
 
-Note: It is currently not possible with the Baqend SDK to check if an user has all permissions to perform an operation. 
+Note: It is currently not possible with the Baqend SDK to check if a user has all permissions to perform an operation. 
 
 ## Anonymous users and the Public permission
    
-Anonymous users have only the permission to serve public resources. An resource is accessible for the public, if no 
-class and object permission restricts the access to a specific user or group. To check whenever the object base 
+Anonymous users only have the permission to serve public resources. An resource is accessible for the public, if no 
+class or object permission restricts the access to a specific user or group. To check if the object base 
 permissions allow anonymous access you can check the `acl.isPublicReadAllowed()` and the `todo.acl.isPublicWriteAllowed()` 
 methods.
 ```js
@@ -944,34 +944,38 @@ DB.Role.find().equal('name', 'My First Group').singleResult(function(group) {
 # Handler
 
 Handler and Baqend Code are JavaScript functions that can be defined in the dashboard and get evaluated on server side.
-They come in handy when you need to enforce roles and can not trust client reliability.
+They come in handy when you need to enforce roles and can't trust client reliability.
 
-With handlers you are able to intercept and modify any object operation send by a client. To register a Handler open the
-Handler Page of a Class on the Dashboard. Their are four tabs one for each of the three basic data manipulating 
+With handlers you are able to intercept and modify any object operation sent by a client. To register a Handler open the
+Handler page of a class on the dashboard. There are four tabs, one for each of the three basic data manipulating 
 operations and onValidate to easily validate values. Each one has an empty function template that will be called before 
 executing the operation. Here you can safely validate values or execute additional business logic.
-```js
-function onInsert(db) {
-    this.creator = db.User.me
-}
-```
+
+
+## onValidate
+
 onValidate gets called before onInsert or onUpdate. It is a lightweight method to define valid values for any field.
 The function is propagated into the Baqend SDK and can be called on the client to smoothly evaluate inputs without
-rewriting the validation logic. The Validation library [validatorJs](http://validatorjs.org/) helps keeping validation
-simple and readable.
+rewriting the validation logic. The validation library [validatorJs](https://github.com/chriso/validator.js) helps keeping validation
+simple and readable. 
 ```js
 function onValidate(username, email) {
  username.isLength(3, 15);
- email.isEmail()
+ email.isEmail("Please insert a valid Email Address")
 }
 ```
-To validate the object before you call `object.save()` in your application
+To validate the object on the client device call `object.validate()` in your application. It returns a result object, 
+that can be used to 
+
 ```js
 function onValidate(username, email) {
- username.isLength(3, 15);
+ user.validate().;
  email.isEmail()
 }
 ```
+
+## onCreate and onUpdate
+
 If your Validation depends on other objects use the onUpdate and/or onCreate handler. The handler is part of the object
 and all attributes can be read and manipulated through `this.attributeName`. The Requesting user can be attained
 through `db.User.me`. Inside the Baqend Code the User is just like all other referenced Objects an unresolved
@@ -1019,6 +1023,8 @@ function onUpdate(db) {
 
 Note: Inside Baqend Code a request like `user.save()` gets send with Permissions of the user starting the request and
 the update will not trigger another onUpdate(db) call. The alteration of both behaviors are [Upcoming Features](#upcoming-features).
+
+## onDelete
 
 The onDelete handler dose not hold the deleted object. The Method can be used to archive information if necessary or 
 delete related Objects. 
