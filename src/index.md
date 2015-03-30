@@ -956,31 +956,33 @@ executing the operation. Here you can safely validate values or execute addition
 
 onValidate gets called before onInsert or onUpdate. It is a lightweight method to define valid values for any field.
 The function is propagated into the Baqend SDK and can be called on the client to smoothly evaluate inputs without
-rewriting the validation logic. The validation library [validatorJs](https://github.com/chriso/validator.js) helps keeping validation
-simple and readable. 
+rewriting the validation logic. The validation library [validatorJs](https://github.com/chriso/validator.js) helps 
+keeping validation simple and readable.
 ```js
 function onValidate(username, email) {
  username.isLength(3, 15);
- email.isEmail("Please insert a valid Email Address")
+ email.isEmail()
 }
 ```
 To validate the object on the client device call `object.validate()` in your application. It returns a result object, 
-that can be used to 
+that can be used to validate.
 
 ```js
-function onValidate(username, email) {
- user.validate().;
- email.isEmail()
+function setUsername(user){
+    user.validate = "john.doe@example.com";
+    var result = user.validate().fields;
+    if (result.username) {} //true
 }
 ```
 
 ## onCreate and onUpdate
 
-If your Validation depends on other objects use the onUpdate and/or onCreate handler. The handler is part of the object
-and all attributes can be read and manipulated through `this.attributeName`. The Requesting user can be attained
-through `db.User.me`. Inside the Baqend Code the User is just like all other referenced Objects an unresolved
-object. If you need to read or manipulate attributes, `.load()` the user first. For example, say we need to sort the users
-according to their total working time on finished tasks. To do that we maintain an attribute on the user object.
+If you need complex logic or your validation depends on other objects use the onUpdate and/or onCreate handler. The 
+handler is part of the object and all attributes can be read and manipulated through `this.attributeName`. The requesting 
+user can be attained through `db.User.me`. Inside the Baqend Code the user is an unresolved object just like all other 
+referenced objects. If you need to read or manipulate attributes, `.load()` the user first. For example, say we need to 
+sort the users according to their total working time on finished tasks. To do that we maintain an attribute on the user 
+object.
 
 ```js
 function onUpdate(db) {
@@ -994,9 +996,9 @@ function onUpdate(db) {
     }
 }
 ```
-Since its possible to reactivate finished tasks, we maid want to check if we need to decrease the counter. This is only
+Since its possible to reactivate finished tasks, we might want to check if we need to decrease the counter. This is only
 necessary if the last status of the Todo object was done. To get the state of the object before the current update use 
-`db.load(objectID)` it returns a new object with the old data. `this.load()` on the other hand would override the 
+`db.load(objectID)`. It returns a new object with the old data. `this.load()` on the other hand would overwrite the 
 current update.
 
 ```js
@@ -1021,20 +1023,20 @@ function onUpdate(db) {
 }
 ```
 
-Note: Inside Baqend Code a request like `user.save()` gets send with Permissions of the user starting the request and
+Note: Inside Baqend Code a request like `user.save()` gets send with permissions of the user starting the request and
 the update will not trigger another onUpdate(db) call. The alteration of both behaviors are [Upcoming Features](#upcoming-features).
 
 ## onDelete
 
-The onDelete handler dose not hold the deleted object. The Method can be used to archive information if necessary or 
+The onDelete handler dose not hold the deleted object. The method can be used to archive information if necessary or 
 delete related Objects. 
 
-With `throw new abort("error message")` its possible to abort the request and resolve the calling promise exceptionally.
+With `throw new abort("error message")` it's possible to abort the request and resolve the calling promise exceptionally.
 
 All four handlers are `before`-operation handlers. Be aware that they are called after the class level permissions are 
 checked, but before object level permissions get validated. This maid lead to unauthorized changes and inconsistency when
-object permissions are set but operations are maid without checking them. An elegant way to prevent double checking is 
-one of our [Upcoming Features](#upcoming-features).
+object permissions are set but operations are made without checking them. An elegant way to prevent double checking is 
+the use of the `after`-operation, one of our [Upcoming Features](#upcoming-features).
 
 
 # Baqend Code
@@ -1049,17 +1051,11 @@ db.run("codeName", objInput).then(function(objOutput) {
 } 
 ```
 
-When 
-How to abort
-
-what happens on error
-
-
 # Persistence
 
-The Baqend SDK internally tracks the state of all living entity instances and there attributes. If an attribute of an 
-entity is changed, the entity will be marked as dirty. Only dirty entities will be send back to the baqend while calling
-`save()` or `update()`. Also the collections and embedded objects of an entity will be tracked the same way and marks the 
+The Baqend SDK internally tracks the state of all living entity instances and their attributes. If an attribute of an 
+entity is changed, the entity will be marked as dirty. Only dirty entities will be send back to the Baqend while calling
+`save()` or `update()`. Also the collections and embedded objects of an entity will be tracked the same way and mark the 
 owning entity as dirty on modifications.
 ```js
 DB.Todo.load('Todo1').then(function(todo) {
@@ -1069,7 +1065,7 @@ DB.Todo.load('Todo1').then(function(todo) {
 
 ## Depth Loading
 As described earlier in the [References](#references) chapter, references between entities will be handled different 
-then embedded objects or collections. They will not be loaded with the referencing entity by default.
+than embedded objects or collections. They will not be loaded with the referencing entity by default.
 ```js
 //while loading the todo, the reference will be resolved to the referenced entity
 DB.Todo.load('7b2c...').then(function(firstTodo) {
@@ -1078,7 +1074,7 @@ DB.Todo.load('7b2c...').then(function(firstTodo) {
 });
 ```
 
-In a more complex scenario you may have references in a collection, also this references will not be loaded by default.
+In a more complex scenario you may have references in a collection, this references will also not be loaded by default.
 ```js
 DB.Todo.load('7b2c...').then(function(firstTodo) {
     console.log(firstTodo.upComingTodos.get(0).name); // will throw an object not available error
@@ -1089,7 +1085,7 @@ As described earlier, you can pass the depth option while loading the entity. Th
 
 ## Depth Saving
 
-These behaviour differs on references entities. If a referenced entity is changed only the referenced entity will be 
+This behaviour differs on references entities. If a referenced entity is changed only the referenced entity will be 
 marked as dirty not the referencing one. If call   
 ```js
 var firstTodo = new DB.Todo({name: 'My first Todo'});
