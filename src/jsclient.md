@@ -1,14 +1,12 @@
 # Baqend JavaScript SDK
 
-## Introduction
-
-First of all you must install the Baqend SDK via [npm](https://www.npmjs.com/package/baqend). Alternative you can
-download the Baqend SDK from [GitHub](https://github.com/Baqend/js-sdk/releases).
+Welcome to the Baqend JavaScript guide.
+To get started please install the Baqend SDK from [npm](https://www.npmjs.com/package/baqend) or [GitHub](https://github.com/Baqend/js-sdk/releases).
 
 ## Setup
 
-The Baqend SDK is packed as an UMD module, so it can be used with RequireJS, browserify or no module loader.
-For additional setup information visit our [GitHub page](https://github.com/Baqend/js-sdk/blob/master/README.md)
+The SDK is packed as an UMD module, it can be used with RequireJS, browserify or without module loader.
+For additional setup information visit our [GitHub page](https://github.com/Baqend/js-sdk/blob/master/README.md).
 
 ## Environment
 
@@ -25,21 +23,20 @@ Our SDK does not require any additional dependencies, however it is shipped with
 
 ## License
 
-The Baqend JavaScript SDK an all its bundled dependencies are shipped under the
-[MIT License](https://github.com/Baqend/js-sdk/blob/master/LICENSE.md)
+The Baqend JavaScript SDK and all its bundled dependencies are shipped under the
+[MIT License](https://github.com/Baqend/js-sdk/blob/master/LICENSE.md).
 
 # Objects
 
 ## Getting started
 
-After including the baqend SDK in your app, you must connect the SDK with your baqend. Therefor you call the connect
+After including the Baqend SDK in your app, connect it with your Baqend. Simply call the connect
 method on the exported DB variable:
 ```js
 DB.connect('example.baqend.com');
 ```
 
-You can pass as the second argument a callback, which will be called when the connection to the baqend was successfully
-be established.
+You can pass a callback as second argument, which will be called when the connection is successfully established.
 ```js
 DB.connect('example.baqend.com', function() {
     //work with the DB
@@ -64,13 +61,13 @@ DB.ready().then(function() {
 
 `Promise`s are a programming paradigm to work with asynchronous code. Basically used for communication and event scheduled
 tasks it makes code much more readable then the callback based approach. A Promise represents the public interface for
-an asynchronous operation and can be used to chain tasks the depends on each other.
+an asynchronous operation and can be used to chain tasks that depend on each other.
 
-The Baqend SDK supports both paradigm, therefore each asynchronous method of the Baqend SDK accepts an optional success and error
+The Baqend SDK supports both paradigms, therefore each asynchronous method accepts an optional success and an error
 callback and returns a Promise for further tasks.
 
-Basically there are to common ways to initialize a Promise. You can create a new instance of Promise with an executor
-function which can decide with the given resolve and reject function if the promise should be fulfilled with a given
+Basically there are two common ways to initialize a Promise. You can create a new instance of Promise with an executor
+function. With the given resolve and reject function it can decide if the promise should be fulfilled with a given
 value or should be rejected with an error.
 ```js
 var promise = new Promise(function(resolve, reject) {
@@ -82,14 +79,14 @@ var promise = new Promise(function(resolve, reject) {
 });
 ```
 
-The second way is to create a already resolved Promise with a given value.
+The second way is to create an already resolved Promise with a given value.
 ```js
 var promise = Promise.resolve(200);
 ```
 
-If you want to listen on the outcome of such a Promise you can register a fulfilled and a rejection listener with the
-`then(onFulfilled, onRejected)` method on the promise. If the promise will be resolved the onFulFilled listener will be
-called with the fulfilled value. On rejection the onRejected listener will be called with the error.
+If you want to listen on the outcome of such a Promise you can register a onFulfilled and a onRejection listener with the
+`then(onFulfilled, onRejected)` method on the promise. When the promise gets resolved, the onFulFilled listener is
+called with the fulfilled value. In case of rejection the onRejected listener is called with the error.
 ```js
 promise.then(function(value) {
   console.log('We have waited ' + value + 'ms');
@@ -98,7 +95,7 @@ promise.then(function(value) {
 });
 ```
 
-The `Promise.then` method will return another promise which will be resolved with the result of the previous listener.
+The `Promise.then` method returns a new promise which will be resolved with the result of the listener.
 The listener itself can also do asynchronous operations and can return another promise which will then be used to resolve the
 outer Promise.
 ```js
@@ -110,14 +107,14 @@ promise.then(function(value) {
 });
 ```
 
-For additional examples and a more detail explanation consult the [MDN Promise Documentation](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise).
+For additional examples and a more detailed explanation consult the [MDN Promise Documentation](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise).
 
 We use the Promise based approach for the entire documentation since the code is more readable and it is our
 recommended way to work with asynchronous code.
 
 ## Working with objects
 
-After the Baqend SDK is successfully been initialized, all defined classes can be accessed by the DB instance. Just use
+After the Baqend SDK has successfully been initialized, all defined classes can be accessed by the DB instance. Just use
 the name of the class to access the object factory.
 ```js
 DB.ready(function() {
@@ -131,21 +128,21 @@ var todo = new DB.Todo({name: 'My first Todo'});
 ```
 The constructor accepts one optional argument an object which contains the initial values of the object.
 
-The object attributes can be accessed and changed just by there names.
+The object attributes can be accessed and changed just by their names.
 ```js
 var todo = new DB.Todo({name: 'My first Todo'});
-console.log(todo.title); // 'My first Todo'
+console.log(todo.name); // 'My first Todo'
 todo.active = true;
 ```
 
 # CRUD
 
-Each entity have some basic methods for persisting and retrieval its data.
+Each entity has some basic methods for persisting and retrieving its data.
 
 ## Create
 
-After creating a new object, the object can be persisted to the baqend with an `insert()` call. The insert call ensures
-the the object get its own unique id.
+After creating a new object, the object can be persisted to the Baqend with an `insert()` call. The insert call ensures
+that the object get its own unique id.
 
 ```js
 var todo = new DB.Todo({id: 'Todo1', name: 'My first Todo'});
@@ -163,7 +160,7 @@ DB.Todo.load('Todo1').then(function(todo) {
 });
 ```
 
-If an object ist loaded form the baqend all its attributes, collections and embedded objects will be loaded.
+If an object ist loaded from the Baqend all its attributes, collections and embedded objects will be loaded.
 References to other entities will not be loaded by default. For more details see the [Persistence](#persistence) chapter.
 
 When you load the same object a second time, the object will be loaded from the local cache. This ensures that you
@@ -180,15 +177,15 @@ DB.Todo.load('Todo1').then(function(todo1) {
 ## Update
 
 After you have loaded an instance and have done some modifications, you usually want to write the modifications back to
-the baqend.
+the Baqend.
 ```js
 todo.name = 'My first Todo of this day';
 return todo.update();
 ```
 
-The `update()` method writes your changes back to the baqend, if no one else have already modified the object. To detect
-concurrent object modifications each entity has a version. Every time you write changes back to your baqend the version
-will be matched. If the version in the baqend differ form your version, the object was modified by someone else and your
+The `update()` method writes your changes back to the Baqend, if no one else have already modified the object. To detect
+concurrent object modifications each entity has a version. Every time you write changes back to your Baqend the version
+will be matched. If the version in the Baqend differs form your version, the object was modified by someone else and your
 changes will be rejected. Since you made some changes based on an outdated object.
 ```js
 todo.name = 'My first Todo of this day';
@@ -199,11 +196,11 @@ return todo.update().then(function() {
 });
 ```
 
-Note: When you try to update an already deleted object, it will be also tread as a concurrent modification and the
+Note: When you try to update an already deleted object, it will also be treated as a concurrent modification and the
 update will be rejected.
 
-There are also some situation where we like to omit this behaviour and want to force to write our changes back to the
-baqend. To do so you can pass the force option to the `update` method but be aware of that the force option can result
+There are also some situations where we like to omit this behaviour and want to force to write our changes back to the
+Baqend. To do so you can pass the force option to the `update` method but be aware of that the force option can result
 in lost update.
 ```js
 todo.name = 'My first Todo of this day';
@@ -215,7 +212,7 @@ return todo.update({force: true}).then(function() {
 
 ## Delete
 
-You can delete an object by calling its `delete()` method. It will delete the entity form you baqend and drops the entity
+You can delete an object by calling its `delete()` method. It will delete the entity from your Baqend and drop the entity
 out of your local cache.
 
 ```js
@@ -226,8 +223,8 @@ todo.delete().then(function() {
 });
 ```
 
-As like the `update()` method, the `delete()` method matches the local version with the version in the baqend and deletes
-the object only if the version still match.
+As like the `update()` method, the `delete()` method matches the local version with the version in the Baqend and deletes
+the object only if the version still matches.
 
 And again you can pass the force option to bypass the version check.
 ```js
@@ -236,9 +233,8 @@ todo.delete({force: true});
 
 ## Save
 
-As you have seen in the previous examples you can `insert()` new objects and `update()` existing objects. If you does not
-matter if an object is persisted to the baqend or not and just want to *save* your local changes, you can use the
-`save()` method.
+As you have seen in the previous examples you can `insert()` new objects and `update()` existing objects. If it is
+non-relevant if the object is already persisted to the Baqend just use the `save()` method.
 
 ```js
 var todo = new DB.Todo({id: 'Todo1', name: 'My first Todo'});
@@ -249,11 +245,11 @@ todo.save().then(function() { // inserts the object
 ```
 
 ## Reload
-Sometimes you have an entity already loaded form the baqend but you want to ensure that you have the latest version of 
+Sometimes you have an entity already loaded from the Baqend but you want to ensure that you have the latest version of 
 the entity before performing an update. In such cases you can use the `reload()` method on the entity instance to reload
-the latest version from the baqend. 
+the latest version from the Baqend. 
 ```js
-todo.load().then(function() { // updates the local object with changes made on the baqend
+todo.load().then(function() { // updates the local object with any changes made on the Baqend
     todo.name = 'My first Todo of this day';   
     todo.save(); // updates the object
 });
@@ -265,28 +261,28 @@ entity, you can pass the `reload` options flag to the `insert()`, `update()` or 
 todo.save({reload: true}).then(...); // reload the object after saving it
 ```        
 
-This flag is very useful if you have an [Baqend Code](#baqend-code) update handler which performs additional 
-modifications on the saving entity. By passing the `reload` flag you enforce that the modification will be loaded form 
-the baqend after the entity has been saved. 
+This flag is very useful if you have a [Baqend Code](#baqend-code) update handler which performs additional 
+modifications on the saving entity. By passing the `reload` flag you enforce that the modification will be loaded from 
+the Baqend after the entity has been saved. 
 
 # Schema and Types
 
-Behind each object which will be persisted to and loaded from baqend is a schema which describes the structure of an object.
-Meaning which attributes of an object will be tracked and saved, what is the type of an attribute and what are the
-additional constraints of an attribute.
+Behind each object which will be persisted to and loaded from Baqend is a schema which describes the structure of an object.
+It carries which attributes of an object will be tracked and saved, the type of each attribute and additional constraints
+if they were set.
 
-The types that baqend supports can be classified in five categories.
+The types that Baqend supports can be classified in five categories.
 
-- [Entities](#entity-objects), are the objects you work the most time with.
+- [Entities](#entity-objects), are the objects you work with most the time.
 - [References](#references), are references to other entities.
-- [Embeddables](#embedded-objects), objects that are embedded within other objects.
-- [Primitives](#primitives), native types like String, Numbers, Dates and JSON.
+- [Embeddables](#embedded-objects), are objects that are embedded within other objects.
+- [Primitives](#primitives), are native types like String, Numbers, Dates and JSON.
 - [Collections](#collections), like list and maps that can contains any of the previous data types.
 
 ## Entity Objects
 
-Entities are the first type of objects, those are objects which have an own identity, a
-version and access rights. They can be directly saved, loaded and updated. Each entity get its own unique id at creation
+In general there are two types of objects. We call the first type Entities, those are objects which have their own identity, 
+a version and access rights. They can be directly saved, loaded and updated. Each entity get its own unique id at creation
 time. The id will never be changed once the object is created.
 
 ```js
@@ -306,8 +302,8 @@ Note: The save call will be rejected, if the id already exists!
 
 ## References
 
-Entity objects can reference other entites by there reference. Referenced objects would not be persisted with another
-Entity, instead only a reference to the other entity will be persisted.
+Entity objects can reference other entities by their reference. Referenced objects will not be persisted with another
+entity, instead only a reference to the other entity will be persisted.
 ```js
 var firstTodo = new DB.Todo({name: 'My first Todo'});
 var secondTodo = new DB.Todo({name: 'My second Todo'});
@@ -321,16 +317,16 @@ To save such a reference, you just call the `save()` method on the entity.
 firstTodo.save();
 ```
 
-The reference will be resolved by the baqend SDK to an reference string like `/db/Todo/84b9...`. Only this string will
-be persisted with the entity. The referenced entity would not be saved by default. You can pass the `depth` options flag
+The reference will be resolved by the Baqend SDK to an reference string like `/db/Todo/84b9...`. Only this string will
+be persisted with the entity. The referenced entity will not be saved by default. You can pass the `depth` options flag
 to the save the complete object graph by reachability.
 ```js
 // will also save the secondTodo, since it is referenced by the firstTodo
 firstTodo.save({depth: true});
 ```
 
-When en entity is loaded form baqend, referenced entities would not be loaded by default. Instead an unresolved entity
-will be set for the referenced entity. if you try to access attributes of an unresolved entity, an *object is not
+When an entity is loaded from Baqend, referenced entities will not be loaded by default. Instead an unresolved entity
+will be set for the referenced entity. If you try to access attributes of an unresolved entity, an *object is not
 available* error will be thrown.
 ```js
 //while loading the todo, the reference will be resolved to the referenced entity
@@ -340,14 +336,14 @@ DB.Todo.load('7b2c...').then(function(firstTodo) {
 });
 ```
 
-You can check with the `isReady` field, if an entity is already be resolved or not.
+You can check with the `isReady` field, if an entity is already resolved.
 ```js
 DB.Todo.load('7b2c...').then(function(firstTodo) {
     console.log(firstTodo.doNext.isReady); // false
 });
 ```
 
-To resolve such unresolved entities, you can use the `load()` method of the unresolved entity.
+To resolve unresolved entities, you can use the `load()` method of the unresolved entity.
 ```js
 firstTodo.doNext.load(function() {
   console.log(firstTodo.doNext.isReady); // true
@@ -367,8 +363,8 @@ DB.Todo.load('7b2c...', {depth: true}).then(function(firstTodo) {
 For further reading on persisting and loading strategies see the [persistence](#persistence) chapter.
 
 ## Embedded Objects
-The second type of objects are embeddables. Embedded objects can be used within an entity or a
-collection. Embeddables do not have an id and can only lived within an entity. Embeddables will be
+The second type of objects are Embeddables. Embedded objects can be used within an entity or a
+collection like a list or map. Embeddables do not have an id and can only exist within an entity. Embeddables will be
 saved, loaded and updated with there owning entity and will be persisted together with its owning entity.
 
 Embedded objects can be created and used like entity objects.
@@ -378,7 +374,7 @@ console.log(activity.start); // something like 'Tue Mar 24 2015 10:46:13 GMT'
 activity.end = new Date();
 ```
 
-Since embeddables do not have an own identity they do not have an id, version nor acl attribute.
+Since embeddables do not have their own identity, they do not hold their own id, version and acl attributes.
 ```js
 var activity = new DB.Activity({start: new Date()});
 console.log(activity.id); // undefined
@@ -948,7 +944,111 @@ DB.Role.find().equal('name', 'My First Group').singleResult(function(group) {
 
 # Handler
 
+Handler and Baqend Code are JavaScript functions that can be defined in the dashboard and get evaluated on server side.
+They come in handy when you need to enforce roles and can not trust client reliability.
+
+With handlers you are able to intercept and modify any object operation send by a client. To register a Handler open the
+Handler Page of a Class on the Dashboard. Their are four tabs one for each of the three basic data manipulating 
+operations and onValidate to easily validate values. Each one has an empty function template that will be called before 
+executing the operation. Here you can safely validate values or execute additional business logic.
+```js
+function onInsert(db) {
+    this.creator = db.User.me
+}
+```
+onValidate gets called before onInsert or onUpdate. It is a lightweight method to define valid values for any field.
+The function is propagated into the Baqend SDK and can be called on the client to smoothly evaluate inputs without
+rewriting the validation logic. The Validation library [validatorJs](http://validatorjs.org/) helps keeping validation
+simple and readable.
+```js
+function onValidate(username, email) {
+ username.isLength(3, 15);
+ email.isEmail()
+}
+```
+To validate the object before you call `object.save()` in your application
+```js
+function onValidate(username, email) {
+ username.isLength(3, 15);
+ email.isEmail()
+}
+```
+If your Validation depends on other objects use the onUpdate and/or onCreate handler. The handler is part of the object
+and all attributes can be read and manipulated through `this.attributeName`. The Requesting user can be attained
+through `db.User.me`. Inside the Baqend Code the User is just like all other referenced Objects an unresolved
+object. If you need to read or manipulate attributes, `.load()` the user first. For example, say we need to sort the users
+according to their total working time on finished tasks. To do that we maintain an attribute on the user object.
+
+```js
+function onUpdate(db) {
+    if (this.done) {
+        return db.User.me.load().then(function(user) {
+            this.activities.forEach(function(activity) {
+                user.workingTime += activity.end.getTime() - activity.start.getTime();
+            });
+            return user.save();
+        });
+    }
+}
+```
+Since its possible to reactivate finished tasks, we maid want to check if we need to decrease the counter. This is only
+necessary if the last status of the Todo object was done. To get the state of the object before the current update use 
+`db.load(objectID)` it returns a new object with the old data. `this.load()` on the other hand would override the 
+current update.
+
+```js
+function onUpdate(db) {
+    return db.load(this.id).then(function(oldTodo) {
+        if (oldTodo.done != this.done) {
+            return db.User.me.load().then(function(user) {
+                var totalTime = this.activities.reduce(function(totalTime, activity) {
+                    return totalTime += activity.end.getTime() - activity.start.getTime();
+                }, 0);
+
+                if (this.done) {
+                    user.workingTime += totalTime;
+                } else {
+                    user.workingTime -= totalTime;
+                }
+
+                return user.save();
+            }
+        }
+    }
+}
+```
+
+Note: Inside Baqend Code a request like `user.save()` gets send with Permissions of the user starting the request and
+the update will not trigger another onUpdate(db) call. The alteration of both behaviors are [Upcoming Features](#upcoming-features).
+
+The onDelete handler dose not hold the deleted object. The Method can be used to archive information if necessary or 
+delete related Objects. 
+
+With `throw new abort("error message")` its possible to abort the request and resolve the calling promise exceptionally.
+
+All four handlers are `before`-operation handlers. Be aware that they are called after the class level permissions are 
+checked, but before object level permissions get validated. This maid lead to unauthorized changes and inconsistency when
+object permissions are set but operations are maid without checking them. An elegant way to prevent double checking is 
+one of our [Upcoming Features](#upcoming-features).
+
+
 # Baqend Code
+
+The Baqend Code are JavaScript functions you can register on the Baqend server. They can be called from a client or
+other Baqend Code function by calling `db.run("codeName")`. `run()` can take an object or Json as second parameter which 
+is passed into your Baqend Code. It returns a promise that resolves into the return value of your Baqend Code.
+
+```js
+db.run("codeName", objInput).then(function(objOutput) {
+
+} 
+```
+
+When 
+How to abort
+
+what happens on error
+
 
 # Persistence
 
