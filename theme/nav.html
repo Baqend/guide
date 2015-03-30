@@ -12,7 +12,7 @@
             </button>
 
             <!-- Main title -->
-            <a class="navbar-brand" href="{{ homepage_url }}">{{ site_name }}</a>
+            <a class="navbar-brand" href="http://www.baqend.com"><img src="{{ base_url }}/img/baqend_logo.svg"></a>
         </div>
 
         <!-- Expanded navigation -->
@@ -46,6 +46,7 @@
                     <a href="#searchModal" data-toggle="modal"><i class="fa fa-search"></i> Search</a>
                 </li>
                 {% endif %}
+                {% if false %}
                 <li {% if not previous_page %}class="disabled"{% endif %}>
                     <a rel="next" {% if previous_page %}href="{{ previous_page.url }}"{% endif %}>
                         <i class="fa fa-arrow-left"></i> Previous
@@ -56,6 +57,7 @@
                         Next <i class="fa fa-arrow-right"></i>
                     </a>
                 </li>
+                {% endif %}
                 {% if repo_url %}
                 <li>
                     <a href="{{ repo_url }}">

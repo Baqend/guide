@@ -1,5 +1,10 @@
 body {
-    padding-top: 70px;
+    padding-top: 100px;
+}
+
+h1, h2, .h1, .h2 {
+    margin-top: -80px;
+    padding-top: 100px;
 }
 
 div.col-md-3 {
@@ -77,7 +82,7 @@ div.source-links {
     }
     .bs-sidebar.affix {
         position: fixed; /* Undo the static from mobile first approach */
-        top: 80px;
+        top: 100px;
     }
     .bs-sidebar.affix-bottom {
         position: absolute; /* Undo the static from mobile first approach */

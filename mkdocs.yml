@@ -1,11 +1,6 @@
-site_name: Orestes documentation
+site_name: Baqend Guide
 pages:
-- [index.md, Home]
-- [jclient.md, Client, Java]
-- [jsclient.md, Client, JavaScript]
-- [omongo.md, Server, Mongo]
-- [rest.md, Server, REST]
-- [server.md, Server, Orestes-Server]
+- [jsclient.md, JavaScript SDK]
 docs_dir: src
 site_dir: docs
 theme_dir: theme

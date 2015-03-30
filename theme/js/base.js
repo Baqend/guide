@@ -6,8 +6,8 @@ $( document ).ready(function() {
 
 
 /* Scrollspy */
-var navHeight = $('.navbar').outerHeight(true) + 10
-
+var navHeight = $('.navbar').outerHeight(true);
+console.log(navHeight)
 $('body').scrollspy({
     target: '.bs-sidebar',
     offset: navHeight
