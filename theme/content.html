@@ -1,4 +1,4 @@
-{% if meta.source %}
+{% if meta and meta.source %}
 <div class="source-links">
 {% for filename in meta.source %}
     <span class="label label-primary">{{ filename }}</span>

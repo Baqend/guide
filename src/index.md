@@ -360,12 +360,12 @@ DB.Todo.load('7b2c...', {depth: true}).then(function(firstTodo) {
 });
 ```
 
-For further reading on persisting and loading strategies see the [persistence](#persistence) chapter.
+For further information on persisting and loading strategies see the [persistence](#persistence) chapter.
 
 ## Embedded Objects
-The second type of objects are Embeddables. Embedded objects can be used within an entity or a
-collection like a list or map. Embeddables do not have an id and can only exist within an entity. Embeddables will be
-saved, loaded and updated with there owning entity and will be persisted together with its owning entity.
+The second type of objects are embeddables. Embedded objects can be used within an entity or a
+collection like a list or map. They do not have an id and can only exist within an entity. Embeddables will be
+saved, loaded and updated with their owning entity and will be persisted together with it.
 
 Embedded objects can be created and used like entity objects.
 ```js
@@ -380,7 +380,7 @@ var activity = new DB.Activity({start: new Date()});
 console.log(activity.id); // undefined
 ```
 
-To actually persist an embeddable you must assign the embedded object to an entity and save the entire entity.
+To actually persist an embeddable you have to assign the embedded object to an entity and save the entire entity.
 ```js
 var activity = new DB.Activity({start: new Date()});
 var todo = new DB.Todo({name: 'My first Todo', activities: new DB.List()});
@@ -390,9 +390,9 @@ todo.save();
 
 ## Primitives
 
-The primitves types are the basic types which can be used as an attribute type. Whenever you save an entity, all
-attribute values will be checked against the types described by the schema. The following Table shows all supported
-attribute types of baqend and there equivalent JavaScript types.
+The primitives types are the basic types which can be used as an attribute type. Whenever you save an entity, all
+attribute values will be checked against the types described by the schema. The following table shows all supported
+attribute types of Baqend and their equivalent JavaScript types.
 
 <table class="table">
     <tr>
@@ -411,7 +411,7 @@ attribute types of baqend and there equivalent JavaScript types.
         <td>Integer</td>
         <td>Number</td>
         <td>456</td>
-        <td>64bit integer. Floating point numbers will be stripped to an integer</td>
+        <td>64bit integer. Fractions are deleted</td>
     </tr>
     <tr>
         <td>Double</td>
@@ -429,7 +429,7 @@ attribute types of baqend and there equivalent JavaScript types.
         <td>DateTime</td>
         <td>Date(&lt;datetime&gt;)</td>
         <td>new Date()</td>
-        <td>The Date will be normalized to the GMT.</td>
+        <td>The date will be normalized to the GMT.</td>
     </tr>
     <tr>
         <td>Date</td>
@@ -453,7 +453,7 @@ attribute types of baqend and there equivalent JavaScript types.
         <td>JsonObject</td>
         <td>Object</td>
         <td>{"name": "Test"}</td>
-        <td rowspan=2">Semistructured JSON, which will be embedded within the entity. Any valid JSON is allowed.</td>
+        <td rowspan=2">Semistructured JSON will be embedded within the entity. Any valid JSON is allowed.</td>
     </tr>
     <tr>
         <td>JsonArray</td>
@@ -464,9 +464,8 @@ attribute types of baqend and there equivalent JavaScript types.
 
 ## Collections
 
-The collection types are the collections of the other four types. Each collections is typed. That means tha a collection
-can only persist one specified type. The Baqend SDK does not support native JavaScript arrays, because changes on an array
-can't be tracked.
+The collections are the fifth mentioned category. Each collection is typed with only one specified type. The Baqend SDK 
+does not support native JavaScript arrays since changes on native arrays cannot be tracked.
 
 Baqend supports three common collections types:
 
@@ -499,13 +498,14 @@ For all collection methods view the API JavaScript Docs.
 
 # Querys
 
-If you like to get more then one object and find objects by one ore more specific cretericas you can formulate a query
-which will be executed on the baqend and retruens the matched objects.
-The Baqend SDK comes with an Query builder, which creates [MongoDB]([MongoDB queries](http://docs.mongodb.org/manual/tutorial/query-documents/))
+If you like to get more than one object or find objects by one ore more specific criteria you can formulate a query
+that gets executed on the Baqend and returns the matched objects.
+The Baqend SDK has a query builder that creates [MongoDB]([MongoDB queries](http://docs.mongodb.org/manual/tutorial/query-documents/))
 under the hood.
 
 ## resultList, singleResult and count
-The simplest query you can execute is to find all objects, to get the actual result you can use the `resultList` method.
+The most simple query you can create has no filter attached, it returns all objects. 
+To get the actual result you can use the `resultList` method.
 ```js
 DB.Todo.find().resultList(function(result) {
     result.forEach(function(todo) {
@@ -514,14 +514,14 @@ DB.Todo.find().resultList(function(result) {
 });
 ```
 
-To find just the first matching result you can always use the `singleResult` method.
+To find just the first matching result use the `singleResult` method.
 ```js
 DB.Todo.find().singleResult(function(todo) {
     console.log(todo.name); // 'My first Todo'
 });
 ```
 
-If you just want the count of the matching result, you can use the `count` result.
+If you just need the number of matching objects, use the `count` method.
 ```js
 DB.Todo.find().count(function(count) {
     console.log(count); // '17'
@@ -530,7 +530,7 @@ DB.Todo.find().count(function(count) {
 
 ## Filters
 Usually you want to filter the query results. The query builder supports a lot of different filters, that can be applied
-on entity attributes. All filters will be combined with *and*.
+on entity attributes. All chained filters get combined with *and*.
 ```js
 DB.Todo.find()
     .matches('name', /^My Todo/)
@@ -539,14 +539,14 @@ DB.Todo.find()
     .resultList(...)
 ```
 
-The query search for all todos, which name is start with `'My Todo'`, is currently active and contains in
-its activities list an Activity that has been started before the current date.
+The query searchs for all todos, whose name starts with `'My Todo'`, is currently active and contains an activity in
+its activities list that has been started before the current date.
 
 Note that all valid MongoDB attribute expressions can be used as a field name in a filter.
 
 If you are familiar with writing [MongoDB queries](http://docs.mongodb.org/manual/tutorial/query-documents/), you can
-use the `where` method to describe an MongoDB query in JSON format. An equivalent query to the above one will locks like
-the following:
+use the `where` method to describe a MongoDB query in JSON format. An equivalent query to the above one would look like
+this:
 ```js
 DB.Todo.find()
     .where({
@@ -612,31 +612,31 @@ The following table list all available query filters and the types on which they
         <td>in('total', 3, 5[,...])</td>
         <td><a href="http://docs.mongodb.org/manual/reference/operator/query/in/">$in</a></td>
         <td>All types</td>
-        <td>The elements will be matched on Set and Lists, <code>containsAny()</code> is an alias</td>
+        <td>With sets or lists every element gets matched one match is sufficient<code>containsAny()</code> is an alias</td>
     </tr>
     <tr>
         <td>notIn('total', 3, 5[,...])</td>
         <td><a href="http://docs.mongodb.org/manual/reference/operator/query/nin/">$nin</a></td>
         <td>All types</td>
-        <td>The elements will be matched on Set and Lists</td>
+        <td>With sets or lists every element gets matched one match is sufficient</td>
     </tr>
     <tr>
         <td>isNull('name')</td>
         <td>-</td>
         <td>All types</td>
-        <td>Checks whenever the field has not a value, it is equivalent to <code>equal('name', null)</code></td>
+        <td>Checks if the field has no value, it is equivalent to <code>equal('name', null)</code></td>
     </tr>
     <tr>
         <td>isNotNull('name')</td>
         <td><a href="http://docs.mongodb.org/manual/reference/operator/query/exists/">$exists</a></td>
         <td>All types</td>
-        <td>Checks whenever the field has a value, it is equivalent to <code>where({'name': {"$exists" true, "$ne", null})</code></td>
+        <td>Checks if the field has a value, it is equivalent to <code>where({'name': {"$exists" true, "$ne", null})</code></td>
     </tr>
     <tr>
         <td>containsAll('activities', activity1, activity2)</td>
         <td><a href="http://docs.mongodb.org/manual/reference/operator/query/all/">$all</a></td>
         <td>List, Set, JsonArray</td>
-        <td>Checks whenever the collection contains all the elements</td>
+        <td>Checks if the collection contains all the elements</td>
     </tr>
     <tr>
         <td>mod('total', 5, 3)</td>
@@ -661,21 +661,21 @@ The following table list all available query filters and the types on which they
         <td>near('location', &lt;geo point&gt;, 1000)</td>
         <td><a href="http://docs.mongodb.org/manual/reference/operator/query/nearSphere/">$nearSphere</a></td>
         <td>GeoPoint</td>
-        <td>The geo point of the object must be within the maximum distance in meters to the given GeoPoint.
-        Returns from nearest to farthest.</td>
+        <td>The geo point of the object has to be within the maximum distance in meters to the given GeoPoint.
+        Returns from nearest to furthest.</td>
     </tr>
     <tr>
         <td>withinPolygon('location', &lt;geo point list&gt;)</td>
         <td><a href="http://docs.mongodb.org/manual/reference/operator/query/nearSphere/">$geoWithin</a></td>
         <td>GeoPoint</td>
-        <td>The geo point of the object must be contained within the given polygon.</td>
+        <td>The geo point of the object has to be contained within the given polygon.</td>
     </tr>
 </table>
 
 ## Sort
 
-It ist possible to sort the query result for one or more attributes. The attributes to sort for can be set with the
-query builder too. Lets sort our query results by name:
+It is possible to sort the query result for one or more attributes. The query builder can be used to set after which
+attributes the result shall be sorted. Let's sort our query results by name:
 ```js
 DB.Todo.find()
     .matches('name', /^My Todo/)
@@ -683,8 +683,8 @@ DB.Todo.find()
     .resultList(...)
 ```
 
-If you use more then one sort criterion, the sorted result depends on the order you call the sort options.
-The following Query will list all active tasks before the inactive ones and sort the tasks by their name in ascending order.
+If you use more than one sort criterion, the order of the result depends on the order you called the sort options.
+The following query will list all active tasks before the inactive ones and sort the tasks by their name in ascending order.
 ```js
 DB.Todo.find()
     .matches('name', /^My Todo/)
@@ -693,12 +693,11 @@ DB.Todo.find()
     .resultList(...)
 ```
 
-It makes a big difference if you call the `ascending('name')` before or after the `descending('active')` call.
-The reverse order of the calls will first sort by name and afterwards by the active flag, which does not make really
-sense in this example.
+If you would call the `descending('active')` before `ascending('name')`.The result would be first sorted by name and 
+afterwards by the active flag, which would only be relevant with multiple todos with the same name. 
 
 You can also set the sort criteria with the MongoDB [orderby](http://docs.mongodb.org/manual/reference/operator/meta/orderby/) 
-syntax when using the `sort()` method. An equivalent expression to the above one will looks like the following:
+syntax when using the `sort()` method. An equivalent expression to the above would look like:
 ```js
 DB.Todo.find()
     .matches('name', /^My Todo/)
@@ -707,8 +706,8 @@ DB.Todo.find()
 ```
 
 ## Offset and Limit
-On larger data sets you usually do not want to load all the data at once. Furthermore you like to page through your query
-results. For such cases it is possible to skip objects from the query results and limit the results at all.
+On larger data sets you usually don't want to load all the data at once. Its reasonable to page through the query
+results. For such a case it is possible to skip objects and limit the result.
 ```js
 var page = 3;
 var resultsPerPage = 30;
@@ -731,7 +730,7 @@ expressions. For such cases the initial `find()` call returns a
 [Query.Builder](http://www.baqend.com/js-sdk/latest/baqend.Query.Builder.html) instance. The builder provide additional 
 methods to join multiple filter expressions.
 
-The following query find all my todos which i am currently not work on and all your todos which you have not done yet:
+The following query finds all my todos which I am currently not working on and all your todos which you haven't done yet:
 ```js
 var queryBuilder = DB.Todo.find();
 var condition1 = queryBuilder
@@ -756,8 +755,8 @@ read and write access per object level. The restriction can be formulated with a
 ## Registration
 
 To restrict access to a specific role or user, the user needs an user account. Baqend supports a simple registration 
-process to create new User account. The User class is a predefined class which will be instantiated during the registration 
-process. A User object have an predefined `username` which uniquely identify the user and a `password`. The password 
+process to create a new user account. The user class is a predefined class which will be instantiated during the registration 
+process. A user object has a predefined `username` which uniquely identifies the user and a `password`. The password 
 will be hashed by Baqend before it will be saved.   
 ```js
 DB.User.register('john.doe@example.com', 'MySecretPassword').then(function() {
@@ -766,8 +765,8 @@ DB.User.register('john.doe@example.com', 'MySecretPassword').then(function() {
 });
 ```      
 
-If you like to set additional user attributes for the registration, you can create a new User instance and register the 
-the new created instance with an password.
+If you like to set additional user attributes for the registration, you can create a new user instance and register 
+the newly created instance with an password.
 ```js
 var user = new DB.User({
     'username': 'john.doe@example.com',
@@ -792,14 +791,14 @@ DB.User.login('john.doe@example.com', 'MySecretPassword').then(function() {
 });
 ```  
 
-After the login succeed a session will be established and all further request to the baqend will be authenticated 
-with the currently logged in user.
+After the successful login a session will be established and all further requests to the Baqend will be authenticated 
+with the currently logged-in user.
 
 ## Logout 
 
-Sessions are stateless in baqend, that means a user is not be required to logout itself to close its session. When a 
-session is started a session token with a lifetime will be created. If this lifetime is exceeded, the session will  
-automatically be closed. A logout just deletes this session token and removes the current `DB.User.me` object.
+Sessions in Baqend are stateless, that means a user is not be required to logout itself to close the session. When a 
+session is started a session token with a specified lifetime will be created. If this lifetime is exceeded, the session 
+is closed automatically. A logout just deletes the session token and removes the current `DB.User.me` object.
 ``` 
 DB.User.logout().then(function() {
     // We are logged out again
@@ -809,9 +808,9 @@ DB.User.logout().then(function() {
 
 ## Auto login
 
-The Baqend SDK will check while the initialization phase, if the user is already registered and has been previously 
-logged in. When he is a new user he is anonym and no user object will be associated with the DB otherwise the user will 
-be automatically relogged in and the `DB.User.me` object will be set.
+The Baqend SDK checks during the initialization, if the user is already registered and has been logged in. A
+new user is anonymous and no user object will be associated with the DB. Returning users will be automatically logged in 
+and the `DB.User.me` object will be set.
 ```js
 if (DB.User.me) {
     // user is logged in
@@ -824,8 +823,8 @@ if (DB.User.me) {
 
 ## Roles
 
-The Role class is also a predefined class which have a predefined `name` and `users` collection. The users collection 
-contains all the members of a role. A user have a specified role if he is listed in the roles `users` list. 
+The Role class is also a predefined class which has a predefined `name` and `users` collection. The users collection 
+contains all the members of a role. A user has a specified role if he is listed in the roles `users` list. 
 
 ``` 
 // create a new role
@@ -837,13 +836,13 @@ group.acl.allowWriteAccess(DB.User.me);
 group.save().then(...);
 ```
 
-A role can be read and written by everyone by default. To protected the role that no one else can add himself to the 
-created role we restrict the write access to the current user. So only this user can admin the role in the future. 
-More about setting permission in the [Setting object permissions](#setting-object-permissions) chapter. 
+A role can be read and written by everyone by default. To protect the role so no one else can add himself to the 
+role we restricted the write access to the current user. 
+For more information about setting permissions see in the [Setting object permissions](#setting-object-permissions) chapter. 
 
 ## Permissions
 
-There are two types of permissions, class based and object based permissions. The class based permission can be set by 
+There are two types of permissions, class based and object based permissions. The class based permissions can be set by 
 privileged users on the Baqend Dashboard or by manipulating the class metadata. The object based permission can be set 
 by users which have write access to an object. If a normal user requests a operation the access must be granted class 
 based and object based to perform the specific operation. 
