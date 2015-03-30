@@ -1,4 +1,6 @@
 site_name: Baqend Guide
+site_favicon: '/img/favicon.ico'
+site_url: 'http://www.baqend.com'
 pages:
 - [jsclient.md, JavaScript SDK]
 docs_dir: src
