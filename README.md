@@ -1,9 +1,9 @@
 Baqend Guide
 ============
 
-![Baqend.com][theme/img/baqend_logo.svg]
+![Baqend.com](http://www.baqend.com/guide/img/baqend_logo.svg)
 
-Visit our website [www.aqend.com](http://www.baqend.com)
+Visit our website [www.baqend.com](http://www.baqend.com)
 
 Read this [Baqend Guide](http://www.baqend.com/guide/) online
 
