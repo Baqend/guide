@@ -1096,4 +1096,15 @@ firstTodo.doNext = secondTodo;
 
 
 # Upcoming Features
+Software is never finished. Last year, we were adding 'just this last future' before we would finely publish the
+beta. In truth we touched every line of code, added hundreds of thousands lines and wrote about 10k Tests. But our 
+sprint planning featured futures. Here you find some of the futures that are going to hit the pipeline exit in April and 
+Mai.
 
+## Baqend Code and Handler: upgrading permission
+There is going to be a function that changes permissions inside Baqend Code and Handler to grant root access for following
+operations.
+
+## Handler: after-operation Handler
+You are going to be able to run the operation and do further logic after it is successfully executed. This will allow to
+manipulate the return statement and be certain the operation was not rejected because of concurrency or object acl.
