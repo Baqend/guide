@@ -1098,34 +1098,40 @@ firstTodo.doNext = secondTodo;
 
 
 # Upcoming Features
-Software is never finished. Last year, we were adding 'just this last future' before we would finely publish the
-beta. In truth we touched every line of code, added hundreds of thousands lines and wrote about 10k Tests. But our 
-sprint planning featured futures. Here you find some of the futures that are going to hit the pipeline exit in April and 
-Mai.
+As developer you know, Software is never finished. Last year, we were adding 'just this last future' before we would 
+finely publish the beta. In truth we touched every line of code, added hundreds of thousands lines and wrote 10k Tests. 
+Here you find some of the futures coming up on the way to our next milestone. Coming winter there will be a way for 
+everyone to ship your Application with Baqend load time speed. **Announcing:** The Baqend Cloudservice
 
-## Deletion option for Classes and Attributes
-You might not have noticed jet, but it will be possible to delete classes and attributes from the dashboard and of the SDK.
+## Deletion method for Classes and Attributes
+You might not have noticed jet, but it will soon be possible to delete classes and attributes from the dashboard and out 
+of the SDK.
 
-## Baqend Code: schedule Baqend Code
-There will be a scheduler you can use to repeat tasks from the dashboard or even schedule events from a client with user
+## Offline Storage
+Don't interrupt the user experience due to connection lose. The automated offline Storage transparently answers request,
+and even queries from local cache and synchronizes writes after the connection is reestablished.
+
+## Schedule Baqend Code
+There will be a scheduler you can use to periodically run tasks from the dashboard or schedule events from a client with users
 permissions.
 
-## File API: the hosting module
+## Send E-mails, Push notifications and SMS
+Use the Baqend to simplify the way you interact with your customers.
+
+## Partial update
+Update just specific attributes and increase or decrease an integer on the fly.
+
+## Live updating queries
+Query for objects and get updates on any change of your result list. Building live communication futures has never been 
+easier.
+
+## File API
 Host your files, restrict access, simply upload and download pictures, assets or any other File from the client.
 
-## Baqend Code and handler: upgrading permission
+## Upgrading permission inside Baqend Code and Handler
 There is going to be a function that changes permissions inside Baqend Code and handler to grant root access for following
 operations.
 
-## Handler: after-operation handler
+## After-operation handler
 You are going to be able to run the operation and do further logic after it is successfully executed. This will allow to
 manipulate the return statement and be certain the operation was not rejected because of concurrency or object acl.
-
-## Mongo 3
-The server performance increase is real.
-
-## later this year
-- Baqend Code and handler: send E-mails, Push notifications and SMS
-- Deploy your App on the Baqend Cloud service, make use of the extensive Free-tier and benefit from exceptionally fast load time.
-- Live updating queries to simplify life-communication between apps
-- Partial update
