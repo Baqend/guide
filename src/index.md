@@ -1,11 +1,13 @@
 # Baqend JavaScript SDK
 
 Welcome to the Baqend JavaScript guide.
-To get started please install the Baqend SDK from [npm](https://www.npmjs.com/package/baqend) or [GitHub](https://github.com/Baqend/js-sdk/releases).
+If you have not jet done it [quickstart](http://www.baqend.com/#download) your private local Baqend server. 
+
 
 ## Setup
 
 The SDK is packed as an UMD module, it can be used with RequireJS, browserify or without module loader.
+To get started please install the Baqend SDK from [npm](https://www.npmjs.com/package/baqend) or [GitHub](https://github.com/Baqend/js-sdk/releases).
 For additional setup information visit our [GitHub page](https://github.com/Baqend/js-sdk/blob/master/README.md).
 
 ## Environment
@@ -946,8 +948,8 @@ DB.Role.find().equal('name', 'My First Group').singleResult(function(group) {
 Handler and Baqend Code are JavaScript functions that can be defined in the dashboard and get evaluated on server side.
 They come in handy when you need to enforce roles and can't trust client reliability.
 
-With handlers you are able to intercept and modify any object operation sent by a client. To register a Handler open the
-Handler page of a class on the dashboard. There are four tabs, one for each of the three basic data manipulating 
+With handlers you are able to intercept and modify any object operation sent by a client. To register a handler open the
+handler page of a class on the dashboard. There are four tabs, one for each of the three basic data manipulating 
 operations and onValidate to easily validate values. Each one has an empty function template that will be called before 
 executing the operation. Here you can safely validate values or execute additional business logic.
 
@@ -1101,10 +1103,29 @@ beta. In truth we touched every line of code, added hundreds of thousands lines 
 sprint planning featured futures. Here you find some of the futures that are going to hit the pipeline exit in April and 
 Mai.
 
-## Baqend Code and Handler: upgrading permission
-There is going to be a function that changes permissions inside Baqend Code and Handler to grant root access for following
+## Deletion option for Classes and Attributes
+You might not have noticed jet, but it will be possible to delete classes and attributes from the dashboard and of the SDK.
+
+## Baqend Code: schedule Baqend Code
+There will be a scheduler you can use to repeat tasks from the dashboard or even schedule events from a client with user
+permissions.
+
+## File API: the hosting module
+Host your files, restrict access, simply upload and download pictures, assets or any other File from the client.
+
+## Baqend Code and handler: upgrading permission
+There is going to be a function that changes permissions inside Baqend Code and handler to grant root access for following
 operations.
 
-## Handler: after-operation Handler
+## Handler: after-operation handler
 You are going to be able to run the operation and do further logic after it is successfully executed. This will allow to
 manipulate the return statement and be certain the operation was not rejected because of concurrency or object acl.
+
+## Mongo 3
+The server performance increase is real.
+
+## later this year
+- Baqend Code and handler: send E-mails, Push notifications and SMS
+- Deploy your App on the Baqend Cloud service, make use of the extensive Free-tier and benefit from exceptionally fast load time.
+- Live updating queries to simplify life-communication between apps
+- Partial update
