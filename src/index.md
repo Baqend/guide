@@ -1078,23 +1078,73 @@ DB.Todo.load('7b2c...').then(function(firstTodo) {
 
 In a more complex scenario you may have references in a collection, this references will also not be loaded by default.
 ```js
-DB.Todo.load('7b2c...').then(function(firstTodo) {
+DB.Todo.load('7b2c...').then(function(firstTodo) {   
     console.log(firstTodo.upComingTodos.get(0).name); // will throw an object not available error
 });
 ``` 
 
-As described earlier, you can pass the depth option while loading the entity. The depth option allows setting an 
+As described earlier, you can pass the `depth` option while loading the entity. The depth option allows you to set a depth  
+of references which will additionally be loaded. A depth value of `0` (the default) just loads the entity. 
+```js
+DB.Todo.load('7b2c...', {depth: 0}).then(function(firstTodo) {   
+    console.log(firstTodo.doNext.name); // will throw an object not available error
+    console.log(firstTodo.upComingTodos.get(0).name); // will still throw an object not available error
+});
+```
+
+A depth value of `1` loads the entity and one additional level of references. This affects references in collection 
+and embedded objects.
+```js
+DB.Todo.load('7b2c...', {depth: 1}).then(function(firstTodo) {
+    console.log(firstTodo.doNext.name); // 'My second Todo'
+    console.log(firstTodo.upComingTodos.get(0).name); // 'My second Todo'    
+    console.log(firstTodo.doNext.doNext.name); // will throw an object not available error
+    console.log(firstTodo.upComingTodos.get(0).upComingTodos.get(0).name); // will still throw an object not available error
+});
+```
+
+Setting the depth value to `2` resolves the next level of references and so on. You can set the depth option to `true` to
+load all references by reachability. But be aware of that this can become a critical performance issue on large object graphs. 
+
+## Cached Loads
+
+Each EntityManager instance has an instance cache. This instance cache is used while loading objects and resolving 
+references. If en entity is loaded it will be stored into this instance cache and will always be returned when the same 
+instance is requested. This ensures that you will get the same instance for the same object id. That means object 
+equality is always guaranteed for same object ids. 
+```js
+DB.Todo.load('MyFirstTodo', {depth: 1}).then(function(firstTodo) {
+  DB.Todo.load('MySecondTodo').then(function(secondTodo) {
+    console.log(firstTodo.doNext == secondTodo); // true, object equality is guaranteed by the DB instance cache
+  });  
+});
+```
 
 ## Depth Saving
 
-This behaviour differs on references entities. If a referenced entity is changed only the referenced entity will be 
-marked as dirty not the referencing one. If call   
+As the depth loading, you can also save referenced entities with the referencing entity by passing the depth option. If 
+you call `save()` without any options, only the entity itself will be saved, but not any referenced entity. This is the 
+same behaviour as passing `depth` with the value `0`.
 ```js
 var firstTodo = new DB.Todo({name: 'My first Todo'});
 var secondTodo = new DB.Todo({name: 'My second Todo'});
 
 firstTodo.doNext = secondTodo;
+firstTodo.save(); // will save firstTodo, but not the secondTodo
 ```
+
+By passing the depth option with a value of `1` the entity and all its direct referenced entities will be saved.
+```js
+var thirdTodo = new DB.Todo({name: 'My third Todo'});
+
+firstTodo.doNext = secondTodo;
+secondTodo.doNext = thirdTodo;
+firstTodo.save({depth: 1}); // will save firstTodo and secondTodo, but not the thirdTodo
+```
+
+And again increasing the `depth` value to `2` will save all direct referenced entities and all entities which are 
+referenced by those referenced entities. You can also pass `depth` with `true` to save all entities by reachability.
+
 
 
 # Upcoming Features
