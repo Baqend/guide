@@ -1,24 +1,19 @@
-
-/* Prettyify */
+/* Highlight */
 $( document ).ready(function() {
-    prettyPrint();
+    hljs.initHighlighting();
+
+    /* Scrollspy */
+    var navHeight = $('.navbar').outerHeight(true);
+    $('body').scrollspy({
+      target: '.bs-sidebar',
+      offset: navHeight
+    });
 });
-
-
-/* Scrollspy */
-var navHeight = $('.navbar').outerHeight(true);
-console.log(navHeight)
-$('body').scrollspy({
-    target: '.bs-sidebar',
-    offset: navHeight
-})
-
 
 /* Prevent disabled links from causing a page reload */
 $("li.disabled a").click(function() {
     event.preventDefault();
 });
-
 
 /* Adjust the scroll height of anchors to compensate for the fixed navbar */
 window.disableShift = false;
@@ -31,9 +26,10 @@ var shiftWindow = function() {
             (window.innerHeight + window.scrollY) >= document.body.offsetHeight
         );
         if (!scrolledToBottomOfPage) {
+          console.log("SCROLLBY");
             scrollBy(0, -60);
-        };
-    };
+        }
+    }
 };
 if (location.hash) {shiftWindow();}
 window.addEventListener("hashchange", shiftWindow);
@@ -48,5 +44,5 @@ $("ul.nav a" ).click(function() {
         /* Force a single 'hashchange' event to occur after the click event */
         window.disableShift = true;
         location.hash='';
-    };
+    }
 });

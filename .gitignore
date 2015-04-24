@@ -1,2 +1,5 @@
 /docs
+/dist
 .DS_Store
+*.iml
+gulpfile.js
