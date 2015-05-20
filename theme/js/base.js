@@ -26,7 +26,6 @@ var shiftWindow = function() {
             (window.innerHeight + window.scrollY) >= document.body.offsetHeight
         );
         if (!scrolledToBottomOfPage) {
-          console.log("SCROLLBY");
             scrollBy(0, -60);
         }
     }
