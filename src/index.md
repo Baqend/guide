@@ -823,6 +823,67 @@ if (DB.User.me) {
 }
 ```
 
+## OAuth
+
+Another way to login or register can be a 'Singe in with' - 'Google' or 'Facebook' button. 
+In general any OAuth provider can be used to authenticate and authorise a user. 
+Baqend supports five provider for now. To set them up, you need to register your App on the Website of the provider.
+Add "https://'APP_NAME'.baqend.com/db/User/'PROVIDER_ID'" as redirect Uri and copy client ID and client secret into the 
+[settings page of your Dashboard](). 
+
+With 'DB.loginWithOAuth(provider, Options)' the login or register can be 
+initialised. The call opens a new Window with the provider specific login page. To work around the popup blocker the 
+call needs to be made on user interaction, on click at the singe in button for example. 
+
+For Google you find your credentials in your
+[developer console](https://console.developers.google.com/project/_/apiui/credential), visit 
+[Google doc](https://developers.google.com/console/help/new/?hl=de#setting-up-oauth-20) for more information.
+<br><br><table class="table">
+    <tr>
+        <th>Provider</th>
+        <th>Provider Dashboard</th>
+        <th>Provider doc</th>
+        <th>Notes</th>
+    </tr>
+    <tr>
+        <td>Google</td>
+        <td>[developer console](https://console.developers.google.com/project/_/apiui/credential)</td>
+        <td>[Google doc](https://developers.google.com/console/help/new/?hl=de#setting-up-oauth-20)</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Facebook</td>
+        <td>[Facebook developer](https://developers.facebook.com/apps)</td>
+        <td>[Facebook doc](https://developers.facebook.com/docs/facebook-login/v2.4)</td>
+        <td>To set up Facebook-OAuth open the Settings page of your [Facebook app](https://developers.facebook.com/apps),
+        change to `Advanced` activate `Web OAuth Login` and add `https://[YOUR_APP_ID].baqend.com/db/User/OAuth/facebook`
+         as `Valid OAuth redirect URI`. 
+        </td>
+    </tr>
+    <tr>
+        <td>GitHub</td>
+        <td>[Github applications](https://github.com/settings/applications)</td>
+        <td>[Github doc](https://developer.github.com/v3/oauth/)</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Twitter</td>
+        <td>[Twitter applications](https://apps.twitter.com/)</td>
+        <td>[Twitter doc](https://dev.twitter.com/oauth/overview/faq)</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>LinkedIN</td>
+        <td>[LinkedIN developer](https://www.linkedin.com/secure/developer?newapp=)</td>
+        <td>[LinkedIn doc](https://developer.linkedin.com/docs/oauth2)</td>
+        <td></td>
+    </tr>
+</table><br><br>
+OAuth is a way to delegate rights of third party resources owned by the users to your application. A simple login is 
+always getting a token and requesting basic information including the unique user ID. 
+You can interact in the way the user is created by changing the Baqend Code visible when an provider is activated.
+
+
 ## Roles
 
 The Role class is also a predefined class which has a predefined `name` and `users` collection. The users collection 
