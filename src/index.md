@@ -1414,10 +1414,6 @@ finely publish the beta. In truth we touched every line of code, added hundreds 
 Here you find some of the futures coming up on the way to our next milestone. Coming winter there will be a way for 
 everyone to ship your Application with Baqend load time speed. **Announcing:** The Baqend Cloudservice
 
-## Deletion method for Classes and Attributes
-You might not have noticed jet, but it will soon be possible to delete classes and attributes from the dashboard and out 
-of the SDK.
-
 ## Offline Storage
 Don't interrupt the user experience due to connection lose. The automated offline Storage transparently answers request,
 and even queries from local cache and synchronizes writes after the connection is reestablished.
