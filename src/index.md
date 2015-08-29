@@ -871,7 +871,7 @@ if (DB.User.me) {
 Another way to login or register can be a 'Singe in with' - 'Google' or 'Facebook' button. 
 In general any OAuth provider can be used to authenticate and authorise a user. 
 Baqend supports five provider for now. To set them up, you need to register your App on the Website of the provider.
-Add "https://'APP_NAME'.baqend.com/db/User/'PROVIDER_ID'" as redirect Uri and copy client ID and client secret into the 
+Add `https://APP_NAME.baqend.com/db/User/PROVIDER_ID` as redirect Uri and copy client ID and client secret into the 
 [settings page of your Dashboard](). 
 
 With 'DB.loginWithOAuth(provider, Options)' the login or register can be 
@@ -884,47 +884,44 @@ For Google you find your credentials in your
 <br><br><table class="table">
     <tr>
         <th>Provider</th>
-        <th>Provider Dashboard</th>
-        <th>Provider doc</th>
+        <th></th>
         <th>Notes</th>
     </tr>
     <tr>
-        <td>Google</td>
-        <td>[developer console](https://console.developers.google.com/project/_/apiui/credential)</td>
-        <td>[Google doc](https://developers.google.com/console/help/new/?hl=de#setting-up-oauth-20)</td>
-        <td></td>
+        <td>[Google](https://console.developers.google.com/project/_/apiui/credential)</td>
+        <td>[doc](https://developers.google.com/console/help/new/?hl=de#setting-up-oauth-20)</td>
+        <td>Add as redirect uri: `https://[YOUR_APP_ID].baqend.com/db/User/OAuth/google`</td>
     </tr>
     <tr>
-        <td>Facebook</td>
-        <td>[Facebook developer](https://developers.facebook.com/apps)</td>
-        <td>[Facebook doc](https://developers.facebook.com/docs/facebook-login/v2.4)</td>
+        <td>[Facebook](https://developers.facebook.com/apps)</td>
+        <td>[doc](https://developers.facebook.com/docs/facebook-login/v2.4)</td>
         <td>To set up Facebook-OAuth open the Settings page of your [Facebook app](https://developers.facebook.com/apps),
-        change to `Advanced` activate `Web OAuth Login` and add `https://[YOUR_APP_ID].baqend.com/db/User/OAuth/facebook`
+        change to `Advanced`, activate `Web OAuth Login` and add `https://[YOUR_APP_ID].baqend.com/db/User/OAuth/facebook`
          as `Valid OAuth redirect URI`. 
         </td>
     </tr>
     <tr>
-        <td>GitHub</td>
-        <td>[Github applications](https://github.com/settings/applications)</td>
-        <td>[Github doc](https://developer.github.com/v3/oauth/)</td>
-        <td></td>
+        <td>[Github](https://github.com/settings/applications)</td>
+        <td>[doc](https://developer.github.com/v3/oauth/)</td>
+        <td>Add as redirect uri: `https://[YOUR_APP_ID].baqend.com/db/User/OAuth/github`</td>
     </tr>
     <tr>
-        <td>Twitter</td>
-        <td>[Twitter applications](https://apps.twitter.com/)</td>
-        <td>[Twitter doc](https://dev.twitter.com/oauth/overview/faq)</td>
-        <td></td>
+        <td>[Twitter](https://apps.twitter.com/)</td>
+        <td>[doc](https://dev.twitter.com/oauth/overview/faq)</td>
+        <td>Add as redirect uri: `https://[YOUR_APP_ID].baqend.com/db/User/OAuth/twitter`</td>
     </tr>
     <tr>
-        <td>LinkedIN</td>
-        <td>[LinkedIN developer](https://www.linkedin.com/secure/developer?newapp=)</td>
-        <td>[LinkedIn doc](https://developer.linkedin.com/docs/oauth2)</td>
-        <td></td>
+        <td>[LinkedIN](https://www.linkedin.com/secure/developer?newapp=)</td>
+        <td>[doc](https://developer.linkedin.com/docs/oauth2)</td>
+        <td>Add as redirect uri: `https://[YOUR_APP_ID].baqend.com/db/User/OAuth/linkedin`</td>
     </tr>
 </table><br><br>
 OAuth is a way to delegate rights of third party resources owned by the users to your application. A simple login is 
 always getting a token and requesting basic information including the unique user ID. 
-You can interact in the way the user is created by changing the Baqend Code visible when an provider is activated.
+You can interact in the way the user is created by changing the Baqend Code OAuth.PROVIDER_ID. The Baqend Code gets 
+activated whenever a new user is registered with OAuth. The data object included is a conjunction of the token object
+often with a long term and a short term token and the basic user information the provider has returned on a basic api
+request.
 
 
 ## Roles
@@ -1140,12 +1137,12 @@ exports.onUpdate = function(db, obj) {
 ```
 Since its possible to reactivate finished tasks, we might want to check if we need to decrease the counter. This is only
 necessary if the last status of the Todo object was done. To get the state of the object before the current update use 
-`db.load(objectID)`. It returns a new object with the old data. `this.load()` on the other hand would overwrite the 
+`db.load(objectID)`. It returns a new object with the old data. `obj.load()` on the other hand would overwrite the 
 current update.
 
 ```js
 exports.onUpdate = function(db, obj) {
-  return db.Todo.load(this.id).then(function(oldTodo) {
+  return db.Todo.load(obj.id).then(function(oldTodo) {
     if (oldTodo.done != obj.done) {
       return db.User.me.load().then(function(user) {
         var totalTime = this.activities.reduce(function(totalTime, activity) {
@@ -1290,13 +1287,14 @@ Note: It is important that you not require module functions directly, since modu
 module dependencies later may result in unexpected issues!
 
 The following additional libraries can be required in baqend code:
-[http](https://nodejs.org/api/http.html) - Node.js http core library
-[https](https://nodejs.org/api/https.html) - Node.js https core library 
-[querystring](https://nodejs.org/api/querystring.html) - Node.js core querystring parsing and serialization library
-[crypto](https://nodejs.org/api/crypto.html) - Node.js core crypto api offers a way of encapsulating secure credentials 
-[baqend](http://www.baqend.com/js-sdk/latest/baqend.html) - The baqend SDK
-[express](http://expressjs.com/4x/api.html) - A node HTTP server
-[twilio](http://twilio.github.io/twilio-node/) - APIs for Text Messaging, VoIP & Voice in the Cloud 
+
+- [http](https://nodejs.org/api/http.html) - Node.js http core library
+- [https](https://nodejs.org/api/https.html) - Node.js https core library 
+- [querystring](https://nodejs.org/api/querystring.html) - Node.js core querystring parsing and serialization library
+- [crypto](https://nodejs.org/api/crypto.html) - Node.js core crypto api offers a way of encapsulating secure credentials 
+- [baqend](http://www.baqend.com/js-sdk/latest/baqend.html) - The baqend SDK
+- [express](http://expressjs.com/4x/api.html) - A node HTTP server
+- [twilio](http://twilio.github.io/twilio-node/) - APIs for Text Messaging, VoIP & Voice in the Cloud 
 
 ## Permissions
 
