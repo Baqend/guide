@@ -886,13 +886,16 @@ if (DB.User.me) {
 
 Another way to login or register can be a 'Singe in with' - 'Google' or 'Facebook' button. 
 In general any OAuth provider can be used to authenticate and authorise a user. 
-Baqend supports five provider for now. To set them up, you need to register your App on the Website of the provider.
-Add `https://APP_NAME.baqend.com/db/User/PROVIDER_ID` as redirect Uri and copy client ID and client secret into the 
+Baqend supports five provider for now. To set any of them up, you need to register your App on the Website of the 
+provider. The provider generates a client ID and a client secret. You find them on the provider website after 
+registration. There is also a textfield where you need to add a redirect Uri.
+Add `https://APP_NAME.baqend.com/db/User/PROVIDER` as redirect Uri and copy client ID and client secret into the 
 [settings page of your Dashboard](). 
 
-With `DB.loginWithOAuth(provider, Options)` the login or register can be 
-initialised. The call opens a new Window with the provider specific login page. To work around the popup blocker the 
-call needs to be made on user interaction, on click at the singe in button for example. 
+On client side trigger `DB.User.loginWithGoogle(clientID, options)` to start the OAuth login process. The call 
+opens a new Window with the provider specific login page. To work around the popup blocker the 
+call needs to be made on user interaction, on click at the singe in button for example. Just like a register or a 
+login call a promise is returned, completing with the logged in user. 
 
 <br><br><table class="table">
     <tr>
