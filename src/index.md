@@ -890,13 +890,10 @@ Baqend supports five provider for now. To set them up, you need to register your
 Add `https://APP_NAME.baqend.com/db/User/PROVIDER_ID` as redirect Uri and copy client ID and client secret into the 
 [settings page of your Dashboard](). 
 
-With 'DB.loginWithOAuth(provider, Options)' the login or register can be 
+With `DB.loginWithOAuth(provider, Options)` the login or register can be 
 initialised. The call opens a new Window with the provider specific login page. To work around the popup blocker the 
 call needs to be made on user interaction, on click at the singe in button for example. 
 
-For Google you find your credentials in your
-[developer console](https://console.developers.google.com/project/_/apiui/credential), visit 
-[Google doc](https://developers.google.com/console/help/new/?hl=de#setting-up-oauth-20) for more information.
 <br><br><table class="table">
     <tr>
         <th>Provider</th>
@@ -933,12 +930,13 @@ For Google you find your credentials in your
     </tr>
 </table><br><br>
 OAuth is a way to delegate rights of third party resources owned by the users to your application. A simple login is 
-always getting a token and requesting basic information including the unique user ID. 
-You can interact in the way the user is created by changing the Baqend Code OAuth.PROVIDER_ID. The Baqend Code gets 
-activated whenever a new user is registered with OAuth. The data object included is a conjunction of the token object
-often with a long term and a short term token and the basic user information the provider has returned on a basic api
-request.
-
+always getting a token and requesting basic information including the unique user ID. The public profile information 
+is the most restricted scope a provider can offer. All supported provider have a public profile + email scope 
+witch is the default in the sdk. The Baqend server checks if an email is in the allowed scope and sets it as username
+or sets a uuid instead. 
+After login or registration a Baqend Code under OAuth.PROVIDER is called with the User as DB.User.me and the 
+conjunction of OAuth token and basic user information combined as data object. You can use it to run 
+further api calls and save the token or other information provided from the OAuth provider.
 
 ## Roles
 
