@@ -173,7 +173,7 @@ DB.Todo.load('Todo1').then(function(todo) {
 });
 ```
 
-If an object ist loaded from Baqend all its attributes, collections and embedded objects will be loaded, too.
+If an object is loaded from the Baqend all its attributes, collections and embedded objects will be loaded, too.
 References to other entities will not be loaded by default. For more details see the [Persistence](#persistence) chapter.
 
 When you load the same object a second time, the object will be loaded from the local cache. This ensures that you
