@@ -1,7 +1,7 @@
 # Baqend JavaScript SDK
 
 Welcome to the Baqend JavaScript guide.
-If you have not yet done it [quickstart](http://www.baqend.com/#download) a private local Baqend server. 
+If you haven't done it yet, you can easily [quickstart](http://www.baqend.com/#download) a private local Baqend server. 
 
 
 ## Setup
@@ -715,8 +715,8 @@ login process see the [User, Roles and Permission](#user-roles-and-permissions) 
 
 ## Sorting
 
-It is possible to sort the query result for one or more attributes. The query builder can be used to set after which
-attributes the result shall be sorted. Let's sort our query results by name:
+It is possible to sort the query result for one or more attributes. The query builder can be used to specify 
+which attributes shall be used for sorting. Let's sort our query result by name:
 ```js
 DB.Todo.find()
   .matches('name', /^My Todo/)
@@ -724,8 +724,9 @@ DB.Todo.find()
   .resultList(...)
 ```
 
-If you use more than one sort criterion, the order of the result depends on the order you called the sort options.
-The following query will list all active tasks before the inactive ones and sort the tasks by their name in ascending order.
+If you use more than one sort criterion, the order of the result reflects the order in which the sort methods were 
+called. The following query will list all active tasks before the inactive ones and sort the tasks by their name in 
+ascending order.
 ```js
 DB.Todo.find()
   .matches('name', /^My Todo/)
@@ -734,11 +735,11 @@ DB.Todo.find()
   .resultList(...)
 ```
 
-If you would call the `descending('active')` before `ascending('name')`.The result would be first sorted by name and 
-afterwards by the active flag, which would only be relevant with multiple todos with the same name. 
+When calling `descending('active')` before `ascending('name')` the result is sorted by name and 
+then by active flag, which is only relevant for multiple todos having the same name. 
 
 You can also set the sort criteria with the MongoDB [orderby](http://docs.mongodb.org/manual/reference/operator/meta/orderby/) 
-syntax when using the `sort()` method. An equivalent expression to the above would look like:
+syntax by using the `sort()` method. An equivalent expression to the above is this:
 ```js
 DB.Todo.find()
   .matches('name', /^My Todo/)
@@ -747,8 +748,8 @@ DB.Todo.find()
 ```
 
 ## Offset and Limit
-On larger data sets you usually don't want to load all the data at once. Its reasonable to page through the query
-results. For such a case it is possible to skip objects and limit the result.
+On larger data sets you usually don't want to load everything at once. Its often reasonable to instead page through the 
+query results. It is therefore possible to skip objects and limit the result size.
 ```js
 var page = 3;
 var resultsPerPage = 30;
@@ -761,11 +762,13 @@ DB.Todo.find()
   .resultList(...)
 ```
 
-Note: Skipping a large set of data with offset can result in very poor query performance. 
-Consider to use a filter and sort criteria to navigate through your data.
+**Note**: An offset query on large result sets yields [poor query performance](http://use-the-index-luke
+.com/sql/partial-results/fetch-next-page). Instead, consider using a filter and sort criteria to navigate through 
+results.
  
-For instance if you implement a simple pagination you can sort your data by id and can get the data of the next
-page by a simple greaterThen filter.
+For instance if you implement a simple pagination, you can sort by id and can get the data of the next
+page by a simple greaterThen filter. As the id always has an index this results in good performance regardless of the
+ query result size.
 ```js
 var pageId = '00000-...';
 var resultsPerPage = 30;
@@ -781,17 +784,18 @@ DB.Todo.find()
 ```
 
 
-## Join filters with `and`, `or` and `nor`
+## Composing Filters by `and`, `or` and `nor`
 
-Filters joined with and by default. In more complex cases you may want to formulate a query with one or more 
+Filters are joined with `and` by default. In more complex cases you may want to formulate a query with one or more 
 [and](http://docs.mongodb.org/manual/reference/operator/query/and/), 
 [or](http://docs.mongodb.org/manual/reference/operator/query/or/) or 
 [nor](http://docs.mongodb.org/manual/reference/operator/query/nor/)  
 expressions. For such cases the initial `find()` call returns a 
-[Query.Builder](http://www.baqend.com/js-sdk/latest/baqend.Query.Builder.html) instance. The builder provide additional 
-methods to join multiple filter expressions.
+[Query.Builder](http://www.baqend.com/js-sdk/latest/baqend.Query.Builder.html) instance. The builder provides 
+additional methods to compose filter expressions.
 
-The following query finds all my todos which I am currently not working on and all your todos which you haven't done yet:
+The following query finds all todos which the logged-in user is not currently working on and all todos which aren't 
+done yet:
 ```js
 var queryBuilder = DB.Todo.find();
 var condition1 = queryBuilder
@@ -809,16 +813,16 @@ queryBuilder.or(condition1, condition2)
 
 # Users, Roles and Permissions
 
-Baqend comes with a powerful User, Role and Permission management module. It includes a generic registration and login 
-mechanism and allows you to restrict the insert, load, update, delete and query based access per class and the 
-read and write access per object level. The restriction can be formulated with allow and deny rules for any user and role.
+Baqend comes with a powerful user, role and permission management. This includes a generic registration and login 
+mechanism and allows restricting access to insert, load, update, delete and query operations through per-class and 
+per-objects rules. These access control lists (ACLs) are expressed through allow and deny rules on users and roles.
 
 ## Registration
 
-To restrict access to a specific role or user, the user needs an user account. Baqend supports a simple registration 
+To restrict access to a specific role or user, the user needs a user account. Baqend supports a simple registration 
 process to create a new user account. The user class is a predefined class which will be instantiated during the registration 
 process. A user object has a predefined `username` which uniquely identifies the user and a `password`. The password 
-will be hashed by Baqend before it will be saved.   
+will be hashed and salted by Baqend before being saved.   
 ```js
 DB.User.register('john.doe@example.com', 'MySecretPassword').then(function() {
   //Hey we are logged in
@@ -844,7 +848,7 @@ DB.User.register(user, 'MySecretPassword').then(function() {
 
 ## Login
 
-When a user is registered already, he can login with the `DB.User.login()` method. 
+When a user is already registered, he can login with the `DB.User.login()` method. 
 ```js
 DB.User.login('john.doe@example.com', 'MySecretPassword').then(function() {
   //Hey we are logged in again
@@ -852,14 +856,14 @@ DB.User.login('john.doe@example.com', 'MySecretPassword').then(function() {
 });
 ```  
 
-After the successful login a session will be established and all further requests to the Baqend will be authenticated 
+After the successful login a session will be established and all further requests to Baqend are authenticated 
 with the currently logged-in user.
 
 ## Logout 
 
-Sessions in Baqend are stateless, that means a user is not be required to logout itself to close the session. When a 
-session is started a session token with a specified lifetime will be created. If this lifetime is exceeded, the session 
-is closed automatically. A logout just deletes the session token and removes the current `DB.User.me` object.
+Sessions in Baqend are stateless, that means a user is not required to logout in order to close the session. When a 
+session is started a session token with a specified lifetime is created. If this lifetime is exceeded, the session 
+is closed automatically. A logout just locally deletes the session token and removes the current `DB.User.me` object.
 ``` 
 DB.User.logout().then(function() {
   //We are logged out again
@@ -869,9 +873,9 @@ DB.User.logout().then(function() {
 
 ## Auto login
 
-The Baqend SDK checks during the initialization, if the user is already registered and has been logged in. A
-new user is anonymous and no user object will be associated with the DB. Returning users will be automatically logged in 
-and the `DB.User.me` object will be set.
+During initialization the Baqend SDK checks, if the user is already registered and has been logged in. A
+new user is anonymous by default and no user object is associated with the DB. Returning users are
+automatically logged in and the `DB.User.me` object is present.
 ```js
 if (DB.User.me) {
   //user is logged in
@@ -884,18 +888,18 @@ if (DB.User.me) {
 
 ## OAuth
 
-Another way to login or register can be a 'Singe in with' - 'Google' or 'Facebook' button. 
+Another way to login or register is via a 'Sign in with' - 'Google' or 'Facebook' button. 
 In general any OAuth provider can be used to authenticate and authorise a user. 
-Baqend supports five provider for now. To set any of them up, you need to register your App on the Website of the 
-provider. The provider generates a client ID and a client secret. You find them on the provider website after 
-registration. There is also a textfield where you need to add a redirect Uri.
-Add `https://APP_NAME.baqend.com/db/User/PROVIDER` as redirect Uri and copy client ID and client secret into the 
-[settings page of your Dashboard](). 
+As of now, Baqend supports five providers. To set them up, you need to register your applications on the provider's 
+website. The provider generates a client ID and a client secret. You can find them on the provider's website after 
+registration. There is also a text field where you need to add a redirect URL.
+Add `https://APP_NAME.baqend.com/db/User/PROVIDER` (with *APP_NAME* and *PROVIDER* substituted) and copy the client ID 
+and client secret into the settings page of the dashboard. 
 
-On client side trigger `DB.User.loginWithGoogle(clientID [, options])` to start the OAuth login process. The call 
-opens a new Window with the provider specific login page. To work around the popup blocker the 
-call needs to be made on user interaction, on click at the singe in button for example. Just like a register or a 
-login call a promise is returned, completing with the logged in user. 
+On the client side, trigger `DB.User.loginWithGoogle(clientID [, options])` to start the OAuth login process. The call 
+opens a new window showing the provider-specific login page. To work despite popup blockers the 
+call needs to be made on response to a user interaction, e.g. after a click on the sign-in button. Similarly to a 
+register or a login call, a promise is returned that completes with the logged-in user. 
 
 <br><br><table class="table">
     <tr>
@@ -906,77 +910,80 @@ login call a promise is returned, completing with the logged in user.
     <tr>
         <td>[Google](https://console.developers.google.com/project/_/apiui/credential)</td>
         <td>[doc](https://developers.google.com/console/help/new/?hl=de#setting-up-oauth-20)</td>
-        <td>Add as redirect uri: `https://[YOUR_APP_ID].baqend.com/db/User/OAuth/google`</td>
+        <td>Add as redirect URL: `https://[YOUR_APP_ID].baqend.com/db/User/OAuth/google`</td>
     </tr>
     <tr>
         <td>[Facebook](https://developers.facebook.com/apps)</td>
         <td>[doc](https://developers.facebook.com/docs/facebook-login/v2.4)</td>
-        <td>To set up Facebook-OAuth open the Settings page of your [Facebook app](https://developers.facebook.com/apps),
-        change to `Advanced`, activate `Web OAuth Login` and add `https://[YOUR_APP_ID].baqend.com/db/User/OAuth/facebook`
-         as `Valid OAuth redirect URI`. 
+        <td>To set up Facebook-OAuth open the settings page of your [Facebook app](https://developers.facebook
+        .com/apps), switch to `Advanced`, activate `Web OAuth Login` and add `https://[YOUR_APP_ID].baqend
+        .com/db/User/OAuth/facebook`  as `Valid OAuth redirect URI`. 
         </td>
     </tr>
     <tr>
         <td>[Github](https://github.com/settings/applications)</td>
         <td>[doc](https://developer.github.com/v3/oauth/)</td>
-        <td>Add as redirect uri: `https://[YOUR_APP_ID].baqend.com/db/User/OAuth/github`</td>
+        <td>Add as redirect URL: `https://[YOUR_APP_ID].baqend.com/db/User/OAuth/github`</td>
     </tr>
     <tr>
         <td>[Twitter](https://apps.twitter.com/)</td>
         <td>[doc](https://dev.twitter.com/oauth/overview/faq)</td>
-        <td>Add as redirect uri: `https://[YOUR_APP_ID].baqend.com/db/User/OAuth/twitter`</td>
+        <td>Add as redirect URL: `https://[YOUR_APP_ID].baqend.com/db/User/OAuth/twitter`</td>
     </tr>
     <tr>
-        <td>[LinkedIN](https://www.linkedin.com/secure/developer?newapp=)</td>
+        <td>[LinkedIn](https://www.linkedin.com/secure/developer?newapp=)</td>
         <td>[doc](https://developer.linkedin.com/docs/oauth2)</td>
-        <td>Add as redirect uri: `https://[YOUR_APP_ID].baqend.com/db/User/OAuth/linkedin`</td>
+        <td>Add as redirect URL: `https://[YOUR_APP_ID].baqend.com/db/User/OAuth/linkedin`</td>
     </tr>
 </table><br><br>
-OAuth is a way to delegate rights of third party resources owned by the users to your application. A simple login is 
-always getting a token and requesting basic information including the unique user ID. The public profile information 
-is the most restricted scope a provider can offer. All supported provider have a public profile + email scope 
-witch is the default in the sdk. The Baqend server checks if an email is in the allowed scope and sets it as username
-or sets a uuid instead. 
-After login or registration a Baqend Code under OAuth.PROVIDER is called with the User as DB.User.me and the 
-conjunction of OAuth token and basic user information combined as data object. You can use it to run 
-further api calls and save the token or other information provided from the OAuth provider.
+OAuth is a way to delegate rights of third party resources owned by users to your application. A simple login always 
+receives a token and requests basic information including the unique user ID. The public profile information 
+is the most restricted scope a provider can offer. All supported providers have a public profile + email scope 
+witch is the default in the Baqend SDK. The Baqend server checks if an email is in the allowed scope and sets it as the
+username or falls back to a UUID instead
+
+After login or registration a Baqend Module under `oauth.PROVIDER` is called. You can extend the default behaviour by
+ overwriting this Baqend module. The passed parameters are the current 
+user and object containing the OAuth token and basic user information. You can use it to do 
+further API calls or save the token or other information provided from the OAuth provider.
 
 ## Roles
 
-The Role class is also a predefined class which has a predefined `name` and `users` collection. The users collection 
-contains all the members of a role. A user has a specified role if he is listed in the roles `users` list. 
+The Role class is also a predefined class which has a `name` and  a `users` collection. The users collection 
+contains all the members of a role. A user has a specified role if he is included in the roles `users` list. 
 
 ``` 
 //create a new role
 var role = new DB.Role({name: 'My First Group'});
-//add our self as a member of the role
+//add current user as a member of the role
 role.addUser(DB.User.me);
-//protect the role membership 
+//allow the user to modify the role memberships
+//this overwrites the default where everyone has write access
 role.acl.allowWriteAccess(DB.User.me);
 role.save().then(...);
 ```
 
-A role can be read and written by everyone by default. To protect the role that no one else can add himself to the 
-role we restricted the write access to the current user. 
-For more information about setting permissions see in the [Setting object permissions](#setting-object-permissions) chapter. 
+A role can be read and written by everyone by default. To protect the role so that no one else can add himself to the 
+role we restrict write access to the current user. For more information about setting permissions see the [setting 
+object permissions](#setting-object-permissions) chapter. 
 
 ## Permissions
 
-There are two types of permissions, class based and object based permissions. The class based permissions can be set by 
-privileged users on the Baqend Dashboard or by manipulating the class metadata. The object based permissions can be set 
-by users which have write access to an object. If a normal user requests an operation the access must be granted class 
-based and object based to perform the specific operation. 
+There are two types of permissions: *class-based* and *object-based*. The class-based permissions can be set
+ by privileged users on the Baqend dashboard or by manipulating the class metadata. The object-based permissions can 
+ be set by users which have write-access to an object. If a user requests an operation access must be allowed 
+ class-based as well as object-based in order to perform the specific operation. 
 
-Each permission persists of one allow and one deny list. In the allow list user and roles can be white listed and in the 
-deny list they can be black listed. 
+Each permission consists of one allow and one deny list. In the allow list user and roles can be white listed and in 
+the deny list they can be black listed. 
  
-The access will be granted following these rules:
+The access will be granted based on the following rules:
 
 - If the user has the admin role, access is always granted and the following rules will be skipped
-- Or if the user dose not have the admin role:
+- Otherwise:
   - If the user or one of its roles are listed in the deny list, access is always denied
   - If no rules are defined in the allow list, public access is granted
-  - If rules are defined the user or one of its roles has to be listed in the allow list
+  - If rules *are* defined the user or one of its roles has to be listed in the allow list in order to get access
 
 The following table shows the SDK methods and the related permissions the user has to have, to perform the specific 
 operation.
@@ -984,8 +991,8 @@ operation.
 <table class="table">
   <tr>
     <th>Method</th>
-    <th width="50%">Class based permission</th>
-    <th>Object based permission</th>
+    <th width="50%">Class-based permission</th>
+    <th>Object-based permission</th>
   </tr>
   <tr>
     <td><code>load()</code></td>
@@ -1014,52 +1021,49 @@ operation.
   </tr>
   <tr>
     <td><code>save()</code></td>
-    <td>type.insertPermission when the object is inserted<br>
-      type.updatePermission when the object is updated
+    <td>type.insertPermission if the object is inserted<br>
+      type.updatePermission if the object is updated
     </td>
     <td>object.acl.write</td>
   </tr>
   <tr>
     <td><code>save({force: true})</code></td>
-    <td>type.insertPermission and type.updatePermission will be checked because the object will be inserted if it 
-    does not exist and updated if it exists</td>
+    <td>both type.insertPermission and type.updatePermission will be checked</td>
     <td>object.acl.write</td>
   </tr>
 </table>
 
-Note: It is currently not possible with the Baqend SDK to check if a user has all permissions to perform an operation. 
+**Note**: It is currently no way to check if a user has permissions to perform an operation without actually 
+performing the operation. 
 
-## Anonymous users and the Public permission
+## Anonymous Users & Public Access
    
-Anonymous users only have the permission to serve public resources. An resource is accessible for the public, if no 
-class or object permission restricts the access to a specific user or group. To check if the object base 
-permissions allow anonymous access you can check the `acl.isPublicReadAllowed()` and the `todo.acl.isPublicWriteAllowed()` 
+Anonymous users only have permissions to serve public resources. A resource is publicly accessible, if
+ no class or object permission restricts the access to specific users or roles. To check if the object's
+permissions allow public access you can check the `acl.isPublicReadAllowed()` and the `todo.acl.isPublicWriteAllowed()` 
 methods.
 ```js
 todo.acl.isPublicReadAllowed() //will return true by default
 todo.acl.isPublicWriteAllowed() //will return true by default
 ```
 
-Note: The access can still be restricted to specific roles or users by class based permissions even if 
+**Note**: The access can still be restricted to specific roles or users by class-based permissions even if 
   `acl.isPublicReadAllowed()` or `todo.acl.isPublicWriteAllowed()` returns `true`.
 
-## Setting object permissions
+## Setting Object Permissions
 
-The object permission are split up in read and write permissions. When inserting a new object, read and write access is
-always granted to everyone. You can manipulate the object permissions only if you have currently write permissions on 
-the object. If you want to restrict the write access to the current user but want to share an object within a group, you 
-can add the role to the read permissions and the user to the write permissions.
+The object permissions are split up in read and write permissions. When inserting a new object, by default read and 
+write access is granted to everyone. You can manipulate object permissions only if you have write permissions on the object. If you want to restrict write access to the current user but want to share an object within a group, you 
+can add the role to the read permissions and the current user to the write permissions.
 ```js 
-DB.Role.find().equal('name', 'My First Group').singleResult(function(group) {
+DB.Role.find().equal('name', 'My First Role').singleResult(function(role) {
   var todo = new DB.Todo({name: 'My first Todo'});
-  todo.acl.allowReadAccess(group)
+  todo.acl.allowReadAccess(role)
     .allowWriteAccess(DB.User.me);
   
   return todo.save();
 }).then(...);
 ```
-
-
 
 # Baqend Code
 
@@ -1320,7 +1324,9 @@ all requests made from Baqend code are anonymous. Both anonymous and authenticat
 The Baqend SDK internally tracks the state of all living entity instances and their attributes. If an attribute of an 
 entity is changed, the entity will be marked as dirty. Only dirty entities will be send back to the Baqend while calling
 `save()` or `update()`. Also the collections and embedded objects of an entity will be tracked the same way and mark the 
-owning entity as dirty on modifications.
+owning entity as dirty on modifications. The big advantage of this dirty tracking is that when you apply deep saving 
+to persist object graphs, only those objects that were actually changed are transferred. This saves performance and 
+bandwidth.
 ```js
 DB.Todo.load('Todo1').then(function(todo) {
   todo.save(); //will not perform a Baqend request since the object is not dirty   
@@ -1328,7 +1334,7 @@ DB.Todo.load('Todo1').then(function(todo) {
 ```
 
 ## Deep Loading
-As described earlier in the [References](#references) chapter, references between entities will be handled differently 
+As described in the [References](#references) chapter, references between entities will be handled differently 
 from embedded objects or collections. The referenced objects will not be loaded with the referencing entity by default.
 ```js
 //while loading the todo, the reference will be resolved to the referenced entity
@@ -1338,7 +1344,8 @@ DB.Todo.load('7b2c...').then(function(firstTodo) {
 });
 ```
 
-In a more complex scenario you may have references in a collection, this references will also not be loaded by default.
+In a more complex scenario you may have references in a collection. These references won't be be loaded by default 
+neither.
 ```js
 DB.Todo.load('7b2c...').then(function(firstTodo) {  
   //will throw an object not available error
@@ -1346,8 +1353,8 @@ DB.Todo.load('7b2c...').then(function(firstTodo) {
 });
 ``` 
 
-As described earlier, you can pass the `depth` option while loading the entity. The depth option allows you to set a depth  
-of references which will additionally be loaded. A depth value of `0` (the default) just loads the entity. 
+To load dependant objects, you can pass the `depth` option while loading the entity. The depth option allows to 
+set a reference-depth which will automatically be loaded. A depth value of `0` (the default) just loads the entity. 
 ```js
 DB.Todo.load('7b2c...', {depth: 0}).then(function(firstTodo) {   
   //will throw an object not available error
@@ -1357,8 +1364,8 @@ DB.Todo.load('7b2c...', {depth: 0}).then(function(firstTodo) {
 });
 ```
 
-A depth value of `1` loads the entity and one additional level of references. This affects references in collection 
-and embedded objects.
+A depth value of `1` loads the entity and one additional level of references. This also includes references in 
+collections and embedded objects.
 ```js
 DB.Todo.load('7b2c...', {depth: 1}).then(function(firstTodo) {
   console.log(firstTodo.doNext.name); //'My second Todo'
@@ -1371,14 +1378,14 @@ DB.Todo.load('7b2c...', {depth: 1}).then(function(firstTodo) {
 ```
 
 Setting the depth value to `2` resolves the next level of references and so on. You can set the depth option to `true` to
-load all references by reachability. But be aware of that this can become a critical performance issue on large object graphs. 
+load all references by reachability. But be aware of that is dangerous for large object graphs. 
 
 ## Cached Loads
 
 Each EntityManager instance has an instance cache. This instance cache is used while loading objects and resolving 
-references. If en entity is loaded it will be stored into this instance cache and will always be returned when the same 
-instance is requested. This ensures that you will get the same instance for the same object id. That means object 
-equality is always guaranteed for same object ids. 
+references. When an entity is loaded it is stored into this instance cache and will always be returned when the same 
+instance is requested. This ensures that you will always get the same instance for a given object id. That means 
+object equality is always guaranteed for objects having the same ids. 
 ```js
 DB.Todo.load('MyFirstTodo', {depth: 1}).then(function(firstTodo) {
   DB.Todo.load('MySecondTodo').then(function(secondTodo) {
@@ -1388,10 +1395,10 @@ DB.Todo.load('MyFirstTodo', {depth: 1}).then(function(firstTodo) {
 });
 ```
 
-## Depth Saving
+## Deep Saving
 
-As the depth loading, you can also save referenced entities with the referencing entity by passing the depth option. If 
-you call `save()` without any options, only the entity itself will be saved, but not any referenced entity. This is the 
+As with deep loading, you can also save referenced entities with the referencing entity by passing the depth option.
+ If you call `save()` without any options, only the entity itself will be saved, but not any referenced entity. This is the 
 same behaviour as passing `depth` with the value `0`.
 ```js
 var firstTodo = new DB.Todo({name: 'My first Todo'});
@@ -1412,37 +1419,48 @@ firstTodo.save({depth: 1});
 ```
 
 And again increasing the `depth` value to `2` will save all direct referenced entities and all entities which are 
-referenced by those referenced entities. You can also pass `depth` with `true` to save all entities by reachability.
+referenced by those referenced entities. You can also pass `depth` with `true` to save all dirty entities by 
+reachability.
 
 
 
 # Upcoming Features
-As developer you know, Software is never finished. Last year, we were adding 'just this last future' before we would 
-finely publish the beta. In truth we touched every line of code, added hundreds of thousands lines and wrote 10k Tests. 
-Here you find some of the futures coming up on the way to our next milestone. Coming winter there will be a way for 
-everyone to ship your Application with Baqend load time speed. **Announcing:** The Baqend Cloudservice
+As developers you know that software is never finished. Here you find some of the futures coming up on the way to our
+ next milestone. The release of our **public Baqend cloud service** is scheduled for this winter 2015.
+
+## Global Object & Query Caching
+The caching infrastructure and the algorithms are all there. The public cloud release with include all the caching 
+magic that allow imperceptible page load times and lightning-fast queries and other requests. This is our most 
+important feature and we'll soon share much more details on how it works.
+
+## Continuous Queries & WebSockets
+Query for objects and get updates on any change of your result list. This extremely powerful feature allow you to 
+write reactive & real-time applications without thinking about messaging, scalability, connectivity or latency - its 
+just another form of executing a query.
 
 ## Offline Storage
-Don't interrupt the user experience due to connection lose. The automated offline Storage transparently answers request,
-and even queries from local cache and synchronizes writes after the connection is reestablished.
+Don't interrupt the user experience due to intermittent connectivity. Offline storage transparently 
+answers request,and even queries from the local cache and synchronizes writes after the connection is reestablished.
 
-## Schedule Baqend Code
-There will be a scheduler you can use to periodically run tasks from the dashboard or schedule events from a client with users
-permissions.
+## Fulltext Search
+Fulltext Search will allow you to perform ranked search queries to build powerful and fast search applications.
 
-## Send E-mails, Push notifications and SMS
-Use the Baqend to simplify the way you interact with your customers.
+## Prepared Queries
+Prepared queries can be used to restrict access to certain query patterns and manage query properties such 
+as response time requirements.
 
-## Partial update
-Update just specific attributes and increase or decrease an integer on the fly.
+## E-mail, Push Notifications and SMS
+Use Baqend to simplify communication and use native mobile push notifications.
 
-## Live updating queries
-Query for objects and get updates on any change of your result list. Building live communication futures has never been 
-easier.
+## Partial Updates
+Perform partial updates on objects, like counter increases
 
 ## File API
-Host your files, restrict access, simply upload and download pictures, assets or any other File from the client.
+Host your files and assets, manage access right, upload and download pictures and so on.
 
-## After-operation handler
-You are going to be able to run the operation and do further logic after it is successfully executed. This will allow to
-manipulate the return statement and be certain the operation was not rejected because of concurrency or object acl.
+## Scheduled Baqend Code
+There will be a cron-like scheduler you can use to periodically run tasks.
+
+## After-operation Handlers
+Similar to before handlers this allows you to intercept the processing routine of data operations after they were 
+executed.
