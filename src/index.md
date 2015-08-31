@@ -892,7 +892,7 @@ registration. There is also a textfield where you need to add a redirect Uri.
 Add `https://APP_NAME.baqend.com/db/User/PROVIDER` as redirect Uri and copy client ID and client secret into the 
 [settings page of your Dashboard](). 
 
-On client side trigger `DB.User.loginWithGoogle(clientID, options)` to start the OAuth login process. The call 
+On client side trigger `DB.User.loginWithGoogle(clientID [, options])` to start the OAuth login process. The call 
 opens a new Window with the provider specific login page. To work around the popup blocker the 
 call needs to be made on user interaction, on click at the singe in button for example. Just like a register or a 
 login call a promise is returned, completing with the logged in user. 
