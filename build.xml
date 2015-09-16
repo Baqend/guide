@@ -8,7 +8,6 @@
     <property name="mkdocs" value="src" />
 
     <target name="javadoc">
-
         <mkdir dir="${build}"/>
         <mkdir dir="${build.sources}"/>
 
