@@ -1231,7 +1231,7 @@ modules can be invoked using `get` for reading data and with `post` to modify da
 - with `post` data is sent in the body of an HTTP POST request
 
 ```js
-DB.modules.post('invite', {'peter@example.com', invite: 'My new event'})
+DB.modules.post('invite', {email: 'peter@example.com', invite: 'My new event'})
   .then(function() {
     //invite was send successfully
   });
