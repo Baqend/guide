@@ -893,7 +893,7 @@ In general any OAuth provider can be used to authenticate and authorise a user.
 As of now, Baqend supports five providers. To set them up, you need to register your applications on the provider's 
 website. The provider generates a client ID and a client secret. You can find them on the provider's website after 
 registration. There is also a text field where you need to add a redirect URL.
-Add `https://APP_NAME.baqend.com/db/User/PROVIDER` (with *APP_NAME* and *PROVIDER* substituted) and copy the client ID 
+Add `https://APP_NAME.baqend.com/v1/db/User/PROVIDER` (with *APP_NAME* and *PROVIDER* substituted) and copy the client ID 
 and client secret into the settings page of the dashboard. 
 
 On the client side, trigger `DB.User.loginWithGoogle(clientID [, options])` to start the OAuth login process. The call 
@@ -910,30 +910,30 @@ register or a login call, a promise is returned that completes with the logged-i
     <tr>
         <td>[Google](https://console.developers.google.com/project/_/apiui/credential)</td>
         <td>[doc](https://developers.google.com/console/help/new/?hl=de#setting-up-oauth-20)</td>
-        <td>Add as redirect URL: `https://[YOUR_APP_ID].baqend.com/db/User/OAuth/google`</td>
+        <td>Add as redirect URL: `https://[YOUR_APP_ID].baqend.com/v1/db/User/OAuth/google`</td>
     </tr>
     <tr>
         <td>[Facebook](https://developers.facebook.com/apps)</td>
         <td>[doc](https://developers.facebook.com/docs/facebook-login/v2.4)</td>
         <td>To set up Facebook-OAuth open the settings page of your [Facebook app](https://developers.facebook
         .com/apps), switch to `Advanced`, activate `Web OAuth Login` and add `https://[YOUR_APP_ID].baqend
-        .com/db/User/OAuth/facebook`  as `Valid OAuth redirect URI`. 
+        .com/v1/db/User/OAuth/facebook`  as `Valid OAuth redirect URI`. 
         </td>
     </tr>
     <tr>
         <td>[Github](https://github.com/settings/applications)</td>
         <td>[doc](https://developer.github.com/v3/oauth/)</td>
-        <td>Add as redirect URL: `https://[YOUR_APP_ID].baqend.com/db/User/OAuth/github`</td>
+        <td>Add as redirect URL: `https://[YOUR_APP_ID].baqend.com/v1/db/User/OAuth/github`</td>
     </tr>
     <tr>
         <td>[Twitter](https://apps.twitter.com/)</td>
         <td>[doc](https://dev.twitter.com/oauth/overview/faq)</td>
-        <td>Add as redirect URL: `https://[YOUR_APP_ID].baqend.com/db/User/OAuth/twitter`</td>
+        <td>Add as redirect URL: `https://[YOUR_APP_ID].baqend.com/v1/db/User/OAuth/twitter`</td>
     </tr>
     <tr>
         <td>[LinkedIn](https://www.linkedin.com/secure/developer?newapp=)</td>
         <td>[doc](https://developer.linkedin.com/docs/oauth2)</td>
-        <td>Add as redirect URL: `https://[YOUR_APP_ID].baqend.com/db/User/OAuth/linkedin`</td>
+        <td>Add as redirect URL: `https://[YOUR_APP_ID].baqend.com/v1/db/User/OAuth/linkedin`</td>
     </tr>
 </table><br><br>
 OAuth is a way to delegate rights of third party resources owned by users to your application. A simple login always 
