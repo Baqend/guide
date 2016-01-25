@@ -260,7 +260,7 @@ todo.save().then(function() { //inserts the object
 
 ## Load / Reload
 Sometimes you have an entity which was previously loaded from Baqend but you want to ensure that you have the latest 
-version of before performing an update. In that case you can use the `load()` method of the entity to reload
+version of, before performing an update. In that case you can use the `load()` method of the entity to reload
 the latest version from Baqend. 
 ```js
 //updates the local object with the most up-to-date version
@@ -270,14 +270,14 @@ todo.load().then(function() {
 });
 ```
 
-While performing an insert or update, you can also reload the object after performing the operation. To reload the 
-entity, you can pass the `reload` flag to the `insert()`, `update()` or `save()` method.
+While performing an insert or update, you can also refresh the object after performing the operation. To do so you 
+can pass the `refresh` flag to the `insert()`, `update()` or `save()` method.
 ```js
-todo.save({reload: true}).then(...); //reload the object after saving it
+todo.save({refresh: true}).then(...); //refreshing the object after saving it
 ```    
 
 This option is very useful if you have a [Baqend Code](#baqend-code) update handler which performs additional 
-server-side modifications on the entity being saved. By passing the `reload` flag you enforce that the modification will
+server-side modifications on the entity being saved. By passing the `refresh` flag you enforce that the modification will
  be loaded from the Baqend after the entity has been saved. 
 
 # Schema and Types
@@ -943,9 +943,9 @@ witch is the default in the Baqend SDK. The Baqend server checks if an email is 
 username or falls back to a UUID instead
 
 After login or registration a Baqend Module under `oauth.PROVIDER` is called. You can extend the default behaviour by
- overwriting this Baqend module. The passed parameters are the current 
-user and object containing the OAuth token and basic user information. You can use it to do 
-further API calls or save the token or other information provided from the OAuth provider.
+overwriting this Baqend module. The passed parameters are the current user and object containing the OAuth token and 
+basic user information. You can use it to do further API calls or save the token or other information provided from the
+OAuth provider.
 
 ## Roles
 
