@@ -977,16 +977,14 @@ if (DB.User.me) {
 
 Another way to login or register is via a 'Sign in with' - 'Google' or 'Facebook' button. 
 In general any OAuth provider can be used to authenticate and authorise a user. 
-As of now, Baqend supports five providers. To set them up, you need to register your applications on the provider's 
+As of now, Baqend supports five providers. 
+
+### Setup
+To set them up, you need to register your applications on the provider's 
 website. The provider generates a client ID and a client secret. You can find them on the provider's website after 
 registration. There is also a text field where you need to add a redirect URL.
-Add `https://APP_NAME.baqend.com/v1/db/User/PROVIDER` (with *APP_NAME* and *PROVIDER* substituted) and copy the client ID 
-and client secret into the settings page of the dashboard. 
-
-On the client side, trigger `DB.User.loginWithGoogle(clientID [, options])` to start the OAuth login process. The call 
-opens a new window showing the provider-specific login page. To work despite popup blockers the 
-call needs to be made on response to a user interaction, e.g. after a click on the sign-in button. Similarly to a 
-register or a login call, a promise is returned that completes with the logged-in user. 
+Add `https://[APP_NAME]-bq.global.ssl.fastly.net/v1/db/User/[PROVIDER]` (with *APP_NAME* and *PROVIDER* substituted) and 
+copy the client ID and client secret into the settings page of the dashboard. 
 
  <table class="table">
     <tr>
@@ -995,12 +993,12 @@ register or a login call, a promise is returned that completes with the logged-i
         <th>Notes</th>
     </tr>
     <tr>
-        <td>[Google](https://console.developers.google.com/project/_/apiui/credential)</td>
+        <td>[google](https://console.developers.google.com/project/_/apiui/credential)</td>
         <td>[doc](https://developers.google.com/console/help/new/?hl=de#setting-up-oauth-20)</td>
         <td>Add as redirect URL: <br> `https://[APP_NAME]-bq.global.ssl.fastly.net/v1/db/User/OAuth/google`</td>
     </tr>
     <tr>
-        <td>[Facebook](https://developers.facebook.com/apps)</td>
+        <td>[facebook](https://developers.facebook.com/apps)</td>
         <td>[doc](https://developers.facebook.com/docs/facebook-login/v2.4)</td>
         <td>
             To set up Facebook-OAuth open the settings page of your 
@@ -1009,19 +1007,19 @@ register or a login call, a promise is returned that completes with the logged-i
         </td>
     </tr>
     <tr>
-        <td>[Github](https://github.com/settings/applications)</td>
+        <td>[github](https://github.com/settings/applications)</td>
         <td>[doc](https://developer.github.com/v3/oauth/)</td>
         <td>Add as redirect URL: <br> `https://[APP_NAME]-bq.global.ssl.fastly.net/v1/db/User/OAuth/github`</td>
     </tr>
     <tr>
-        <td>[Twitter](https://apps.twitter.com/)</td>
+        <td>[twitter](https://apps.twitter.com/)</td>
         <td>[doc](https://dev.twitter.com/oauth/overview/faq)</td>
         <td>Add as redirect URL: <br>`https://[APP_NAME]-bq.global.ssl.fastly.net/v1/db/User/OAuth/twitter`
             Twitter dose not support E-Mail scope. In default case a uuid is set as Username.
         </td>
     </tr>
     <tr>
-        <td>[LinkedIn](https://www.linkedin.com/secure/developer?newapp=)</td>
+        <td>[linkedin](https://www.linkedin.com/secure/developer?newapp=)</td>
         <td>[doc](https://developer.linkedin.com/docs/oauth2)</td>
         <td>Add as redirect URL: <br> `https://[APP_NAME]-bq.global.ssl.fastly.net/v1/db/User/OAuth/linkedin`</td>
     </tr>
@@ -1033,6 +1031,28 @@ is the most restricted scope a provider can offer. All supported providers (exce
 witch is the default in the Baqend SDK. The Baqend server checks if an email is in the allowed scope and sets it as the
 username. For Twitter or if you change the scope within the frontend an uuid will be created as username.
 
+### SDKs OAuth login
+
+On the client side, trigger `DB.User.loginWithGoogle(clientID [, options])` to start the OAuth login process. The call 
+opens a new window showing the provider-specific login page. To work despite popup blockers the 
+call needs to be made on response to a user interaction, e.g. after a click on the sign-in button. Similarly to a 
+register or a login call, a promise is returned that completes with the logged-in user. 
+
+```js
+//DB.User.loginWithGoogle(...)
+//DB.User.loginWithFacebook(...)
+//DB.User.loginWithGitHub(...)
+//DB.User.loginWithTwitter(...)
+//DB.User.loginWithLinkedIn(...)
+DB.User.loginWithGoogle(clientID).then(function(user) {
+  //logged in successfully
+  db.User.me == user;
+});
+```
+
+**Note:** a OAuth login will be aborted after 5 minutes of inactivity. The timeout can be changed with the timeout option.
+
+### OAuth specific Baqend Code
 To change the registration and login behavior you can fine the `oauth.[PROVIDER]` Baqend module in your dashboard,
 after activating the provider. The passed parameters are the current logged in user and a data object containing the 
 OAuth token and basic user information. You can use the token to do further API calls or save the token or other 
@@ -1058,7 +1078,7 @@ The following table list the docs the returned profile for the OAuth providers:
     <th>Profile documentation</th>
   </tr>
   <tr>
-    <td>Google</td>
+    <td>google</td>
     <td>
       Just returns the email per default. 
       Visit [OAuth 2.0 Scopes for Google APIs](https://developers.google.com/identity/protocols/googlescopes) for a 
@@ -1066,20 +1086,20 @@ The following table list the docs the returned profile for the OAuth providers:
     </td>
   </tr>
   <tr>
-    <td>Facebook</td>
+    <td>facebook</td>
     <td>Returns the content of the 
     [https://graph.facebook.com/v2.4/me](https://developers.facebook.com/docs/graph-api/reference/v2.4/user) resource</td>
   </tr>
   <tr>
-    <td>GitHub</td>
+    <td>github</td>
     <td>Returns the [authenticated user profile](https://developer.github.com/v3/users/#get-the-authenticated-user)</td>
   </tr>
   <tr>
-    <td>Twitter</td>
+    <td>twitter</td>
     <td>Just returns the `access_token`. A Email address can't be queried by the twitter API.</td>
   </tr>  
   <tr>
-    <td>LinkedIn</td>
+    <td>linkedin</td>
     <td>
       Returns the content of the 
       [https://api.linkedin.com/v1/people/~?format=json](https://developer.linkedin.com/docs/rest-api) resource.
