@@ -973,149 +973,12 @@ if (DB.User.me) {
 }
 ```
 
-## OAuth
-
-Another way to login or register is via a 'Sign in with' - 'Google' or 'Facebook' button. 
-In general any OAuth provider can be used to authenticate and authorise a user. 
-As of now, Baqend supports five providers. 
-
-### Setup
-To set them up, you need to register your applications on the provider's 
-website. The provider generates a client ID and a client secret. You can find them on the provider's website after 
-registration. There is also a text field where you need to add a redirect URL.
-Add `https://[APP_NAME]-bq.global.ssl.fastly.net/v1/db/User/[PROVIDER]` (with *APP_NAME* and *PROVIDER* substituted) and 
-copy the client ID and client secret into the settings page of the dashboard. 
-
- <table class="table">
-    <tr>
-        <th>Provider</th>
-        <th></th>
-        <th>Notes</th>
-    </tr>
-    <tr>
-        <td>[google](https://console.developers.google.com/project/_/apiui/credential)</td>
-        <td>[doc](https://developers.google.com/console/help/new/?hl=de#setting-up-oauth-20)</td>
-        <td>Add as redirect URL: <br> `https://[APP_NAME]-bq.global.ssl.fastly.net/v1/db/User/OAuth/google`</td>
-    </tr>
-    <tr>
-        <td>[facebook](https://developers.facebook.com/apps)</td>
-        <td>[doc](https://developers.facebook.com/docs/facebook-login/v2.4)</td>
-        <td>
-            To set up Facebook-OAuth open the settings page of your 
-            [Facebook app](https://developers.facebook.com/apps), switch to `Advanced`, activate `Web OAuth Login` and 
-            add <br> `https://[APP_NAME]-bq.global.ssl.fastly.net/v1/db/User/OAuth/facebook` <br> as `Valid OAuth redirect URI`. 
-        </td>
-    </tr>
-    <tr>
-        <td>[github](https://github.com/settings/applications)</td>
-        <td>[doc](https://developer.github.com/v3/oauth/)</td>
-        <td>Add as redirect URL: <br> `https://[APP_NAME]-bq.global.ssl.fastly.net/v1/db/User/OAuth/github`</td>
-    </tr>
-    <tr>
-        <td>[twitter](https://apps.twitter.com/)</td>
-        <td>[doc](https://dev.twitter.com/oauth/overview/faq)</td>
-        <td>Add as redirect URL: <br>`https://[APP_NAME]-bq.global.ssl.fastly.net/v1/db/User/OAuth/twitter`
-            Twitter dose not support E-Mail scope. In default case a uuid is set as Username.
-        </td>
-    </tr>
-    <tr>
-        <td>[linkedin](https://www.linkedin.com/secure/developer?newapp=)</td>
-        <td>[doc](https://developer.linkedin.com/docs/oauth2)</td>
-        <td>Add as redirect URL: <br> `https://[APP_NAME]-bq.global.ssl.fastly.net/v1/db/User/OAuth/linkedin`</td>
-    </tr>
-</table>
-
-OAuth is a way to delegate rights of third party resources owned by users to your application. A simple login always 
-receives a token and requests basic information including the unique user ID. The public profile information 
-is the most restricted scope a provider can offer. All supported providers (except Twitter) have a public profile + email scope 
-witch is the default in the Baqend SDK. The Baqend server checks if an email is in the allowed scope and sets it as the
-username. For Twitter or if you change the scope within the frontend an uuid will be created as username.
-
-### SDKs OAuth login
-
-On the client side, trigger `DB.User.loginWithGoogle(clientID [, options])` to start the OAuth login process. The call 
-opens a new window showing the provider-specific login page. To work despite popup blockers the 
-call needs to be made on response to a user interaction, e.g. after a click on the sign-in button. Similarly to a 
-register or a login call, a promise is returned that completes with the logged-in user. 
-
-```js
-//DB.User.loginWithGoogle(...)
-//DB.User.loginWithFacebook(...)
-//DB.User.loginWithGitHub(...)
-//DB.User.loginWithTwitter(...)
-//DB.User.loginWithLinkedIn(...)
-DB.User.loginWithGoogle(clientID).then(function(user) {
-  //logged in successfully
-  db.User.me == user;
-});
-```
-
-**Note:** a OAuth login will be aborted after 5 minutes of inactivity. The timeout can be changed with the timeout option.
-
-### OAuth specific Baqend Code
-To change the registration and login behavior you can fine the `oauth.[PROVIDER]` Baqend module in your dashboard,
-after activating the provider. The passed parameters are the current logged in user and a data object containing the 
-OAuth token and basic user information. You can use the token to do further API calls or save the token or other 
-information provided from the OAuth provider.
-
-If you like to edit the OAuth login for example google, create the baqend module `oauth.google`. An oauth template will be
-shown up where you can edit the behaviour after the user has been successfully authorized:
-
-```js
-exports.call = function(db, data, req) {
-    //data conatins the profile data send by the OAuth provider
-    //data.id The OAuth unique user id
-    //data.access_token The OAuth users API token
-    //data.email The users email if the required scope was requested by the client
-};
-```
-
-The following table list the docs the returned profile for the OAuth providers:
-
- <table class="table">
-  <tr>
-    <th>Provider</th>
-    <th>Profile documentation</th>
-  </tr>
-  <tr>
-    <td>google</td>
-    <td>
-      Just returns the email per default. 
-      Visit [OAuth 2.0 Scopes for Google APIs](https://developers.google.com/identity/protocols/googlescopes) for a 
-      complete list of supported scopes.
-    </td>
-  </tr>
-  <tr>
-    <td>facebook</td>
-    <td>Returns the content of the 
-    [https://graph.facebook.com/v2.4/me](https://developers.facebook.com/docs/graph-api/reference/v2.4/user) resource</td>
-  </tr>
-  <tr>
-    <td>github</td>
-    <td>Returns the [authenticated user profile](https://developer.github.com/v3/users/#get-the-authenticated-user)</td>
-  </tr>
-  <tr>
-    <td>twitter</td>
-    <td>Just returns the `access_token`. A Email address can't be queried by the twitter API.</td>
-  </tr>  
-  <tr>
-    <td>linkedin</td>
-    <td>
-      Returns the content of the 
-      [https://api.linkedin.com/v1/people/~?format=json](https://developer.linkedin.com/docs/rest-api) resource.
-    </td>
-  </tr>  
-</table>    
-
-
-**Note:** that the returned properties may not all been shown up, since it depends on the requested scope.
-
 ## Roles
 
 The Role class is also a predefined class which has a `name` and  a `users` collection. The users collection 
 contains all the members of a role. A user has a specified role if he is included in the roles `users` list. 
 
-``` 
+```js
 //create a new role
 var role = new DB.Role({name: 'My First Group'});
 //add current user as a member of the role
@@ -1227,6 +1090,145 @@ DB.Role.find().equal('name', 'My First Role').singleResult(function(role) {
   return todo.save();
 }).then(...);
 ```
+
+## OAuth login
+
+Another way to login or register is via a 'Sign in with' - 'Google' or 'Facebook' button. 
+In general any OAuth provider can be used to authenticate and authorise a user. 
+As of now, Baqend supports five providers. 
+
+### Setup
+To set them up, you need to register your applications on the provider's 
+website. The provider generates a client ID and a client secret. You can find them on the provider's website after 
+registration. There is also a text field where you need to add a redirect URL.
+Add `https://[APP_NAME]-bq.global.ssl.fastly.net/v1/db/User/[PROVIDER]` (with *APP_NAME* and *PROVIDER* substituted) and 
+copy the client ID and client secret into the settings page of the dashboard. 
+
+ <table class="table">
+    <tr>
+        <th>Provider</th>
+        <th></th>
+        <th>Notes</th>
+    </tr>
+    <tr>
+        <td>[google](https://console.developers.google.com/project/_/apiui/credential)</td>
+        <td>[doc](https://developers.google.com/console/help/new/?hl=de#setting-up-oauth-20)</td>
+        <td>Add as redirect URL: <br> `https://[APP_NAME]-bq.global.ssl.fastly.net/v1/db/User/OAuth/google`</td>
+    </tr>
+    <tr>
+        <td>[facebook](https://developers.facebook.com/apps)</td>
+        <td>[doc](https://developers.facebook.com/docs/facebook-login/v2.4)</td>
+        <td>
+            To set up Facebook-OAuth open the settings page of your 
+            [Facebook app](https://developers.facebook.com/apps), switch to `Advanced`, activate `Web OAuth Login` and 
+            add <br> `https://[APP_NAME]-bq.global.ssl.fastly.net/v1/db/User/OAuth/facebook` <br> as `Valid OAuth redirect URI`. 
+        </td>
+    </tr>
+    <tr>
+        <td>[github](https://github.com/settings/applications)</td>
+        <td>[doc](https://developer.github.com/v3/oauth/)</td>
+        <td>Add as redirect URL: <br> `https://[APP_NAME]-bq.global.ssl.fastly.net/v1/db/User/OAuth/github`</td>
+    </tr>
+    <tr>
+        <td>[twitter](https://apps.twitter.com/)</td>
+        <td>[doc](https://dev.twitter.com/oauth/overview/faq)</td>
+        <td>Add as redirect URL: <br>`https://[APP_NAME]-bq.global.ssl.fastly.net/v1/db/User/OAuth/twitter`
+            Twitter dose not support E-Mail scope. In default case a uuid is set as Username.
+        </td>
+    </tr>
+    <tr>
+        <td>[linkedin](https://www.linkedin.com/secure/developer?newapp=)</td>
+        <td>[doc](https://developer.linkedin.com/docs/oauth2)</td>
+        <td>Add as redirect URL: <br> `https://[APP_NAME]-bq.global.ssl.fastly.net/v1/db/User/OAuth/linkedin`</td>
+    </tr>
+</table>
+
+OAuth is a way to delegate rights of third party resources owned by users to your application. A simple login always 
+receives a token and requests basic information including the unique user ID. The public profile information 
+is the most restricted scope a provider can offer. All supported providers (except Twitter) have a public profile + email scope 
+witch is the default in the Baqend SDK. The Baqend server checks if an email is in the allowed scope and sets it as the
+username. For Twitter or if you change the scope within the frontend an uuid will be created as username.
+
+### Login
+
+On the client side, trigger `DB.User.loginWithGoogle(clientID [, options])` to start the OAuth login process. The call 
+opens a new window showing the provider-specific login page. To work despite popup blockers the 
+call needs to be made on response to a user interaction, e.g. after a click on the sign-in button. Similarly to a 
+register or a login call, a promise is returned that completes with the logged-in user. The OAuth login does not 
+distinguish between registration and login.
+
+```js
+//DB.User.loginWithGoogle(...)
+//DB.User.loginWithFacebook(...)
+//DB.User.loginWithGitHub(...)
+//DB.User.loginWithTwitter(...)
+//DB.User.loginWithLinkedIn(...)
+DB.User.loginWithGoogle(clientID).then(function(user) {
+  //logged in successfully
+  db.User.me == user;
+});
+```
+
+**Note:** a OAuth login will be aborted after 5 minutes of inactivity. The timeout can be changed with the timeout option.
+
+### Baqend Code
+To change the registration and login behavior you can fine the `oauth.[PROVIDER]` Baqend module in your dashboard,
+after activating the provider. The passed parameters are the current logged in user and a data object containing the 
+OAuth token and basic user information. You can use the token to do further API calls or save the token or other 
+information provided from the OAuth provider.
+
+If you like to edit the OAuth login for example google, create the baqend module `oauth.google`. An oauth template will be
+shown up where you can edit the behaviour after the user has been successfully authorized:
+
+```js
+exports.call = function(db, data, req) {
+    //data conatins the profile data send by the OAuth provider
+    //data.id The OAuth unique user id
+    //data.access_token The OAuth users API token
+    //data.email The users email if the required scope was requested by the client
+};
+```
+
+The following table list the docs the returned profile for the OAuth providers:
+
+ <table class="table">
+  <tr>
+    <th>Provider</th>
+    <th>Profile documentation</th>
+  </tr>
+  <tr>
+    <td>google</td>
+    <td>
+      Just returns the email per default. 
+      Visit [OAuth 2.0 Scopes for Google APIs](https://developers.google.com/identity/protocols/googlescopes) for a 
+      complete list of supported scopes.
+    </td>
+  </tr>
+  <tr>
+    <td>facebook</td>
+    <td>Returns the content of the 
+    [https://graph.facebook.com/v2.4/me](https://developers.facebook.com/docs/graph-api/reference/v2.4/user) resource</td>
+  </tr>
+  <tr>
+    <td>github</td>
+    <td>Returns the [authenticated user profile](https://developer.github.com/v3/users/#get-the-authenticated-user)</td>
+  </tr>
+  <tr>
+    <td>twitter</td>
+    <td>Just returns the `access_token`. A Email address can't be queried by the twitter API.</td>
+  </tr>  
+  <tr>
+    <td>linkedin</td>
+    <td>
+      Returns the content of the 
+      [https://api.linkedin.com/v1/people/~?format=json](https://developer.linkedin.com/docs/rest-api) resource.
+    </td>
+  </tr>  
+</table>    
+
+
+**Note:** that the returned properties may not all been shown up, since it depends on the requested scope.
+
 
 # Baqend Code
 
@@ -1793,7 +1795,7 @@ App and Access logs are accessible through our dashboard and kept for **30 days*
 manage the permissions of the logs like any other data you persist to baqend. But you can't modify the schema, the 
 logged data nor the permissions of update and delete operations.
 
-**NOTE:** While querring logs you must always use a date predicate, otherwise you will only get the last 5 minutes of 
+**Note:** While querring logs you must always use a date predicate, otherwise you will only get the last 5 minutes of 
 the logs.
 
 ## App logging
@@ -1849,7 +1851,7 @@ You can also use the log level helper methods:
 DB.log.debug('The value %d is greater then %d', 10, 5, {val1: 10, val2: 5});
 ```
 
-**NOTE:** App logs can be inserted by everyone by default, to restrict log insertion you can change the insert permission
+**Note:** App logs can be inserted by everyone by default, to restrict log insertion you can change the insert permission
 of the AppLog class in the dashboard.
 
 ## Access logs
