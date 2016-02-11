@@ -6,7 +6,7 @@ starting a free tier cloud hosted baqend app.
 
 ## Setup
 
-The SDK is packaged as an UMD module, so it can be used with RequireJS, browserify or without any module loader.
+The SDK is packaged as an UMD module, it can be used with RequireJS, browserify or without any module loader.
 To get started please install the Baqend SDK from [npm](https://www.npmjs.com/package/baqend) or [GitHub](https://github.com/Baqend/js-sdk/releases).
 For additional setup information visit our [GitHub page](https://github.com/Baqend/js-sdk/blob/master/README.md).
 
@@ -262,9 +262,10 @@ todo.save().then(function() { //inserts the object
 ```
 
 ## Load / Refresh
-Sometimes you have an entity which was previously loaded from Baqend but you want to ensure that you have the latest 
-version of, before performing an update. In that case you can use the `load({refresh: true})` method of the entity 
-to refresh the latest version from Baqend. 
+
+Sometimes you want to ensure, that you have the latest version of an previously loaded entity, for example before 
+performing an update. In that case you can use the `load({refresh: true})` method of the entity to get the latest 
+version from Baqend. 
 ```js
 //updates the local object with the most up-to-date version
 todo.load({refresh: true}).then(function() { 
@@ -414,7 +415,7 @@ Primitives types are the basic attribute types and known from programming langua
 attribute values will be checked against the types described by the schema. This is one of the biggest advantages of 
 having a schema: data cannot easily be corrupted as its correct structure is automatically enforced by the schema. 
 Please note that the JSON data type gives you full freedom on deciding which parts of a object should be structured 
-and which parts are schemafree. The following table shows all supported attribute types of Baqend 
+and which parts are schema free. The following table shows all supported attribute types of Baqend 
 and their corresponding JavaScript types.
 
 <table class="table">
