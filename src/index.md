@@ -1106,39 +1106,38 @@ copy the client ID and client secret into the settings page of the dashboard.
 
  <table class="table">
     <tr>
-        <th>Provider</th>
-        <th></th>
+        <th colspan="2">Provider Setup</th>
         <th>Notes</th>
     </tr>
     <tr>
         <td>[google](https://console.developers.google.com/project/_/apiui/credential)</td>
-        <td>[doc](https://developers.google.com/console/help/new/?hl=de#setting-up-oauth-20)</td>
+        <td>[docs](https://support.google.com/cloud/answer/6158849?hl=de&ref_topic=6262490)</td>
         <td>Add as redirect URL: <br> `https://[APP_NAME]-bq.global.ssl.fastly.net/v1/db/User/OAuth/google`</td>
     </tr>
     <tr>
         <td>[facebook](https://developers.facebook.com/apps)</td>
-        <td>[doc](https://developers.facebook.com/docs/facebook-login/v2.4)</td>
+        <td>[docs](https://developers.facebook.com/docs/facebook-login/v2.4)</td>
         <td>
             To set up Facebook-OAuth open the settings page of your 
-            [Facebook app](https://developers.facebook.com/apps), switch to `Advanced`, activate `Web OAuth Login` and 
-            add <br> `https://[APP_NAME]-bq.global.ssl.fastly.net/v1/db/User/OAuth/facebook` <br> as `Valid OAuth redirect URI`. 
+            [Facebook app](https://developers.facebook.com/apps), switch to *Advanced*, activate *Web OAuth Login* and 
+            add <br> `https://[APP_NAME]-bq.global.ssl.fastly.net/v1/db/User/OAuth/facebook` <br> as *Valid OAuth redirect URI*. 
         </td>
     </tr>
     <tr>
         <td>[github](https://github.com/settings/applications)</td>
-        <td>[doc](https://developer.github.com/v3/oauth/)</td>
+        <td>[docs](https://developer.github.com/v3/oauth/)</td>
         <td>Add as redirect URL: <br> `https://[APP_NAME]-bq.global.ssl.fastly.net/v1/db/User/OAuth/github`</td>
     </tr>
     <tr>
         <td>[twitter](https://apps.twitter.com/)</td>
-        <td>[doc](https://dev.twitter.com/oauth/overview/faq)</td>
+        <td>[docs](https://dev.twitter.com/oauth/overview/faq)</td>
         <td>Add as redirect URL: <br>`https://[APP_NAME]-bq.global.ssl.fastly.net/v1/db/User/OAuth/twitter`
-            Twitter dose not support E-Mail scope. In default case a uuid is set as Username.
+            Twitter dose not support E-Mail scope. In default case a uuid is set as username.
         </td>
     </tr>
     <tr>
         <td>[linkedin](https://www.linkedin.com/secure/developer?newapp=)</td>
-        <td>[doc](https://developer.linkedin.com/docs/oauth2)</td>
+        <td>[docs](https://developer.linkedin.com/docs/oauth2)</td>
         <td>Add as redirect URL: <br> `https://[APP_NAME]-bq.global.ssl.fastly.net/v1/db/User/OAuth/linkedin`</td>
     </tr>
 </table>
@@ -1182,6 +1181,8 @@ shown up where you can edit the behaviour after the user has been successfully a
 
 ```js
 exports.call = function(db, data, req) {
+    //db.User.me the unresolved user object of the created or logged in user
+
     //data conatins the profile data send by the OAuth provider
     //data.id The OAuth unique user id
     //data.access_token The OAuth users API token
