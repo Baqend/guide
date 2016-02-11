@@ -1,8 +1,8 @@
 # Baqend JavaScript SDK
 
 Welcome to the Baqend JavaScript guide.
-If you haven't done it yet, you can easily [quickstart](http://www.baqend.com/#download) a private local Baqend server. 
-
+If you haven't done it yet, you can easily [quickstart](http://dashboard.baqend.com/) by creating a baqend account and 
+starting a free tier cloud hosted baqend app. 
 
 ## Setup
 
@@ -263,11 +263,11 @@ todo.save().then(function() { //inserts the object
 
 ## Load / Refresh
 Sometimes you have an entity which was previously loaded from Baqend but you want to ensure that you have the latest 
-version of, before performing an update. In that case you can use the `load()` method of the entity to refresh
-the latest version from Baqend. 
+version of, before performing an update. In that case you can use the `load({refresh: true})` method of the entity 
+to refresh the latest version from Baqend. 
 ```js
 //updates the local object with the most up-to-date version
-todo.load().then(function() { 
+todo.load({refresh: true}).then(function() { 
   todo.name = 'My first Todo of this day';   
   todo.save(); //updates the object
 });
@@ -751,7 +751,7 @@ The following table list all available query filters and the types on which they
     <td>
       The geo point field has to be within the maximum distance in meters to the given GeoPoint.
       Returns from nearest to furthest.<br>
-      You need a 
+      You need a Geospatial Index on this field, to use this kind of query. Read the query index section for more details.
     </td>
   </tr>
   <tr>
@@ -760,7 +760,11 @@ The following table list all available query filters and the types on which they
   <tr>  
     <td><a href="http://docs.mongodb.org/manual/reference/operator/query/nearSphere/">$geoWithin</a></td>
     <td>GeoPoint</td>
-    <td>The geo point of the object has to be contained within the given polygon.</td>
+    <td>
+      The geo point of the object has to be contained within the given polygon.
+      You need a Geospatial Index on this field, to use this kind of query. Read the [query indexes](#query-indexes) section 
+      for more details.
+    </td>
   </tr>
   </tbody>
 </table>
@@ -854,8 +858,8 @@ DB.Todo.find()
 Filters are joined with `and` by default. In more complex cases you may want to formulate a query with one or more 
 [and](http://docs.mongodb.org/manual/reference/operator/query/and/), 
 [or](http://docs.mongodb.org/manual/reference/operator/query/or/) or 
-[nor](http://docs.mongodb.org/manual/reference/operator/query/nor/)  
-expressions. For such cases the initial `find()` call returns a 
+[nor](http://docs.mongodb.org/manual/reference/operator/query/nor/)  expressions. 
+For such cases the initial `find()` call returns a 
 [Query.Builder](http://www.baqend.com/js-sdk/latest/baqend.Query.Builder.html) instance. The builder provides 
 additional methods to compose filter expressions.
 
@@ -875,6 +879,24 @@ queryBuilder.or(condition1, condition2)
   .ascending('name')
   .resultList(...)
 ```
+
+## Query Indexes
+Indexes on fields that are frequently queried can massively impact the overall query performance. Therefore our Dashboard
+provides a very comfortable way to create custom indexes on fields. It is always an tradeof on which fields you should 
+create an index. A good index should be created on fields that contains many distinct values. But to many indexes on the 
+same class can also reduce the write throughput. If you like to read more about indexes we currently use, visit the mongo
+[indexes docs](https://docs.mongodb.org/manual/indexes/).
+
+To create an Index open the schema view of the class and use the *Index* or *Unique Index* button to create an index. 
+Currently we support three types of indexes: 
+
+**Index:** A simple index which contains a single field used to improve querys which filters the specified field. 
+
+**Unique Index:** A index that requires uniqueness of the field values. Inserting or updating objects that violates the 
+ unique constraint will be rejected with an ObjectExists error.
+
+**Geospatial Index:** This index can be created on GeoPoint fields and are required for `near` and `withinPolygon` query 
+filters. This Index is created on GeoPoint fields by using the *Index* Button.
 
 # Users, Roles and Permissions
 
@@ -975,7 +997,7 @@ register or a login call, a promise is returned that completes with the logged-i
     <tr>
         <td>[Google](https://console.developers.google.com/project/_/apiui/credential)</td>
         <td>[doc](https://developers.google.com/console/help/new/?hl=de#setting-up-oauth-20)</td>
-        <td>Add as redirect URL: `https://[YOUR_APP_ID].baqend.com/v1/db/User/OAuth/google`</td>
+        <td>Add as redirect URL: <br> `https://[APP_NAME]-bq.global.ssl.fastly.net/v1/db/User/OAuth/google`</td>
     </tr>
     <tr>
         <td>[Facebook](https://developers.facebook.com/apps)</td>
@@ -983,25 +1005,25 @@ register or a login call, a promise is returned that completes with the logged-i
         <td>
             To set up Facebook-OAuth open the settings page of your 
             [Facebook app](https://developers.facebook.com/apps), switch to `Advanced`, activate `Web OAuth Login` and 
-            add `https://[YOUR_APP_ID].baqend.com/v1/db/User/OAuth/facebook` as `Valid OAuth redirect URI`. 
+            add <br> `https://[APP_NAME]-bq.global.ssl.fastly.net/v1/db/User/OAuth/facebook` <br> as `Valid OAuth redirect URI`. 
         </td>
     </tr>
     <tr>
         <td>[Github](https://github.com/settings/applications)</td>
         <td>[doc](https://developer.github.com/v3/oauth/)</td>
-        <td>Add as redirect URL: `https://[YOUR_APP_ID].baqend.com/v1/db/User/OAuth/github`</td>
+        <td>Add as redirect URL: <br> `https://[APP_NAME]-bq.global.ssl.fastly.net/v1/db/User/OAuth/github`</td>
     </tr>
     <tr>
         <td>[Twitter](https://apps.twitter.com/)</td>
         <td>[doc](https://dev.twitter.com/oauth/overview/faq)</td>
-        <td>Add as redirect URL: `https://[YOUR_APP_ID].baqend.com/v1/db/User/OAuth/twitter`
+        <td>Add as redirect URL: <br>`https://[APP_NAME]-bq.global.ssl.fastly.net/v1/db/User/OAuth/twitter`
             Twitter dose not support E-Mail scope. In default case a uuid is set as Username.
         </td>
     </tr>
     <tr>
         <td>[LinkedIn](https://www.linkedin.com/secure/developer?newapp=)</td>
         <td>[doc](https://developer.linkedin.com/docs/oauth2)</td>
-        <td>Add as redirect URL: `https://[YOUR_APP_ID].baqend.com/v1/db/User/OAuth/linkedin`</td>
+        <td>Add as redirect URL: <br> `https://[APP_NAME]-bq.global.ssl.fastly.net/v1/db/User/OAuth/linkedin`</td>
     </tr>
 </table>
 
@@ -1012,9 +1034,61 @@ witch is the default in the Baqend SDK. The Baqend server checks if an email is 
 username. For Twitter or if you change the scope within the frontend an uuid will be created as username.
 
 To change the registration and login behavior you can fine the `oauth.[PROVIDER]` Baqend module in your dashboard,
-after activating the provider. The passed parameters are the current user and object containing the OAuth token and
-basic user information. You can use it to do further API calls or save the token or other information provided from the
-OAuth provider.
+after activating the provider. The passed parameters are the current logged in user and a data object containing the 
+OAuth token and basic user information. You can use the token to do further API calls or save the token or other 
+information provided from the OAuth provider.
+
+If you like to edit the OAuth login for example google, create the baqend module `oauth.google`. An oauth template will be
+shown up where you can edit the behaviour after the user has been successfully authorized:
+
+```js
+exports.call = function(db, data, req) {
+    //data conatins the profile data send by the OAuth provider
+    //data.id The OAuth unique user id
+    //data.access_token The OAuth users API token
+    //data.email The users email if the required scope was requested by the client
+};
+```
+
+The following table list the docs the returned profile for the OAuth providers:
+
+ <table class="table">
+  <tr>
+    <th>Provider</th>
+    <th>Profile documentation</th>
+  </tr>
+  <tr>
+    <td>Google</td>
+    <td>
+      Just returns the email per default. 
+      Visit [OAuth 2.0 Scopes for Google APIs](https://developers.google.com/identity/protocols/googlescopes) for a 
+      complete list of supported scopes.
+    </td>
+  </tr>
+  <tr>
+    <td>Facebook</td>
+    <td>Returns the content of the 
+    [https://graph.facebook.com/v2.4/me](https://developers.facebook.com/docs/graph-api/reference/v2.4/user) resource</td>
+  </tr>
+  <tr>
+    <td>GitHub</td>
+    <td>Returns the [authenticated user profile](https://developer.github.com/v3/users/#get-the-authenticated-user)</td>
+  </tr>
+  <tr>
+    <td>Twitter</td>
+    <td>Just returns the `access_token`. A Email address can't be queried by the twitter API.</td>
+  </tr>  
+  <tr>
+    <td>LinkedIn</td>
+    <td>
+      Returns the content of the 
+      [https://api.linkedin.com/v1/people/~?format=json](https://developer.linkedin.com/docs/rest-api) resource.
+    </td>
+  </tr>  
+</table>    
+
+
+**Note:** that the returned properties may not all been shown up, since it depends on the requested scope.
 
 ## Roles
 
@@ -1059,7 +1133,7 @@ operation.
 
 <table class="table">
   <tr>
-    <th>Method</th>
+    <th width="25%">Method</th>
     <th width="50%">Class-based permission</th>
     <th>Object-based permission</th>
   </tr>
