@@ -928,7 +928,9 @@ register or a login call, a promise is returned that completes with the logged-i
     <tr>
         <td>[Twitter](https://apps.twitter.com/)</td>
         <td>[doc](https://dev.twitter.com/oauth/overview/faq)</td>
-        <td>Add as redirect URL: `https://[YOUR_APP_ID].baqend.com/v1/db/User/OAuth/twitter`</td>
+        <td>Add as redirect URL: `https://[YOUR_APP_ID].baqend.com/v1/db/User/OAuth/twitter`
+            Twitter dose not support E-Mail scope. In default case a uuid is set as Username.
+        </td>
     </tr>
     <tr>
         <td>[LinkedIn](https://www.linkedin.com/secure/developer?newapp=)</td>
@@ -938,12 +940,12 @@ register or a login call, a promise is returned that completes with the logged-i
 </table><br><br>
 OAuth is a way to delegate rights of third party resources owned by users to your application. A simple login always 
 receives a token and requests basic information including the unique user ID. The public profile information 
-is the most restricted scope a provider can offer. All supported providers have a public profile + email scope 
+is the most restricted scope a provider can offer. All supported providers (except Twitter) have a public profile + email scope 
 witch is the default in the Baqend SDK. The Baqend server checks if an email is in the allowed scope and sets it as the
-username or falls back to a UUID instead
+username. For Twitter or if you change the scope within the frontend an uuid will be created as username.
 
-After login or registration a Baqend Module under `oauth.PROVIDER` is called. You can extend the default behaviour by
-overwriting this Baqend module. The passed parameters are the current user and object containing the OAuth token and 
+To change the registration and login behavior you can fine the `oauth.[PROVIDER]` Baqend module in your dashboard,
+after activating the provider. The passed parameters are the current user and object containing the OAuth token and
 basic user information. You can use it to do further API calls or save the token or other information provided from the
 OAuth provider.
 
