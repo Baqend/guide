@@ -12,7 +12,7 @@ For additional setup information visit our [GitHub page](https://github.com/Baqe
 
 ## Environment
 
-The Baqend SDK is written and tested for Chrome 24+, Firefox 18+, Internet Explorer 9+, Safari 7+, Node 0.10+, IOS 7+, Android 4+ and PhantomJS 1.9+
+The Baqend SDK is written and tested for Chrome 24+, Firefox 18+, Internet Explorer 9+, Safari 7+, Node 0.12+, IOS 7+, Android 4+ and PhantomJS 1.9+
 
 ## Dependencies
 
@@ -35,15 +35,18 @@ The Baqend JavaScript SDK and all its bundled dependencies are shipped under the
 After including the Baqend SDK in your app, connect it with your Baqend. Simply call the connect
 method on the DB variable:
 ```js
-//connect to  Baqend
-DB.connect('http://example.baqend.com');
+//connect to the example app
+DB.connect('example');
 //Or use a TLS-encrypted connection to Baqend
-DB.connect('https://example.baqend.com');
+DB.connect('example', true);
 ```
+
+**Note**: If you use a custom deployment, i.e. the baqend community edition you must pass a hostname or a complete URL 
+to the connect call. `DB.connect('https://mybaqend.example.com/v1')`
 
 You can pass a callback as a second argument, which will be called when the connection is successfully established.
 ```js
-DB.connect('http://example.baqend.com', function() {
+DB.connect('example', function() {
   //work with the DB
   DB.Todo.load(...)
 });
@@ -258,9 +261,9 @@ todo.save().then(function() { //inserts the object
 });
 ```
 
-## Load / Reload
+## Load / Refresh
 Sometimes you have an entity which was previously loaded from Baqend but you want to ensure that you have the latest 
-version of, before performing an update. In that case you can use the `load()` method of the entity to reload
+version of, before performing an update. In that case you can use the `load()` method of the entity to refresh
 the latest version from Baqend. 
 ```js
 //updates the local object with the most up-to-date version
@@ -585,119 +588,181 @@ DB.Todo.find()
 The following table list all available query filters and the types on which they can be applied:
 
 <table class="table">
+  <thead>
   <tr>
-    <th width="40%">Filter method</th>
-    <th>MongoDB equivalent</th>
-    <th>Supported types</th>
-    <th width="40%">Notes</th>
+    <th colspan="3" style="border: none">Filter method</th>
+  </tr>
+  <tr>  
+    <th width="25%">
+      MongoDB equivalent
+    </th>
+    <th width="20%">Supported types</th>
+    <th>Notes</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <td colspan="3" style="border-top: none; padding-top: 20px"><code>equal('name', 'My Todo')</code></td>
   </tr>
   <tr>
-    <td>equal('name', 'My Todo')</td>
     <td><a href="http://docs.mongodb.org/manual/reference/operator/query/eq/">$eq</a></td>
     <td>All types</td>
     <td>Complex types like embedded objects only match if their complete structure matches.</td>
   </tr>
   <tr>
-    <td>notEqual('name', 'My Todo')</td>
+    <td colspan="3" style="border-top: none; padding-top: 20px"><code>notEqual('name', 'My Todo')</code></td>
+  </tr>
+  <tr>  
     <td><a href="http://docs.mongodb.org/manual/reference/operator/query/neq/">$neq</a></td>
     <td>All types</td>
     <td>Complex types like embedded objects only match if their complete structure matches.</td>
   </tr>
   <tr>
-    <td>greaterThan('total', 3)</td>
+    <td colspan="3" style="border-top: none; padding-top: 20px"><code>greaterThan('total', 3)</code></td>
+  </tr>
+  <tr>  
     <td><a href="http://docs.mongodb.org/manual/reference/operator/query/gt/">$gt</a></td>
     <td>Numbers, Dates, Strings</td>
     <td><code>gt()</code> is an alias</td>
   </tr>
   <tr>
-    <td>greaterThanOrEqualTo('total', 3)</td>
+    <td colspan="3" style="border-top: none; padding-top: 20px"><code>greaterThanOrEqualTo('total', 3)</code></td>
+  </tr>
+  <tr>  
     <td><a href="http://docs.mongodb.org/manual/reference/operator/query/gte/">$gte</a></td>
     <td>Numbers, Dates, Strings</td>
     <td><code>gte()</code> is an alias</td>
   </tr>
   <tr>
-    <td>lessThan('total', 3)</td>
+    <td colspan="3" style="border-top: none; padding-top: 20px"><code>lessThan('total', 3)</code></td>
+  </tr>  
+  <tr>  
     <td><a href="http://docs.mongodb.org/manual/reference/operator/query/lt/">$lt</a></td>
     <td>Numbers, Dates, Strings</td>
     <td><code>lt()</code> is an alias</td>
   </tr>
   <tr>
-    <td>lessThanOrEqualTo('total', 3)</td>
+    <td colspan="3" style="border-top: none; padding-top: 20px"><code>lessThanOrEqualTo('total', 3)</code></td>
+  </tr>
+  <tr>  
     <td><a href="http://docs.mongodb.org/manual/reference/operator/query/lte/">$lte</a></td>
     <td>Numbers, Dates, Strings</td>
     <td><code>lte()</code> is an alias</td>
   </tr>
   <tr>
-    <td>between('total', 3, 5)</td>
+    <td colspan="3" style="border-top: none; padding-top: 20px"><code>between('total', 3, 5)</code></td>
+  </tr>
+  <tr>  
     <td>-</td>
     <td>Numbers, Dates, Strings</td>
     <td>It is equivalent to <code>gt('total', 3).lt('total', 5)</code></td>
   </tr>
   <tr>
-    <td>in('total', 3, 5[,...])</td>
+    <td colspan="3" style="border-top: none; padding-top: 20px"><code>in('total', 3, 5[,...])</code></td>
+  </tr>
+  <tr>  
     <td><a href="http://docs.mongodb.org/manual/reference/operator/query/in/">$in</a></td>
     <td>All types</td>
-    <td>On set and list fields *all* given values have to be contained in order for the filter to match. For primitive 
-    fields *any* of the given values have to match the field value. <code>containsAny()</code> is an alias</td>
+    <td>
+        For primitive fields <strong>any</strong> of the given values have to match the field value.
+        On set and list fields <strong>at least one</strong> value must be contained in the collection in order for the 
+        filter to match. 
+    </td>
   </tr>
   <tr>
-    <td>notIn('total', 3, 5[,...])</td>
+    <td colspan="3" style="border-top: none; padding-top: 20px"><code>notIn('total', 3, 5[,...])</code></td>
+  </tr>
+  <tr>  
     <td><a href="http://docs.mongodb.org/manual/reference/operator/query/nin/">$nin</a></td>
     <td>All types</td>
-    <td>On set and list fields *none* of the given values have to be contained in order for the filter to match. For 
-    primitive fields *none* of the given values must match the field value. </td>
+    <td>
+      On primitive fields <strong>none</strong> of the given values must match the field value. 
+      On set and list fields <strong>none</strong> of the given values must to be contained in the collection in order 
+      for the filter to match.
+    </td>
   </tr>
   <tr>
-    <td>isNull('name')</td>
+    <td colspan="3" style="border-top: none; padding-top: 20px"><code>isNull('name')</code></td>
+  </tr>
+  <tr>  
     <td>-</td>
     <td>All types</td>
     <td>Checks if the field has no value; equivalent to <code>equal('name', null)</code></td>
   </tr>
   <tr>
-    <td>isNotNull('name')</td>
+    <td colspan="3" style="border-top: none; padding-top: 20px"><code>isNotNull('name')</code></td>
+  </tr>
+  <tr>  
     <td><a href="http://docs.mongodb.org/manual/reference/operator/query/exists/">$exists</a></td>
     <td>All types</td>
-    <td>Checks if the field has a value; equivalent to <code>where({'name': {"$exists" true, "$ne", null})
-    </code></td>
+    <td>
+      Checks if the field has a value; equivalent to <code>where({'name': {"$exists" true, "$ne", null})</code>
+    </td>
   </tr>
   <tr>
-    <td>containsAll('activities', activity1, activity2 [,...])</td>
+    <td colspan="3" style="border-top: none; padding-top: 20px"><code>containsAny('activities', activity1, activity2 [,...])</code></td>
+  </tr>
+  <tr>  
+    <td><a href="http://docs.mongodb.org/manual/reference/operator/query/in/">$in</a></td>
+    <td>List, Set, JsonArray</td>
+    <td>Checks if the collection contains any of the given elements</td>
+  </tr>
+  <tr>
+    <td colspan="3" style="border-top: none; padding-top: 20px"><code>containsAll('activities', activity1, activity2 [,...])</code></td>
+  </tr>
+  <tr>  
     <td><a href="http://docs.mongodb.org/manual/reference/operator/query/all/">$all</a></td>
     <td>List, Set, JsonArray</td>
-    <td>Checks if the collection contains all the given elements</td>
+    <td>Checks if the collection contains all of the given elements</td>
   </tr>
   <tr>
-    <td>mod('total', 5, 3)</td>
+    <td colspan="3" style="border-top: none; padding-top: 20px"><code>mod('total', 5, 3)</code></td>
+  </tr>
+  <tr>
     <td><a href="http://docs.mongodb.org/manual/reference/operator/query/mod/">$mod</a></td>
     <td>Number</td>
     <td>The field value divided by divisor must be equal to the remainder</td>
   </tr>
   <tr>
-    <td>matches('name', /^My [eman]{4}/)</td>
+    <td colspan="3" style="border-top: none; padding-top: 20px"><code>matches('name', /^My [eman]{4}/)</code></td>
+  </tr>
+  <tr>  
     <td><a href="http://docs.mongodb.org/manual/reference/operator/query/regex/">$regex</a></td>
     <td>String</td>
-    <td>The regular expression must be anchored (starting with <code>^</code>); ignore case and global flags are not
-    supported.</td>
+    <td>
+      The regular expression must be anchored (starting with <code>^</code>); ignore case and global flags are not
+      supported.
+    </td>
   </tr>
   <tr>
-    <td>size('activities', 3)</td>
+    <td colspan="3" style="border-top: none; padding-top: 20px"><code>size('activities', 3)</code></td>
+  </tr>
+  <tr>  
     <td><a href="http://docs.mongodb.org/manual/reference/operator/query/size/">$size</a></td>
     <td>List, Set, JsonArray</td>
     <td>Matches if the collection has the specified size.</td>
   </tr>
   <tr>
-    <td>near('location', &lt;geo point&gt;, 1000)</td>
+    <td colspan="3" style="border-top: none; padding-top: 20px"><code>near('location', &lt;geo point&gt;, 1000)</code></td>
+  </tr>
+  <tr>  
     <td><a href="http://docs.mongodb.org/manual/reference/operator/query/nearSphere/">$nearSphere</a></td>
     <td>GeoPoint</td>
-    <td>The geo point field has to be within the maximum distance in meters to the given GeoPoint.
-    Returns from nearest to furthest.</td>
+    <td>
+      The geo point field has to be within the maximum distance in meters to the given GeoPoint.
+      Returns from nearest to furthest.<br>
+      You need a 
+    </td>
   </tr>
   <tr>
-    <td>withinPolygon('location', &lt;geo point list&gt;)</td>
+    <td colspan="3" style="border-top: none; padding-top: 20px"><code>withinPolygon('location', &lt;geo point list&gt;)</code></td>
+  </tr>
+  <tr>  
     <td><a href="http://docs.mongodb.org/manual/reference/operator/query/nearSphere/">$geoWithin</a></td>
     <td>GeoPoint</td>
     <td>The geo point of the object has to be contained within the given polygon.</td>
   </tr>
+  </tbody>
 </table>
 
 References can and should be used in filters. Internally references are converted to ids
@@ -901,7 +966,7 @@ opens a new window showing the provider-specific login page. To work despite pop
 call needs to be made on response to a user interaction, e.g. after a click on the sign-in button. Similarly to a 
 register or a login call, a promise is returned that completes with the logged-in user. 
 
-<br><br><table class="table">
+ <table class="table">
     <tr>
         <th>Provider</th>
         <th></th>
@@ -915,9 +980,10 @@ register or a login call, a promise is returned that completes with the logged-i
     <tr>
         <td>[Facebook](https://developers.facebook.com/apps)</td>
         <td>[doc](https://developers.facebook.com/docs/facebook-login/v2.4)</td>
-        <td>To set up Facebook-OAuth open the settings page of your [Facebook app](https://developers.facebook
-        .com/apps), switch to `Advanced`, activate `Web OAuth Login` and add `https://[YOUR_APP_ID].baqend
-        .com/v1/db/User/OAuth/facebook`  as `Valid OAuth redirect URI`. 
+        <td>
+            To set up Facebook-OAuth open the settings page of your 
+            [Facebook app](https://developers.facebook.com/apps), switch to `Advanced`, activate `Web OAuth Login` and 
+            add `https://[YOUR_APP_ID].baqend.com/v1/db/User/OAuth/facebook` as `Valid OAuth redirect URI`. 
         </td>
     </tr>
     <tr>
@@ -935,11 +1001,12 @@ register or a login call, a promise is returned that completes with the logged-i
         <td>[doc](https://developer.linkedin.com/docs/oauth2)</td>
         <td>Add as redirect URL: `https://[YOUR_APP_ID].baqend.com/v1/db/User/OAuth/linkedin`</td>
     </tr>
-</table><br><br>
+</table>
+
 OAuth is a way to delegate rights of third party resources owned by users to your application. A simple login always 
 receives a token and requests basic information including the unique user ID. The public profile information 
 is the most restricted scope a provider can offer. All supported providers have a public profile + email scope 
-witch is the default in the Baqend SDK. The Baqend server checks if an email is in the allowed scope and sets it as the
+which is the default in the Baqend SDK. The Baqend server checks if an email is in the allowed scope and sets it as the
 username or falls back to a UUID instead
 
 After login or registration a Baqend Module under `oauth.PROVIDER` is called. You can extend the default behaviour by
@@ -1180,6 +1247,33 @@ exports.onUpdate = function(db, obj) {
 }
 ```
 
+It is also possible to change the actual object in the `onInsert` and `onUpdate` handler before it is saved. While 
+issuing the insert/update from the SDK you will not get this changes back by default. To get the changed data back, use 
+the refresh flag of the `save()`, `insert()` or `update()` method.
+
+```js
+//the Baqend handler
+exports.onUpdate = function(db, obj) {
+  obj.counter++;
+}
+```
+
+```js
+//on client side without refresh
+DB.Test.load('546c6-a...').then(function(obj) {
+  return obj.save();
+}).then(function(obj) {
+  //obj.counter == 0
+});
+
+//on client side with refresh
+DB.Test.load('546c6-a...').then(function(obj) {
+  return obj.save({refresh: true});
+}).then(function(obj) {
+  //obj.counter == 1
+});
+```
+
 Note: Inside Baqend Code data operations (e.g. `user.save()`) have the access rights of the user starting the 
 request enhanced by an additional `node` role. Calls to Baqend originating from handlers will not trigger another 
 onUpdate(db) call. See [Baqend Code permission](#permissions) for more details.
@@ -1262,6 +1356,65 @@ obj.delete().then(function() {
 });
 ```
 
+## Advanced request handling
+
+In addition to the simplified `call(db, obj, req)` method we provide a advanced way to handle requests within baqend modules. 
+You can implement GET and POST request handling separately by implementing a equivalent `get(db, req, res)` and 
+`post(db, req, res)`. 
+
+**Note:** that the second parameter is the request object and the third parameter is a express 
+[response](http://expressjs.com/api.html#res) object.
+
+With the request object, you can handle form submissions via get or post
+```
+//Handle get submissions
+exports.get = function(db, req, res) {
+  //access url get parameters
+  var myParam = req.query.myParam;
+
+  res.json(req.query);
+};
+
+//Handle post submissions
+exports.post = function(db, req, res) {
+  //access form post parameters
+  var myParam = req.body.myParam;
+
+  res.json(req.body);
+};
+```
+
+With the response object, you can send additional response headers and have a better control over the content which will 
+be send back. You can use the complete express API to handle the actual request.
+
+```
+exports.get = function(db, req, res) {
+  var myParam = req.query.myParam;
+
+  if(db.User.me) {
+    //we are logged in
+    return db.User.me.load().then(function() {
+      //use the powerful express helpers
+      res.status(200);
+      res.json({
+        myParam: myParam, 
+        token: sig(myParam, db.User.me),
+        userId: db.User.me.id
+      });
+    });
+  } else {
+    //we are anonymous, lets redirect the user to a login page
+    res.redirect('http://myApp.baqend.com/login');
+    res.send();
+  }
+};
+```
+
+It is important that you send the content back with one of the express `res.send()` helpers. Otherwise the response will 
+not be send back to the client. In addition ensure that you return a [promise](#promise) when you make asynchronous calls within 
+your baqend module, otherwise the request will be aborted with an error!
+
+
 ## Module system and libraries
 Baqend code constitutes CommonJS modules and can require other modules and external libraries. 
 
@@ -1301,9 +1454,6 @@ exports.onUpdate = function(db, obj) {
 }; 
 ```
 
-**Note**: don't require module functions directly, since modules will be loaded and cached. This may cause issues when 
-modules are updated.
-
 The following additional libraries can be required in baqend code:
 
 - [http](https://nodejs.org/api/http.html) - Node.js http core library
@@ -1317,7 +1467,122 @@ The following additional libraries can be required in baqend code:
 ## Permissions
 
 Baqend Code is always executed with the permissions of the requesting client. If the requesting user is not logged in, 
-all requests made from Baqend code are anonymous. Both anonymous and authenticated invocations are enhanced by the node role. This predefined role can be used in class and object ACLs to grant Baqend code additional access rights. In addition there are some Baqend API resources which can only be accessed by the admin or the node role. 
+all requests made from Baqend code are anonymous. Both anonymous and authenticated invocations are enhanced by the node 
+role. This predefined role can be used in class and object ACLs to grant Baqend code additional access rights. 
+In addition there are some Baqend API resources which can only be accessed by the admin or the node role. 
+
+# Push Notifications
+
+Baqend provides the ability to send push notifications to end users devices. Before you can send a push notification you 
+must first register the Device of the User. Registered devices can then later be used in baqend Code to send push 
+notifications to those registered devices. 
+
+**Note:** Currently baqend supports IOS and Android based devices, support for more platforms are planed. 
+
+## Setup Push
+//Description how to register an App, and get the push token
+
+## Device registration
+
+A registered device is represented in baqend by the Device class. The Device class contains the `deviceOs` field which 
+contains the platform name of the registered device, currently `Android` or `IOS`. To register a new device you must 
+first obtain a device token with your used mobile framework. With the token you can register the device on baqend.
+
+It is not required to register a Device every time your App initialize. The SDK provides you a flag, that indicates if 
+the Device is already registered. Therefore you must only request a device token if the device is currently not 
+registered:
+
+```js
+DB.ready().then(function() {
+    if (!DB.Device.isRegistered) {
+        //helper method which fetch a new device token, using your favor framework 
+        var deviceToken = requestDeviceToken();
+    
+        DB.Device.register('IOS', deviceToken);
+    }
+});
+```
+
+The device class can be extended with custom fields like any other class in baqend. This allows you to save additional 
+data with your device, which you can later use to query the devices that should receive a push notification. To persist 
+additional data with your device while registering it, you can pass a Device object to the registration method.
+
+A common use case is to save the user with a device, that allows you to send a push notification to the users device 
+later on.
+
+```js
+var device = new DB.Device({
+    "user": DB.User.me
+});
+
+DB.Device.register('IOS', deviceToken, device);
+```
+
+## PushMessage
+
+To send a push notification the SDK provides a PushMessage class which can be used to send a message to one or more 
+devices. In addition to the message itself a PushMessage can transport additional information to the end users device.
+ 
+ <table class="table">
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Notes</th>
+  </tr>
+  <tr>
+    <td>`message`</td>
+    <td>String</td>
+    <td>The optional message to display</td>
+  </tr>
+  <tr>
+    <td>`subject`</td>
+    <td>String</td>
+    <td>The headline of the push message</td>
+  </tr>
+  <tr>
+    <td>`sound`</td>
+    <td>String</td>
+    <td>sound The filename of the sound file. The device uses this file as the notification sound.</td>
+  </tr>
+  <tr>
+    <td>`badge`</td>
+    <td>Number</td>
+    <td>The badge count, displayed on the apps icon, only supported by IOS</td>
+  </tr>
+  <tr>
+    <td>`data`</td>
+    <td>Object</td>
+    <td>Additional json data send directly to you app</td>
+  </tr>
+</table>    
+
+## Sending push
+
+Push notifications can only be send within [baqend code](#baqend-code). To send a push notification to a one or more devices, you must 
+first obtain the desired device ids. Therefore you can use the additional data stored in the device object to query those, 
+or can save the device reference in another object.
+
+```js
+/**
+ * The baqend code sends a push notification to the given list of users. 
+ * Therefore the extended device class contains a user field.
+ * @param {Array<String>} data.users A list of user ids
+ * @param {String} data.message The message to push
+ */
+exports.call = function(db, data) {
+  var users = data.users;
+  var message = data.message;
+  var subject = data.subject;
+  
+  return db.Device.find()
+    .in('user', users)
+    .resultList()
+    .then(function(devices) {
+      var pushMessage = db.Device.PushMessage(devices, message, subject);
+      return db.Device.push(pushMessage);
+    });
+}
+```
 
 # Persistence
 
@@ -1423,15 +1688,100 @@ referenced by those referenced entities. You can also pass `depth` with `true` t
 reachability.
 
 
+# Logging
+
+As required by many apps, we provide a easy to use logging API to log data out of your app. In addition we provide a 
+access to the access logs which contains all the resources requested by your users.
+
+App and Access logs are accessible through our dashboard and kept for **30 days**. In addition you can view, query and 
+manage the permissions of the logs like any other data you persist to baqend. But you can't modify the schema, the 
+logged data nor the permissions of update and delete operations.
+
+**NOTE:** While querring logs you must always use a date predicate, otherwise you will only get the last 5 minutes of 
+the logs.
+
+## App logging
+
+The Baqend SDK provides a simple logging API which you can use in your app as well as in baqend code.
+
+The SDK provides a simple log method which takes a log level, a message, arguments and a optional data object.
+In addition the SDK logs the current date and the logged in user.
+
+### Log Levels
+You can use multiple log levels to categorize your logs. You can use one of the predefined logging levels 
+`trace`, `debug`, `info`, `warn`, `error`. Log levels can later be used to filter logs.
+
+```js
+DB.log('debug', 'A simple debug message');
+```
+
+If you do not provide a log level, the log level becomes `info`.
+
+For easier usage the log method also expose additional log methods for each log level:
+
+```js
+DB.log.trace('A simple trace message');
+DB.log.debug('A simple debug message');
+DB.log.info('A simple info message');
+DB.log.warn('A simple warn message');
+DB.log.error('A simple error message');
+```
+
+### Log Arguments
+Often you want to include data into the log message. Therefore you can use placeholder in your log message which will be
+ replaced by the additional passed values.
+The can use the placeholders `%s` for strings, `%d` for numbers and `%j` for a json conversion before the values are 
+included into the log message.
+ 
+```js
+DB.log('debug', 'The value %d is greater then %d', 10, 5);
+//logs the message 'The value 10 is greater then 5'
+```
+
+Often you want to log additional data, which should not be converted to a string and included into the log message itself. 
+All the log methods allows one additional argument as the last argument. The argument should be a json like object 
+and will be logged in addition to the log message. 
+
+```js
+DB.log('debug', 'The value %d is greater then %d', 10, 5, {val1: 10, val2: 5});
+//logs the message 'The value 10 is greater then 5'
+//and the data {val1: 10, val2: 5}
+```
+
+You can also use the log level helper methods:
+```js
+DB.log.debug('The value %d is greater then %d', 10, 5, {val1: 10, val2: 5});
+```
+
+**NOTE:** App logs can be inserted by everyone by default, to restrict log insertion you can change the insert permission
+of the AppLog class in the dashboard.
+
+## Access logs
+
+Access logs will be automatically collected whenever a resource of your app is accessed through a fastly server. 
+
+The following data will be collected by us:
+
+- date - The UTC date of the access
+- ip - The IP address of the user
+- method - The HTTP Method, one of (HEAD, GET, POST, PUT, DELETE, OPTIONS)
+- server - The server who has generated the log entry, indicates the fastly pop location by default
+- url - The URL of the resource that is requested
+- status - The returned response status of the baqend server
+- download - The amount of data transferred to the client (includes head and body payload)
+- upload - The amount of data transferred from the client (includes head and body payload)
+- latency - The latency to handle the actual request measured by the fastly server 
+- cacheHit - Indicates if the request was directly served by the fastly server without contacting baqend (Cache HIT)
+
 
 # Upcoming Features
 As developers you know that software is never finished. Here you find some of the futures coming up on the way to our
- next milestone. The release of our **public Baqend cloud service** is scheduled for this winter 2015.
+ next milestone.
 
-## Global Object & Query Caching
-The caching infrastructure and the algorithms are all there. The public cloud release with include all the caching 
-magic that allow imperceptible page load times and lightning-fast queries and other requests. This is our most 
-important feature and we'll soon share much more details on how it works.
+## Query Caching
+The caching infrastructure and the algorithms are all there. The public cloud release include all the caching 
+magic that allow imperceptible page load times and lightning-fast requests. The next planned step is that we will also 
+cache query results! We'll soon share much more details on how it works.
 
 ## Continuous Queries & WebSockets
 Query for objects and get updates on any change of your result list. This extremely powerful feature allow you to 
@@ -1448,9 +1798,6 @@ Fulltext Search will allow you to perform ranked search queries to build powerfu
 ## Prepared Queries
 Prepared queries can be used to restrict access to certain query patterns and manage query properties such 
 as response time requirements.
-
-## E-mail, Push Notifications and SMS
-Use Baqend to simplify communication and use native mobile push notifications.
 
 ## Partial Updates
 Perform partial updates on objects, like counter increases

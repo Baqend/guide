@@ -1,5 +1,5 @@
 /docs
 /dist
+/.idea
 .DS_Store
-*.iml
 gulpfile.js

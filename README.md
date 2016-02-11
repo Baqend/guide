@@ -11,6 +11,11 @@ Do you have questions, a feature request or did you find a bug? Open a [ticket](
 
 Want to improve and contribute to this guide? Make a [pull](https://github.com/Baqend/guide/pulls) request.
 
+Build
+-----
+
+Install MkDocs by following the installation instructions of [MkDocs](http://www.mkdocs.org/) 
+Type `mkdocs serve` to build and serve the docs locally.
 
 License
 -------
