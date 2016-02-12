@@ -1653,13 +1653,13 @@ devices. In addition to the message itself a PushMessage can transport additiona
   <tr>
     <td>`data`</td>
     <td>Object</td>
-    <td>Additional json data send directly to you app</td>
+    <td>Additional json data send directly to your app</td>
   </tr>
 </table>    
 
 ## Sending push
 
-Push notifications can only be send within [baqend code](#baqend-code). To send a push notification to a one or more devices, you must 
+Push notifications can only be send within [baqend code](#baqend-code). To send a push notification to one or more devices, you must 
 first obtain the desired device ids. Therefore you can use the additional data stored in the device object to query those, 
 or can save the device reference in another object.
 
@@ -1700,6 +1700,7 @@ DB.Todo.load('Todo1').then(function(todo) {
 ```
 
 ## Deep Loading
+
 As described in the [References](#references) chapter, references between entities will be handled differently 
 from embedded objects or collections. The referenced objects will not be loaded with the referencing entity by default.
 ```js
@@ -1794,9 +1795,9 @@ reachability.
 As required by many apps, we provide a easy to use logging API to log data out of your app. In addition we provide a 
 access to the access logs which contains all the resources requested by your users.
 
-App and Access logs are accessible through our dashboard and kept for **30 days**. In addition you can view, query and 
+App and Access logs are accessible through the dashboard and kept for **30 days**. In addition you can view, query and 
 manage the permissions of the logs like any other data you persist to baqend. But you can't modify the schema, the 
-logged data nor the permissions of update and delete operations.
+logged data nor the permissions of insert, update and delete operations.
 
 **Note:** While querring logs you must always use a date predicate, otherwise you will only get the last 5 minutes of 
 the logs.
@@ -1829,8 +1830,9 @@ DB.log.error('A simple error message');
 ```
 
 ### Log Arguments
-Often you want to include data into the log message. Therefore you can use placeholder in your log message which will be
- replaced by the additional passed values.
+
+It is easy to include dynamic data into the log message. You can use placeholder in your log message which will be
+replaced by the additional passed values.
 The can use the placeholders `%s` for strings, `%d` for numbers and `%j` for a json conversion before the values are 
 included into the log message.
  
@@ -1883,13 +1885,12 @@ on [GitHub Pages](https://pages.github.com/) or [Amazon S3](http://docs.aws.amaz
 -------
 
 # Upcoming Features
-As developers you know that software is never finished. Here you find some of the futures coming up on the way to our
- next milestone.
+As developers you know that software is never finished. Here are some of the upcoming futures from our next few milestones.
 
 ## Query Caching
-The caching infrastructure and the algorithms are all there. The public cloud release include all the caching 
-magic that allow imperceptible page load times and lightning-fast requests. The next planned step is that we will also 
-cache query results! We'll soon share much more details on how it works.
+The caching infrastructure and the algorithms are all there. The public cloud release includes all the caching 
+magic that allows imperceptible page load times and lightning-fast requests. The next planned step is that we will also 
+cache query results! We'll soon share a lot more details on how it works.
 
 ## Continuous Queries & WebSockets
 Query for objects and get updates on any change of your result list. This extremely powerful feature allow you to 
