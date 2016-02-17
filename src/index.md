@@ -6,7 +6,7 @@ starting a free tier cloud hosted baqend app.
 
 ## Setup
 
-The JavaScrip SDK is packaged as an UMD module, so it can be used with RequireJS, browserify or without any module loader.
+The JavaScript SDK is packaged as an UMD module, it can be used with RequireJS, browserify or without any module loader.
 To get started please install the Baqend SDK from [npm](https://www.npmjs.com/package/baqend) or [GitHub](https://github.com/Baqend/js-sdk/releases).
 For additional setup information visit our [GitHub page](https://github.com/Baqend/js-sdk/blob/master/README.md).
 
@@ -262,9 +262,10 @@ todo.save().then(function() { //inserts the object
 ```
 
 ## Load / Refresh
-Sometimes you have an entity which was previously loaded from Baqend but you want to ensure that you have the latest 
-version of, before performing an update. In that case you can use the `load({refresh: true})` method of the entity 
-to refresh the latest version from Baqend. 
+
+Sometimes you want to ensure, that you have the latest version of an previously loaded entity, for example before 
+performing an update. In that case you can use the `load({refresh: true})` method of the entity to get the latest 
+version from Baqend. 
 ```js
 //updates the local object with the most up-to-date version
 todo.load({refresh: true}).then(function() { 
@@ -414,7 +415,7 @@ Primitives types are the basic attribute types and known from programming langua
 attribute values will be checked against the types described by the schema. This is one of the biggest advantages of 
 having a schema: data cannot easily be corrupted as its correct structure is automatically enforced by the schema. 
 Please note that the JSON data type gives you full freedom on deciding which parts of a object should be structured 
-and which parts are schemafree. The following table shows all supported attribute types of Baqend 
+and which parts are schema free. The following table shows all supported attribute types of Baqend 
 and their corresponding JavaScript types.
 
 <table class="table">
@@ -1065,7 +1066,7 @@ performing the operation.
 ## Anonymous Users & Public Access
    
 Anonymous users only have permissions to serve public resources. A resource is publicly accessible, if
- no class or object permission restricts the access to specific users or roles. To check if the object's
+no class or object permission restricts the access to specific users or roles. To check if the object's
 permissions allow public access you can check the `acl.isPublicReadAllowed()` and the `todo.acl.isPublicWriteAllowed()` 
 methods.
 ```js
@@ -1171,10 +1172,11 @@ DB.User.loginWithGoogle(clientID).then(function(user) {
 **Note:** a OAuth login will be aborted after 5 minutes of inactivity. The timeout can be changed with the timeout option.
 
 ### Baqend Code
-To change the registration and login behavior you can fine the `oauth.[PROVIDER]` Baqend module in your dashboard,
+
+To adjust the registration and login behavior an `oauth.[PROVIDER]` Baqend module will appear in your dashboard,
 after activating the provider. The passed parameters are the current logged in user and a data object containing the 
-OAuth token and basic user information. You can use the token to do further API calls or save the token or other 
-information provided from the OAuth provider.
+OAuth token and basic user information. The token can be used to directly do further API calls or save the token for 
+later use.
 
 If you like to edit the OAuth login for example google, create the baqend module `oauth.google`. An oauth template will be
 shown up where you can edit the behaviour after the user has been successfully authorized:
@@ -1216,7 +1218,7 @@ The following table list the docs the returned profile for the OAuth providers:
   </tr>
   <tr>
     <td>twitter</td>
-    <td>Just returns the `access_token`. A Email address can't be queried by the twitter API.</td>
+    <td>Just returns the `access_token`. An Email address can't be queried with the twitter API.</td>
   </tr>  
   <tr>
     <td>linkedin</td>
@@ -1228,7 +1230,7 @@ The following table list the docs the returned profile for the OAuth providers:
 </table>    
 
 
-**Note:** that the returned properties may not all been shown up, since it depends on the requested scope.
+**Note:** that the returned properties depend on the requested scope.
 
 
 # Baqend Code
@@ -1457,11 +1459,11 @@ obj.delete().then(function() {
 
 ## Advanced request handling
 
-In addition to the simplified `call(db, obj, req)` method we provide a advanced way to handle requests within baqend modules. 
+In addition to the simplified `call(db, obj, req)` method we provide an advanced way to handle requests within baqend modules. 
 You can implement GET and POST request handling separately by implementing a equivalent `get(db, req, res)` and 
 `post(db, req, res)`. 
 
-**Note:** that the second parameter is the request object and the third parameter is a express 
+**Note:** that the second parameter is the request object and the third parameter is an express 
 [response](http://expressjs.com/api.html#res) object.
 
 With the request object, you can handle form submissions via get or post
@@ -1574,7 +1576,7 @@ In addition there are some Baqend API resources which can only be accessed by th
 
 Baqend provides the ability to send push notifications to end users devices. Before you can send a push notification you 
 must first register the Device of the User. Registered devices can then later be used in baqend Code to send push 
-notifications to those registered devices. 
+notifications to. 
 
 **Note:** Currently baqend supports IOS and Android based devices, support for more platforms are planed. 
 
@@ -1651,13 +1653,13 @@ devices. In addition to the message itself a PushMessage can transport additiona
   <tr>
     <td>`data`</td>
     <td>Object</td>
-    <td>Additional json data send directly to you app</td>
+    <td>Additional json data send directly to your app</td>
   </tr>
 </table>    
 
 ## Sending push
 
-Push notifications can only be send within [baqend code](#baqend-code). To send a push notification to a one or more devices, you must 
+Push notifications can only be send within [baqend code](#baqend-code). To send a push notification to one or more devices, you must 
 first obtain the desired device ids. Therefore you can use the additional data stored in the device object to query those, 
 or can save the device reference in another object.
 
@@ -1698,6 +1700,7 @@ DB.Todo.load('Todo1').then(function(todo) {
 ```
 
 ## Deep Loading
+
 As described in the [References](#references) chapter, references between entities will be handled differently 
 from embedded objects or collections. The referenced objects will not be loaded with the referencing entity by default.
 ```js
@@ -1792,9 +1795,9 @@ reachability.
 As required by many apps, we provide a easy to use logging API to log data out of your app. In addition we provide a 
 access to the access logs which contains all the resources requested by your users.
 
-App and Access logs are accessible through our dashboard and kept for **30 days**. In addition you can view, query and 
+App and Access logs are accessible through the dashboard and kept for **30 days**. In addition you can view, query and 
 manage the permissions of the logs like any other data you persist to baqend. But you can't modify the schema, the 
-logged data nor the permissions of update and delete operations.
+logged data nor the permissions of insert, update and delete operations.
 
 **Note:** While querring logs you must always use a date predicate, otherwise you will only get the last 5 minutes of 
 the logs.
@@ -1827,8 +1830,9 @@ DB.log.error('A simple error message');
 ```
 
 ### Log Arguments
-Often you want to include data into the log message. Therefore you can use placeholder in your log message which will be
- replaced by the additional passed values.
+
+It is easy to include dynamic data into the log message. You can use placeholder in your log message which will be
+replaced by the additional passed values.
 The can use the placeholders `%s` for strings, `%d` for numbers and `%j` for a json conversion before the values are 
 included into the log message.
  
@@ -1881,13 +1885,12 @@ on [GitHub Pages](https://pages.github.com/) or [Amazon S3](http://docs.aws.amaz
 -------
 
 # Upcoming Features
-As developers you know that software is never finished. Here you find some of the futures coming up on the way to our
- next milestone.
+As developers you know that software is never finished. Here are some of the upcoming futures from our next few milestones.
 
 ## Query Caching
-The caching infrastructure and the algorithms are all there. The public cloud release include all the caching 
-magic that allow imperceptible page load times and lightning-fast requests. The next planned step is that we will also 
-cache query results! We'll soon share much more details on how it works.
+The caching infrastructure and the algorithms are all there. The public cloud release includes all the caching 
+magic that allows imperceptible page load times and lightning-fast requests. The next planned step is that we will also 
+cache query results! We'll soon share a lot more details on how it works.
 
 ## Continuous Queries & WebSockets
 Query for objects and get updates on any change of your result list. This extremely powerful feature allow you to 
