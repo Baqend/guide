@@ -1,12 +1,12 @@
-# Baqend JavaScript SDK
+# Getting Started
 
-Welcome to the Baqend JavaScript guide.
+Welcome to the Baqend guide.
 If you haven't done it yet, you can easily [quickstart](http://dashboard.baqend.com/) by creating a baqend account and 
 starting a free tier cloud hosted baqend app. 
 
 ## Setup
 
-The SDK is packaged as an UMD module, so it can be used with RequireJS, browserify or without any module loader.
+The JavaScrip SDK is packaged as an UMD module, so it can be used with RequireJS, browserify or without any module loader.
 To get started please install the Baqend SDK from [npm](https://www.npmjs.com/package/baqend) or [GitHub](https://github.com/Baqend/js-sdk/releases).
 For additional setup information visit our [GitHub page](https://github.com/Baqend/js-sdk/blob/master/README.md).
 

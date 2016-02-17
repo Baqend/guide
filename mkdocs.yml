@@ -3,7 +3,7 @@ site_favicon: '/img/favicon.ico'
 site_url: 'http://www.baqend.com'
 repo_url: https://github.com/Baqend/guide
 pages:
-- JS Guide: 'index.md'
+- Guide: 'index.md'
 docs_dir: src
 site_dir: docs
 theme_dir: theme
