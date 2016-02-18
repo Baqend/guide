@@ -1581,7 +1581,33 @@ notifications to.
 **Note:** Currently baqend supports IOS and Android based devices, support for more platforms are planed. 
 
 ## Setup Push
-//Description how to register an App, and get the push token
+
+### Apple Push Notifcation Service (APNS)
+
+To enable push notifications for iOS devices you have to upload your production or sandbox certificate in the
+baqend settings view of your app. Please upload your certificate as a *p12*-file without any password protection. Otherwise it's
+not possible for baqend to use it.
+
+The sandbox certificate is needed, when testing the app directly from Xcode. If the app has been published to the app
+store or should be tested in *TestFlight*, you must upload your production certificate. It's currently not possible
+to use both certificate types at the same time.
+
+[This tutorial](https://developer.apple.com/library/ios/documentation/IDEs/Conceptual/AppDistributionGuide/AddingCapabilities/AddingCapabilities.html#//apple_ref/doc/uid/TP40012582-CH26-SW6)
+show hows to enabled push notification in your app and how to export your certificate as a *p12*-file.
+
+### Google Cloud Messaging (GCM)
+
+To enabled push notifications for Android devices baqend needs your GCM API key. The key can be saved in the baqend settings
+view of your app.
+
+To get your API key browse to the [Google Developers Console](https://console.developers.google.com/), open
+*Enable and manage APIs*, create or chose your app, click on *Credentials* on the left side. If you already created
+an server key, copy it from the list and save it at the baqend settings view of your app, otherwise click on
+*Create credentials* -> *API key* -> *Server key* to create a new api key. It's important, that the field
+*Accept requests from these server IP addresses* is empty.
+
+In your app itself you have to use the *sender ID* and not the server API key. The *sender ID* is called *project number*
+in the Google Developers Console.
 
 ## Device registration
 
