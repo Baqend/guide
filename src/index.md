@@ -1,20 +1,14 @@
-# Getting Started
-
-Welcome to the Baqend guide.
-If you haven't done it yet, you can easily [quickstart](http://dashboard.baqend.com/) by creating a baqend account and 
-starting a free tier cloud hosted baqend app. 
-
-## Setup
+# Baqend JS SDK
 
 The JavaScript SDK is packaged as an UMD module, it can be used with RequireJS, browserify or without any module loader.
 To get started please install the Baqend SDK from [npm](https://www.npmjs.com/package/baqend) or [GitHub](https://github.com/Baqend/js-sdk/releases).
 For additional setup information visit our [GitHub page](https://github.com/Baqend/js-sdk/blob/master/README.md).
 
-## Environment
+### Environment
 
 The Baqend SDK is written and tested for Chrome 24+, Firefox 18+, Internet Explorer 9+, Safari 7+, Node 0.12+, IOS 7+, Android 4+ and PhantomJS 1.9+
 
-## Dependencies
+### Dependencies
 
 The Baqend SDK does not require any additional dependencies, however it is shipped with four bundled dependencies:
 
@@ -23,14 +17,12 @@ The Baqend SDK does not require any additional dependencies, however it is shipp
 - node-uuid, A uuid generator
 - validator, A validation library
 
-## License
+### License
 
 The Baqend JavaScript SDK and all its bundled dependencies are shipped under the
 [MIT License](https://github.com/Baqend/js-sdk/blob/master/LICENSE.md).
 
-# Objects
-
-## Getting started
+## Connect the SDK
 
 After including the Baqend SDK in your app, connect it with your Baqend. Simply call the connect
 method on the DB variable:
@@ -64,6 +56,29 @@ a callback. This works for all places in the Baqend SDK that exhibit asynchronou
 DB.ready().then(function() {
   DB... //work with the DB
 });
+```
+
+## Accessing Data
+
+After the Baqend SDK has been successfully initialized, all defined classes can be accessed using the DB instance. 
+Just use the name of the class to access the *object factory*.
+```js
+DB.ready(function() {
+  DB.Todo //The Todo class factory
+});
+```
+
+The object factory can be called or can be used like a normal JavaScript constructor to create instances.
+```js
+var todo = new DB.Todo({name: 'My first Todo'});
+```
+The constructor accepts one optional argument, which is a (JSON-)object containing the initial values of the object.
+
+The object attributes can be accessed and changed by their names.
+```js
+var todo = new DB.Todo({name: 'My first Todo'});
+console.log(todo.name); //'My first Todo'
+todo.active = true;
 ```
 
 ## Promise
@@ -123,28 +138,68 @@ For additional examples and a more detailed explanation consult the [MDN Promise
 The Baqend SDK uses the promise-based approach for the entire documentation since the code is more readable and is
  generally considered the best way to work with asynchronous code in JavaScript.
 
-## Working with objects
+# Baqend Dashboard
 
-After the Baqend SDK has been successfully initialized, all defined classes can be accessed using the DB instance. 
-Just use the name of the class to access the *object factory*.
-```js
-DB.ready(function() {
-  DB.Todo //The Todo class factory
-});
-```
+The baqend dashboard is the main tool, which you will use to manage and configure your baqend instance. After you have 
+created your first app, you have in the left navigation bar a quick overview over all the configurable and usable 
+ functionalities of baqend. 
+  
+Here is a quick overview of those:
 
-The object factory can be called or can be used like a normal JavaScript constructor to create instances.
-```js
-var todo = new DB.Todo({name: 'My first Todo'});
-```
-The constructor accepts one optional argument, which is a (JSON-)object containing the initial values of the object.
+**Baqend Modules** - can be used to create baqend code, which can later be called by your app to execute trusted 
+business logic. See also [Baqend Modules](#modules). By clicking the *+* you can create new modules, Afterwards a module 
+code template will be opened.
 
-The object attributes can be accessed and changed by their names.
-```js
-var todo = new DB.Todo({name: 'My first Todo'});
-console.log(todo.name); //'My first Todo'
-todo.active = true;
-```
+**Tables** - are the part where you can create and extend the data model of baqend to fit your app requirements. 
+By clicking on the class name, you can view and edit the table content and its metadata like schema, access 
+rules and code hooks. Each table is represented by one entity class and each row is an instance of this class in the SDK.
+On the upper right side you can navigate with the tabs through those categories:
+
+  - **Data:** This is the default view of a class and shows the stored instances in a table. You can view, navigate and search 
+  in the table. In addition you can add new rows, modify fields and delete existing rows. You can im- and export
+  the entire table content and truncate (drop all rows) of the table. [Read More](#crud)
+  - **Schema:** Each class is described by its schema. The schema describes which fields a class have and which type 
+  those fields have. When you insert data into the table, the data will always be validated against the defined 
+  schema and modifications which violate the schema will be rejected. Baqend supports many common types, such as 
+  primitive types, geo points, references, collections, json and embedded types. [Read More](#schema-and-types)
+  - **ACL (Access Control List):** In many apps you would like to restrict the access who is allowed to read and write 
+  the data. Therefore you can restrict the access per operation on class or object level. In this view you can modify 
+  the access permission for the selected class. You can add new users and roles to the acl and can specify those access 
+  restrictions. [Read more](#users-roles-and-permissions)
+  - **Handler:** are baqend code hooks, which are invoked before an object is modified. Here you can implement custom 
+  logic that is invoked every time when an object is inserted, updated or deleted. Within the code you can validate the 
+  modification, modify some fields or can completely reject the modifications as your needs. [Read More](#handlers)
+
+There are three predefined classes which you can also extend with custom fields:
+  
+  - **User:** are used to represent a user which is logged in into your app. New users can be created by a registration 
+  process or by a login through an [OAuth](#oauth-login) provider when configured. [Read More](#registration)
+  - **Role:** Roles can be created to group users and together and use those groups to give them special privileges 
+  such as ACLs. There are two predefined roles the admin role and the node role. Roles contains a predefined users list 
+  field, which contains all the members of the role. [Read More](#roles)
+  - **Device:** represents registered devices which can later be used to send them push notifications out of baqend 
+  code. Devices can be queried like any other table to send a push notification to multiple devices at once. 
+  [Read More](#push-notifications)
+
+Additionally you can create a new custom classes with a click on the *+* button near the *Data* label. Type a none used 
+name and hit enter. The schema view will appear and you can begin to model your own class schema.
+
+**Logs** - Here you can view the logs generated by accessing the api and your application logs.
+
+  - **AccessLog:** Each request wich is served by our Baqend servers or the CDN generates a log entry. You can view and 
+  search in the access logs within a period of 30 days. [Read More](#app-logging)
+  - **AppLog:** While developing and later in production is is really common to log specific actions of your app or 
+  baqend code for debugging and usage analysis. Therefore the SDK provides a simple logging API that you can use to 
+  create log entries which are kept for an period of 30 days. [Read More](#access-logs)
+ 
+**API Explorer** - The API Explorer provides a GUI to serve the underlying REST API of Baqend. Here you can explore and
+made direct HTTP calls to your baqend server.
+ 
+**Settings** - Her you can configure additional settings of your Baqend app like:
+  
+  - E-Mailing used by the registration process
+  - OAuth settings to enable oauth login
+  - Push Notifications certificates and keys needed to actually push notifications
 
 # CRUD
 
