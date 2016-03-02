@@ -4,7 +4,7 @@ Follow this 5 minute quickstart, to setup a new web project with Baqend. We will
  <ol class="getting-started-list">
 <li>
 ###Create a Baqend account
-To build a new application, first [create a Baqend account](http://dashboard.baqend.com/). Type in a name for your new application and a dedicated server instance will be deployed and hooked up to the caching infrastructure (typically in 20 seconds).
+To build a new application, first [create a Baqend account](http://dashboard.baqend.com/). Type in a name for your new application and a dedicated server instance will be deployed and hooked up to our global caching infrastructure (typically in 20 seconds).
 </li>
 <li>
 ###Download Boilerplate Web Project
@@ -19,7 +19,7 @@ css
     bootstrap.css   <-- [Bootstrap](http://getbootstrap.com/) style
 img, fonts          <-- assets
 </pre>
-In a few minutes your app wil look like this:
+In a few minutes your app will look like this:
 
 <img src="/img/textwall.png" style="width:60%;">
 </li>
@@ -44,7 +44,7 @@ The callback is invoked when the connection is established. We will use that to 
 </li>
 <li>
 ###Define the Data Model
-In the [dashboard](https://dashboard.baqend.com/apps) enter your App and create a new table named `Message` in the **Tables** menu on the left. In the schema tab that is now open, give it three properties:
+In the [dashboard](https://dashboard.baqend.com/apps) enter your App and create a new table named `Message` in the **Tables** menu on the left. In the schema tab that is now open, add three attributes:
 <table class="table">
 <tr><th>Attribute Name</th><th>Type</th></tr>
 <tr><td>name</td><td>String</td></tr>
@@ -116,7 +116,7 @@ Queries allow you do complex filtering and sorting, see the [Query Docs](/#queri
 ###Protect Your Data
 By default, public access to the `Message` table is allowed. Let's restrict that to only allow *inserts*, *reads* and *queries* but disallow any *updates* and *deletes*. Go to the **ACL** (Access Control Lists) tab in the dashboard and revoke delete and update rights from the Public role.
 
-Access rights can be granted and denied both at table level and at object level. This explained in detail in the [User, Roles and Permissions documentation](/#users-roles-and-permissions).
+Access rights can be granted and denied both at table level and at object level. This is explained in detail in the [User, Roles and Permissions documentation](/#users-roles-and-permissions).
 
 Baqend has full SSL support. If you want the Baqend connection to be SSL-encrypted by default, add `true` as the second parameter of the `DB.connect` call.
 </li>
