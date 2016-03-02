@@ -3,7 +3,7 @@ Follow this 5 minute quickstart, to setup a new web project with Baqend. We will
 
  <ol class="getting-started-list">
 <li>
-###Create a Baqend account
+###Create a Baqend Account
 To build a new application, first [create a Baqend account](http://dashboard.baqend.com/). Type in a name for your new application and a dedicated server instance will be deployed and hooked up to our global caching infrastructure (typically in 20 seconds).
 </li>
 <li>
