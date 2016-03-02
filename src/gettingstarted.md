@@ -4,7 +4,7 @@ Follow this 5 minute quickstart, to setup a new web project with Baqend. We will
  <ol class="getting-started-list">
 <li>
 ###Create a Baqend account
-To build a new application, first [create a Baqend account](http://dashboard.baqend.com/). You can type in a name for your new application and a new dedicated server instance will be deployed and hooked up to the caching infrastructure (typically in 20 seconds).
+To build a new application, first [create a Baqend account](http://dashboard.baqend.com/). Type in a name for your new application and a dedicated server instance will be deployed and hooked up to the caching infrastructure (typically in 20 seconds).
 </li>
 <li>
 ###Download Boilerplate Web Project
@@ -36,19 +36,90 @@ DB.connect("<your-app-name>", function() {
 	showMessages();
 });
 ```
-The callback is invoked when the connection is established. We will use that to display the message wall in `showMessages()`, but first we need some data.
+The callback is invoked when the connection is established. We will use that to display the message wall in `showMessages`, but first we need some data.
 </li>
 <li>
-###Defining the Data Model
-In the [dashboard](https://dashboard.baqend.com/apps) enter the App and create a new table named `Message` in the *Data* menu on the left.
+###Define the Data Model
+In the [dashboard](https://dashboard.baqend.com/apps) enter your App and create a new table named `Message` in the **Tables** menu on the left. In the schema tab that is now open, give it three properties:
+<table class="table">
+<tr><th>Attribute Name</th><th>Type</th></tr>
+<tr><td>name</td><td>String</td></tr>
+<tr><td>message</td><td>String</td></tr>
+<tr><td>date</td><td>DateTime</td></tr>
+</table>
+Now go to the **Data** tab and click **Add** to insert a dummy message to the database.
+
+To learn more about data modeling in Baqend, see the [Schema and Types documentation](/#schema-and-types).
 </li>
 <li>
-###Saving Data
-bldslfsldf lsdflsd sdfs
+###Save Data
+Now, let's enhance the `index.html` with an input for name and message as well as post button. Replace all the code starting before `<div class="jumbotron">` just until the `<hr>` with this:
+```html
+<div class="jumbotron">
+  <form onsubmit="leaveMessage(this.name.value, this.message.value);
+  this.reset(); return false;" class="form-inline text-center container">
+  <input class="form-control" name="name" placeholder="Name">
+  <input class="form-control" name="message" placeholder="Message">
+  <button type="submit" class="btn btn-primary">Leave Message</button>
+</form>
+</div>
+<div class="container"><div class="row" id="messages"></div></div>
+```
+So when hitting enter or the button, our `leaveMessage` function is called. Let's add it to `main.js`:
+```js
+function leaveMessage(name, message) {
+    //Create new message object
+	var msg = new DB.Message();
+	//Set the properties
+	msg.name = name;
+	msg.message = message;
+	msg.date = new Date();
+	//Insert it to the database
+	msg.insert().then(showMessages);
+}
+```
+So now we insert a new message, whenever the HTML form is submitted.
+
+See the [**C**reate **R**ead **U**pdate **D**elete documentation](/#crud) to learn more about saving and loading data.
 </li>
 <li>
-###Querying Data
-bldslfsldf lsdflsd sdfs
+###Query Data
+Now, let's display the stored data. To show the 30 newest messages, ordered by time stamp perform a simple query:
+```js
+function showMessages() {
+  DB.Message.find()
+    .descending("date")
+    .limit(30)
+    .resultList()
+    .then(function(result) {
+        var html = "";
+        result.forEach(function(msg) {
+            html += '<div class="col-md-4"><h2>';
+            html += msg.name + '</h2><p>' + msg.message + '</p></div>';
+        });
+        document.getElementById("messages").innerHTML = html;
+    });
+}
+```
+At this point the application is fully working. Just open the `index.html` in the browser to use your app. If something is not working, press `F12` to see any error messages.
+
+Queries allow you do complex filtering and sorting, see the [Query Docs](/#queris). All data loaded from Baqend Cloud is served with low latency from a global CDN.
+</li>
+<li>
+###Protect Your Data
+By default, public access to the `Message` table is allowed. Let's restrict that to only allow *inserts*, *reads* and *queries* but disallow any *updates* and *deletes*. Go to the **ACL** (Access Control Lists) tab in the dashboard and revoke delete and update rights from the Public role.
+
+Access rights can be granted and denied both at table level and at object level. This explained in detail in the [User, Roles and Permissions documentation](/#users-roles-and-permissions).
+
+Baqend has full SSL support. If you want the Baqend connection to be SSL-encrypted by default, add `true` as the second parameter of the `DB.connect` call.
+</li>
+<li>
+###Start Building
+Use the app you just built as a baseline and learn about other features:
+<ul>
+    <li>Bla</li>
+    <li>If your starting from scratch, have a look at frontend bootstraping tools: [Initializr](http://www.initializr.com/) (used here), [HTML5 Boilerplate](https://html5boilerplate.com/), [Bootstrap](http://getbootstrap.com/), [Yeoman](http://yeoman.io/)</li>
+</ul>
 </li>
 </ol>
 
@@ -61,10 +132,10 @@ bldslfsldf lsdflsd sdfs
 }
 
 .getting-started-list h3 {
-    margin-top: -110px;
+    //margin-top: -110px;
 }
 
-.getting-started-list li {
+.getting-started-list>li {
     position: relative;
     border-left: 2px solid #1967CC;
     padding: 0 0 60px 50px;
@@ -73,11 +144,11 @@ bldslfsldf lsdflsd sdfs
     width: 100%;
 }
 
-.getting-started-list li:last-child {
+.getting-started-list>li:last-child {
     border: none;
 }
 
-.getting-started-list li:before {
+.getting-started-list>li:before {
     counter-increment: cnt;
     content: counter(cnt);
     position: absolute;

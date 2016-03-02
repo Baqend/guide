@@ -586,7 +586,7 @@ Baqend supports three collection types:
 
 For all collection methods see the [JavaScript API Docs](http://www.baqend.com/js-sdk/latest/baqend.collection.html).
 
-# Querys
+# Queries
 
 To retrieve objects by more complex criteria than their id, queries can be used. They are executed on Baqend and 
 return the matching objects.
