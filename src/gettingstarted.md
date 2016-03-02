@@ -19,6 +19,9 @@ css
     bootstrap.css   <-- [Bootstrap](http://getbootstrap.com/) style
 img, fonts          <-- assets
 </pre>
+In a few minutes your app wil look like this:
+
+<img src="/img/textwall.png" style="width:50%;">
 </li>
 <li>
 ###Install Baqend
@@ -115,10 +118,13 @@ Baqend has full SSL support. If you want the Baqend connection to be SSL-encrypt
 </li>
 <li>
 ###Start Building
-Use the app you just built as a baseline and learn about other features:
+Use the app you just built as a baseline and learn about Baqend's other features:
 <ul>
-    <li>Bla</li>
-    <li>If your starting from scratch, have a look at frontend bootstraping tools: [Initializr](http://www.initializr.com/) (used here), [HTML5 Boilerplate](https://html5boilerplate.com/), [Bootstrap](http://getbootstrap.com/), [Yeoman](http://yeoman.io/)</li>
+    <li>Take the [Interactive Tutorial](http://www.baqend.com/#tutorial)</li>
+    <li>Read the [Developer Guide](/), to learn about server-side code &amp; validations, (social) user login and registration, push notifications, logging, etc.</li>
+    <li>Read the [JavaScript API Docs](/)</li>
+    <li>Play with the Interative REST API: [Open Your App](https://dashboard.baqend.com) and go to *API Explorer*</li>
+    <li>If you're starting from scratch, have a look at frontend bootstraping tools: [Initializr](http://www.initializr.com/) (used here), [HTML5 Boilerplate](https://html5boilerplate.com/), [Bootstrap](http://getbootstrap.com/), [Yeoman](http://yeoman.io/)</li>
 </ul>
 </li>
 </ol>
@@ -129,6 +135,10 @@ Use the app you just built as a baseline and learn about other features:
     counter-reset: cnt;
     margin-left: 0;
     margin-top: 40px;
+}
+
+.getting-started-list ul li{
+    padding: 10px 0;
 }
 
 .getting-started-list h3 {
