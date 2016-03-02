@@ -56,21 +56,29 @@ bldslfsldf lsdflsd sdfs
 .getting-started-list {
     list-style: none;
     counter-reset: cnt;
-    border-left: 2px solid #1967CC;
-    margin-left: 30px;
+    margin-left: 0;
+}
+
+.getting-started-list {
+    
 }
 
 .getting-started-list li {
     position: relative;
-    padding-left: 20px;
-    margin: 60px auto;
+    border-left: 2px solid #1967CC;
+    padding: 0 0 60px 50px;
+    margin-bottom: -30px;
+}
+
+.getting-started-list li:last-child {
+    border: none;
 }
 
 .getting-started-list li:before {
     counter-increment: cnt;
     content: counter(cnt);
     position: absolute;
-    left: -58px;
+    left: -18px;
     border-radius: 50%;
     background-color: #FFFFFF;
     display: block;

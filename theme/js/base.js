@@ -3,10 +3,9 @@ $( document ).ready(function() {
     hljs.initHighlighting();
 
     /* Scrollspy */
-    var navHeight = $('.navbar').outerHeight(true);
     $('body').scrollspy({
       target: '.bs-sidebar',
-      offset: navHeight
+      offset: 90
     });
 });
 
