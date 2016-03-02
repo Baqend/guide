@@ -6,7 +6,7 @@ For additional setup information visit our [GitHub page](https://github.com/Baqe
 
 ## Including the SDK
 
-To install Baqend, just add our CDN-hosted script to the ´<head>´ section of your website.
+To install Baqend, just add our CDN-hosted script to the `<head>` section of your website.
 
 ```html
 <script src="http://www.baqend.com/js-sdk/latest/baqend.min.js"></script>

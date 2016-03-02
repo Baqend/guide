@@ -21,7 +21,7 @@ img, fonts          <-- assets
 </pre>
 In a few minutes your app wil look like this:
 
-<img src="/img/textwall.png" style="width:50%;">
+<img src="/img/textwall.png" style="width:60%;">
 </li>
 <li>
 ###Install Baqend
@@ -34,6 +34,7 @@ Other installation methods (e.g. npm) are explained [on Github](https://github.c
 <li>
 ###Connect to the Cloud
 In the `main.js`, add the following lines to connect to Baqend Cloud:
+
 ```js
 DB.connect("<your-app-name>", function() {
 	showMessages();
@@ -57,6 +58,7 @@ To learn more about data modeling in Baqend, see the [Schema and Types documenta
 <li>
 ###Save Data
 Now, let's enhance the `index.html` with an input for name and message as well as post button. Replace all the code starting before `<div class="jumbotron">` just until the `<hr>` with this:
+
 ```html
 <div class="jumbotron">
   <form onsubmit="leaveMessage(this.name.value, this.message.value);
@@ -69,6 +71,7 @@ Now, let's enhance the `index.html` with an input for name and message as well a
 <div class="container"><div class="row" id="messages"></div></div>
 ```
 So when hitting enter or the button, our `leaveMessage` function is called. Let's add it to `main.js`:
+
 ```js
 function leaveMessage(name, message) {
     //Create new message object
@@ -88,6 +91,7 @@ See the [**C**reate **R**ead **U**pdate **D**elete documentation](/#crud) to lea
 <li>
 ###Query Data
 Now, let's display the stored data. To show the 30 newest messages, ordered by time stamp perform a simple query:
+
 ```js
 function showMessages() {
   DB.Message.find()
@@ -117,14 +121,32 @@ Access rights can be granted and denied both at table level and at object level.
 Baqend has full SSL support. If you want the Baqend connection to be SSL-encrypted by default, add `true` as the second parameter of the `DB.connect` call.
 </li>
 <li>
+###Add User Registration and Login
+If you would like your users to login into your application, that's easy. Your app has a predefined `User` table and the Baqend SDK comes with built-in ways to register and log in users:
+
+```js
+DB.User.register('john.doe@example.com', 'pwd').then(function() {
+  //Now we are logged in
+  console.log(DB.User.me.username); //'john.doe@example.com'
+});
+//When coming back, just log in:
+DB.User.login('john.doe@example.com', 'pwd').then(...)
+```
+
+You can enable and customize email verification in the settings page of the dashboard. To support OAuth logins (e.g. "Login with Facebook"), setup OAuth as [described in the User docs](/#oauth-login), then you can simply call `DB.User.loginWithFacebook`.
+
+
+
+</li>
+<li>
 ###Start Building
-Use the app you just built as a baseline and learn about Baqend's other features:
+You can use the app you just created as a baseline for a real app. To explore Baqend's other features:
 <ul>
     <li>Take the [Interactive Tutorial](http://www.baqend.com/#tutorial)</li>
-    <li>Read the [Developer Guide](/), to learn about server-side code &amp; validations, (social) user login and registration, push notifications, logging, etc.</li>
+    <li>Read the [Developer Guide](/), to learn about server-side code &amp; validations, push notifications, logging, etc.</li>
     <li>Read the [JavaScript API Docs](/)</li>
     <li>Play with the Interative REST API: [Open Your App](https://dashboard.baqend.com) and go to *API Explorer*</li>
-    <li>If you're starting from scratch, have a look at frontend bootstraping tools: [Initializr](http://www.initializr.com/) (used here), [HTML5 Boilerplate](https://html5boilerplate.com/), [Bootstrap](http://getbootstrap.com/), [Yeoman](http://yeoman.io/)</li>
+    <li>If you're starting from scratch, have a look at frontend bootstraping tools: [Initializr](http://www.initializr.com/) (used here), [HTML5 Boilerplate](https://html5boilerplate.com/), [Bootstrap](http://getbootstrap.com/), [Yeoman](http://yeoman.io/) and popular frontend frameworks: [Ionic](http://ionic.io/), [AngularJS](https://angularjs.org/), [React](https://facebook.github.io/react/), [Ember](http://emberjs.com/)</li>
 </ul>
 </li>
 </ol>
