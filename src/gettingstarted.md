@@ -57,17 +57,20 @@ bldslfsldf lsdflsd sdfs
     list-style: none;
     counter-reset: cnt;
     margin-left: 0;
+    margin-top: 40px;
 }
 
-.getting-started-list {
-    
+.getting-started-list h3 {
+    margin-top: -110px;
 }
 
 .getting-started-list li {
     position: relative;
     border-left: 2px solid #1967CC;
     padding: 0 0 60px 50px;
-    margin-bottom: -30px;
+    /* disable collapsed margin */
+    display: inline-block;
+    width: 100%;
 }
 
 .getting-started-list li:last-child {
