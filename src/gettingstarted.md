@@ -132,7 +132,9 @@ Use the app you just built as a baseline and learn about other features:
 }
 
 .getting-started-list h3 {
-    //margin-top: -110px;
+    margin-top: -110px;
+    position: relative;
+    z-index: -1;
 }
 
 .getting-started-list>li {
