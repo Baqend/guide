@@ -21,7 +21,7 @@ img, fonts          <-- assets
 </pre>
 In a few minutes your app will look like this:
 
-<img src="/img/textwall.png" style="width:60%;">
+<img src="../img/textwall.png" style="width:60%;">
 </li>
 <li>
 ###Install Baqend
