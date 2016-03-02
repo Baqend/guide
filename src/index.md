@@ -4,6 +4,16 @@ The JavaScript SDK is packaged as an UMD module, it can be used with RequireJS, 
 To get started please install the Baqend SDK from [npm](https://www.npmjs.com/package/baqend) or [GitHub](https://github.com/Baqend/js-sdk/releases).
 For additional setup information visit our [GitHub page](https://github.com/Baqend/js-sdk/blob/master/README.md).
 
+### Including the SDK
+
+To install Baqend, just add our CDN-hosted script to the ´<head>´ section of your website.
+
+```html
+<script src="http://www.baqend.com/js-sdk/latest/baqend.min.js"></script>
+```
+
+There are [many other ways](https://github.com/Baqend/js-sdk/blob/master/README.md) to bundle the SDK in your app, for instance via npm or download.
+
 ### Environment
 
 The Baqend SDK is written and tested for Chrome 24+, Firefox 18+, Internet Explorer 9+, Safari 7+, Node 0.12+, IOS 7+, Android 4+ and PhantomJS 1.9+
