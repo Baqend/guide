@@ -1,4 +1,4 @@
-## Getting Started
+## Quickstart
 Follow this 5 minute quickstart, to setup a new web project with Baqend. We will build a simple message wall.
 
  <ol class="getting-started-list">
@@ -12,20 +12,20 @@ We'll start with [this empty HTML5 Bootstrap project](http://www.initializr.com/
 <pre>
 **index.html**          <-- here we will put some HTML to accept input data
 js
-    **main.js**         <-- our application logic hooked up to Baqend
+    **main.js**         <-- your application logic hooked up to Baqend
     vendor          <-- JavaScript libraries
 css
     main.css        <-- our style
     bootstrap.css   <-- [Bootstrap](http://getbootstrap.com/) style
 img, fonts          <-- assets
 </pre>
-In a few minutes your app will look like this:
+In a few steps your app will look like this:
 
 <img src="../img/textwall.png" style="width:60%;">
 </li>
 <li>
 ###Install Baqend
-To install Baqend to the application, just add the CDN-hosted Baqend SDK in the `<head>` section of the index.html:
+To install Baqend to the application, just add the CDN-hosted Baqend SDK in the `<head>` section of the index.html using your favourite IDE (e.g. [WebStorm](https://www.jetbrains.com/webstorm/)) or text editor (e.g. [Sublime](https://www.sublimetext.com/3)):
 ```html
 <script src="http://www.baqend.com/js-sdk/latest/baqend.min.js"></script>
 ```

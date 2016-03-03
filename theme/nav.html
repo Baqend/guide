@@ -38,26 +38,31 @@
             {% endif %}
             {% endfor %}
                 <li>
-                    <a href="http://www.baqend.com/js-sdk/latest/baqend.html">JS API</a>
-                </li>
-                <li>
                     <a href="http://www.baqend.com/#tutorial">Tutorial</a>
                 </li>
                 <li>
-                    <a href="http://dashboard.baqend.com/">Dashboard</a>
+                    <a href="http://www.baqend.com/js-sdk/latest/baqend.html"><span class="hidden-sm hidden-xs">JS</span> API</a>
                 </li>
                 <li>
-                    <a href="https://community.baqend.com/">Community <span class="visible-lg-inline">Forum</span></a>
+                    <a href="https://community.baqend.com/">Forum</a>
                 </li>
             </ul>
 
             <!-- Search, Navigation and Repo links -->
             <ul class="nav navbar-nav navbar-right">
-                {% if include_search %}
+
                 <li>
-                    <a href="#searchModal" data-toggle="modal"><i class="fa fa-search"></i> Search</a>
+                    <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                        <i class="fa fa-search"></i> Search
+                    </a>
                 </li>
-                {% endif %}
+
+                <li>
+                    <a href="http://dashboard.baqend.com/" class="hidden-sm hidden-xs">
+                        <i class="fa fa-rocket"></i> Dashboard
+                    </a>
+                </li>
+
                 {% if false %}
                 <li {% if not previous_page %}class="disabled"{% endif %}>
                     <a rel="next" {% if previous_page %}href="{{ previous_page.url }}"{% endif %}>
@@ -71,7 +76,7 @@
                 </li>
                 {% endif %}
                 {% if repo_url %}
-                <li>
+                <li class="hidden-sm hidden-xs hidden-md">
                     <a href="{{ repo_url }}">
                         {% if repo_name == 'GitHub' %}
                             <i class="fa fa-github"></i>
@@ -82,6 +87,7 @@
                     </a>
                 </li>
                 {% endif %}
+
             </ul>
         </div>
     </div>
