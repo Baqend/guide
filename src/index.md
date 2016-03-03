@@ -1211,7 +1211,7 @@ copy the client ID and client secret into the settings page of the dashboard.
 OAuth is a way to delegate rights of third party resources owned by users to your application. A simple login always 
 receives a token and requests basic information including the unique user ID. The public profile information 
 is the most restricted scope a provider can offer. All supported providers (except Twitter) have a public profile + email scope 
-witch is the default in the Baqend SDK. The Baqend server checks if an email is in the allowed scope and sets it as the
+which is the default in the Baqend SDK. The Baqend server checks if an email is in the allowed scope and sets it as the
 username. For Twitter or if you change the scope within the frontend an uuid will be created as username.
 
 ### Login
