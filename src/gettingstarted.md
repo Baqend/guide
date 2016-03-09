@@ -27,7 +27,7 @@ In a few steps your app will look like this:
 ###Install Baqend
 To install Baqend to the application, just add the CDN-hosted Baqend SDK in the `<head>` section of the index.html using your favourite IDE (e.g. [WebStorm](https://www.jetbrains.com/webstorm/)) or text editor (e.g. [Sublime](https://www.sublimetext.com/3)):
 ```html
-<script src="http://www.baqend.com/js-sdk/latest/baqend.min.js"></script>
+<script src="//baqend.global.ssl.fastly.net/js-sdk/latest/baqend.min.js"></script>
 ```
 Other installation methods (e.g. npm) are explained [on Github](https://github.com/Baqend/js-sdk/blob/master/README.md).
 </li>

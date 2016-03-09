@@ -1,18 +1,16 @@
 # Baqend JS SDK
 
 The JavaScript SDK is packaged as an UMD module, it can be used with RequireJS, browserify or without any module loader.
-To get started please install the Baqend SDK from [npm](https://www.npmjs.com/package/baqend) or [GitHub](https://github.com/Baqend/js-sdk/releases).
-For additional setup information visit our [GitHub page](https://github.com/Baqend/js-sdk/blob/master/README.md).
+To get started please install the Baqend SDK with [npm](https://www.npmjs.com/package/baqend) or [bower](https://libraries.io/bower/baqend) or 
+download the complete package from [GitHub](https://github.com/Baqend/js-sdk/releases/latest).
 
-## Including the SDK
-
-To install Baqend, just add our CDN-hosted script to the `<head>` section of your website.
+Alternatively you can just add our CDN-hosted script to the `<head>` section of your website.
 
 ```html
-<script src="http://www.baqend.com/js-sdk/latest/baqend.min.js"></script>
+<script src="//baqend.global.ssl.fastly.net/js-sdk/latest/baqend.min.js"></script>
 ```
 
-There are [many other ways](https://github.com/Baqend/js-sdk/blob/master/README.md) to bundle the SDK in your app, for instance via npm or download.
+For additional setup information visit our [GitHub page](https://github.com/Baqend/js-sdk/blob/master/README.md).
 
 ## Environment
 
