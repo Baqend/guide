@@ -8,7 +8,7 @@ To build a new application, first [create a Baqend account](http://dashboard.baq
 </li>
 <li>
 ###Download Boilerplate Web Project
-We'll start with [this empty HTML5 Bootstrap project](http://www.initializr.com/builder?boot-hero&html5shiv&simplehtmltag&izr-emptyscript&boot-css). Unzip it, to get the following folder structure:
+We'll start with [this empty HTML5 Bootstrap project](http://www.initializr.com/builder?boot-hero&html5shiv&simplehtmltag&izr-emptyscript&boot-css&boot-scripts). Unzip it, to get the following folder structure:
 <pre>
 **index.html**          <-- here we will put some HTML to accept input data
 js
@@ -27,7 +27,8 @@ In a few steps your app will look like this:
 ###Install Baqend
 To install Baqend to the application, just add the CDN-hosted Baqend SDK in the `<head>` section of the index.html using your favourite IDE (e.g. [WebStorm](https://www.jetbrains.com/webstorm/)) or text editor (e.g. [Sublime](https://www.sublimetext.com/3)):
 ```html
-<script src="//baqend.global.ssl.fastly.net/js-sdk/latest/baqend.min.js"></script>
+<!-- Remove "http" in production, it's just for server-less testing -->
+<script src="http://baqend.global.ssl.fastly.net/js-sdk/latest/baqend.min.js"></script>
 ```
 Other installation methods (e.g. npm) are explained [on Github](https://github.com/Baqend/js-sdk/blob/master/README.md).
 </li>
@@ -68,7 +69,7 @@ Now, let's enhance the `index.html` with an input for name and message as well a
   <button type="submit" class="btn btn-primary">Leave Message</button>
 </form>
 </div>
-<div class="container"><div class="row" id="messages"></div></div>
+<div class="container"><div class="row" id="messages"></div>
 ```
 So when hitting enter or the button, our `leaveMessage` function is called. Let's add it to `main.js`:
 
