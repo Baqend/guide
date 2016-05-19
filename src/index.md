@@ -695,7 +695,7 @@ The following table list all available query filters and the types on which they
   <tr>  
     <td><a href="http://docs.mongodb.org/manual/reference/operator/query/gte/">$gte</a></td>
     <td>Numbers, Dates, Strings</td>
-    <td><code>gte()</code> is an alias</td>
+    <td><code>ge()</code> is an alias</td>
   </tr>
   <tr>
     <td colspan="3" style="border-top: none; padding-top: 20px"><code>lessThan('total', 3)</code></td>
@@ -711,7 +711,7 @@ The following table list all available query filters and the types on which they
   <tr>  
     <td><a href="http://docs.mongodb.org/manual/reference/operator/query/lte/">$lte</a></td>
     <td>Numbers, Dates, Strings</td>
-    <td><code>lte()</code> is an alias</td>
+    <td><code>le()</code> is an alias</td>
   </tr>
   <tr>
     <td colspan="3" style="border-top: none; padding-top: 20px"><code>between('total', 3, 5)</code></td>
