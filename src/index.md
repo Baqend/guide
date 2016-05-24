@@ -589,7 +589,7 @@ For all collection methods see the [JavaScript API Docs](http://www.baqend.com/j
 To retrieve objects by more complex criteria than their id, queries can be used. They are executed on Baqend and 
 return the matching objects.
 The Baqend SDK features a [query builder](http://www.baqend.com/js-sdk/latest/baqend.Query.Builder.html) that creates 
-[MongoDB]([MongoDB queries](http://docs.mongodb.org/manual/tutorial/query-documents/)) under the hood. It is possible
+[MongoDB queries](http://docs.mongodb.org/manual/tutorial/query-documents/) under the hood. It is possible
  to formulate native MongoDB queries, but using the query builder is the recommend way: it is far more readable and 
  does all the plumbing and abstraction from MongoDB obscurities.
 
