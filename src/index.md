@@ -1578,6 +1578,57 @@ It is important that you send the content back with one of the express `res.send
 not be send back to the client. In addition ensure that you return a [promise](#promise) when you make asynchronous calls within 
 your baqend module, otherwise the request will be aborted with an error!
 
+## Handling binary data
+
+As a part of the advanced request handling, it is also possible to upload and download binary files in baqend modules. 
+
+To send binary data to your baqend module, you can specify the 'requestType' option. 
+With the 'responseType' option you can receive binary data in the specified type from your baqend module. 
+This works similar to the file API and you can use all the listed [file types](#files) as 'requestType' and 'responseType' too.
+
+```js
+var svgBase64 = 'PHN2ZyB4bWxucz0...';
+var mimeType = 'image/svg+xml';
+
+return db.modules.post(bucket, svgBase64, {
+  requestType: 'base64',    //Sending the file as a base64 string 
+  mimeType: mimeType,       //Setting the mimeType as Content-Type
+  responseType: 'data-url'  //Receiving the data as a data-url
+}).then(function(result) {
+  result // 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0...'
+});
+```
+
+To handle the binary files in a baqend module, you must process the incoming raw stream directly. The incoming request 
+object is a node.js [Readable Stream](https://nodejs.org/api/stream.html#stream_readable_streams) and you will receive 
+the incoming raw data as [Buffer](https://nodejs.org/api/buffer.html) chunks.
+
+To send binary data back to the client, you should set the Content-Type of the response data with the express 
+[res.type()](http://expressjs.com/de/api.html#res.type) method and send the data afterwards.
+
+If you have completed the request handling you need to resolve the previously returned promise to signal the completion 
+of the request handling.
+
+```js
+//this simple baqend handler just sends the uploaded file back to the client
+exports.post = function(db, req, res) {
+  return new Promise(function(success) {
+    //node gives the file stream as chunks of Buffer 
+    var chunks = []; 
+    req.on('data', function(chunk) {
+      chunks.push(chunk);
+    });
+    req.on('end', function() {
+      var requestData = Buffer.concat(chunks);
+      // do something with the requestData
+      res.status(200)
+          .type(req.get('Content-Type'))
+          .send(requestData); //sending some data back
+      success();
+    });
+  });
+};
+```
 
 ## Module system and libraries
 Baqend code constitutes CommonJS modules and can require other modules and external libraries. 
