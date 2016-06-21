@@ -1085,39 +1085,39 @@ operation.
     <th>Object-based permission</th>
   </tr>
   <tr>
-    <td><code>load()</code></td>
+    <td><code>.load()</code></td>
     <td>type.loadPermission</td>
     <td>object.acl.read</td>
   </tr>
   <tr>
-    <td><code>find()</code></td>
+    <td><code>.find()</code></td>
     <td>type.queryPermission</td>
     <td>object.acl.read</td>
   </tr>
   <tr>
-    <td><code>insert()</code></td>
+    <td><code>.insert()</code></td>
     <td>type.insertPermission</td>
     <td>-</td>
   </tr>
   <tr>
-    <td><code>update()</code></td>
+    <td><code>.update()</code></td>
     <td>type.updatePermission</td>
     <td>object.acl.write</td>
   </tr>
   <tr>
-    <td><code>delete()</code></td>
+    <td><code>.delete()</code></td>
     <td>type.deletePermission</td>
     <td>object.acl.write</td>
   </tr>
   <tr>
-    <td><code>save()</code></td>
+    <td><code>.save()</code></td>
     <td>type.insertPermission if the object is inserted<br>
       type.updatePermission if the object is updated
     </td>
     <td>object.acl.write</td>
   </tr>
   <tr>
-    <td><code>save({force: true})</code></td>
+    <td><code>.save({force: true})</code></td>
     <td>both type.insertPermission and type.updatePermission will be checked</td>
     <td>object.acl.write</td>
   </tr>
@@ -1877,6 +1877,284 @@ firstTodo.save({depth: 1});
 And again increasing the `depth` value to `2` will save all direct referenced entities and all entities which are 
 referenced by those referenced entities. You can also pass `depth` with `true` to save all dirty entities by 
 reachability.
+
+# Files
+
+Baqend comes with a powerful File and Asset API. You can create multiple root level folders and apply different 
+permissions to those. Files can be uploaded, replaced, downloaded and deleted when the user has the right permissions. 
+
+In addition the SDK comes with a rich set of functionality to transform the file contents to different browser friendly 
+formats. In the following table we list all supported file formats:
+
+<table class="table">
+  <tr>
+    <th>type</th>
+    <th>JavaScript type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>'arraybuffer'</td>
+    <td>ArrayBuffer</td>
+    <td>The content is represented as a fixed-length raw binary data buffer<br>
+    <code>var buffer = new ArrayBuffer(8)</code></td>
+  </tr>
+  <tr>
+    <td>'blob'</th>
+    <td>Blob|File</td>
+    <td>The content is represented as a simple blob<br>
+    <code>var blob = new Blob(["&lt;a href=..."], {type : 'text/html'})</code></td>
+  </tr>
+  <tr>
+    <td>'json'</td>
+    <td>object|array|string</td>
+    <td>The file content is represented as json<br>
+      <code>var json = {prop: "value"}</code></td>
+  </tr>
+  <tr>
+    <td>'text'</td>
+    <td>string</td>
+    <td>The file content is represented through the string<br>
+    <code>'A Simple Text'</code></td>
+  </tr>
+  <tr>
+    <td>'base64'</td>
+    <td>string</td>
+    <td>The file content as base64 encoded string<br>
+    <code>'PHN2ZyB4bWxucz...'</code></td>
+  </tr>
+  <tr>
+    <td>'data-url'</td>
+    <td>string</td>
+    <td>A data url which represents the file content<br>
+    <code>'data:image/gif;base64,R0lGODlhD...'</code></td>
+  </tr>
+</table>
+
+The file API accept all the listed formats as upload type and transforms the content to the correct binary representation 
+while uploading it. The SDK guesses the correct type except for the `base64` type and transforms it automatically. 
+
+When you download a file you can specify in which format the downloaded content should be provided.
+
+
+## Accessing Files
+
+The simplest way to access a file is retrieve the absolute url form the baqend SDK. Therefore you can use any existing 
+file reference or you can create one by yourself. 
+
+```js
+//creates the same file reference
+//each file reference starts with /file followed by the root folder, e.g. /www
+var file = new DB.File('/file/www/myPic.jpg');
+var file = new DB.File({name: 'myPic.jpg'});
+```
+
+To get the full url to access the file just use the `file.url` shorthand. This ensures that the domain is correctly used, 
+checks if the file is stale or can be directly served form the cache and attach authorization credentials if needed. 
+
+In a common html template engine you can just write:
+```html
+<img src="{{file.url}}">
+```
+
+If you manager your files in folders you can access them by adding the folder property:
+
+```js
+//creates the same file reference
+var file = new DB.File('/file/www/images/myPic.jpg');
+//folders start with the root folder, e.g. /www and followed by additional folders
+var file = new DB.File({folder: '/www/images', name: 'myPic.jpg'});
+```
+
+Note that folders always start with a root folder, since the access control who can access and modify the folder contents 
+can only be set for the root folder and is applied to all nesting files and folders.
+
+## Uploading Files
+
+To upload a file you must first create a file with it name and its content.
+Afterwards you can simply upload the file by just invoking `upload()`:
+
+```js
+var file = new DB.File({name: 'test.png', data: file, type: 'blob'})
+file.upload().then(function(file) {
+    //upload succeed successfully 
+    file.mimeType //contains the media type of the file
+    file.lastModified //the upload date
+    file.eTag //the eTag of the file
+}, function(error) {
+    //upload failed with an error 
+});
+```
+
+In most cases you would like to upload the files which was provided by your user through a file input field or a file 
+drag & drop event. 
+
+```html
+<input type="file" id="input" multiple onchange="uploadFile(this.files)">
+```
+
+```js
+function uploadFiles(files) {
+  var pendingUploads = [];
+
+  for (var i = 0, numFiles = files.length; i < numFiles; i++) {
+    //If you omit the name parameter, the name of the provided file object is used
+    var file = new DB.File({data: files[i]});
+    pendingUploads.push(file.upload());
+  }
+  
+  Promise.all(pendingUploads).then(function() {
+    //all files are successfully uploaded
+  });
+}
+```
+
+In the cases you want to upload base64 encoded binary data you can use the base64 type in the options object:
+
+```js
+var file = new DB.File({name: 'test.png', data: 'R0lGODlhDAAeALMAAG...', type: 'base64', mimeType: 'image/gif'})
+file.upload().then(function(file) {
+    //upload succeed successfully 
+    file.mimeType //contains the media type of the file
+    file.lastModified //the upload date
+    file.eTag //the eTag of the file
+}, function(error) {
+    //upload failed with an error 
+});
+```
+
+If you try to overwrite an existing file and do not have previously fetched the file or its metadata, or the file has 
+been changed in the meantime the upload will be rejected to prevent accidental file replacement. 
+If you like to skip the verification, you can pass the `{force: true}` option to the `upload()` call. 
+
+Note: To upload a file you must have at least the insert or update permission on the root folder and write 
+access on the file. 
+
+## Downloading Files
+
+Downloading a file works similar to uploading one. Just create a file reference and call `file.download()`:
+
+```js
+var file = new DB.File({name: 'myPic.jpg'});
+file.download(function(data) {
+    data //is provided as Blob per default
+
+    //accessing the metadata of the file 
+    file.mimeType //contains the media type of the file
+    file.lastModified //the upload date
+    file.eTag //the eTag of the file
+});
+```
+
+To load the file content in a different format, just request a download `type`
+
+```js
+var file = new DB.File({name: 'myPic.jpg', type: 'data-url'});
+file.download(function(data) {
+    //data is a data url string
+    data // "data:image/jpeg;base64,R0lGODlhDAA..."
+});
+```
+
+Note: To download a file you must have at least the load on the root folder and read access on the file. 
+
+## Deleting Files
+
+To delete a file just call the `delete()` method after creating the file reference:
+
+```js
+var file = new DB.File({name: 'test.png'})
+file.delete().then(function(file) {
+    //deletion succeed
+}, function(error) {
+    //upload failed with an error 
+});
+```
+
+If you try to delete a file and you have previously fetched the file or its metadata and the file has 
+been changed in the meantime the deletion will be rejected to prevent accidental file deletions. 
+If you like to skip the verification, you can pass the `{force: true}` option to the `delete()` call. 
+
+## File ACLs
+
+The File Permissions works similar to the object acls, you can define permissions on the root folders similar to class-based 
+permissions and file permissions similar to object level permissions.
+
+The root folder permissions are applied to all nesting folders and files.
+
+### File Permissions
+
+The following table gives an overview of the required permissions per operation:
+
+<table class="table">
+  <tr>
+    <th width="30%">Method</th>
+    <th width="40%">Root-folder-based permission</th>
+    <th>File-based permission</th>
+  </tr>
+  <tr>
+    <td><code>.download(), .url</code></td>
+    <td>folder.load</td>
+    <td>object.acl.read</td>
+  </tr>
+  <tr>
+    <td><code>.upload(&lt;new file&gt;)</code></td>
+    <td>folder.insert</td>
+    <td>-</td>
+  </tr>
+  <tr>
+    <td><code>.upload(&lt;existing file&gt;)</code></td>
+    <td>folder.update</td>
+    <td>object.acl.write</td>
+  </tr>
+  <tr>
+    <td><code>.upload({force: true})</code></td>
+    <td>both folder.insert and folder.update will be checked</td>
+    <td>object.acl.write</td>
+  </tr>
+  <tr>
+    <td><code>.delete()</code></td>
+    <td>folder.delete</td>
+    <td>object.acl.write</td>
+  </tr>
+</table>
+
+### Set root folder Permissions
+
+Per default only the admin can access root folders with one exception. The `www` folder is public readable for the file 
+hosting feature of baqend.
+
+To change the permissions for a specific root folder yous should commonly use the Baqend Dashboard. 
+But if you like to change the permissions programmatically you can use the `saveMetadata()` method:
+
+```
+//grant full access on the pictures root folder for the current user
+DB.File.saveMetadata('pictures', {
+   load: new DB.util.Permission().allowAccess(db.User.me),
+   insert: new DB.util.Permission().allowAccess(db.User.me),
+   update: new DB.util.Permission().allowAccess(db.User.me),
+   delete: new DB.util.Permission().allowAccess(db.User.me),
+   query: new DB.util.Permission().allowAccess(db.User.me)
+});
+```
+
+Note: To actually change the permissions of a root folder, you must own the admin role or you code must be executed 
+as baqend code.
+
+### Set file Permissions
+
+The file permissions can be set when a file is uploaded. Therefore you can pass the acl option to the File constructor 
+or to the upload method. 
+
+```js
+var file = new DB.File({
+    name: 'test.png', 
+    data: file, 
+    acl: new DB.Acl()
+        .allowReadAccess(db1.User.me)
+        .allowWriteAccess(db1.User.me)
+});
+file.upload().then(...);
+```
 
 
 # Logging
