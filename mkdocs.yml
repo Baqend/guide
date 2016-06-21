@@ -5,7 +5,7 @@ repo_url: https://github.com/Baqend/guide
 pages:
 - Quickstart: 'gettingstarted.md'
 - Guide: 'index.md'
-- Starter Kits: 'angular2_starter.md'
+- Starter Kits: 'starters.md'
 docs_dir: src
 site_dir: docs
 theme_dir: theme

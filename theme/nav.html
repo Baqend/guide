@@ -53,20 +53,20 @@
 
                 <li>
                     <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
-                        <i class="fa fa-search"></i> Search
+                        <i class="fa fa-search"></i><span class="visible-lg-inline"> Search</span>
                     </a>
                 </li>
 
                 <li>
                     <a href="http://dashboard.baqend.com/" class="hidden-sm hidden-xs">
-                        <i class="fa fa-rocket"></i> Dashboard
+                        <i class="fa fa-rocket"></i><span class="visible-lg-inline">  Dashboard</span>
                     </a>
                 </li>
 
                 {% if false %}
                 <li {% if not previous_page %}class="disabled"{% endif %}>
                     <a rel="next" {% if previous_page %}href="{{ previous_page.url }}"{% endif %}>
-                        <i class="fa fa-arrow-left"></i> Previous
+                        <i class="fa fa-arrow-left"></i><span class="visible-lg-inline">  Previous</span>
                     </a>
                 </li>
                 <li {% if not next_page %}class="disabled"{% endif %}>

@@ -1,7 +1,5 @@
-!["Logo"](https://cdn.rawgit.com/Baqend/angular2-starter/master/src/assets/Angular+Baqend.svg)
+#!["Logo"](/img/angular+baqend.svg) Angular2 and Baqend Starter
 
-
-#Angular2 and Baqend Starter
 With this Angular2 and Baqend starter kit you can build **blazingly fast single page applications** in no time. Setup your project by following the simple steps below.
 
 The starter is based on the [Angular2 Webpack Starter](https://github.com/AngularClass/angular2-webpack-starter) and uses:
@@ -50,6 +48,3 @@ Baqend's feature set includes:
 * File Storage and Hosting
 * Access Control on Object and Schema Level
 
-#License
-
-[MIT](https://github.com/Baqend/angular2-starter/blob/master/LICENSE) 
