@@ -37,7 +37,7 @@ method on the DB variable:
 ```js
 //connect to the example app
 DB.connect('example');
-//Or use a TLS-encrypted connection to Baqend
+//Or use a TLS-encrypted (SSL) connection to Baqend
 DB.connect('example', true);
 ```
 
@@ -1934,16 +1934,59 @@ And again increasing the `depth` value to `2` will save all direct referenced en
 referenced by those referenced entities. You can also pass `depth` with `true` to save all dirty entities by 
 reachability.
 
-# Hosting 
 
-Log into your domain provider and a CNAME rule like the following to your dns entries:
+# Hosting
 
-```
-www.yourdomain.com. IN CNAME global.prod.fastly.net.
-```
+With the hosting feature you can serve your website (html, css, js, images) right from your Baqend cloud instance while using your own domain.
 
-Note that you should not use a top level domain as a CNAME, since many dns providers do not support it. Instead use a sub domain 
-such as **www.**yourdomain.com. In addition you should ensure that no other entry is set for the used domain. 
+### Public File Access
+
+All assets stored in the **www** root folder can be accessed under your app domain (`<appName>.app.baqend.com`) as in the following examples:
+
+
+ <table class="table">
+  <tr>
+    <th>Folder (`folder`)</th>
+    <th>File Name (`name`)</th>
+    <th>Public Url</th>
+  </tr>
+  <tr>
+    <td>www</td>
+    <td>index.html</td>
+    <td>&lt;appName&gt;.app.baqend.com/</td>
+  </tr>
+  <tr>
+    <td>www</td>
+    <td>about.html</td>
+    <td>&lt;appName&gt;.app.baqend.com/about.html</td>
+  </tr>
+  <tr>
+    <td>www/images</td>
+    <td>logo.jpg</td>
+    <td>&lt;appName&gt;.app.baqend.com/images/logo.jpg</td>
+  </tr>
+</table>
+
+### Custom Domains
+
+To serve your website under your own domain you have to create a dns entry and register the custom domain in your Baqend dashboard:
+
+1. Log into the account at your domain provider and add a CNAME rule like the following to your DNS entries:
+
+    `www.yourdomain.com. IN CNAME global.prod.fastly.net.`
+
+    **Note**: that you should not use a top level domain as a CNAME, since many dns providers do not support it. Instead use a sub domain
+such as **www.**yourdomain.com. In addition you should ensure that no other DNS-entry is set for the used domain.
+
+2. Log into your Baqend dashboard and open your app settings. In the Hosting section simply add your custom domain `www.yourdomain.com` and click the save button. Your domain will now be registered at the CDN. Instead of `<appName>.app.baqend.com` you can now use `www.yourdomain.com`.
+
+
+**Note**: The registration of your domain as well as your dns-entry can take a few minutes until it is accessable.
+
+
+### SSL Hosting
+
+All data accessed over the Baqend SDK is SSL encrypted by enforcing encryption at [connect](#connect_the_sdk). If you need SSL encryption for your hosted assets too please contact us ([support@baqend.com](mailto:support@baqend.com?subject=SSL%20Hosting)), as this feature is not automated yet.
 
 # Files
 
