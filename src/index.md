@@ -552,12 +552,9 @@ and their corresponding JavaScript types.
 ## Collections
 
 Collections are typed by a reference, embedded object class or a primitive type. The Baqend SDK 
-does not support native JavaScript arrays since changes (e.g. an index access) on native arrays cannot be tracked. 
-Instead ES6-compatible lists are used. They behave similar to JS arrays and offer a bunch of convenience methods.
+supports 3 type of collections, which are mapped to native JavaScript arrays, es6 sets and maps:
 
-Baqend supports three collection types:
-
-<table class="table">
+ <table class="table">
   <tr>
     <th>Baqend Collection</th>
     <th>Example</th>
@@ -565,24 +562,27 @@ Baqend supports three collection types:
   </tr>
   <tr>
     <td>collection.List</td>
-    <td>new DB.List([1,2,3])</td>
+    <td>`new DB.List([1,2,3])` or <br> `new Array(1,2,3)`</td>
     <td>All non-collection types are supported as values</td>
   </tr>
   <tr>
     <td>collection.Set</td>
-    <td>new DB.Set([1,2,3])</td>
+    <td>`new DB.Set([1,2,3])` or <br> `new Set([1,2,3])`</td>
     <td>Only String, Boolean, Integer, Double, Date, Time, DateTime and References are allowed as values. Only this
     types can be compared by identity.</td>
   </tr>
   <tr>
     <td>collection.Map</td>
-    <td>new DB.Map([["x", 3], ["y", 5]])</td>
+    <td>`new DB.Map([["x", 3], ["y", 5]])` or <br> `new Map([["x", 3], ["y", 5]])`</td>
     <td>Only String, Boolean, Integer, Double, Date, Time, DateTime and References are allowed as keys.<br>
     All non collection types are supported as values.</td>
   </tr>
 </table>
 
-For all collection methods see the [JavaScript API Docs](http://www.baqend.com/js-sdk/latest/baqend.collection.html).
+For all collection methods see the MDN docs of 
+[Array](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Array),
+[Set](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Set) and 
+[Map](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Map)
 
 # Queries
 
@@ -1028,13 +1028,15 @@ During initialization the Baqend SDK checks, if the user is already registered a
 new user is anonymous by default and no user object is associated with the DB. Returning users are
 automatically logged in and the `DB.User.me` object is present.
 ```js
-if (DB.User.me) {
-  //user is logged in
-  console.log('Hello ' + DB.User.me.username); //the username of the user
-} else {
-  //user is anonym
-  console.log('Hello Anonymous');
-}
+DB.ready(function() {
+  if (DB.User.me) {
+    //do additional things if user is logged in
+    console.log('Hello ' + DB.User.me.username); //the username of the user
+  } else {
+    //do additional things if user is not logged in
+    console.log('Hello Anonymous');
+  }
+});
 ```
 
 ## Roles
@@ -1678,6 +1680,9 @@ The following additional libraries can be required in baqend code:
 - [baqend](http://www.baqend.com/js-sdk/latest/baqend.html) - The baqend SDK
 - [express](http://expressjs.com/4x/api.html) - HTTP server
 - [twilio](http://twilio.github.io/twilio-node/) - APIs for Text Messaging, VoIP & Voice in the Cloud 
+- [lwip](https://github.com/EyalAr/lwip) - Light Weight Image Processor for NodeJS
+- [node-mailjet](https://github.com/mailjet/mailjet-apiv3-nodejs) [API v3](https://dev.mailjet.com) Official Mailjet API v3 NodeJS wrapper 
+- [twilio](https://github.com/twilio/twilio-node) Node.js helper library for twilio
 
 ## Permissions
 
@@ -1856,7 +1861,7 @@ neither.
 ```js
 DB.Todo.load('7b2c...').then(function(firstTodo) {  
   //will throw an object not available error
-  console.log(firstTodo.upComingTodos.get(0).name); 
+  console.log(firstTodo.upComingTodos[0].name); 
 });
 ``` 
 
@@ -1867,7 +1872,7 @@ DB.Todo.load('7b2c...', {depth: 0}).then(function(firstTodo) {
   //will throw an object not available error
   console.log(firstTodo.doNext.name); 
   //will still throw an object not available error
-  console.log(firstTodo.upComingTodos.get(0).name); 
+  console.log(firstTodo.upComingTodos[0].name); 
 });
 ```
 
@@ -1876,11 +1881,11 @@ collections and embedded objects.
 ```js
 DB.Todo.load('7b2c...', {depth: 1}).then(function(firstTodo) {
   console.log(firstTodo.doNext.name); //'My second Todo'
-  console.log(firstTodo.upComingTodos.get(0).name); //'My second Todo'  
+  console.log(firstTodo.upComingTodos[0].name); //'My second Todo'  
   //will throw an object not available error
   console.log(firstTodo.doNext.doNext.name); 
   //will still throw an object not available error
-  console.log(firstTodo.upComingTodos.get(0).upComingTodos.get(0).name); 
+  console.log(firstTodo.upComingTodos[0].upComingTodos[0].name); 
 });
 ```
 
@@ -1928,6 +1933,17 @@ firstTodo.save({depth: 1});
 And again increasing the `depth` value to `2` will save all direct referenced entities and all entities which are 
 referenced by those referenced entities. You can also pass `depth` with `true` to save all dirty entities by 
 reachability.
+
+# Hosting 
+
+Log into your domain provider and a CNAME rule like the following to your dns entries:
+
+```
+www.yourdomain.com. IN CNAME global.prod.fastly.net.
+```
+
+Note that you should not use a top level domain as a CNAME, since many dns providers do not support it. Instead use a sub domain 
+such as **www.**yourdomain.com. In addition you should ensure that no other entry is set for the used domain. 
 
 # Files
 
@@ -2328,9 +2344,6 @@ as response time requirements.
 
 ## Partial Updates
 Perform partial updates on objects, like counter increases
-
-## File API
-Host your files and assets, manage access right, upload and download pictures and so on.
 
 ## Scheduled Baqend Code
 There will be a cron-like scheduler you can use to periodically run tasks.
