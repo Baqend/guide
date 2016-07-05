@@ -2353,12 +2353,6 @@ The following data will be collected by us:
 - latency - The latency to handle the actual request measured by the fastly server 
 - cacheHit - Indicates if the request was directly served by the fastly server without contacting baqend (Cache HIT)
 
-
-#Hosting
-
-Hosting a complete website on baqend is an upcoming feature, however baqend works seamlessly with static hosted pages 
-on [GitHub Pages](https://pages.github.com/) or [Amazon S3](http://docs.aws.amazon.com/AmazonS3/latest/dev/WebsiteHosting.html).
-
 -------
 
 # Upcoming Features
