@@ -2099,7 +2099,7 @@ In most cases you would like to upload the files which was provided by your user
 drag & drop event. 
 
 ```html
-<input type="file" id="input" multiple onchange="uploadFile(this.files)">
+<input type="file" id="input" multiple onchange="uploadFiles(this.files)">
 ```
 
 ```js
