@@ -1,10 +1,34 @@
+# Overview
+Baqend Cloud hosts your application data and business logic and delivers it over a **global caching infrastructure** for performance at the physical optimum. 
+
+With Baqend, you use a fully managed backend service with an automatically accelerated **JavaScript API** directly from your application (e.g. written in Angular or React). As the platform provides a rich set of turnkey features and takes over the responsibility for backend performance, major development efforts are saved.
+
+In terms of **architecture** Baqend gives you the hosting of your application (e.g. HTML and JS files) plus the APIs for backend concerns such as data storage, queries, push, OAuth, user management, access control and server-side business logic:
+
+<img src="img/architektur-guide.png" style="width:100%">
+
+<div class="note"><strong>Note:</strong> If you have any questions not answered by this guide, feel free to contact us via <a href="mailto:support@baqend.com">support@baqend.com</a> or the chat on the bottom.</div>
+
+
+##Getting Started
+These are our recommendations for getting things rolling quickly:
+
+- To get a hands-on overview of how Baqend works, take the [interactive tutorial](http://www.baqend.com/tutorial.html)
+- [Start your first Baqend app](https://dashboard.baqend.com/register) and take the Quickstart to build a real application
+- With the [Starter Kits](/starters) you get convenient boilerplate projects that work seamlessly with Baqend
+- This guide covers how Baqend and the SDK work in depth
+
 # Baqend JS SDK
 
 The JavaScript SDK is packaged as an UMD module, it can be used with RequireJS, browserify or without any module loader.
 To get started please install the Baqend SDK with [npm](https://www.npmjs.com/package/baqend) or [bower](https://libraries.io/bower/baqend) or 
 download the complete package from [GitHub](https://github.com/Baqend/js-sdk/releases/latest).
 
-Alternatively you can just add our CDN-hosted script to the `<head>` section of your website.
+<div class="note"><strong>Note:</strong> If you are not using JavaScript you can use Baqend via its <b>REST API</b> from the programming language of your choice. Baqend's REST API is documented with <a href="http://swagger.io/">Swagger</a> and can be explored <a href="https://dashboard.global.ssl.fastly.net/swagger-ui/?url=https%3A%2F%2Ftoodle-bq.global.ssl.fastly.net%2Fv1%2Fspec&#/crud">here</a>. In the <a href="http://dashboard.baqend.com/">dashboard of you Baqend app</a> you can goto "API Explorer" to explore and use the REST API of your own instance.</div>
+
+## Setup
+
+To install Baqend, just add our CDN-hosted script in your website (available both over HTTPS and HTTP).
 
 ```html
 <script src="//baqend.global.ssl.fastly.net/js-sdk/latest/baqend.min.js"></script>
@@ -12,25 +36,21 @@ Alternatively you can just add our CDN-hosted script to the `<head>` section of 
 
 For additional setup information visit our [GitHub page](https://github.com/Baqend/js-sdk/blob/master/README.md).
 
-## Environment
 
 The Baqend SDK is written and tested for Chrome 24+, Firefox 18+, Internet Explorer 9+, Safari 7+, Node 0.12+, IOS 7+, Android 4+ and PhantomJS 1.9+
 
-## Dependencies
 
-The Baqend SDK does not require any additional dependencies, however it is shipped with four bundled dependencies:
+The Baqend SDK does not require any additional dependencies, however it is shipped with a few bundled dependencies:
 
-- Jahcode, for easier class declaration and usage
-- lie, A lightweight and fast ECMA5 Promise shim
+- core-js, a shim library
 - node-uuid, A uuid generator
 - validator, A validation library
 
-## License
 
 The Baqend JavaScript SDK and all its bundled dependencies are shipped under the
 [MIT License](https://github.com/Baqend/js-sdk/blob/master/LICENSE.md).
 
-## Connect the SDK
+## Connect your App to Baqend
 
 After including the Baqend SDK in your app, connect it with your Baqend. Simply call the connect
 method on the DB variable:
@@ -41,8 +61,8 @@ DB.connect('example');
 DB.connect('example', true);
 ```
 
-**Note**: If you use a custom deployment, i.e. the baqend community edition you must pass a hostname or a complete URL 
-to the connect call. `DB.connect('https://mybaqend.example.com/v1')`
+<div class="note"><strong>Note:</strong> If you use a custom deployment, i.e. the baqend community edition you must pass a hostname or a complete URL 
+to the connect call: <code>DB.connect('https://mybaqend.example.com/v1')</code></div>
 
 You can pass a callback as a second argument, which will be called when the connection is successfully established.
 ```js
@@ -65,6 +85,26 @@ DB.ready().then(function() {
   DB... //work with the DB
 });
 ```
+
+<div class="tip"><strong>Tip:</strong> Baqend not only gives you APIs for serverless development but also hosts and accelerates your assets, like HTML, CSS, images, etc. See <a href="#hosting">Hosting</a> for more details.</div>
+
+## Websites, Apps and Tooling
+
+The Baqend JavaScript SDK works best for:
+
+- Dynamic and static **Websites** built with any tools of your choice. We recommend [single page applications](https://en.wikipedia.org/wiki/Single-page_application) for the best user experience.
+- **Hybrid apps** based on JavaScript. Baqend works very well with [Ionic](http://ionic.io/) and [Cordova/PhoneGap](https://cordova.apache.org/).
+
+Though Baqend does not make any assumptions on the tooling, here a the tools we most frequently see used with Baqend:
+
+- **Frontend MVC Frameworks** for structuring your code: [Angular.js](https://angularjs.org/), [Angular2](https://angular.io/), [React](https://facebook.github.io/react/), [Aurelia](http://aurelia.io/), [Ember](http://emberjs.com/) and [Knockout](http://knockoutjs.com/)
+- **Templating Engines** to render data: [Handlebars](http://handlebarsjs.com/), [Lodash](https://lodash.com/), [Underscore](http://underscorejs.org/) and [Mustache](https://github.com/janl/mustache.js/)
+- **Boilerplate projects** and **frontend generators** to get started easily: [Bootstrap](http://getbootstrap.com/) and [Intializr](http://www.initializr.com/) give you nice boilerplate projects, [yeoman](http://yeoman.io/) generates many different frontend projects
+- **Hybrid app frameworks** for mobile applications with JavaScript: [Ionic](http://ionic.io/), [Framework7](http://framework7.io/) and [Onsen UI](https://onsen.io/) are based on web views, [React Native](https://facebook.github.io/react-native/) is based on native UIs with JavaScript logic
+- **Build tools** for bundling, deployment and development: [Webpack](https://github.com/webpack/webpack), [Gulp](http://gulpjs.com/) and [Grunt](http://gruntjs.com/) all work well with Baqend
+- **IDEs** and **Text Editors** for developing: [WebStorm](https://www.jetbrains.com/webstorm/) and [Netbeans](https://netbeans.org/) are full-fledged IDEs, [Sublime](https://www.sublimetext.com/), [Visual Studio Code](https://code.visualstudio.com) and [Atom](https://atom.io/) are powerful text and code editors
+- [Baqend Starter Kits](/starters): Boilerplate projects connected to Baqend
+
 
 ## Accessing Data
 
@@ -89,7 +129,7 @@ console.log(todo.name); //'My first Todo'
 todo.active = true;
 ```
 
-## Promise
+## Promises
 
 `Promise`s are a programming paradigm to work with asynchronous code. Primarily used for communication and 
 event-scheduled tasks it makes code much more readable then the callback-based approach. A Promise represents the 
@@ -183,7 +223,7 @@ There are three predefined classes which you can also extend with custom fields:
   - **User:** are used to represent a user which is logged in into your app. New users can be created by a registration 
   process or by a login through an [OAuth](#oauth-login) provider when configured. [Read More](#registration)
   - **Role:** Roles can be created to group users and together and use those groups to give them special privileges 
-  such as ACLs. There are two predefined roles the admin role and the node role. Roles contains a predefined users list 
+  such as ACLs. There are three predefined roles the admin role, the loggedin role and the node role. Roles contains a predefined users list 
   field, which contains all the members of the role. [Read More](#roles)
   - **Device:** represents registered devices which can later be used to send them push notifications out of baqend 
   code. Devices can be queried like any other table to send a push notification to multiple devices at once. 
@@ -324,6 +364,26 @@ todo.save().then(function() { //inserts the object
 });
 ```
 
+## Concurrency with Optimistic Saving
+
+Without the explicit `force` flag, updates and saves can fail due to concurrent operations performed on the same object. With the òptimisticSave` method you can conveniently specify the retry logic to apply, if the update fails. Even under high concurrency one writer will always succeed so that the system still makes progress.
+
+Under the hood, this pattern of optimistic concurrency control relies on version numbers of the objects and conditional HTTP requests that only apply changes when the underlying object has not been changed.
+
+```js
+var todo = new DB.Todo.load("myTodo");
+todo.optimisticSave(function(todo, abort) {
+  //this method may get called multiple times
+  if(todo.participants.length > 10) { 
+    //you can specify when to stop reytring
+    abort();
+  }
+  todo.participants.push("Johnny"); //apply a change --> will be saved automatically
+});
+```
+
+<div class="tip"><strong>Tip:</strong> Optimistic saving is particularly useful for server-side code (<a href="#modules">modules</a>) that updates objects and may be invoked concurrently.</div>
+
 ## Load / Refresh
 
 Sometimes you want to ensure, that you have the latest version of an previously loaded entity, for example before 
@@ -361,6 +421,38 @@ The types that Baqend supports can be classified in five categories.
 - [Primitives](#primitives) are native types like String, Numbers, Dates and JSON.
 - [Collections](#collections) are lists, sets and maps containing any of the previous data types.
 
+## Data Modelling
+
+Here is an example for creating the data model of Todo objects in the dashboard:
+
+<img src="img/tutorial-schema-cropped.gif" style="width:100%">
+
+Under the hood, Baqend stores data in MongoDB. However, in contrast to data modelling in MongoDB, Baqend supports a rich schema that is checked and validated whenever data ist stored. By using the JSON data types Baqend objects can have arbitrary schemaless parts.
+
+
+<div class="tip"><strong>Tip:</strong> Best practices for <a href="http://martinfowler.com/articles/schemaless">schemaless</a> and <a href="https://en.wikipedia.org/wiki/Relational_model">schema-rich</a> data modelling can both be applied in Baqend by mixing data types with JSON.</div>
+
+### Embedding vs Referencing
+
+The major decision when modelling data in Baqend is the choice between embedding and referencing.
+
+With embedding, related content is stored together. This is also called *denormalization* as the data might be duplicated in multiple places. Embedding is useful for:
+
+- Modelling **contains** relationships. For example a shipping address is "contained" in an invoice object.
+- Modelling **one-to-many** (1:n), aggregation and composition relationships. For example a Todo list is composed of multiple todo items.
+
+The advantage of embedding is that data can be read in one chunk making retrieval more efficient. The downside is that whenever embedded objects are contained in multiple parent objects, more than one update has to be made in order to keep all instances of the embedded object consistent with each other.
+
+<img src="img/data-modelling.png" style="width:100%">
+
+With referencing, dependent data is not embedded, but instead references are followed to find related objects. In the world of relational database systems this is called *normalization* and the references foreign keys. Referencing is a good choice if:
+
+- Data is used in multiple places.
+- For many-to-many (n:m) relationships. For example a "friends with" relationship would best modelled by a list of references to friend profile objects.
+- Deep hierarchies have to be modelled, e.g. the namespace of a file system.
+
+The downside of referencing is that multiple reads and updates are required if connected data is changed.
+
 ## Entity Objects
 
 In general there are two types of objects. The first type - *Entities* - are those objects which have their own 
@@ -381,7 +473,7 @@ console.log(todo.id); //'Todo1'
 todo.save();
 ```
 
-Note: The save call will be rejected, if the id already exists!
+<div class="note"><strong>Note:</strong> The save call will be rejected, if the id already exists!</div>
 
 ## References
 
@@ -610,6 +702,8 @@ DB.Todo.find().singleResult(function(todo) {
   console.log(todo.name); //'My first Todo'
 });
 ```
+
+Both `resultList` and `singleResult` [support deep loading](#deep-loading-with-queries) to also load references.
 
 If you just need the number of matching objects, use the `count` method.
 ```js
@@ -843,8 +937,8 @@ DB.Todo.find()
   .resultList(...)
 ```
 
-Note: `DB.user.me` refers to the currently logged-in User instance. To learn more about users and the
-login process see the [User, Roles and Permission](#user-roles-and-permissions) chapter.
+<div class="note"><strong>Note:</strong> <code>DB.user.me</code> refers to the currently logged-in User instance. To learn more about users and the
+login process see the <a href="#user-roles-and-permissions">User, Roles and Permission chapter</a>.</div>
 
 ## Sorting
 
@@ -997,7 +1091,7 @@ DB.User.register(user, 'MySecretPassword').then(function() {
 });
 ```    
 
-## Login
+## Login and Logout
 
 When a user is already registered, he can login with the `DB.User.login()` method. 
 ```js
@@ -1010,16 +1104,30 @@ DB.User.login('john.doe@example.com', 'MySecretPassword').then(function() {
 After the successful login a session will be established and all further requests to Baqend are authenticated 
 with the currently logged-in user.
 
-## Logout 
-
-Sessions in Baqend are stateless, that means a user is not required to logout in order to close the session. When a 
+Sessions in Baqend are stateless, that means a user is not required to logout in order to close the session. When a
 session is started a session token with a specified lifetime is created. If this lifetime is exceeded, the session 
 is closed automatically. A logout just locally deletes the session token and removes the current `DB.User.me` object.
-``` 
+```js
 DB.User.logout().then(function() {
   //We are logged out again
   console.log(DB.User.me); //null
 });
+```
+
+## New Passwords
+
+Password can be changed by giving the old password and specifying the new one. Admin users can change the passwords of all users without giving the previous one:
+```js
+//Using the user name
+DB.User.newPassword("Username", "oldPassword", "newPassword").then(()=> {
+    //New Password is set
+});
+
+//Using a user object
+DB.User.me.newPassword("oldPassword", "newPassword").then(...);
+
+//When logged in as an admin
+DB.User.newPassword("Username", null, "newPassword").then(...);
 ```
 
 ## Auto login
@@ -1058,6 +1166,18 @@ role.save().then(...);
 A role can be read and written by everyone by default. To protect the role so that no one else can add himself to the 
 role we restrict write access to the current user. For more information about setting permissions see the [setting 
 object permissions](#setting-object-permissions) chapter. 
+
+##Predefined Roles
+
+There are three predefined roles:
+
+- `admin` - Users belonging to this role (e.g. the root) have full access to everything
+- `loggedin` - Every user who is logged in, automatically has this role. The role can be used to require a user to have a logged-in account to perform certain actions.
+- `node` - When an operation is triggered by a handler or module, the roles of the user who triggered that request are enhanced by the node role. 
+
+Predefined roles can be used just like normal roles. Typical use-case are that you define schema-level permissions to elevate rights of operations triggered by handlers and modules, allow certain things to logged-in users or restrict access to admins.
+
+<div class="note"><strong>Note:</strong> The node role does not have any special privileges by default, but you can use it in ACLs to give it special rights.</div>
 
 ## Permissions
 
@@ -1234,7 +1354,7 @@ DB.User.loginWithGoogle(clientID).then(function(user) {
 });
 ```
 
-**Note:** a OAuth login will be aborted after 5 minutes of inactivity. The timeout can be changed with the timeout option.
+<div class="note"><strong>Note:</strong> An OAuth login will be aborted after 5 minutes of inactivity. The timeout can be changed with the timeout option.</div>
 
 ### Baqend Code
 
@@ -1295,7 +1415,7 @@ The following table list the docs the returned profile for the OAuth providers:
 </table>    
 
 
-**Note:** that the returned properties depend on the requested scope.
+<div class="note"><strong>Note:</strong> The returned properties depend on the requested scope.</div>
 
 
 # Baqend Code
@@ -1440,9 +1560,9 @@ DB.Test.load('546c6-a...').then(function(obj) {
 });
 ```
 
-Note: Inside Baqend Code data operations (e.g. `user.save()`) have the access rights of the user starting the 
-request enhanced by an additional `node` role. Calls to Baqend originating from handlers will not trigger another 
-onUpdate(db) call. See [Baqend Code permission](#permissions) for more details.
+<div class="note"><strong>Note:</strong> Inside Baqend Code data operations (e.g. <code>user.save()</code>) have the access rights of the user starting the 
+request enhanced by an additional <code>node</code> role. Calls to Baqend originating from handlers will not trigger another 
+<code>onUpdate(db)</code> call. See <a href="#predefined-roles">Predefined Roles</a> for more details.</div>
 
 ### onDelete
 
@@ -1483,6 +1603,7 @@ exports.call = function(db, data, req) {
     });
 };
 ```
+The `body` parameter passed into the function contains the request payload, i.e. the decoded query parameters of a GET request or the parsed body of a `POST` request.
 
 On the client side we can now invite a user by its username to our event by invoking the Baqend invite method. Baqend 
 modules can be invoked using `get` for reading data and with `post` to modify data. 
@@ -1528,8 +1649,8 @@ In addition to the simplified `call(db, obj, req)` method we provide an advanced
 You can implement GET and POST request handling separately by implementing a equivalent `get(db, req, res)` and 
 `post(db, req, res)`. 
 
-**Note:** that the second parameter is the request object and the third parameter is an express 
-[response](http://expressjs.com/api.html#res) object.
+<div class="note"><strong>Note:</strong> that the second parameter is the request object and the third parameter is an express 
+<a href="http://expressjs.com/api.html#res">response</a> object.</div>
 
 With the request object, you can handle form submissions via get or post
 ```
@@ -1632,7 +1753,7 @@ exports.post = function(db, req, res) {
 };
 ```
 
-## Module system and libraries
+## Importing code and libraries
 Baqend code constitutes CommonJS modules and can require other modules and external libraries. 
 
 Baqend modules not exposing a call method can't be called by the client but may be required by 
@@ -1653,6 +1774,8 @@ require calls.
 ```js
 //require another Baqend module
 var myModule = require('./myModule');
+//require an update (or insert, delete, validate) handler from 'MyClass'
+var updateHandler = require('./MyClass/update');
 //require the http core module for external http requests
 var http = require('http');
 exports.call = function(db, data, req) {
@@ -1671,18 +1794,19 @@ exports.onUpdate = function(db, obj) {
 }; 
 ```
 
-The following additional libraries can be required in baqend code:
+The following additional libraries can always be required in baqend code:
 
 - [http](https://nodejs.org/api/http.html) - Node.js http core library
 - [https](https://nodejs.org/api/https.html) - Node.js https core library 
 - [querystring](https://nodejs.org/api/querystring.html) - Node.js core querystring parsing and serialization library
 - [crypto](https://nodejs.org/api/crypto.html) - Node.js core crypto api offers a way of encapsulating secure credentials 
-- [baqend](http://www.baqend.com/js-sdk/latest/baqend.html) - The baqend SDK
+- [baqend](http://www.baqend.com/js-sdk/latest/baqend.html) - The Baqend SDK
 - [express](http://expressjs.com/4x/api.html) - HTTP server
 - [twilio](http://twilio.github.io/twilio-node/) - APIs for Text Messaging, VoIP & Voice in the Cloud 
-- [lwip](https://github.com/EyalAr/lwip) - Light Weight Image Processor for NodeJS
+- [lwip](https://github.com/EyalAr/lwip/) - a Light Weight Image Processor for NodeJS
 - [node-mailjet](https://github.com/mailjet/mailjet-apiv3-nodejs) [API v3](https://dev.mailjet.com) Official Mailjet API v3 NodeJS wrapper 
-- [twilio](https://github.com/twilio/twilio-node) Node.js helper library for twilio
+
+<div class="note"><strong>Note:</strong> If you need custom Node.js modules from npm, please contact us via <a href="mailto:support@baqend.com">support@baqend.com</a> and we will add them.</div>
 
 ## Permissions
 
@@ -1697,7 +1821,7 @@ Baqend provides the ability to send push notifications to end users devices. Bef
 must first register the Device of the User. Registered devices can then later be used in baqend Code to send push 
 notifications to. 
 
-**Note:** Currently baqend supports IOS and Android based devices, support for more platforms are planed. 
+<div class="note"><strong>Note:</strong> Currently Baqend supports IOS and Android devices, support for more platforms are planed. </div>
 
 ## Setup Push
 
@@ -1892,6 +2016,20 @@ DB.Todo.load('7b2c...', {depth: 1}).then(function(firstTodo) {
 Setting the depth value to `2` resolves the next level of references and so on. You can set the depth option to `true` to
 load all references by reachability. But be aware of that is dangerous for large object graphs. 
 
+## Deep Loading with Queries
+
+Deep loading also works for query results obtained via `resultList` and `singleResult`:
+
+```js
+DB.Todo.find().resultList({depth: 1}, function(result) {
+  result.forEach(function(todo) {
+    console.log(todo.doNext.name);
+  });
+});
+```
+
+In that case all referenced objects in all objects loaded by the query are fetched, too.
+
 ## Cached Loads
 
 Each EntityManager instance has an instance cache. This instance cache is used while loading objects and resolving 
@@ -1967,6 +2105,10 @@ All assets stored in the **www** root folder can be accessed under your app doma
   </tr>
 </table>
 
+
+<div class="tip"><strong>Tip:</strong> Baqend hosting works great with <b>static site generators</b> like <a href="https://jekyllrb.com/">Jekyll</a>, <a href="http://octopress.org/">Hugo</a>, <a href="http://octopress.org/">Octopress</a> or <a href="https://hexo.io/">Hexo</a>. You can start completely static or even import data from CMS like Wordpres. Later you can gradually add dynamic parts using the Baqend SDK. From the first static blog post to a highly dynamic site, everything will be cached and accelerated by Baqend.</div>
+
+
 ### Custom Domains
 
 To serve your website under your own domain you have to create a dns entry and register the custom domain in your Baqend dashboard:
@@ -1975,13 +2117,18 @@ To serve your website under your own domain you have to create a dns entry and r
 
     `www.yourdomain.com. IN CNAME global.prod.fastly.net.`
 
-    **Note**: that you should not use a top level domain as a CNAME, since many dns providers do not support it. Instead use a sub domain
+    **Note**: You should not use a top level domain as a CNAME, since many DNS providers do not support it. Instead use a sub domain
 such as **www.**yourdomain.com. In addition you should ensure that no other DNS-entry is set for the used domain.
 
 2. Log into your Baqend dashboard and open your app settings. In the Hosting section simply add your custom domain `www.yourdomain.com` and click the save button. Your domain will now be registered at the CDN. Instead of `<appName>.app.baqend.com` you can now use `www.yourdomain.com`.
 
+Consult your DNS provider's instructions to configure the CNAME record for your domain name. The steps to add a CNAME record will vary for each registrar's control panel interface.
 
-**Note**: The registration of your domain as well as your dns-entry can take a few minutes until it is accessable.
+If you cannot find your provider's CNAME configuration instructions, Google maintains instructions for [most major providers](https://support.google.com/a/topic/1615038). 
+
+
+
+<div class="note"><strong>Note:</strong> The registration of your domain as well as your dns-entry can take a few minutes until they are accessable. If you have trouble configuring your CNAME records, contact us at <a href="maito:support@baqend.com">support@baqend.com.</a></div>
 
 
 ### SSL Hosting
@@ -2044,7 +2191,6 @@ The file API accept all the listed formats as upload type and transforms the con
 while uploading it. The SDK guesses the correct type except for the `base64` type and transforms it automatically. 
 
 When you download a file you can specify in which format the downloaded content should be provided.
-
 
 ## Accessing Files
 
@@ -2136,8 +2282,7 @@ If you try to overwrite an existing file and do not have previously fetched the 
 been changed in the meantime the upload will be rejected to prevent accidental file replacement. 
 If you like to skip the verification, you can pass the `{force: true}` option to the `upload()` call. 
 
-Note: To upload a file you must have at least the insert or update permission on the root folder and write 
-access on the file. 
+<div class="note"><strong>Note:</strong> To upload a file you must have at least the insert or update permission on the root folder and write access on the file. </div>
 
 ## Downloading Files
 
@@ -2165,7 +2310,7 @@ file.download(function(data) {
 });
 ```
 
-Note: To download a file you must have at least the load on the root folder and read access on the file. 
+<div class="note"><strong>Note:</strong> To download a file you must have at least the load on the root folder and read access on the file. </div>
 
 ## Deleting Files
 
@@ -2247,8 +2392,8 @@ DB.File.saveMetadata('pictures', {
 });
 ```
 
-Note: To actually change the permissions of a root folder, you must own the admin role or you code must be executed 
-as baqend code.
+<div class="note"><strong>Note:</strong> To actually change the permissions of a root folder, you must own the admin role or you code must be executed 
+as Baqend code.</div>
 
 ### Set file Permissions
 
@@ -2267,6 +2412,83 @@ file.upload().then(...);
 ```
 
 
+# Caching
+
+## How Baqends Caching works
+
+Baqend uses a combination of CDN and client caching using a Bloom filter-based data structures called **Cache-Sketch**. This enables Baqend-based applications to use not only CDN caches but also expiration-based caches  —  in most cases the browser cache  —  to cache any _dynamic_ data.
+
+### Caching everything, not just assets
+
+The tricky thing when using such caches is that you must specify a cache lifetime (TTL) when you first deliver the data from the server. After that you do not have any chance to kick the data out. It will be served by the browser cache up to the moment the TTL expires. For static assets it is not such a complex thing, since they usually only change when you deploy a new version of your web application. Therefore, you can use cool tools like [gulp-rev-all](https://github.com/smysnk/gulp-rev-all) and[grunt-filerev](https://github.com/yeoman/grunt-filerev) to hash the assets. By renaming the assets at deployment time you ensure that all users will see the latest version of your page while using caches at their best
+
+But wait! What do you do with all the data which is loaded and changed by your application at runtime? Changing user profiles, updating a post or adding a new comment are seemingly impossible to combine with the browsers cache, since you cannot estimate when such updates will happen in the future. Therefore, caching is just disabled or very low TTLs are used.
+
+<img src="img/normal-caching.png" style="width: 100%;">
+
+#### Baqend’s Cache-Sketch
+
+We have researched and developed a solution where we can check the staleness of any data before we actually fetch them. At the begin of each user session the `connect`call fetches a very small data structure called a Bloom filter, which is a highly compressed representation of a set. Before making a request, the SDK first checks this set to know if it contains an entry for the resource we fetch. An entry in the set indicates that the content was changed in the near past and that the content may be stale. In such cases the SDK bypasses the browser cache and fetches the content from the nearest CDN edge server. In all other cases the content is served directly from the browsers cache. Using the browser cache saves network traffic, bandwidth and is rocket-fast.
+
+In addition, we ensure that the CDN always contains the most recent data, by instantly purging data when it becomes stale.
+
+<img src="img/cache-sketch.png" style="width: 100%;">
+
+The [Bloom filter](http://de.slideshare.net/felixgessert/bloom-filters-for-web-caching-lightning-talk) is a probabilistic data structure with a tunable false positive rate, which means that the set may Indicate containment for objects which were never added. This is not a huge problem since it just means the we first revalidate the freshness of an object before we serve it from the browsers cache. Note that the false positive rate is very low and it is what enables us to make the footprint of the set very small. For an example we just need 11Kbyte to store 20,000 distinct updates.
+
+There is lot of stream processing (query match detection), machine learning (optimal TTL estimation) and distributed coordination (scalable Bloom filter maintenance) happening at the server side. If you’re interested in the nitty-gritty details have a look at this [paper](http://www.baqend.com/paper/btw-cache.pdf) or [these slides](http://de.slideshare.net/felixgessert/talk-cache-sketches-using-bloom-filters-and-web-caching-against-slow-load-times) for a deep-dive.
+
+<div class="note"><strong>Note:</strong> Caching is active for all CRUD operations by default. Query Caching is currently in beta, if you would like to test it please contact <a href="mailto:support@baqend.com">support@baqend.com</a>.</div>
+
+
+## Configuring Freshness
+
+Any new page load will always return the newest data (a fresh Bloom filter is fetched). While the app is running you can allow a configurable maximum staleness to make optimal use of the browser cache. This does not mean that you will actually see any outdated content, it just provides you with an upper bound that is never exceeded.
+
+There are two settings affecting Bloom filter freshness that can be configured in the dashboard:
+
+ - *Maximum CDN staleness*: this is the staleness bound for all new clients (i.e. that have not cached a Bloom fitler, yet). The default setting is to only do micro-caching of 1 second. This incurs 1 second of staleness at the maximum and protects the server from excessive load under high user volumes.
+ - *Maximum total staleness*: defines the maximum staleness seen by the client (CDN staleness + client cache staleness). Internally the client makes sure to update the Bloom filter, when it gets too old.
+
+<div class="tip"><strong>Tip:</strong> You can increase both staleness settings, if your application is under very heavy load. This saves you requests and prevents scalability bottlenecks if you are in the free tier.</div>
+
+If you want to override the total staleness in individual clients, you can set it manually:
+
+```js
+DB.configure({
+    staleness : 10
+}).connect().then(...);
+```
+
+For individual operations you can optionally bypass the cache to get **strong consistency** (linearizability):
+
+```js
+//To get the newest version via the id
+var todo = DB.Todo.load("myTodo", {refresh : true });
+
+//To update a known instance to the latest version
+todo.load({refresh : true });
+```
+
+## Local Objects
+
+You can request already loaded objects using the `local` flag. It will try to give you an instance you have already loaded and only load it, if it's not present:
+```js
+//If we have seen "myTodo" in the code we will get exactly that instance
+DB.Todo.load("myTodo", {local : true }).then(...);
+
+//local is the default for the instance method
+todo.load().then(...);
+
+//This is also useful to see your own unsaved changes, irrespective of updates from other users
+todo.done = true;
+DB.Todo.load("myTodo", {local : true }).then(function() {
+    console.log(todo.done); // true
+});
+```
+
+
+
 # Logging
 
 As required by many apps, we provide a easy to use logging API to log data out of your app. In addition we provide a 
@@ -2276,8 +2498,8 @@ App and Access logs are accessible through the dashboard and kept for **30 days*
 manage the permissions of the logs like any other data you persist to baqend. But you can't modify the schema, the 
 logged data nor the permissions of insert, update and delete operations.
 
-**Note:** While querring logs you must always use a date predicate, otherwise you will only get the last 5 minutes of 
-the logs.
+<div class="note"><strong>Note:</strong> When querying logs you must always use a date predicate, otherwise you will only get the last 5 minutes of 
+the logs.</div>
 
 ## App logging
 
@@ -2333,8 +2555,8 @@ You can also use the log level helper methods:
 DB.log.debug('The value %d is greater then %d', 10, 5, {val1: 10, val2: 5});
 ```
 
-**Note:** App logs can be inserted by everyone by default, to restrict log insertion you can change the insert permission
-of the AppLog class in the dashboard.
+<div class="note"><strong>Note:</strong> App logs can be inserted by everyone by default, to restrict log insertion you can change the insert permission
+of the AppLog class in the dashboard.</div>
 
 ## Access logs
 
@@ -2356,12 +2578,7 @@ The following data will be collected by us:
 -------
 
 # Upcoming Features
-As developers you know that software is never finished. Here are some of the upcoming futures from our next few milestones.
-
-## Query Caching
-The caching infrastructure and the algorithms are all there. The public cloud release includes all the caching 
-magic that allows imperceptible page load times and lightning-fast requests. The next planned step is that we will also 
-cache query results! We'll soon share a lot more details on how it works.
+Here are some of the features we are currently working on.
 
 ## Continuous Queries & WebSockets
 Query for objects and get updates on any change of your result list. This extremely powerful feature allow you to 

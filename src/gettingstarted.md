@@ -8,7 +8,7 @@ To build a new application, first [create a Baqend account](http://dashboard.baq
 </li>
 <li>
 ###Download Boilerplate Web Project
-We'll start with [this empty HTML5 Bootstrap project](http://www.initializr.com/builder?boot-hero&html5shiv&simplehtmltag&izr-emptyscript&boot-css&boot-scripts). Unzip it, to get the following folder structure:
+We'll start with [this empty HTML5 Bootstrap project](http://www.initializr.com/builder?boot-hero&html5shiv&simplehtmltag&izr-emptyscript&boot-css) (or <a href="http://www.initializr.com" target="_blank">configure a custom one</a>). Unzip it, to get the following folder structure:
 <pre>
 **index.html**          <-- here we will put some HTML to accept input data
 js
@@ -45,7 +45,7 @@ The callback is invoked when the connection is established. We will use that to 
 </li>
 <li>
 ###Define the Data Model
-In the [dashboard](https://dashboard.baqend.com/apps) enter your App and create a new table named `Message` in the **Tables** menu on the left. In the schema tab that is now open, add three attributes:
+In the [dashboard](https://dashboard.baqend.com/apps) enter your App and create a new table named `Message` in the **Data** menu on the left. In the schema tab that is now open, add three attributes:
 <table class="table">
 <tr><th>Attribute Name</th><th>Type</th></tr>
 <tr><td>name</td><td>String</td></tr>

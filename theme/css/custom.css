@@ -1,0 +1,51 @@
+.note, .tip {
+    padding: 20px;
+    margin: 15px 0;
+    border-radius: 4px;
+    line-height: 19pt;
+}
+
+.note {
+    color: #31708f;
+    background-color: #d9edf7;
+    border: 1px solid #bce8f1;
+}
+
+.tip {
+    color: #3c763d;
+    background-color: #dff0d8;
+    border: 1px solid #d6e9c6;
+}
+
+.note strong, .tip strong {
+    text-transform: uppercase;
+    font-size: 19px;
+}
+
+.note code {
+    background: none;
+    font-size: 100%;
+}
+
+.note strong:before {
+    content: "\f05a";
+    font-family: FontAwesome;
+    padding-right: 5px;
+    font-size: 19px;
+}
+
+.tip strong:before {
+    content: "\f06a";
+    font-family: FontAwesome;
+    padding-right: 5px;
+    font-size: 19px;
+}
+
+.container {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+img {
+    margin: 10px 0;
+}

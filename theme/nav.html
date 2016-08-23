@@ -38,14 +38,11 @@
             {% endif %}
             {% endfor %}
                 <li>
-                    <a href="http://www.baqend.com/#tutorial">Tutorial</a>
-                </li>
-                <li>
                     <a href="http://www.baqend.com/js-sdk/latest/baqend.html"><span class="hidden-sm hidden-xs">JS</span> API</a>
                 </li>
-                <li>
-                    <a href="https://community.baqend.com/">Forum</a>
-                </li>
+              <li>
+                <a href="http://www.baqend.com/tutorial.html">Tutorial</a>
+              </li>
             </ul>
 
             <!-- Search, Navigation and Repo links -->
@@ -53,7 +50,7 @@
 
                 <li>
                     <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
-                        <i class="fa fa-search"></i><span class="visible-lg-inline"> Search</span>
+                        <i class="fa fa-search"></i><span class="visible-lg-inline"> Search Help</span>
                     </a>
                 </li>
 
@@ -76,7 +73,7 @@
                 </li>
                 {% endif %}
                 {% if repo_url %}
-                <li class="hidden-sm hidden-xs hidden-md">
+                <li class="hidden">
                     <a href="{{ repo_url }}">
                         {% if repo_name == 'GitHub' %}
                             <i class="fa fa-github"></i>
