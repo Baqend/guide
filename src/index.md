@@ -50,6 +50,16 @@ The Baqend SDK does not require any additional dependencies, however it is shipp
 The Baqend JavaScript SDK and all its bundled dependencies are shipped under the
 [MIT License](https://github.com/Baqend/js-sdk/blob/master/LICENSE.md).
 
+To see that Baqend is working, paste the following after the Baqend script tag. It will replace the HTML body with 5 raw todo items from the [tutorial application](http://www.baqend.com/tutorial.html). Delete the snippet afterwards.
+```html
+<script>
+  DB.connect('toodle').then(function() {
+    return DB.Todo.find().limit(5).resultList();
+  }).then(function(result) {
+    document.querySelector('body').innerHTML = "<pre>" + JSON.stringify(result, null, " ") + "</pre>";
+  });
+</script>
+```
 ## Connect your App to Baqend
 
 After including the Baqend SDK in your app, connect it with your Baqend. Simply call the connect
@@ -61,7 +71,7 @@ DB.connect('example');
 DB.connect('example', true);
 ```
 
-<div class="note"><strong>Note:</strong> If you use a custom deployment, i.e. the baqend community edition you must pass a hostname or a complete URL 
+<div class="note"><strong>Note:</strong> If you use a custom deployment, e.g. the Baqend community edition you must pass a hostname or a complete URL
 to the connect call: <code>DB.connect('https://mybaqend.example.com/v1')</code></div>
 
 You can pass a callback as a second argument, which will be called when the connection is successfully established.
