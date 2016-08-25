@@ -98,7 +98,7 @@ DB.ready().then(function() {
 
 <div class="tip"><strong>Tip:</strong> Baqend not only gives you APIs for serverless development but also hosts and accelerates your assets, like HTML, CSS, images, etc. See <a href="#hosting">Hosting</a> for more details.</div>
 
-## Websites, Apps and Tooling
+## Websites, Apps and Recommended Tooling
 
 The Baqend JavaScript SDK works best for:
 
@@ -109,7 +109,7 @@ Though Baqend does not make any assumptions on the tooling, here a the tools we 
 
 - **Frontend MVC Frameworks** for structuring your code: [Angular.js](https://angularjs.org/), [Angular2](https://angular.io/), [React](https://facebook.github.io/react/), [Aurelia](http://aurelia.io/), [Ember](http://emberjs.com/) and [Knockout](http://knockoutjs.com/)
 - **Templating Engines** to render data: [Handlebars](http://handlebarsjs.com/), [Lodash](https://lodash.com/), [Underscore](http://underscorejs.org/) and [Mustache](https://github.com/janl/mustache.js/)
-- **Boilerplate projects** and **frontend generators** to get started easily: [Bootstrap](http://getbootstrap.com/) and [Intializr](http://www.initializr.com/) give you nice boilerplate projects, [yeoman](http://yeoman.io/) generates many different frontend projects
+- **Boilerplate projects** and **frontend generators** to get started easily: [Bootstrap](http://getbootstrap.com/) and [Intializr](http://www.initializr.com/) give you nice boilerplate projects, [yeoman](http://yeoman.io/) generates many different frontend projects, Google has released a [web starter](https://developers.google.com/web/tools/starter-kit/) that contains a cross-device boilerplate project and useful gulp tasks for live reloading, releasing, etc.
 - **Hybrid app frameworks** for mobile applications with JavaScript: [Ionic](http://ionic.io/), [Framework7](http://framework7.io/) and [Onsen UI](https://onsen.io/) are based on web views, [React Native](https://facebook.github.io/react-native/) is based on native UIs with JavaScript logic
 - **Build tools** for bundling, deployment and development: [Webpack](https://github.com/webpack/webpack), [Gulp](http://gulpjs.com/) and [Grunt](http://gruntjs.com/) all work well with Baqend
 - **IDEs** and **Text Editors** for developing: [WebStorm](https://www.jetbrains.com/webstorm/) and [Netbeans](https://netbeans.org/) are full-fledged IDEs, [Sublime](https://www.sublimetext.com/), [Visual Studio Code](https://code.visualstudio.com) and [Atom](https://atom.io/) are powerful text and code editors
