@@ -92,7 +92,7 @@ You can easily deploy to Baqend via the command line, by installing it globally 
 
     $ gulp dist
     $ baqend login
-    $ baqend --app your-app-name -f dist
+    $ baqend deploy --app your-app-name -f dist
 
 Your app is now published and available, exposing your `index.html` the URL `your-app-name.app.baqend.com`.
 
