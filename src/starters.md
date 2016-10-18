@@ -112,3 +112,27 @@ If you do not have `baqend` installed globally, you can also use the local versi
 3. **Or:** use the dialog "File > New > Project from Version Control > Github" instead.
 5. You can either use the Gulp plugin to run tasks or use the commands (e.g. `npm run gulp`) in the terminal.
 6. Run gulp default (resp. `npm run gulp`) and navigate to [http://localhost:5000](http://localhost:5000) to see that it works.
+
+
+!["Logo"](https://cdn.rawgit.com/Baqend/ionic-starter/master/ionic_baqend.svg)
+
+# Ionic and Baqend Starter
+
+With this Ionic and Baqend starter kit you can build **blazingly fast hybrid apps** in no time.
+
+This starter is based on the [Ionic-Tabs-Starter](https://github.com/driftyco/ionic-starter-tabs).
+
+## HOW-TO
+
+The easiest way to use this starter is to use the ionic cli:
+ 
+    $ git clone git@github.com:Baqend/ionic-starter.git
+    $ cd ionic-starter
+    $ npm install -g ionic cordova
+    $ npm install
+    $ ionic serve
+
+ The ionic app is already connected to a Baqend test instance. To connect it to your [own Baqend instance](https://dashboard.baqend.com/register) change the variable `appName` in the `service.js` to the name of your Baqend instance. If you will use your app on iOS please
+ replace `app-starter` with your Baqend instance name at the bottom of the `config.xml`.
+
+ The app uses a `Message` object, which is defined in [the Baqend schema](http://www.baqend.com/guide/#schema-and-types). It has three string attributes: `name`, `text`, `face`.  
