@@ -46,6 +46,13 @@
     padding-right: 5px;
 }
 
+@media (min-width: 1200px) {
+    .container {
+        width: 100%;
+        max-width: 1300px;
+    }
+}
+
 img {
     margin: 10px 0;
 }

@@ -6,6 +6,7 @@ pages:
 - Quickstart: 'gettingstarted.md'
 - Guide: 'index.md'
 - Starter Kits: 'starters.md'
+- Roadmap: 'roadmap.md'
 docs_dir: src
 site_dir: docs
 theme_dir: theme

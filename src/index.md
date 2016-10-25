@@ -5,7 +5,7 @@ With Baqend, you use a fully managed backend service with an automatically accel
 
 In terms of **architecture** Baqend gives you the hosting of your application (e.g. HTML and JS files) plus the APIs for backend concerns such as data storage, queries, push, OAuth, user management, access control and server-side business logic:
 
-<img src="img/architektur-guide.png" style="width:100%">
+<img src="img/architektur-guide.png" style="width:90%;">
 
 <div class="note"><strong>Note:</strong> If you have any questions not answered by this guide, feel free to contact us via <a href="mailto:support@baqend.com">support@baqend.com</a> or the chat on the bottom.</div>
 
@@ -2584,34 +2584,3 @@ The following data will be collected by us:
 - upload - The amount of data transferred from the client (includes head and body payload)
 - latency - The latency to handle the actual request measured by the fastly server 
 - cacheHit - Indicates if the request was directly served by the fastly server without contacting baqend (Cache HIT)
-
--------
-
-# Upcoming Features
-Here are some of the features we are currently working on.
-
-## Continuous Queries & WebSockets
-Query for objects and get updates on any change of your result list. This extremely powerful feature allow you to 
-write reactive & real-time applications without thinking about messaging, scalability, connectivity or latency - its 
-just another form of executing a query.
-
-## Offline Storage
-Don't interrupt the user experience due to intermittent connectivity. Offline storage transparently 
-answers request,and even queries from the local cache and synchronizes writes after the connection is reestablished.
-
-## Fulltext Search
-Fulltext Search will allow you to perform ranked search queries to build powerful and fast search applications.
-
-## Prepared Queries
-Prepared queries can be used to restrict access to certain query patterns and manage query properties such 
-as response time requirements.
-
-## Partial Updates
-Perform partial updates on objects, like counter increases
-
-## Scheduled Baqend Code
-There will be a cron-like scheduler you can use to periodically run tasks.
-
-## After-operation Handlers
-Similar to before handlers this allows you to intercept the processing routine of data operations after they were 
-executed.
