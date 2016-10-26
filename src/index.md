@@ -1336,7 +1336,7 @@ copy the client ID and client secret into the settings page of the dashboard.
         <td>[docs](https://developer.linkedin.com/docs/oauth2)</td>
         <td>Add as redirect URL: <br> `https://[APP_NAME]-bq.global.ssl.fastly.net/v1/db/User/OAuth/linkedin`</td>
     </tr>
-</table></div></div></div>
+</table></div>
 
 OAuth is a way to delegate rights of third party resources owned by users to your application. A simple login always 
 receives a token and requests basic information including the unique user ID. The public profile information 
