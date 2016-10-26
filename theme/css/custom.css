@@ -53,6 +53,19 @@
     }
 }
 
+
+@media (max-width: 667px) {
+    .code {
+        overflow-wrap: break-word;
+    }
+}
+
+.table-wrapper {
+    overflow-x: scroll;
+    max-width: 100%;
+    width: 100%;
+}
+
 img {
     margin: 10px 0;
 }

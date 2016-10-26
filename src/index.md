@@ -1300,7 +1300,7 @@ registration. There is also a text field where you need to add a redirect URL.
 Add `https://[APP_NAME]-bq.global.ssl.fastly.net/v1/db/User/[PROVIDER]` (with *APP_NAME* and *PROVIDER* substituted) and 
 copy the client ID and client secret into the settings page of the dashboard. 
 
- <table class="table">
+ <div class="table-wrapper"><table class="table">
     <tr>
         <th colspan="2">Provider Setup</th>
         <th>Notes</th>
@@ -1336,7 +1336,7 @@ copy the client ID and client secret into the settings page of the dashboard.
         <td>[docs](https://developer.linkedin.com/docs/oauth2)</td>
         <td>Add as redirect URL: <br> `https://[APP_NAME]-bq.global.ssl.fastly.net/v1/db/User/OAuth/linkedin`</td>
     </tr>
-</table>
+</table></div>
 
 OAuth is a way to delegate rights of third party resources owned by users to your application. A simple login always 
 receives a token and requests basic information including the unique user ID. The public profile information 
