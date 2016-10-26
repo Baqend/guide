@@ -583,7 +583,7 @@ Please note that the JSON data type gives you full freedom on deciding which par
 and which parts are schema free. The following table shows all supported attribute types of Baqend 
 and their corresponding JavaScript types.
 
-<table class="table">
+<div class="table-wrapper"><table class="table">
   <tr>
     <th>Baqend Primitive</th>
     <th>JavaScript type</th>
@@ -649,14 +649,14 @@ and their corresponding JavaScript types.
     <td>Array</td>
     <td>[1,2,3]</td>
   </tr>
-</table>
+</table></div>
 
 ## Collections
 
 Collections are typed by a reference, embedded object class or a primitive type. The Baqend SDK 
 supports 3 type of collections, which are mapped to native JavaScript arrays, es6 sets and maps:
 
- <table class="table">
+ <div class="table-wrapper"><table class="table">
   <tr>
     <th>Baqend Collection</th>
     <th>Example</th>
@@ -679,7 +679,7 @@ supports 3 type of collections, which are mapped to native JavaScript arrays, es
     <td>Only String, Boolean, Integer, Double, Date, Time, DateTime and References are allowed as keys.<br>
     All non collection types are supported as values.</td>
   </tr>
-</table>
+</table></div>
 
 For all collection methods see the MDN docs of 
 [Array](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Array),
@@ -755,7 +755,7 @@ DB.Todo.find()
 
 The following table list all available query filters and the types on which they can be applied:
 
-<table class="table">
+<div class="table-wrapper"><table class="table">
   <thead>
   <tr>
     <th colspan="3" style="border: none">Filter method</th>
@@ -935,7 +935,7 @@ The following table list all available query filters and the types on which they
     </td>
   </tr>
   </tbody>
-</table>
+</table></div>
 
 References can and should be used in filters. Internally references are converted to ids
  and used for filtering. To get all Todos owned by the currently logged-in user, we can simply use the User instance 
@@ -1210,7 +1210,7 @@ The access will be granted based on the following rules:
 The following table shows the SDK methods and the related permissions the user has to have, to perform the specific 
 operation.
 
-<table class="table">
+<div class="table-wrapper"><table class="table">
   <tr>
     <th width="25%">Method</th>
     <th width="50%">Class-based permission</th>
@@ -1253,7 +1253,7 @@ operation.
     <td>both type.insertPermission and type.updatePermission will be checked</td>
     <td>object.acl.write</td>
   </tr>
-</table>
+</table></div>
 
 **Note**: There is currently no way to check if a user has permissions to perform an operation without actually 
 performing the operation. 
@@ -1336,7 +1336,7 @@ copy the client ID and client secret into the settings page of the dashboard.
         <td>[docs](https://developer.linkedin.com/docs/oauth2)</td>
         <td>Add as redirect URL: <br> `https://[APP_NAME]-bq.global.ssl.fastly.net/v1/db/User/OAuth/linkedin`</td>
     </tr>
-</table></div>
+</table></div></div></div>
 
 OAuth is a way to delegate rights of third party resources owned by users to your application. A simple login always 
 receives a token and requests basic information including the unique user ID. The public profile information 
@@ -1389,7 +1389,7 @@ exports.call = function(db, data, req) {
 
 The following table list the docs the returned profile for the OAuth providers:
 
- <table class="table">
+ <div class="table-wrapper"><table class="table">
   <tr>
     <th>Provider</th>
     <th>Profile documentation</th>
@@ -1422,7 +1422,7 @@ The following table list the docs the returned profile for the OAuth providers:
       [https://api.linkedin.com/v1/people/~?format=json](https://developer.linkedin.com/docs/rest-api) resource.
     </td>
   </tr>  
-</table>    
+</table></div>    
 
 
 <div class="note"><strong>Note:</strong> The returned properties depend on the requested scope.</div>
@@ -1903,7 +1903,7 @@ DB.Device.register('IOS', deviceToken, device);
 To send a push notification the SDK provides a PushMessage class which can be used to send a message to one or more 
 devices. In addition to the message itself a PushMessage can transport additional information to the end users device.
  
- <table class="table">
+ <div class="table-wrapper"><table class="table">
   <tr>
     <th>Name</th>
     <th>Type</th>
@@ -1934,7 +1934,7 @@ devices. In addition to the message itself a PushMessage can transport additiona
     <td>Object</td>
     <td>Additional json data send directly to your app</td>
   </tr>
-</table>    
+</table></div>    
 
 ## Sending push
 
@@ -2092,7 +2092,7 @@ With the hosting feature you can serve your website (html, css, js, images) righ
 All assets stored in the **www** root folder can be accessed under your app domain (`<appName>.app.baqend.com`) as in the following examples:
 
 
- <table class="table">
+ <div class="table-wrapper"><table class="table">
   <tr>
     <th>Folder (`folder`)</th>
     <th>File Name (`name`)</th>
@@ -2113,7 +2113,7 @@ All assets stored in the **www** root folder can be accessed under your app doma
     <td>logo.jpg</td>
     <td>&lt;appName&gt;.app.baqend.com/images/logo.jpg</td>
   </tr>
-</table>
+</table></div>
 
 
 <div class="tip"><strong>Tip:</strong> Baqend hosting works great with <b>static site generators</b> like <a href="https://jekyllrb.com/">Jekyll</a>, <a href="http://octopress.org/">Hugo</a>, <a href="http://octopress.org/">Octopress</a> or <a href="https://hexo.io/">Hexo</a>. You can start completely static or even import data from CMS like Wordpres. Later you can gradually add dynamic parts using the Baqend SDK. From the first static blog post to a highly dynamic site, everything will be cached and accelerated by Baqend.</div>
@@ -2153,7 +2153,7 @@ permissions to those. Files can be uploaded, replaced, downloaded and deleted wh
 In addition the SDK comes with a rich set of functionality to transform the file contents to different browser friendly 
 formats. In the following table we list all supported file formats:
 
-<table class="table">
+<div class="table-wrapper"><table class="table">
   <tr>
     <th>type</th>
     <th>JavaScript type</th>
@@ -2195,7 +2195,7 @@ formats. In the following table we list all supported file formats:
     <td>A data url which represents the file content<br>
     <code>'data:image/gif;base64,R0lGODlhD...'</code></td>
   </tr>
-</table>
+</table></div>
 
 The file API accept all the listed formats as upload type and transforms the content to the correct binary representation 
 while uploading it. The SDK guesses the correct type except for the `base64` type and transforms it automatically. 
@@ -2350,7 +2350,7 @@ The root folder permissions are applied to all nesting folders and files.
 
 The following table gives an overview of the required permissions per operation:
 
-<table class="table">
+<div class="table-wrapper"><table class="table">
   <tr>
     <th width="30%">Method</th>
     <th width="40%">Root-folder-based permission</th>
@@ -2381,7 +2381,7 @@ The following table gives an overview of the required permissions per operation:
     <td>folder.delete</td>
     <td>object.acl.write</td>
   </tr>
-</table>
+</table></div>
 
 ### Set root folder Permissions
 

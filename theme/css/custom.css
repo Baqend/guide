@@ -55,7 +55,7 @@
 
 
 @media (max-width: 667px) {
-    .code {
+    code {
         overflow-wrap: break-word;
     }
     .table-wrapper {
