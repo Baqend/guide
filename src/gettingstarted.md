@@ -140,7 +140,7 @@ You can enable and customize email verification in the settings page of the dash
 
 </li>
 <li>
-###Install the Baqend CLI
+###Install the Baqend CLI and Deploy
 
 Install the [Baqend CLI](http://www.baqend.com/guide/#baqend-cli) globally with ([node.js and npm](https://nodejs.org/en/download/) is required):
 
