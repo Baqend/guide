@@ -289,7 +289,7 @@ by typing `baqend --help` in any folder.
  <div class="note"><strong>Note:</strong> Ensure that your `PATH` system enviroment variable contains the global
  [npm bin path](https://docs.npmjs.com/cli/bin) (`$ npm bin -g`) to let npm installed commands work properly.</div>
 
-<img src="/img/cli.png" alt="Baqend CLI" style="width: 100%">
+<img src="img/cli.png" alt="Baqend CLI" style="width: 100%">
 
  <div class="tip"><strong>Tip:</strong> A good way to manage a Baqend-based project is to manage the files and collaboration via [git](https://git-scm.com/) and using the CLI to deploy files and code to Baqend.</div>
 
