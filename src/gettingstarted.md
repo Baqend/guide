@@ -140,6 +140,24 @@ You can enable and customize email verification in the settings page of the dash
 
 </li>
 <li>
+###Install the Baqend CLI
+
+Install the [Baqend CLI](http://www.baqend.com/guide/#baqend-cli) globally with ([node.js and npm](https://nodejs.org/en/download/) is required):
+
+```sh
+$ npm install -g baqend
+```
+
+Deploy your first app version by typing: 
+
+```sh
+$ npm deploy --file-dir . <your-app-name>
+```
+
+View it online by visiting your app domain `<your-app-name>.app.baqend.com`.
+
+</li>
+<li>
 ###Start Building
 You can use the app you just created as a baseline for a real app. To explore Baqend's other features:
 <ul>

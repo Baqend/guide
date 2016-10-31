@@ -259,6 +259,101 @@ made direct HTTP calls to your baqend server.
   - OAuth settings to enable oauth login
   - Push Notifications certificates and keys needed to actually push notifications
 
+# Baqend CLI
+
+The Baqend CLI is automatically shipped with our SDK. The CLI provides a simple way to deploy your App assets, baqend 
+handlers and modules. You can use the baqend CLI directly in any [npm script](https://docs.npmjs.com/misc/scripts).
+Therefore add a baqend script entry to the scripts section in your projects **package.json**
+
+```js
+  "scripts": {
+    "baqend": "baqend"
+  }
+```
+
+Afterwards you can type `npm run baqend -- --help`
+<div class="note"><strong>Note:</strong> The extra `--` are required to seperated the npm run arguments from baqend ones.</div>
+ 
+Alternatively you can install the baqend SDK globally with `npm install -g baqend`. Afterwards you can use the baqend CLI 
+by just typing `baqend --help` in any folder. 
+
+ <div class="note"><strong>Note:</strong> Ensure that your `PATH` system enviroment variable contains the global 
+ [npm bin path](https://docs.npmjs.com/cli/bin) (`$ npm bin -g`) to let npm installed commands work properly.</div> 
+
+<img src="/img/cli.png" alt="Baqend CLI" style="width: 100%">
+
+##Login
+
+Before you can actually deploy assets and code to your app, you must login the CLI into your baqend account. By typing
+`baqend login` you can safe your login credentials on your PC.
+
+If you do not want so safe your login credentials on your PC, you can skip the login step and can provide your login 
+credentials each time you want to deploy.
+
+ <div class="note"><strong>Note:</strong> If you have created your baqend account with OAuth (Goole, Facebook or GitHub) 
+you must add a password to your account first.</div>
+ 
+##Deploy
+ 
+Wit the deploy command you can upload your app distribution, assets and baqend code (handler and modules) to your 
+baqend app.
+
+By typing `baqend deploy your-app-name` you can simply upload your app.
+
+Therefore we expect a folder named `www` per default where its content is uploaded to the `www` folder and is then 
+served by baqend. 
+
+Read more about baqend hosting in the [Hosting](#hosting) chapter.      
+
+ <div class="note"><strong>Tip:</strong> You can simply provide a different folder wich is uploaded with 
+`baqend deploy --file-dir dist`.</div>
+
+The CLI can additionally deploy your Baqend code. Your Baqend code should sit in an folder named `baqend`.
+
+The following picture visiualize a typical project layout for baqend code:
+
+ <div class="clearfix">
+    <img src="/img/cli-project.png" alt="CLI Project Layout" style="float: left; margin: 0 20px 20px 0">
+All Baqend modules should sit top level within the `baqend` folder. 
+    
+`baqend/firstModule.js` will be uploaded as `firstModule`.
+
+For each code handler you should create a folder named similar to the table 
+it belongs to. Within the folder the files should be named:
+  
+`baqend/<Table>/insert.js` for an [onInsert](#oninsert) handler <br>
+`baqend/<Table>/update.js` for an [onUpdate](#uonpdate) handler <br>
+`baqend/<Table>/delete.js` for an [onDelete](#ondelete) handler <br>
+`baqend/<Table>/validate.js` for an [onValidate](#onvalidate) handler
+       
+Therefore `baqend/User/insert.js` contains the insert handler code wich is invoked each time a new user object is inserted
+to the `User` table. 
+
+Read more about baqend code in the [Baqend Code](#baqend-code_1) chapter.         
+       
+</div>
+
+##Typings (TypeScript Support)
+
+The baqend SDK itself comes with a [TypeScript deceleration file](https://www.typescriptlang.org/docs/handbook/declaration-files/introduction.html),
+which enables seamless integration into TypeScript and allows better code completion over all.
+The SDK comes also with a dynamic API part, which is generated on the fly depending on your current schema. 
+To make your TypeScript application work properly with this dynamic part you can generate the additional typings for your 
+current schema model with the CLI.
+
+By typing `baqend typings your-app-name` the CLI generates the TypeScript deceleration file into your current folder. 
+You can then add the generated file to your [tsconfig.json](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html) 
+file.
+
+You can update the generated file each time you have changed tables or fields in the Baqend Dashboard by just repeating this step.
+
+ <div class="note"><strong>Tip:</strong> You should check in the generated file into your version control system to 
+ share an up to date version of the definition file.</div>
+
+##Logout
+
+You can logout the baqend CLI and remove all locally stored credentials by typing `baqend logout` 
+
 # CRUD
 
 Each entity has some basic methods for persisting and retrieving its data. This pattern is known as *data access 
