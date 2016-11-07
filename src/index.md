@@ -1222,16 +1222,20 @@ Every event is delivered with one of the following match types:
       + `'change'`: the entity was updated, but remains a match.
       + `'changeIndex'` (for sorting queries only): the entity was updated and remains a match, but changed its position within the query result.   
     + `remove:` the entity was a match before, but is not matching any longer.
+- **initial:** a boolean value indicating whether this event reflects the matching status at query time (`true`) or a recent change data change (`false`)
+- **index** (for sorting queries only)): the position of the matching entity in the ordered result (`-1` for non-matching entities)
+
 
 ## Streaming Options
 
 By default, you receive the initial result set and all events that are required to maintain it. However, the optional argument for the `.stream([options])` function lets you restrict the kind of event notifications to receive by setting the appropriate attribute values:
 
 - **initial** (default: `true`): whether or not you want to receive the initial result set (i.e. the entities matching the query at subscription time). If set to `true`, the initial result set will be delivered, irrespective of whether and which restrictions you impose on operations and match types (see the other options). If set to `false`, you will only receive an event when something changes.
-- **matchTypes** (default: `['all']`): The default gives you all events with the most specific match type, but you can specify any combination of match types if you are interested in a specific subset of all events. 
+- **matchTypes** (default: `['all']`): The default gives you all events with the most specific match type, but you can specify any combination of match types to listen for.  
+If you are interested in a specific subset of all events, consider that some match types are more general than others: `'change'` is more general than `'changeIndex'` and `'match'` is more general than `'add'` and `'change'`. If you are only interested in, say, `'add'` and `'change'` events, you have to make your query listen for [ `'add'`, `'change'` ]; a query listening for `'match'` would receive the same entities on the same occasions, but would always receive the more generic match type. To receive the most specific match types, you have to explicitly list them or use `['all']`.
 - **operations** (default: `['any']`): By default, events will not be sorted out based on their operation, but you can choose any combination of `'insert'`, `'update'`, `'delete'` and `'none'` to narrow down the kind of matches you receive.  
 
-Some match types are more general than others: `'change'` is more general than `'changeIndex'` and `'match'` is more general than `'add'` and `'change'`. If you are only interested in, say, `'add'` and `'change'` events, you have to make your query listen for [ `'add'`, `'change'` ]; a query listening for `'match'` would be triggered by the same events, but would always receive the more generic match type. 
+
 
 <div class="note"><strong>Note:</strong> You can only restrict match types or operations, but not both.</div>
 
