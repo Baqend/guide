@@ -1333,7 +1333,7 @@ var stream = DB.Todo.find()
                .subscribe(event => console.log('Next!'), error => console.log('Error!')); //'Error!'
 ```
 
-A streaming sorting query with `offset` maintains an ordered result, hiding the first few items from you. The following example represents a query for positions 11 through 20 of an ordered result:
+A streaming sorting query with `offset` maintains an ordered result, hiding the first few items from you and shaping events accordingly. Since the first index in a sorting query without `offset` is `0`, events for the following subscription will never carry `index` values smaller than `10` or greater than `19`:
 
 ```js
 var stream = DB.Todo.find()
@@ -1357,15 +1357,21 @@ For an example of how a streaming queries behave, consider the following example
     <thead>
     <tr>
       <th width="10%">Time</th>
-      <th width="45%">User 1</th>
-      <th width="45%">User 2</th>
+      <th width="10%"></th>
+      <th width="10%"></th>
+      <th width="10%"></th>
+      <th width="10%">User 1</th>
+      <th width="10%"></th>
+      <th width="10%"></th>
+      <th width="10%"></th>
+      <th width="10%">User 2</th>
     </tr>
     </thead>
     <tbody>
     <tr> <!--  -->
       <td>1</td>
-      <td>current result: [ ]</td> <!-- User 1 -->
-      <td>
+      <td colspan="5">current result: [ ]</td> <!-- User 1 -->
+      <td colspan="4">
 <pre>
 var todo1 = new DB.Todo({name: 'My Todo 1'});
 todo1.insert();
@@ -1374,7 +1380,7 @@ todo1.insert();
     </tr>
     <tr>
       <td>2</td>
-      <td>
+      <td colspan="7">
 <pre>
 var stream = DB.Todo.find()
     .matches('name', /^My Todo/)
@@ -1383,26 +1389,22 @@ var stream = DB.Todo.find()
     .limit(3)
     .stream();
 subscription = stream.subscribe((event) => {
-  console.log(event.matchType + '/' + event.operation + ': ' + event.data.name + ' is now at index ' + event.index);
+  console.log(event.matchType + '/' 
+    + event.operation + ': ' 
+	+ event.data.name + ' is now at index ' 
+	+ event.index);
 });
-</pre>
-</td><!-- User 1 -->
-      <td></td><!-- User 2 -->
-    </tr>
-    <tr> <!--  -->
-      <td>3</td>
-      <td>
-<pre>
+... //one round-trip later
 //'match/none: My Todo 1 is now at index 0'
 </pre>
 result: [ `todo1` ]
 </td> <!-- User 1 -->
-      <td></td> <!-- User 2 -->
+      <td colspan="2"></td> <!-- User 2 -->
     </tr>
     <tr> <!--  -->
-      <td>4</td>
-      <td></td> <!-- User 1 -->
-      <td>
+      <td>3</td>
+      <td colspan="2"></td> <!-- User 1 -->
+      <td colspan="7">
 <pre>
 var todo2 = new DB.Todo({name: 'My Todo 2'});
 todo2.insert();
@@ -1410,19 +1412,19 @@ todo2.insert();
 </td> <!-- User 2 -->
     </tr>
     <tr> <!--  -->
-      <td>5</td>
-      <td>
+      <td>4</td>
+      <td colspan="7">
 <pre>
 //'add/insert: My Todo 2 is now at index 1'
 </pre>
 result: [ `todo1`, `todo2` ]
 </td> <!-- User 1 -->
-      <td></td> <!-- User 2 -->
+      <td colspan="2"></td> <!-- User 2 -->
     </tr>
     <tr> <!--  -->
-      <td>6</td>
-      <td></td> <!-- User 1 -->
-      <td>
+      <td>5</td>
+      <td colspan="2"></td> <!-- User 1 -->
+      <td colspan="7">
 <pre>
 var todo3 = new DB.Todo({name: 'My Todo 3'});
 todo3.insert();
@@ -1430,19 +1432,19 @@ todo3.insert();
 </td> <!-- User 2 -->
     </tr>
     <tr> <!--  -->
-      <td>7</td>
-      <td>
+      <td>6</td>
+      <td colspan="7">
 <pre>
 //'add/insert: My Todo 3 is now at index 2'
 </pre>
 result: [ `todo1`, `todo2`, `todo3` ]
 </td> <!-- User 1 -->
-      <td></td> <!-- User 2 -->
+      <td colspan="2"></td> <!-- User 2 -->
     </tr>
     <tr> <!--  -->
-      <td>8</td>
-      <td></td> <!-- User 1 -->
-      <td>
+      <td>7</td>
+      <td colspan="2"></td> <!-- User 1 -->
+      <td colspan="7">
 <pre>
 todo3.name = 'My Todo 1b (former 3)';
 todo3.update();
@@ -1450,19 +1452,19 @@ todo3.update();
 </td> <!-- User 2 -->
     </tr>
     <tr> <!--  -->
-      <td>9</td>
-      <td>
+      <td>8</td>
+      <td colspan="7">
 <pre>
 //'changeIndex/update: My Todo 1b (former 3) is now at index 1'
 </pre>
 result: [ `todo1`, `todo3`, `todo2` ]
 </td> <!-- User 1 -->
-      <td></td> <!-- User 2 -->
+      <td colspan="2"></td> <!-- User 2 -->
     </tr>
     <tr> <!--  -->
-      <td>10</td>
-      <td></td> <!-- User 1 -->
-      <td>
+      <td>9</td>
+      <td colspan="2"></td> <!-- User 1 -->
+      <td colspan="7">
 <pre>
 var todo0 = new DB.Todo({name: 'My Todo 0'});
 todo0.insert();
@@ -1470,20 +1472,20 @@ todo0.insert();
 </td> <!-- User 2 -->
     </tr>
     <tr> <!--  -->
-      <td>11</td>
-      <td>
+      <td>10</td>
+      <td colspan="7">
 <pre>
 //'remove/none: My Todo 2 is now at index undefined'
 //'add/insert: My Todo 0 is now at index 0'
 </pre>
 result: [ `todo0`, `todo1`, `todo3` ]
 </td> <!-- User 1 -->
-      <td></td> <!-- User 2 -->
+      <td colspan="2"></td> <!-- User 2 -->
     </tr>
     <tr> <!--  -->
-      <td>12</td>
-      <td></td> <!-- User 1 -->
-      <td>
+      <td>11</td>
+      <td colspan="2"></td> <!-- User 1 -->
+      <td colspan="7">
 <pre>
 todo3.name = 'My Todo 3';
 todo3.update();
@@ -1491,37 +1493,37 @@ todo3.update();
 </td> <!-- User 2 -->
     </tr>
     <tr> <!--  -->
-      <td>13</td>
-      <td>
+      <td>12</td>
+      <td colspan="7">
 <pre>
 //'remove/update: My Todo 3 is now at index undefined'
 //'add/none: My Todo 2 is now at index 2'
 </pre>
 result: [ `todo0`, `todo1`, `todo2` ]
 </td> <!-- User 1 -->
-      <td></td> <!-- User 2 -->
+      <td colspan="2"></td> <!-- User 2 -->
     </tr>
     <tr> <!--  -->
-      <td>14</td>
-      <td></td> <!-- User 1 -->
-      <td>
+      <td>13</td>
+      <td colspan="2"></td> <!-- User 1 -->
+      <td colspan="7">
 <pre>
 todo3.delete();
 </pre>
 </td> <!-- User 2 -->
     </tr>
     <tr> <!--  -->
-      <td>15</td>
-      <td>no match, because deleting `todo3` has no effect on the query result</td> <!-- User 1 -->
-      <td></td> <!-- User 2 -->
+      <td>14</td>
+      <td colspan="7">no match, because deleting `todo3` has no effect on the query result</td> <!-- User 1 -->
+      <td colspan="2"></td> <!-- User 2 -->
     </tr>
     </tbody>
   </table>
 </div>
 
-User 1 starts receiving the initial result directly after subscription (Timestamp 2). From this point on, any write operation performed by User 2 is forwarded to User 1 – as long as it's affecting the subscribed query's result. Changes to non-matching items have no effect in the eyes of User 1 (Timestamp 14).
+User 1 starts receiving the initial result directly after subscription (Timestamp 2). From this point on, any write operation performed by User 2 is forwarded to User 1 – as long as it's affecting the subscribed query's result. Changes to non-matching items have no effect in the eyes of User 1 (Timestamps 13/14).
 
-Of course, you can specify the same streaming *options* for streaming sorting queries as for any other streaming query. However, be aware that operation-related semantics are rather complex for sorting queries: For example, `insert` and `update` operations may trigger an item to *leave* the result (Timestamps 10 and 12). Similarly (even though not shown in the example), an `add` event can be triggered by a `delete` when an item enters the result set from beyond limit. When triggered by an operation on a different entity, an event may even be delivered with no operation at all (Timestamps 11 and 13).  
+Of course, you can specify the same streaming *options* for streaming sorting queries as for any other streaming query. However, be aware that operation-related semantics are rather complex for sorting queries: For example, `insert` and `update` operations may trigger an item to *leave* the result (Timestamps 9/10 and 11/12). Similarly (even though not shown in the example), an `add` event can be triggered by a `delete` when an item enters the result set from beyond limit. When triggered by an operation on a different entity, an event may even be delivered with no operation at all (Timestamps 10 and 12).  
 Bottom line, **be careful when filtering sorting queries by operation!**
 
 
