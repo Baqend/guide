@@ -1221,7 +1221,7 @@ Every event is delivered with one of the following match types:
       + `'add'`: the entity entered the result set, i.e. it did not match before and is matching now.
       + `'change'`: the entity was updated, but remains a match.
       + `'changeIndex'` (for sorting queries only): the entity was updated and remains a match, but changed its position within the query result.   
-    + `remove:` the entity was a match before, but is not matching any longer.
+    + `'remove'`: the entity was a match before, but is not matching any longer.
 - **initial:** a boolean value indicating whether this event reflects the matching status at query time (`true`) or a recent change data change (`false`)
 - **index** (for sorting queries only)): the position of the matching entity in the ordered result (`-1` for non-matching entities)
 
@@ -1230,7 +1230,7 @@ Every event is delivered with one of the following match types:
 
 By default, you receive the initial result set and all events that are required to maintain it. However, the optional argument for the `.stream([options])` function lets you restrict the kind of event notifications to receive by setting the appropriate attribute values:
 
-- **initial** (default: `true`): whether or not you want to receive the initial result set (i.e. the entities matching the query at subscription time). If set to `true`, the initial result set will be delivered, irrespective of whether and which restrictions you impose on operations and match types (see the other options). If set to `false`, you will only receive an event when something changes.
+- **initial** (default: `true`): whether or not you want to receive the initial result set. If set to `true`, every entity matching the query at subscription time will be delivered with match type `add`, irrespective of whether and which restrictions you impose on operations and match types (see the other options). If set to `false`, you will only receive an event when something changes.
 - **matchTypes** (default: `['all']`): The default gives you all events with the most specific match type, but you can specify any combination of match types to listen for.  
 If you are interested in a specific subset of all events, consider that some match types are more general than others: `'change'` is more general than `'changeIndex'` and `'match'` is more general than `'add'` and `'change'`. If you are only interested in, say, `'add'` and `'change'` events, you have to make your query listen for [ `'add'`, `'change'` ]; a query listening for `'match'` would receive the same entities on the same occasions, but would always receive the more generic match type. To receive the most specific match types, you have to explicitly list them or use `['all']`.
 - **operations** (default: `['any']`): By default, events will not be sorted out based on their operation, but you can choose any combination of `'insert'`, `'update'`, `'delete'` and `'none'` to narrow down the kind of matches you receive.  
@@ -1276,7 +1276,7 @@ var stream = DB.Todo.find()
                .stream({initial: false, matchTypes: 'add'}); // operations: ['any'] by default
 ```
 
-To get the full picture, you can also request the initial result upfront:
+To get the full picture, you can also request the initial result upfront. Initial matches are always delivered with match type `add`:
 
 ```js
 var stream = DB.Todo.find()
@@ -1352,40 +1352,25 @@ var stream = DB.Todo.find()
 
 With respect to efficiency, the same rules apply to streaming and non-streaming queries: Sorting huge results is expensive and sorting queries should therefore be avoided when filter querie would do as well.
 
-<div class="note"><strong>Note:</strong> Currently, streaming sorting queries are <em>always executed as anonymous queries</em>, i.e. they will only give you data that is publicly visible. To retrieve data protected by ACLs, you have to either forgo streaming (use a plain sorting query) or ordering (use a streaming query without `limit`, `offset`, `ascending` and `descending`).
+<div class="note"><strong>Note:</strong> Currently, streaming sorting queries are <em>always executed as anonymous queries</em>, i.e. they will only give you data that is publicly visible. To retrieve data protected by ACLs, you have to either forgo streaming (use a plain sorting query) or ordering (use a streaming query without <code>limit</code>, <code>offset</code>, <code>ascending</code> and <code>descending</code>).
 </div>
 
 ## Example: Subscription and Events
 
-For an example of how a streaming query behaves, consider the following example where two users are working concurrently on the same database. *User 1* subscribes to a streaming sorting query and listens for the result and updates, whereas *User 2* is working on the data.
+For an example of how a streaming query behaves, consider the following example where two users are working concurrently on the same database. *User 1* subscribes to a streaming sorting query and listens for the result and updates, whereas *User 2* is working on the data. 
 
-
-<div class="table-wrapper">
-  <table class="table">
-    <thead>
-    <tr>
-      <th>Time</th>
-      <th>User 1</th>
-      <th></th>
-      <th></th>
-      <th>User 2</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr> <!--  -->
-      <td>1</td>
-      <td colspan="1">current result: [ ]</td> <!-- User 1 -->
-      <td colspan="3">
-<pre>
+**Timestamp 0:** *User 1* and *User 2* are connected to the same database. 
+ 
+**Timestamp 1:** *User 2* inserts `todo1`:
+```js
 var todo1 = new DB.Todo({name: 'My Todo 1'});
 todo1.insert();
-</pre>
-</td> <!-- User 2 -->
-    </tr>
-    <tr>
-      <td>2</td>
-      <td colspan="3">
-<pre>
+
+//actual result: [ todo1 ]
+```
+
+**Timestamp 2:** *User 1* subscribes to a streaming query and immediately receives a match event for `todo1`:
+```js
 var stream = DB.Todo.find()
     .matches('name', /^My Todo/)
     .ascending('name')
@@ -1399,131 +1384,92 @@ subscription = stream.subscribe((event) => {
 	+ event.index);
 });
 ... //one round-trip later
-//'match/none: My Todo 1 is now at index 0'
-</pre>
-result: [ `todo1` ]
-</td> <!-- User 1 -->
-      <td colspan="1"></td> <!-- User 2 -->
-    </tr>
-    <tr> <!--  -->
-      <td>3</td>
-      <td colspan="1"></td> <!-- User 1 -->
-      <td colspan="3">
-<pre>
+//'add/none: My Todo 1 is now at index 0'
+```
+
+**Timestamp 3:** *User 2* inserts `todo2`:
+```js
 var todo2 = new DB.Todo({name: 'My Todo 2'});
 todo2.insert();
-</pre>
-</td> <!-- User 2 -->
-    </tr>
-    <tr> <!--  -->
-      <td>4</td>
-      <td colspan="3">
-<pre>
+
+//actual result: [ todo1, todo2 ]
+```
+
+**Timestamp 4:** *User 1* receives a new event for `todo2`:
+```js
 //'add/insert: My Todo 2 is now at index 1'
-</pre>
-result: [ `todo1`, `todo2` ]
-</td> <!-- User 1 -->
-      <td colspan="1"></td> <!-- User 2 -->
-    </tr>
-    <tr> <!--  -->
-      <td>5</td>
-      <td colspan="1"></td> <!-- User 1 -->
-      <td colspan="3">
-<pre>
+```
+
+**Timestamp 5:** *User 2*: inserts `todo3`:
+```js
 var todo3 = new DB.Todo({name: 'My Todo 3'});
 todo3.insert();
-</pre>
-</td> <!-- User 2 -->
-    </tr>
-    <tr> <!--  -->
-      <td>6</td>
-      <td colspan="3">
-<pre>
+
+//actual result: [ todo1, todo2, todo3 ]
+```
+
+**Timestamp 6:** *User 1* receives a new event for `todo3`:
+```js
 //'add/insert: My Todo 3 is now at index 2'
-</pre>
-result: [ `todo1`, `todo2`, `todo3` ]
-</td> <!-- User 1 -->
-      <td colspan="1"></td> <!-- User 2 -->
-    </tr>
-    <tr> <!--  -->
-      <td>7</td>
-      <td colspan="1"></td> <!-- User 1 -->
-      <td colspan="3">
-<pre>
+```
+
+**Timestamp 7:** *User 2* updates `todo3` in such a way that its position in the ordered result changes:
+```js
 todo3.name = 'My Todo 1b (former 3)';
 todo3.update();
-</pre>
-</td> <!-- User 2 -->
-    </tr>
-    <tr> <!--  -->
-      <td>8</td>
-      <td colspan="3">
-<pre>
+
+//actual result: [ todo1, todo3, todo2 ]
+```
+
+**Timestamp 8:** *User 1* is notified of this update through an event that delivers the new version of `todo3`. The fact that `todo3` had already been a match and just changed its position in the result is encoded in the event's match type `changeIndex`:
+```js
 //'changeIndex/update: My Todo 1b (former 3) is now at index 1'
-</pre>
-result: [ `todo1`, `todo3`, `todo2` ]
-</td> <!-- User 1 -->
-      <td colspan="1"></td> <!-- User 2 -->
-    </tr>
-    <tr> <!--  -->
-      <td>9</td>
-      <td colspan="1"></td> <!-- User 1 -->
-      <td colspan="3">
-<pre>
+```
+
+**Timestamp 9:** *User 2* inserts `todo0` which sorts before all other items in the result and therefore is assigned index `0`:
+```js
 var todo0 = new DB.Todo({name: 'My Todo 0'});
 todo0.insert();
-</pre>
-</td> <!-- User 2 -->
-    </tr>
-    <tr> <!--  -->
-      <td>10</td>
-      <td colspan="3">
-<pre>
+
+//entities in DB: [ todo0, todo1, todo3 ], todo2
+//                 <--- within limit ---> 
+```
+Because of the `.limit(3)` clause, only the first three of all four matching entities are valid matches and the last one – currently `todo2` – is *pushed beyond limit* and therefore leaves the result. 
+
+**Timestamp 10:** *User 1* receives two events that correspond to the two relevant changes to the result:
+```js
 //'remove/none: My Todo 2 is now at index undefined'
 //'add/insert: My Todo 0 is now at index 0'
-</pre>
-result: [ `todo0`, `todo1`, `todo3` ]
-</td> <!-- User 1 -->
-      <td colspan="1"></td> <!-- User 2 -->
-    </tr>
-    <tr> <!--  -->
-      <td>11</td>
-      <td colspan="1"></td> <!-- User 1 -->
-      <td colspan="3">
-<pre>
+```
+
+**Timestamp 11:** *User 2* updates `todo3` again, so that it assumes its original name:
+```js
 todo3.name = 'My Todo 3';
 todo3.update();
-</pre>
-</td> <!-- User 2 -->
-    </tr>
-    <tr> <!--  -->
-      <td>12</td>
-      <td colspan="3">
-<pre>
+
+//entities in DB: [ todo0, todo1, todo2 ], todo3
+//                 <--- within limit ---> 
+```
+Through this update, `todo2` and `todo3` swap places.
+
+**Timestamp 12:** *User 1* receives the corresponding events:
+```js
 //'remove/update: My Todo 3 is now at index undefined'
 //'add/none: My Todo 2 is now at index 2'
-</pre>
-result: [ `todo0`, `todo1`, `todo2` ]
-</td> <!-- User 1 -->
-      <td colspan="1"></td> <!-- User 2 -->
-    </tr>
-    <tr> <!--  -->
-      <td>13</td>
-      <td colspan="1"></td> <!-- User 1 -->
-      <td colspan="3">
-<pre>
+```
+
+**Timestamp 13:** *User 2* deletes `todo3`:
+```js
 todo3.delete();
-</pre>
-</td> <!-- User 2 -->
-    </tr>
-    <tr> <!--  -->
-      <td>14</td>
-      <td colspan="3">no match, because deleting `todo3` has no effect on the query result</td> <!-- User 1 -->
-      <td colspan="1"></td> <!-- User 2 -->
-    </tr>
-    </tbody>
-  </table>
-</div>
+
+//entities in DB: [ todo0, todo1, todo2 ]
+```
+Note that the deleted entity was not part of the result set.
+
+**Timestamp 14:** *User 1* no match, because deleting `todo3` had no effect on the query result.
+```js
+//nothing here
+```
 
 User 1 starts receiving the initial result directly after subscription (Timestamp 2). From this point on, any write operation performed by User 2 is forwarded to User 1 – as long as it's affecting the subscribed query's result. Changes to non-matching items have no effect in the eyes of User 1 (Timestamps 13/14).
 
@@ -1582,7 +1528,7 @@ One of the simpler aggregates over a collection of entities is the *cardinality*
 var initialAccumulator = {aggregate: 0}; // we only need to maintain a counter
 
 var maintainAggregate = (accumulator, event) => {
-  if (event.initial || event.matchType === 'add') { // entering item: count + 1
+  if (event.matchType === 'add') { // entering item: count + 1
     accumulator.aggregate = accumulator.aggregate + 1;
   } else if (event.matchType === 'remove') { // leaving item: count - 1
     accumulator.aggregate = accumulator.aggregate - 1;
@@ -1613,7 +1559,7 @@ var maintainAggregate = (accumulator, event) => {
     delete accumulator.contributors[event.data.id];
   }
   accumulator.sum += (newValue ? newValue : 0) - (oldValue ? oldValue : 0);
-  accumulator.count += event.matchType === 'remove' ? -1 : event.initial || event.matchType === 'add' ? 1 : 0;
+  accumulator.count += event.matchType === 'remove' ? -1 : event.matchType === 'add' ? 1 : 0;
   accumulator.aggregate = accumulator.count > 0 ? accumulator.sum / accumulator.count : undefined;
   return accumulator;
 };
@@ -1625,7 +1571,7 @@ The above function to maintain the average value keeps the number of items in th
 
 Streaming is available for all queries with the following limitations:
 
-- Streaming query results are limited in cardinality to *500 objects*. Streaming sorting queries therefore require a `limit` predicate (the sum of `offset` and `limit` may not exceed 500).
+- The initial size of streaming query results is limited to *500 objects*. Streaming sorting queries therefore require a `limit` predicate (the sum of `offset` and `limit` may not exceed 500). 
 - Currently, *streaming sorting queries only return public data*, even when executed with admin privileges; to retrieve private data, use non-streaming sorting queries or streaming queries that do not contain `limit`, `offset`, `ascending`, `descending` or `sort`.
 - Geospatial queries (`withinSphere`, `withinPolygon`) are currently not available for streaming
 
