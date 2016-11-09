@@ -1181,7 +1181,32 @@ filters. This Index is created on GeoPoint fields by using the *Index* Button.
 
 # Streaming Queries
 
-Calling `.stream()` on a query object registers a streaming query in Baqend and returns an event stream in form of an [RxJS observable](http://reactivex.io/documentation/observable.html) that provides you with updates to the query result as they happen over time.
+Baqend does not only feature powerful queries, but also streaming result updates to keep your critical data up-to-date in the face of concurrent updates by other users. 
+
+In order to activate streaming updates for a query, all you have to do is register it as a streaming query and provide a function to execute for every received change event is received:
+
+```javascript
+var query = DB.Todo.find()
+              .matches('name', /^My Todo/)
+              .ascending('deadline')
+              .limit(20);
+var subscription = query.stream()
+              .subscribe(event => console.log(event));
+//...
+new DB.Todo({name: 'My Todo XYZ'}).insert(); //insert data
+//... 
+//{
+//  "matchType":"add", 
+//  "operation":"insert",
+//  "data":{"name":"do groceries",...},
+//  "date":"2016-11-09T12:42:31.322Z",
+//  "target":{...},
+//  "initial":true,
+//  "index":1
+//}
+```
+
+Calling `.stream()` on a query object opens a [websocket](https://developer.mozilla.org/de/docs/WebSockets) connection to Baqend, registers a streaming query and returns an event stream in form of an [RxJS observable](http://reactivex.io/documentation/observable.html) that provides you with updates to the query result as they happen over time.
 
 ```js
 var stream = DB.Todo.find().stream();
@@ -1192,6 +1217,8 @@ To make your code react to result set changes, you can subscribe to the stream a
 ```js
 var subscription = stream.subscribe(event => console.log(event));
 ```
+
+<div class="note"><strong>Note:</strong> You have to use the <a href="https://github.com/Baqend/js-sdk/blob/master/README.md#baqend-streaming-sdk" target="_blank">Baqend Streaming SDK</a> to use the streaming query feature.</div>
 
 On error, the subscription will automatically be canceled, but you can also provide a custom error handler function that is executed whenever something goes wrong:
 
@@ -1217,13 +1244,14 @@ Every event can carry the following information:
 For an example where neither `'insert'`, `'update'` nor `'delete'` can reasonably be applied to an event, consider how the last one in a top-10 query result is pushed out when a new contender enters the top-10: While one event represents the insertion of the new contender itself, another event represents the entity leaving the result which was neither inserted, updated nor deleted. Consequently, Baqend would deliver this event with a `'none'` operation.
 - **matchType:** indicates how the transmitted entity relates to the query result.  
 Every event is delivered with one of the following match types:
-      + `'match'`: the entity matches the query.  
+      + `'match'`: the entity matches the query.
       + `'add'`: the entity entered the result set, i.e. it did not match before and is matching now.
       + `'change'`: the entity was updated, but remains a match.
-      + `'changeIndex'` (for sorting queries only): the entity was updated and remains a match, but changed its position within the query result.   
+      + `'changeIndex'` (for sorting queries only): the entity was updated and remains a match, but changed its position within the query result. 
     + `'remove'`: the entity was a match before, but is not matching any longer.
-- **initial:** a boolean value indicating whether this event reflects the matching status at query time (`true`) or a recent change data change (`false`)
-- **index** (for sorting queries only)): the position of the matching entity in the ordered result (`-1` for non-matching entities)
+- **initial:** a boolean value indicating whether this event reflects the matching status at query time (`true`) or a recent change data change (`false`).
+- **index** (for sorting queries only): the position of the matching entity in the ordered result (`-1` for non-matching entities).
+- **date**: server-time from the instant at which the event was generated.
 
 
 ## Streaming Options
@@ -1233,7 +1261,7 @@ By default, you receive the initial result set and all events that are required 
 - **initial** (default: `true`): whether or not you want to receive the initial result set. If set to `true`, every entity matching the query at subscription time will be delivered with match type `add`, irrespective of whether and which restrictions you impose on operations and match types (see the other options). If set to `false`, you will only receive an event when something changes.
 - **matchTypes** (default: `['all']`): The default gives you all events with the most specific match type, but you can specify any combination of match types to listen for.  
 If you are interested in a specific subset of all events, consider that some match types are more general than others: `'change'` is more general than `'changeIndex'` and `'match'` is more general than `'add'` and `'change'`. If you are only interested in, say, `'add'` and `'change'` events, you have to make your query listen for [ `'add'`, `'change'` ]; a query listening for `'match'` would receive the same entities on the same occasions, but would always receive the more generic match type. To receive the most specific match types, you have to explicitly list them or use `['all']`.
-- **operations** (default: `['any']`): By default, events will not be sorted out based on their operation, but you can choose any combination of `'insert'`, `'update'`, `'delete'` and `'none'` to narrow down the kind of matches you receive.  
+- **operations** (default: `['any']`): By default, events will not be sorted out based on their operation, but you can choose any combination of `'insert'`, `'update'`, `'delete'` and `'none'` to narrow down the kind of matches you receive. 
 
 
 
@@ -1242,7 +1270,8 @@ If you are interested in a specific subset of all events, consider that some mat
 
 ## Streaming Simple Queries
 
-*Simple queries* are queries that just return all entities in a collection, no filtering involved. While streaming simple queries can be very useful (for example to monitor all operations on the collection), they can produce vast amounts of events for collections that have many members or are updated very often. Therefore, you should be *particularly* careful to only subscribe to events you really want to be bothered with when using streaming simple queries.  
+*Simple queries* are queries that just return all entities in a collection, no filtering involved. While streaming simple queries can be very useful (for example to monitor all operations on the collection), they can produce vast amounts of events for collections that have many members or are updated very often. Therefore, you should be *particularly* careful to only subscribe to events you really want to be bothered with when using streaming simple queries.
+
 For instance, if you are interested in all todo lists and only want to be notified as *new* lists are created, you could subscribe to the following stream:
 
 ```js
@@ -1267,7 +1296,8 @@ var stream = DB.Todo.find()
                .stream({initial: false, operations: 'insert'});
 ```
 
-It is important to note, however, that the above query will only tell you when a new todo list matches your query *on insert*; it will *not* produce an event when an already-existing list is renamed to match your pattern, because that would happen by `update` (while the stream is targeting `insert` operations only).  
+It is important to note, however, that the above query will only tell you when a new todo list matches your query *on insert*; it will *not* produce an event when an already-existing list is renamed to match your pattern, because that would happen by `update` (while the stream is targeting `insert` operations only). 
+
 If you are really looking for a streaming query that gives you new matches irrespective of the triggering operation, you should work with `matchTypes` and leave `operations` at the default:
 
 ```js
@@ -1350,7 +1380,7 @@ var stream = DB.Todo.find()
                .stream();
 ```
 
-With respect to efficiency, the same rules apply to streaming and non-streaming queries: Sorting huge results is expensive and sorting queries should therefore be avoided when filter querie would do as well.
+With respect to efficiency, the same rules apply to streaming and non-streaming queries: Sorting huge results is expensive and sorting queries should therefore be avoided when filter queries would do as well.
 
 <div class="note"><strong>Note:</strong> Currently, streaming sorting queries are <em>always executed as anonymous queries</em>, i.e. they will only give you data that is publicly visible. To retrieve data protected by ACLs, you have to either forgo streaming (use a plain sorting query) or ordering (use a streaming query without <code>limit</code>, <code>offset</code>, <code>ascending</code> and <code>descending</code>).
 </div>
@@ -1473,10 +1503,10 @@ Note that the deleted entity was not part of the result set.
 
 User 1 starts receiving the initial result directly after subscription (Timestamp 2). From this point on, any write operation performed by User 2 is forwarded to User 1 — as long as it's affecting the subscribed query's result. Changes to non-matching items have no effect in the eyes of User 1 (Timestamps 13/14).
 
-Be aware that operation-related semantics are rather complex for sorting queries: For example, `insert` and `update` operations may trigger an item to *leave* the result (Timestamps 9/10 and 11/12). Similarly (even though not shown in the example), an `add` event can be triggered by a `delete` when an item enters the result set from beyond limit. When triggered by an operation on a different entity, an event may even be delivered with no operation at all (Timestamps 10 and 12).  
+Be aware that operation-related semantics are rather complex for sorting queries: For example, `insert` and `update` operations may trigger an item to *leave* the result (Timestamps 9/10 and 11/12). Similarly (even though not shown in the example), an `add` event can be triggered by a `delete` when an item enters the result set from beyond limit. When triggered by an operation on a different entity, an event may even be delivered with no operation at all (Timestamps 10 and 12). 
 
-<div class="note"><strong>Note:</strong>
-<em>Bottom line, be careful when filtering sorting queries by operation!</em>
+<div class="tip"><strong>Tip:</strong>
+<em>Bottom line, be careful when filtering streaming sorting queries by operation!</em>
 </div>
 
 
@@ -1495,7 +1525,7 @@ Since the [RxJS documentation is great and extensive](http://reactivex.io/tutori
 
 ### Maintaining Query Results
 
-An obvious advantage of streaming queries over common non-streaming queries is the ability to keep your result up-to-date while you and other users are inserting, updating and deleting data.  
+An obvious advantage of streaming queries over common non-streaming queries is the ability to keep your result up-to-date while you and other users are inserting, updating and deleting data. 
 
 For an example, imagine you and your colleagues are working on some projects and you are interested in the most urgent tasks to tackle. Your query could look something like this:
 
@@ -1577,7 +1607,7 @@ The individual components are:
 - the `maintainAggregate` function: takes an accumulator and an event to compute and return a new accumulator.
 - the `initialAccumulator`: this is the accumulator before the first event with reasonable default values.
 - the `scan` operator: on every event, applies the `maintainAggregate` function to the current accumulator and returns the updated accumulator which is then used on the next invocation.
-- the `map` operator: on every event, extracts the aggregate value from the accumulator.  
+- the `map` operator: on every event, extracts the aggregate value from the accumulator. 
 
 The only moving parts here are the `maintainAggregate` function and `initialAccumulator`, because they determine the computation of the aggregate. So let's look at some concrete implementations.
 
@@ -1590,9 +1620,9 @@ var initialAccumulator = {aggregate: 0}; // we only need to maintain a counter
 
 var maintainAggregate = (accumulator, event) => {
   if (event.matchType === 'add') { // entering item: count + 1
-    accumulator.aggregate = accumulator.aggregate + 1;
+    accumulator.aggregate = accumulator.aggregate++;
   } else if (event.matchType === 'remove') { // leaving item: count - 1
-    accumulator.aggregate = accumulator.aggregate - 1;
+    accumulator.aggregate = accumulator.aggregate--;
   }
   return accumulator;
 };
