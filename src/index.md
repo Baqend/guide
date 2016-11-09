@@ -1357,11 +1357,11 @@ With respect to efficiency, the same rules apply to streaming and non-streaming 
 
 ## Example: Subscription and Events
 
-For an example of how a streaming query behaves, consider the following example where two users are working concurrently on the same database. *User 1* subscribes to a streaming sorting query and listens for the result and updates, whereas *User 2* is working on the data. 
+For an example of how a streaming query behaves, consider the following example where two users are working concurrently on the same database. <span class="user1">User 1</span> subscribes to a streaming sorting query and listens for the result and updates, whereas <span class="user2">User 2</span> is working on the data. 
 
-**Timestamp 0:** *User 1* and *User 2* are connected to the same database. 
+**Timestamp 0:** <span class="user1">User 1</span> and <span class="user2">User 2</span> are connected to the same database. 
  
-**Timestamp 1:** *User 2* inserts `todo1`:
+**Timestamp 1:** <span class="user2">User 2</span> inserts `todo1`:
 ```js
 var todo1 = new DB.Todo({name: 'My Todo 1'});
 todo1.insert();
@@ -1369,7 +1369,7 @@ todo1.insert();
 //actual result: [ todo1 ]
 ```
 
-**Timestamp 2:** *User 1* subscribes to a streaming query and immediately receives a match event for `todo1`:
+**Timestamp 2:** <span class="user1">User 1</span> subscribes to a streaming query and immediately receives a match event for `todo1`:
 ```js
 var stream = DB.Todo.find()
     .matches('name', /^My Todo/)
@@ -1387,7 +1387,7 @@ subscription = stream.subscribe((event) => {
 //'add/none: My Todo 1 is now at index 0'
 ```
 
-**Timestamp 3:** *User 2* inserts `todo2`:
+**Timestamp 3:** <span class="user2">User 2</span> inserts `todo2`:
 ```js
 var todo2 = new DB.Todo({name: 'My Todo 2'});
 todo2.insert();
@@ -1395,12 +1395,12 @@ todo2.insert();
 //actual result: [ todo1, todo2 ]
 ```
 
-**Timestamp 4:** *User 1* receives a new event for `todo2`:
+**Timestamp 4:** <span class="user1">User 1</span> receives a new event for `todo2`:
 ```js
 //'add/insert: My Todo 2 is now at index 1'
 ```
 
-**Timestamp 5:** *User 2*: inserts `todo3`:
+**Timestamp 5:** <span class="user2">User 2</span>: inserts `todo3`:
 ```js
 var todo3 = new DB.Todo({name: 'My Todo 3'});
 todo3.insert();
@@ -1408,12 +1408,12 @@ todo3.insert();
 //actual result: [ todo1, todo2, todo3 ]
 ```
 
-**Timestamp 6:** *User 1* receives a new event for `todo3`:
+**Timestamp 6:** <span class="user1">User 1</span> receives a new event for `todo3`:
 ```js
 //'add/insert: My Todo 3 is now at index 2'
 ```
 
-**Timestamp 7:** *User 2* updates `todo3` in such a way that its position in the ordered result changes:
+**Timestamp 7:** <span class="user2">User 2</span> updates `todo3` in such a way that its position in the ordered result changes:
 ```js
 todo3.name = 'My Todo 1b (former 3)';
 todo3.update();
@@ -1421,12 +1421,12 @@ todo3.update();
 //actual result: [ todo1, todo3, todo2 ]
 ```
 
-**Timestamp 8:** *User 1* is notified of this update through an event that delivers the new version of `todo3`. The fact that `todo3` had already been a match and just changed its position in the result is encoded in the event's match type `changeIndex`:
+**Timestamp 8:** <span class="user1">User 1</span> is notified of this update through an event that delivers the new version of `todo3`. The fact that `todo3` had already been a match and just changed its position in the result is encoded in the event's match type `changeIndex`:
 ```js
 //'changeIndex/update: My Todo 1b (former 3) is now at index 1'
 ```
 
-**Timestamp 9:** *User 2* inserts `todo0` which sorts before all other items in the result and therefore is assigned index `0`:
+**Timestamp 9:** <span class="user2">User 2</span> inserts `todo0` which sorts before all other items in the result and therefore is assigned index `0`:
 ```js
 var todo0 = new DB.Todo({name: 'My Todo 0'});
 todo0.insert();
@@ -1434,15 +1434,15 @@ todo0.insert();
 //entities in DB: [ todo0, todo1, todo3 ], todo2
 //                 <--- within limit ---> 
 ```
-Because of the `.limit(3)` clause, only the first three of all four matching entities are valid matches and the last one – currently `todo2` – is *pushed beyond limit* and therefore leaves the result. 
+Because of the `.limit(3)` clause, only the first three of all four matching entities are valid matches and the last one — currently `todo2` — is *pushed beyond limit* and therefore leaves the result. 
 
-**Timestamp 10:** *User 1* receives two events that correspond to the two relevant changes to the result:
+**Timestamp 10:** <span class="user1">User 1</span> receives two events that correspond to the two relevant changes to the result:
 ```js
 //'remove/none: My Todo 2 is now at index undefined'
 //'add/insert: My Todo 0 is now at index 0'
 ```
 
-**Timestamp 11:** *User 2* updates `todo3` again, so that it assumes its original name:
+**Timestamp 11:** <span class="user2">User 2</span> updates `todo3` again, so that it assumes its original name:
 ```js
 todo3.name = 'My Todo 3';
 todo3.update();
@@ -1452,13 +1452,13 @@ todo3.update();
 ```
 Through this update, `todo2` and `todo3` swap places.
 
-**Timestamp 12:** *User 1* receives the corresponding events:
+**Timestamp 12:** <span class="user1">User 1</span> receives the corresponding events:
 ```js
 //'remove/update: My Todo 3 is now at index undefined'
 //'add/none: My Todo 2 is now at index 2'
 ```
 
-**Timestamp 13:** *User 2* deletes `todo3`:
+**Timestamp 13:** <span class="user2">User 2</span> deletes `todo3`:
 ```js
 todo3.delete();
 
@@ -1466,12 +1466,12 @@ todo3.delete();
 ```
 Note that the deleted entity was not part of the result set.
 
-**Timestamp 14:** *User 1* no match, because deleting `todo3` had no effect on the query result.
+**Timestamp 14:** <span class="user1">User 1</span> no match, because deleting `todo3` had no effect on the query result.
 ```js
-//nothing here
+//nothing happened
 ```
 
-User 1 starts receiving the initial result directly after subscription (Timestamp 2). From this point on, any write operation performed by User 2 is forwarded to User 1 – as long as it's affecting the subscribed query's result. Changes to non-matching items have no effect in the eyes of User 1 (Timestamps 13/14).
+User 1 starts receiving the initial result directly after subscription (Timestamp 2). From this point on, any write operation performed by User 2 is forwarded to User 1 — as long as it's affecting the subscribed query's result. Changes to non-matching items have no effect in the eyes of User 1 (Timestamps 13/14).
 
 Be aware that operation-related semantics are rather complex for sorting queries: For example, `insert` and `update` operations may trigger an item to *leave* the result (Timestamps 9/10 and 11/12). Similarly (even though not shown in the example), an `add` event can be triggered by a `delete` when an item enters the result set from beyond limit. When triggered by an operation on a different entity, an event may even be delivered with no operation at all (Timestamps 10 and 12).  
 
@@ -1493,11 +1493,72 @@ Since the [RxJS documentation is great and extensive](http://reactivex.io/tutori
 - [Operators: What can I do with an observable?](http://reactivex.io/documentation/operators.html)
 - [Which operator do I need for ...?](http://xgrommx.github.io/rx-book/content/which_operator_do_i_use/instance_operators.html)
 
+### Maintaining Query Results
+
+An obvious advantage of streaming queries over common non-streaming queries is the ability to keep your result up-to-date while you and other users are inserting, updating and deleting data.  
+
+For an example, imagine you and your colleagues are working on some projects and you are interested in the most urgent tasks to tackle. Your query could look something like this:
+
+```js
+var query = DB.Todo.find()
+              .matches('name', /^My Todo/)
+              .ascending('deadline')
+              .limit(10);
+```
+
+When executed as a common *non-streaming* query, this will give you the current top-10 of the most urgent todos. However, as new tasks might come up and others might be ticked off by your colleagues, you have to evaluate the query again and again if you want to keep an eye on how things are going:
+
+```js
+query.resultList(result => console.log(result));
+//...
+//Did something change?
+query.resultList(result => console.log(result));
+//...
+//Let's check again...
+query.resultList(result => console.log(result));
+//...
+```
+
+This pattern is inefficient and introduces staleness to your critical data. 
+
+With Baqend streaming queries, on the other hand, you can just have the database deliver the relevant changes and thus never miss a beat. 
+The following code does not only retrieve an ordered result, but also maintains it and prints it to the console whenever a change occurs:
+
+```js
+//STILL WORK IN PROGRESS!
+var urgent = [];
+var maintainResult = (result, event) => {
+                         if (event.matchType === 'add') { // add
+                           result.splice(event.index, 0, event.data);
+                         } else if (event.matchType === 'remove') { // remove
+                           var index = result.indexOf(event.data);
+                           if (index > -1) {
+                             result.splice(index, 1);
+                           }
+                         } else if (event.matchType === 'changeIndex') { // changed position
+                           var index = result.indexOf(event.data);
+                           result.splice(index, 1);
+                           result.splice(event.index, 0, event.data);
+                         }
+                         return result;
+                     };
+
+var stream = DB.Todo.find()
+              .matches('name', /^My Todo/)
+              .ascending('deadline')
+              .limit(20)
+              .stream()
+              .subscribe((event) => {
+                maintainResult(event);
+              });
+```
+
+Whenever there is a change in the top-10, the complete list will be printed to the console
 
 ### Real-Time Aggregations
 
-Even though Baqend does not support streaming aggregates at the moment, you can easily compute and maintain them in the client.  
-The basic idea is to maintain all relevant information in a separate data structure — the *accumulator* — and to recompute and output the updated aggregate value whenever an event is received. The setup looks like this:
+Another neat use case for streaming queries is to compute and maintain aggregates in real-time.  
+The basic idea is to keep all relevant information in a separate data structure — the *accumulator* — and to recompute and output the updated aggregate value whenever an event is received. The setup looks like this:
 
 ```js
 var initialAccumulator = {aggregate: 0}; // we start with this accumulator
@@ -1565,13 +1626,14 @@ var maintainAggregate = (accumulator, event) => {
 };
 ```
 
-The above function to maintain the average value keeps the number of items in the result set (`count`) and the overall number of activities (`sum`) separately. Whenever a new event is received, it recomputes the average on every incoming event. The `count` variable is maintained as in the last example. The `sum` variable is maintained by adding – for every event – the current number of activities and removing the former number of activities. The current number of activities arrives with the event, while the former number of activities is remembered in the accumulated itself (`contributors`).
+The above function to maintain the average value keeps the number of items in the result set (`count`) and the overall number of activities (`sum`) separately. Whenever a new event is received, it recomputes the average on every incoming event. The `count` variable is maintained as in the last example. The `sum` variable is maintained by adding — for every event — the current number of activities and removing the former number of activities. The current number of activities arrives with the event, while the former number of activities is remembered in the accumulated itself (`contributors`).
+
 
 ## Limitations
 
 Streaming is available for all queries with the following limitations:
 
-- The initial size of streaming query results is limited to *500 objects*. Streaming sorting queries therefore require a `limit` predicate (the sum of `offset` and `limit` may not exceed 500). 
+- The initial result of a streaming query is limited to *500 objects*. Streaming sorting queries therefore require a `limit` predicate (the sum of `offset` and `limit` may not exceed 500). 
 - Currently, *streaming sorting queries only return public data*, even when executed with admin privileges; to retrieve private data, use non-streaming sorting queries or streaming queries that do not contain `limit`, `offset`, `ascending`, `descending` or `sort`.
 - Geospatial queries (`withinSphere`, `withinPolygon`) are currently not available for streaming
 

@@ -1,3 +1,13 @@
+.user1 {
+    font-weight: bold;
+    color: darkgreen;
+}
+
+.user2 {
+    font-weight: bold;
+    color: darkorange;
+}
+
 .note, .tip {
     padding: 20px;
     margin: 15px 0;
