@@ -1178,6 +1178,466 @@ Currently we support three types of indexes:
 **Geospatial Index:** This index can be created on GeoPoint fields and are required for `near` and `withinPolygon` query 
 filters. This Index is created on GeoPoint fields by using the *Index* Button.
 
+
+# Streaming Queries
+
+Calling `.stream()` on a query object registers a streaming query in Baqend and returns an event stream in form of an [RxJS observable](http://reactivex.io/documentation/observable.html) that provides you with updates to the query result as they happen over time.
+
+```js
+var stream = DB.Todo.find().stream();
+```
+
+To make your code react to result set changes, you can subscribe to the stream and provide a function that is called for every incoming change event:
+
+```js
+var subscription = stream.subscribe(event => console.log(event));
+```
+
+On error, the subscription will automatically be canceled, but you can also provide a custom error handler function that is executed whenever something goes wrong:
+
+```js
+var onNext = event => console.log(event);
+var onError = error => console.log(error);
+var subscription = stream.subscribe(onNext, onError);
+```
+
+To stop receiving events from a streaming query, you can simply unsubscribe:
+
+```js
+subscription.unsubscribe();
+```
+
+Once subscribed to a stream, you will get an event for every database entity in the initial result set (i.e. every entity matching at subscription time) and for every entity that enters the result set, leaves the result set or is updated while in the result set.
+
+Every event can carry the following information:
+
+- **target:** the query on which `.stream([options])` was invoked.
+- **data:** the database entity this event was generated for, e.g. an entity that just entered or left the result set.
+- **operation:** the operation by which the entity was altered (`'insert'`, `'update'` or `'delete'`; `'none'` if unknown or not applicable).  
+For an example where neither `'insert'`, `'update'` nor `'delete'` can reasonably be applied to an event, consider how the last one in a top-10 query result is pushed out when a new contender enters the top-10: While one event represents the insertion of the new contender itself, another event represents the entity leaving the result which was neither inserted, updated nor deleted. Consequently, Baqend would deliver this event with a `'none'` operation.
+- **matchType:** indicates how the transmitted entity relates to the query result.  
+Every event is delivered with one of the following match types:
+      + `'match'`: the entity matches the query.  
+      + `'add'`: the entity entered the result set, i.e. it did not match before and is matching now.
+      + `'change'`: the entity was updated, but remains a match.
+      + `'changeIndex'` (for sorting queries only): the entity was updated and remains a match, but changed its position within the query result.   
+    + `'remove'`: the entity was a match before, but is not matching any longer.
+- **initial:** a boolean value indicating whether this event reflects the matching status at query time (`true`) or a recent change data change (`false`)
+- **index** (for sorting queries only)): the position of the matching entity in the ordered result (`-1` for non-matching entities)
+
+
+## Streaming Options
+
+By default, you receive the initial result set and all events that are required to maintain it. However, the optional argument for the `.stream([options])` function lets you restrict the kind of event notifications to receive by setting the appropriate attribute values:
+
+- **initial** (default: `true`): whether or not you want to receive the initial result set. If set to `true`, every entity matching the query at subscription time will be delivered with match type `add`, irrespective of whether and which restrictions you impose on operations and match types (see the other options). If set to `false`, you will only receive an event when something changes.
+- **matchTypes** (default: `['all']`): The default gives you all events with the most specific match type, but you can specify any combination of match types to listen for.  
+If you are interested in a specific subset of all events, consider that some match types are more general than others: `'change'` is more general than `'changeIndex'` and `'match'` is more general than `'add'` and `'change'`. If you are only interested in, say, `'add'` and `'change'` events, you have to make your query listen for [ `'add'`, `'change'` ]; a query listening for `'match'` would receive the same entities on the same occasions, but would always receive the more generic match type. To receive the most specific match types, you have to explicitly list them or use `['all']`.
+- **operations** (default: `['any']`): By default, events will not be sorted out based on their operation, but you can choose any combination of `'insert'`, `'update'`, `'delete'` and `'none'` to narrow down the kind of matches you receive.  
+
+
+
+<div class="note"><strong>Note:</strong> You can only restrict match types or operations, but not both.</div>
+
+
+## Streaming Simple Queries
+
+*Simple queries* are queries that just return all entities in a collection, no filtering involved. While streaming simple queries can be very useful (for example to monitor all operations on the collection), they can produce vast amounts of events for collections that have many members or are updated very often. Therefore, you should be *particularly* careful to only subscribe to events you really want to be bothered with when using streaming simple queries.  
+For instance, if you are interested in all todo lists and only want to be notified as *new* lists are created, you could subscribe to the following stream:
+
+```js
+var stream = DB.Todo.find().stream({operations: 'insert'}); // initial result is delivered by default
+```
+
+If, on the other hand, you only care for the creation of new todo lists and not for the ones that are already in the database, you should not request the initial result set:
+
+```js
+var stream = DB.Todo.find().stream({initial: false, operations: 'insert'});
+```
+
+### Streaming Filter Queries
+
+Like regular filter queries, *streaming filter queries* allow you to select entities based on their attribute values by applying [filters](#filters).
+
+You can, for instance, have the database send you an event for every todo list that is *created* with a name that matches a particular pattern:
+
+```js
+var stream = DB.Todo.find()
+               .matches('name', /^My Todo/)
+               .stream({initial: false, operations: 'insert'});
+```
+
+It is important to note, however, that the above query will only tell you when a new todo list matches your query *on insert*; it will *not* produce an event when an already-existing list is renamed to match your pattern, because that would happen by `update` (while the stream is targeting `insert` operations only).  
+If you are really looking for a streaming query that gives you new matches irrespective of the triggering operation, you should work with `matchTypes` and leave `operations` at the default:
+
+```js
+var stream = DB.Todo.find()
+               .matches('name', /^My Todo/)
+               .stream({initial: false, matchTypes: 'add'}); // operations: ['any'] by default
+```
+
+To get the full picture, you can also request the initial result upfront. Initial matches are always delivered with match type `add`:
+
+```js
+var stream = DB.Todo.find()
+               .matches('name', /^My Todo/)
+               .stream({matchTypes: 'add'}); // initial: true by default
+```
+
+Of course, you can combine several predicates using `and`, `or` and `nor`. The following query keeps you up-to-date on all todo lists that are active and match one pattern or have already been marked as done and match another pattern:
+
+```js
+var queryBuilder = DB.Todo.find();
+var condition1 = queryBuilder
+  .matches('name', /^My Todo/)
+  .equal('active', true);
+
+var condition2 = queryBuilder
+  .matches('name', /^Your Todo/)
+  .equal('done', true);
+
+var stream = queryBuilder
+               .or(condition1, condition2)
+               .stream();
+```
+
+## Streaming Sorting Queries
+
+All features described so far are also available for *sorting queries*, i.e. queries that contain `limit`, `offset`, `ascending`, `descending` or `sort`. 
+Streaming sorting queries are great to maintain ordered results such as high-score rankings or prioritized todo lists.
+
+The following maintains your top-20 todo lists, sorted by urgency, name and status:
+
+```js
+var stream = DB.Todo.find()
+               .matches('name', /^My Todo/)
+               .ascending('deadline')
+               .ascending('name')
+               .descending('active')
+               .limit(20)
+               .stream();
+```
+
+Entities that sort identically are **implicitly ordered by ID**. Thus, a query without explicit ordering will result in more or less random order by default as IDs are generated randomly:
+
+```js
+var stream = DB.Todo.find()
+               .matches('name', /^My Todo/)
+               .limit(20) // no order provided? Implicitly ordered by ID!
+               .stream();
+```
+
+**The `limit` clause is mandatory** and a query without limit will produce an error on subscription:
+
+```js
+var stream = DB.Todo.find()
+               .matches('name', /^My Todo/)
+               .sort({'deadline': 1, 'name': 1, 'active': -1})
+               .stream()
+               .subscribe(event => console.log('Next!'), 
+                 error => console.log('Error!')); 
+//'Error!'
+```
+
+A streaming sorting query with `offset` maintains an ordered result, hiding the first few items from you and shaping events accordingly. Since the first index in a sorting query without `offset` is `0`, events for the following subscription will never carry `index` values smaller than `10` or greater than `19`:
+
+```js
+var stream = DB.Todo.find()
+               .matches('name', /^My Todo/)
+               .sort({'deadline': 1, 'name': 1, 'active': -1})
+               .offset(10) // skip the first 10 items
+               .limit(20)
+               .stream();
+```
+
+With respect to efficiency, the same rules apply to streaming and non-streaming queries: Sorting huge results is expensive and sorting queries should therefore be avoided when filter querie would do as well.
+
+<div class="note"><strong>Note:</strong> Currently, streaming sorting queries are <em>always executed as anonymous queries</em>, i.e. they will only give you data that is publicly visible. To retrieve data protected by ACLs, you have to either forgo streaming (use a plain sorting query) or ordering (use a streaming query without <code>limit</code>, <code>offset</code>, <code>ascending</code> and <code>descending</code>).
+</div>
+
+## Example: Subscription and Events
+
+For an example of how a streaming query behaves, consider the following example where two users are working concurrently on the same database. <span class="user1">User 1</span> subscribes to a streaming sorting query and listens for the result and updates, whereas <span class="user2">User 2</span> is working on the data. 
+
+**Timestamp 0:** <span class="user1">User 1</span> and <span class="user2">User 2</span> are connected to the same database. 
+ 
+**Timestamp 1:** <span class="user2">User 2</span> inserts `todo1`:
+```js
+var todo1 = new DB.Todo({name: 'My Todo 1'});
+todo1.insert();
+
+//actual result: [ todo1 ]
+```
+
+**Timestamp 2:** <span class="user1">User 1</span> subscribes to a streaming query and immediately receives a match event for `todo1`:
+```js
+var stream = DB.Todo.find()
+    .matches('name', /^My Todo/)
+    .ascending('name')
+    .descending('active')
+    .limit(3)
+    .stream();
+subscription = stream.subscribe((event) => {
+  console.log(event.matchType + '/' 
+    + event.operation + ': ' 
+	+ event.data.name + ' is now at index ' 
+	+ event.index);
+});
+... //one round-trip later
+//'add/none: My Todo 1 is now at index 0'
+```
+
+**Timestamp 3:** <span class="user2">User 2</span> inserts `todo2`:
+```js
+var todo2 = new DB.Todo({name: 'My Todo 2'});
+todo2.insert();
+
+//actual result: [ todo1, todo2 ]
+```
+
+**Timestamp 4:** <span class="user1">User 1</span> receives a new event for `todo2`:
+```js
+//'add/insert: My Todo 2 is now at index 1'
+```
+
+**Timestamp 5:** <span class="user2">User 2</span>: inserts `todo3`:
+```js
+var todo3 = new DB.Todo({name: 'My Todo 3'});
+todo3.insert();
+
+//actual result: [ todo1, todo2, todo3 ]
+```
+
+**Timestamp 6:** <span class="user1">User 1</span> receives a new event for `todo3`:
+```js
+//'add/insert: My Todo 3 is now at index 2'
+```
+
+**Timestamp 7:** <span class="user2">User 2</span> updates `todo3` in such a way that its position in the ordered result changes:
+```js
+todo3.name = 'My Todo 1b (former 3)';
+todo3.update();
+
+//actual result: [ todo1, todo3, todo2 ]
+```
+
+**Timestamp 8:** <span class="user1">User 1</span> is notified of this update through an event that delivers the new version of `todo3`. The fact that `todo3` had already been a match and just changed its position in the result is encoded in the event's match type `changeIndex`:
+```js
+//'changeIndex/update: My Todo 1b (former 3) is now at index 1'
+```
+
+**Timestamp 9:** <span class="user2">User 2</span> inserts `todo0` which sorts before all other items in the result and therefore is assigned index `0`:
+```js
+var todo0 = new DB.Todo({name: 'My Todo 0'});
+todo0.insert();
+
+//entities in DB: [ todo0, todo1, todo3 ], todo2
+//                 <--- within limit ---> 
+```
+Because of the `.limit(3)` clause, only the first three of all four matching entities are valid matches and the last one — currently `todo2` — is *pushed beyond limit* and therefore leaves the result. 
+
+**Timestamp 10:** <span class="user1">User 1</span> receives two events that correspond to the two relevant changes to the result:
+```js
+//'remove/none: My Todo 2 is now at index undefined'
+//'add/insert: My Todo 0 is now at index 0'
+```
+
+**Timestamp 11:** <span class="user2">User 2</span> updates `todo3` again, so that it assumes its original name:
+```js
+todo3.name = 'My Todo 3';
+todo3.update();
+
+//entities in DB: [ todo0, todo1, todo2 ], todo3
+//                 <--- within limit ---> 
+```
+Through this update, `todo2` and `todo3` swap places.
+
+**Timestamp 12:** <span class="user1">User 1</span> receives the corresponding events:
+```js
+//'remove/update: My Todo 3 is now at index undefined'
+//'add/none: My Todo 2 is now at index 2'
+```
+
+**Timestamp 13:** <span class="user2">User 2</span> deletes `todo3`:
+```js
+todo3.delete();
+
+//entities in DB: [ todo0, todo1, todo2 ]
+```
+Note that the deleted entity was not part of the result set.
+
+**Timestamp 14:** <span class="user1">User 1</span> no match, because deleting `todo3` had no effect on the query result.
+```js
+//nothing happened
+```
+
+User 1 starts receiving the initial result directly after subscription (Timestamp 2). From this point on, any write operation performed by User 2 is forwarded to User 1 — as long as it's affecting the subscribed query's result. Changes to non-matching items have no effect in the eyes of User 1 (Timestamps 13/14).
+
+Be aware that operation-related semantics are rather complex for sorting queries: For example, `insert` and `update` operations may trigger an item to *leave* the result (Timestamps 9/10 and 11/12). Similarly (even though not shown in the example), an `add` event can be triggered by a `delete` when an item enters the result set from beyond limit. When triggered by an operation on a different entity, an event may even be delivered with no operation at all (Timestamps 10 and 12).  
+
+<div class="note"><strong>Note:</strong>
+<em>Bottom line, be careful when filtering sorting queries by operation!</em>
+</div>
+
+
+## Advanced Features: RxJS
+
+Baqend's powerful streaming query engine is complemented by the feature-rich RxJS client API. In the following, we give you some references and a few examples of what you can do with RxJS and Baqend Streaming Queries.
+
+### RxJS: The ReactiveX JavaScript Client Library
+
+Since the [RxJS documentation is great and extensive](http://reactivex.io/tutorials.html), we do not go into detail on our client library, but rather provide a few references to get you started:
+
+- [What is ReactiveX?](http://reactivex.io/intro.html)
+- [What is an observable?](http://reactivex.io/documentation/observable.html)
+- [Operators: What can I do with an observable?](http://reactivex.io/documentation/operators.html)
+- [Which operator do I need for ...?](http://xgrommx.github.io/rx-book/content/which_operator_do_i_use/instance_operators.html)
+
+### Maintaining Query Results
+
+An obvious advantage of streaming queries over common non-streaming queries is the ability to keep your result up-to-date while you and other users are inserting, updating and deleting data.  
+
+For an example, imagine you and your colleagues are working on some projects and you are interested in the most urgent tasks to tackle. Your query could look something like this:
+
+```js
+var query = DB.Todo.find()
+              .matches('name', /^My Todo/)
+              .ascending('deadline')
+              .limit(10);
+```
+
+When executed as a common *non-streaming* query, this will give you the current top-10 of the most urgent todos. However, as new tasks might come up and others might be ticked off by your colleagues, you have to evaluate the query again and again if you want to keep an eye on how things are going:
+
+```js
+query.resultList(result => console.log(result));
+//...
+//Did something change?
+query.resultList(result => console.log(result));
+//...
+//Let's check again...
+query.resultList(result => console.log(result));
+//...
+```
+
+This pattern is inefficient and introduces staleness to your critical data. 
+
+With Baqend streaming queries, on the other hand, you can just have the database deliver the relevant changes and thus never miss a beat. 
+The following code does not only retrieve an ordered result, but also maintains it and prints it to the console whenever a change occurs:
+
+```js
+//STILL WORK IN PROGRESS!
+var urgent = [];
+var maintainResult = (result, event) => {
+                         if (event.matchType === 'add') { // add
+                           result.splice(event.index, 0, event.data);
+                         } else if (event.matchType === 'remove') { // remove
+                           var index = result.indexOf(event.data);
+                           if (index > -1) {
+                             result.splice(index, 1);
+                           }
+                         } else if (event.matchType === 'changeIndex') { // changed position
+                           var index = result.indexOf(event.data);
+                           result.splice(index, 1);
+                           result.splice(event.index, 0, event.data);
+                         }
+                         return result;
+                     };
+
+var stream = DB.Todo.find()
+              .matches('name', /^My Todo/)
+              .ascending('deadline')
+              .limit(20)
+              .stream()
+              .subscribe((event) => {
+                maintainResult(event);
+              });
+```
+
+Whenever there is a change in the top-10, the complete list will be printed to the console
+
+### Real-Time Aggregations
+
+Another neat use case for streaming queries is to compute and maintain aggregates in real-time.  
+The basic idea is to keep all relevant information in a separate data structure — the *accumulator* — and to recompute and output the updated aggregate value whenever an event is received. The setup looks like this:
+
+```js
+var initialAccumulator = {aggregate: 0}; // we start with this accumulator
+var maintainAggregate = (accumulator, event) => {
+  ... // do computation
+  accumulator.aggregate = ...;
+  return accumulator;
+};
+var subscription = stream.scan(maintainAggregate, initialAccumulator) // update accumulator
+                     .map(accumulator => accumulator.aggregate) // extract aggrregate
+                     .subscribe(value => console.log(value)); // output aggregate value
+```
+
+The individual components are:
+
+- the `maintainAggregate` function: takes an accumulator and an event to compute and return a new accumulator.
+- the `initialAccumulator`: this is the accumulator before the first event with reasonable default values.
+- the `scan` operator: on every event, applies the `maintainAggregate` function to the current accumulator and returns the updated accumulator which is then used on the next invocation.
+- the `map` operator: on every event, extracts the aggregate value from the accumulator.  
+
+The only moving parts here are the `maintainAggregate` function and `initialAccumulator`, because they determine the computation of the aggregate. So let's look at some concrete implementations.
+
+#### Count
+
+One of the simpler aggregates over a collection of entities is the *cardinality* or *count*, i.e. the number of entities in the collection. The following code can be plugged into the above-described setup to compute and maintain the cardinality of the query result:
+
+```js
+var initialAccumulator = {aggregate: 0}; // we only need to maintain a counter
+
+var maintainAggregate = (accumulator, event) => {
+  if (event.matchType === 'add') { // entering item: count + 1
+    accumulator.aggregate = accumulator.aggregate + 1;
+  } else if (event.matchType === 'remove') { // leaving item: count - 1
+    accumulator.aggregate = accumulator.aggregate - 1;
+  }
+  return accumulator;
+};
+```
+
+#### Average
+
+Now to a more complex example: Let's say you are interested in the **average number of activities** of each of the todo lists matching your query. Your initial accumulator and maintenance function could look something like this:
+
+```js
+var initialAccumulator = {
+  contributors: {}, // individual activity counts go here
+  count: 0, // result set cardinality
+  sum: 0, // overall number of activities in the result
+  aggregate: undefined // computed as: sum/count
+};
+
+var maintainAggregate = (accumulator, event) => {
+  var newValue = event.matchType === 'remove' || !event.data.activities ? undefined : event.data.activities.length;
+  var oldValue = accumulator.contributors[event.data.id];
+
+  if (newValue) { // remember new value
+    accumulator.contributors[event.data.id] = newValue;
+  } else { // forget old value
+    delete accumulator.contributors[event.data.id];
+  }
+  accumulator.sum += (newValue ? newValue : 0) - (oldValue ? oldValue : 0);
+  accumulator.count += event.matchType === 'remove' ? -1 : event.matchType === 'add' ? 1 : 0;
+  accumulator.aggregate = accumulator.count > 0 ? accumulator.sum / accumulator.count : undefined;
+  return accumulator;
+};
+```
+
+The above function to maintain the average value keeps the number of items in the result set (`count`) and the overall number of activities (`sum`) separately. Whenever a new event is received, it recomputes the average on every incoming event. The `count` variable is maintained as in the last example. The `sum` variable is maintained by adding — for every event — the current number of activities and removing the former number of activities. The current number of activities arrives with the event, while the former number of activities is remembered in the accumulated itself (`contributors`).
+
+
+## Limitations
+
+Streaming is available for all queries with the following limitations:
+
+- The initial result of a streaming query is limited to *500 objects*. Streaming sorting queries therefore require a `limit` predicate (the sum of `offset` and `limit` may not exceed 500). 
+- Currently, *streaming sorting queries only return public data*, even when executed with admin privileges; to retrieve private data, use non-streaming sorting queries or streaming queries that do not contain `limit`, `offset`, `ascending`, `descending` or `sort`.
+- Geospatial queries (`withinSphere`, `withinPolygon`) are currently not available for streaming
+
+
 # Users, Roles and Permissions
 
 Baqend comes with a powerful user, role and permission management. This includes a generic registration and login 
