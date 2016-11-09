@@ -1185,7 +1185,7 @@ Baqend does not only feature powerful queries, but also streaming result updates
 
 In order to activate streaming updates for a query, all you have to do is register it as a streaming query and provide a function to execute for every received change event is received:
 
-```javascript
+```js
 var query = DB.Todo.find()
               .matches('name', /^My Todo/)
               .ascending('deadline')
@@ -1254,7 +1254,7 @@ Every event is delivered with one of the following match types:
 - **date**: server-time from the instant at which the event was generated.
 
 
-## Streaming Options
+## Options
 
 By default, you receive the initial result set and all events that are required to maintain it. However, the optional argument for the `.stream([options])` function lets you restrict the kind of event notifications to receive by setting the appropriate attribute values:
 
@@ -1552,38 +1552,30 @@ query.resultList(result => console.log(result));
 This pattern is inefficient and introduces staleness to your critical data. 
 
 With Baqend streaming queries, on the other hand, you can just have the database deliver the relevant changes and thus never miss a beat. 
-The following code does not only retrieve an ordered result, but also maintains it and prints it to the console whenever a change occurs:
+The following code does not only retrieve an ordered result, but also maintains it:
 
 ```js
-//STILL WORK IN PROGRESS!
-var urgent = [];
 var maintainResult = (result, event) => {
-                         if (event.matchType === 'add') { // add
-                           result.splice(event.index, 0, event.data);
-                         } else if (event.matchType === 'remove') { // remove
-                           var index = result.indexOf(event.data);
-                           if (index > -1) {
-                             result.splice(index, 1);
-                           }
-                         } else if (event.matchType === 'changeIndex') { // changed position
-                           var index = result.indexOf(event.data);
-                           result.splice(index, 1);
-                           result.splice(event.index, 0, event.data);
-                         }
-                         return result;
-                     };
+    if (event.matchType === 'add') { //new entity
+      result.splice(event.index, 0, event.data);
+    } else if (event.matchType === 'remove') { //leaving entity
+      var index = result.indexOf(event.data);
+      if (index > -1) { result.splice(index, 1); }
+    } else if (event.matchType === 'changeIndex') { //updated position
+      var index = result.indexOf(event.data);
+      if (index > -1) { result.splice(index, 1); }
+      result.splice(event.index, 0, event.data);
+    }
+    return result;
+  };
 
-var stream = DB.Todo.find()
-              .matches('name', /^My Todo/)
-              .ascending('deadline')
-              .limit(20)
-              .stream()
-              .subscribe((event) => {
-                maintainResult(event);
-              });
+var subscription = query.stream().scan(maintainResult, [])
+                          .subscribe(result => console.log(result));
 ```
 
-Whenever there is a change in the top-10, the complete list will be printed to the console
+Whenever there is a change in the top-10, the complete list will be printed to the console. 
+
+**No need to refresh the result.**
 
 ### Real-Time Aggregations
 
