@@ -1235,7 +1235,7 @@ subscription.unsubscribe();
 ```
 
 <div class="note"><strong>Note:</strong>
-Access rules for streaming queries are the same as for regular queries (see <a href="#permissions" target="_blank">permissions</a>). In other words, if your data would not be returned by regular query, it won't be returned by streaming query, either.
+Access rules for streaming queries are the same as for regular queries (see <a href="#permissions">permissions</a>). In other words, if your data would not be returned by regular query, it won't be returned by streaming query, either.
 </div>
 
 Once subscribed to a stream, you will get an event for every database entity in the initial result set (i.e. every entity matching at subscription time) and for every entity that enters the result set, leaves the result set or is updated while in the result set.
