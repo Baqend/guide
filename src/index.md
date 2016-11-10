@@ -1183,7 +1183,7 @@ filters. This Index is created on GeoPoint fields by using the *Index* Button.
 
 Baqend does not only feature powerful queries, but also streaming result updates to keep your critical data up-to-date in the face of concurrent updates by other users. 
 
-In order to activate streaming updates for a query, all you have to do is register it as a streaming query and provide a function to execute for every received change event is received:
+In order to activate streaming updates for a query, all you have to do is register it as a streaming query and provide a function to execute for every received change event:
 
 ```js
 var query = DB.Todo.find()
