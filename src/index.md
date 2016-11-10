@@ -1571,8 +1571,12 @@ var maintainResult = (result, event) => {
     if (event.matchType === 'add') {//new entity
       result.splice(event.index, 0, event.data);
     } else if (event.matchType === 'remove') {//leaving entity
-      var index = result.indexOf(event.data);
-      if (index > -1) { result.splice(index, 1); }
+      for (var i = 0; i < result.length; i++) {
+        if (result[i].id === event.data.id) {
+          result.splice(i, 1);
+          break;
+        }
+      }
     } else if (event.matchType === 'changeIndex') {//updated position
       var index = result.indexOf(event.data);
       result.splice(index, 1);
