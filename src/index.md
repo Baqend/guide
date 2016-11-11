@@ -1267,9 +1267,7 @@ You can only restrict the event stream by either match types or operations, but 
 
 ## Error Handling
 
-In case of a server-side problem (e.g. because you tried to register an invalid or unsupported streaming query), the server will send an error event that is automatically handed to your error handler function, if you provided one:
-
-On error, the subscription will automatically be canceled, but you can also provide a custom error handler function that is executed whenever something goes wrong:
+On error, the subscription will automatically be canceled, but you can provide a custom error handler function that is executed whenever something goes wrong:
 
 ```js
 var onNext = event => console.log(event);
@@ -1289,7 +1287,7 @@ Every error event has the following attributes:
 
 - **errorMessage:** a problem description that should point you towards the problem.
 - **date**: server-time from the instant at which the error occurred.
-- **target:** the query on which `.stream([options])` was invoked.
+- **target:** the query for which the error occurred.
 
 ## Streaming Simple Queries
 
