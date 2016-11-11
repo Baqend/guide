@@ -1220,14 +1220,6 @@ var subscription = stream.subscribe(event => console.log(event));
 
 <div class="note"><strong>Note:</strong> You have to use the <a href="https://github.com/Baqend/js-sdk/blob/master/README.md#baqend-streaming-sdk" target="_blank">Baqend Streaming SDK</a> to use the streaming query feature.</div>
 
-On error, the subscription will automatically be canceled, but you can also provide a custom error handler function that is executed whenever something goes wrong:
-
-```js
-var onNext = event => console.log(event);
-var onError = error => console.log(error);
-var subscription = stream.subscribe(onNext, onError);
-```
-
 To stop receiving events from a streaming query, you can simply unsubscribe:
 
 ```js
@@ -1267,11 +1259,37 @@ By default, you receive the initial result set and all events that are required 
 If you do not care about the difference between new and updated items, you can also use match type `'match'`. This will yield the same events as the combination of `'add'`, `'change'` and `'changeIndex'`, but the match type of the received events will always be `'match'`. 
 - **operations** (default: `['any']`): By default, events will not be sorted out based on their operation, but you can choose any combination of `'insert'`, `'update'`, `'delete'` and `'none'` to narrow down the kind of matches you receive. 
 
-
-
 <div class="note"><strong>Note:</strong>
-You therefore can only restrict match types or operations, but not both.</div>
+You can only restrict the event stream by either match types or operations, but not both.
+</div>
 
+
+
+## Error Handling
+
+In case of a server-side problem (e.g. because you tried to register an invalid or unsupported streaming query), the server will send an error event that is automatically handed to your error handler function, if you provided one:
+
+On error, the subscription will automatically be canceled, but you can also provide a custom error handler function that is executed whenever something goes wrong:
+
+```js
+var onNext = event => console.log(event);
+var onError = error => console.log(error);
+var subscription = stream.subscribe(onNext, onError);
+//...
+//BAM!!
+//...
+//{
+//  "errorMessage":"Invalid query! Limit clause required for sorting query!",
+//  "date":"2016-11-11T16:48:24.863Z",
+//  "target":{"name":{"$regex":"^My Todo"}}
+//}
+```
+
+Every error event has the following attributes:
+
+- **errorMessage:** a problem description that should point you towards the problem.
+- **date**: server-time from the instant at which the error occurred.
+- **target:** the query on which `.stream([options])` was invoked.
 
 ## Streaming Simple Queries
 
