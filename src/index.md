@@ -1305,7 +1305,7 @@ If, on the other hand, you only care for the creation of new todo lists and not 
 var stream = DB.Todo.find().stream({initial: false, operations: 'insert'});
 ```
 
-### Streaming Filter Queries
+## Streaming Filter Queries
 
 Like regular filter queries, *streaming filter queries* allow you to select entities based on their attribute values by applying [filters](#filters).
 
@@ -1585,7 +1585,7 @@ The following code does not only retrieve an ordered result, but also maintains 
 ```js
 var maintainResult = (result, event) => {
     if (event.matchType === 'add') {//new entity
-      result.splice(event.index, 0, event.data);
+      result.splice(event.index || 0, 0, event.data);
     } else if (event.matchType === 'remove') {//leaving entity
       for (var i = 0; i < result.length; i++) {
         if (result[i].id === event.data.id) {
