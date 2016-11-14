@@ -127,6 +127,8 @@ This starter is based on the [Ionic2-Tabs-Starter](https://github.com/driftyco/i
 The easiest way to use this starter is to use the ionic cli:
  
  ```bash
+ git clone git@github.com:Baqend/ionic2-starter.git
+ cd ionic2-starter
  npm install -g ionic cordova
  npm install
  ionic serve
