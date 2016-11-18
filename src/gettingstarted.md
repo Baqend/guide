@@ -8,7 +8,7 @@ To build a new application, first [create a Baqend account](http://dashboard.baq
 </li>
 <li>
 ###Download Boilerplate Web Project
-We'll start with [this empty HTML5 Bootstrap project](http://www.initializr.com/builder?boot-hero&html5shiv&simplehtmltag&izr-emptyscript&boot-css) (or <a href="http://www.initializr.com" target="_blank">configure a custom one</a>). Unzip it, to get the following folder structure:
+We'll start with [this empty HTML5 Bootstrap project](https://github.com/Baqend/quick-starter/archive/master.zip) (or <a href="http://www.initializr.com" target="_blank">configure a custom one</a>). Unzip it, to get the following folder structure:
 <pre>
 **index.html**          <-- here we will put some HTML to accept input data
 js
@@ -25,10 +25,11 @@ In a few steps your app will look like this:
 </li>
 <li>
 ###Install Baqend
-To install Baqend to the application, just add the CDN-hosted Baqend SDK in the `<head>` section of the index.html using your favourite IDE (e.g. [WebStorm](https://www.jetbrains.com/webstorm/)) or text editor (e.g. [Sublime](https://www.sublimetext.com/3)):
+To install Baqend to the application (alreay included in the zip you downloaded), just add the CDN-hosted Baqend SDK 
+at the end of the `<body>` section of the index.html using your favourite IDE (e.g. [WebStorm](https://www.jetbrains.com/webstorm/)) 
+or text editor (e.g. [Sublime](https://www.sublimetext.com/3)):
 ```html
-<!-- Remove "http" in production, it's just for server-less testing -->
-<script src="http://baqend.global.ssl.fastly.net/js-sdk/latest/baqend.min.js"></script>
+<script src="https://www.baqend.com/js-sdk/latest/baqend.min.js"></script>
 ```
 Other installation methods (e.g. npm) are explained [on Github](https://github.com/Baqend/js-sdk/blob/master/README.md).
 </li>
