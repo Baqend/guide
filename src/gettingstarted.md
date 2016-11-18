@@ -151,7 +151,7 @@ $ npm install -g baqend
 Deploy your first app version by typing: 
 
 ```sh
-$ npm deploy --file-dir . <your-app-name>
+$ baqend deploy --file-dir . <your-app-name>
 ```
 
 View it online by visiting your app domain `<your-app-name>.app.baqend.com`.
