@@ -2854,7 +2854,7 @@ If you manager your files in folders you can access them by adding the folder pr
 //creates the same file reference
 var file = new DB.File('/file/www/images/myPic.jpg');
 //folders start with the root folder, e.g. /www and followed by additional folders
-var file = new DB.File({folder: '/www/images', name: 'myPic.jpg'});
+var file = new DB.File({parent: '/www/images', name: 'myPic.jpg'});
 ```
 
 Note that folders always start with a root folder, since the access control who can access and modify the folder contents 
