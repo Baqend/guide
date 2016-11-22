@@ -13,7 +13,7 @@ In terms of **architecture** Baqend gives you the hosting of your application (e
 ##Getting Started
 These are our recommendations for getting things rolling quickly:
 
-- To get a hands-on overview of how Baqend works, take the [interactive tutorial](http://www.baqend.com/tutorial.html)
+- To get a hands-on overview of how Baqend works, take the [interactive tutorial](https://www.baqend.com/tutorial.html)
 - [Start your first Baqend app](https://dashboard.baqend.com/register) and take the Quickstart to build a real application
 - With the [Starter Kits](/starters) you get convenient boilerplate projects that work seamlessly with Baqend
 - This guide covers how Baqend and the SDK work in depth
@@ -53,7 +53,7 @@ The Baqend SDK does not require any additional dependencies, however it is shipp
 The Baqend JavaScript SDK and all its bundled dependencies are shipped under the
 [MIT License](https://github.com/Baqend/js-sdk/blob/master/LICENSE.md).
 
-To see that Baqend is working, paste the following after the Baqend script tag. It will replace the HTML body with 5 raw todo items from the [tutorial application](http://www.baqend.com/tutorial.html). Delete the snippet afterwards.
+To see that Baqend is working, paste the following after the Baqend script tag. It will replace the HTML body with 5 raw todo items from the [tutorial application](https://www.baqend.com/tutorial.html). Delete the snippet afterwards.
 ```html
 <script>
   DB.connect('toodle').then(function() {
@@ -802,7 +802,7 @@ For all collection methods see the MDN docs of
 
 To retrieve objects by more complex criteria than their id, queries can be used. They are executed on Baqend and 
 return the matching objects.
-The Baqend SDK features a [query builder](http://www.baqend.com/js-sdk/latest/baqend.Query.Builder.html) that creates 
+The Baqend SDK features a [query builder](https://www.baqend.com/js-sdk/latest/query.Builder.html) that creates 
 [MongoDB queries](http://docs.mongodb.org/manual/tutorial/query-documents/) under the hood. It is possible
  to formulate native MongoDB queries, but using the query builder is the recommend way: it is far more readable and 
  does all the plumbing and abstraction from MongoDB obscurities.
@@ -836,7 +836,7 @@ DB.Todo.find().count(function(count) {
 
 ## Filters
 Usually queries are employed to exert some kind of filter. The query builder supports lots of different 
-[filters](http://www.baqend.com/js-sdk/latest/baqend.Query.Filter.html), 
+[filters](https://www.baqend.com/js-sdk/latest/query.Filter.html), 
 that can be applied on entity attributes. By default chained filters are *and*-combined.
 ```js
 DB.Todo.find()
@@ -1140,7 +1140,7 @@ Filters are joined with `and` by default. In more complex cases you may want to 
 [or](http://docs.mongodb.org/manual/reference/operator/query/or/) or 
 [nor](http://docs.mongodb.org/manual/reference/operator/query/nor/)  expressions. 
 For such cases the initial `find()` call returns a 
-[Query.Builder](http://www.baqend.com/js-sdk/latest/baqend.Query.Builder.html) instance. The builder provides 
+[Query.Builder](https://www.baqend.com/js-sdk/latest/query.Builder.html) instance. The builder provides 
 additional methods to compose filter expressions.
 
 The following query finds all todos which the logged-in user is not currently working on and all todos which aren't 
@@ -2436,7 +2436,7 @@ The following additional libraries can always be required in baqend code:
 - [https](https://nodejs.org/api/https.html) - Node.js https core library 
 - [querystring](https://nodejs.org/api/querystring.html) - Node.js core querystring parsing and serialization library
 - [crypto](https://nodejs.org/api/crypto.html) - Node.js core crypto api offers a way of encapsulating secure credentials 
-- [baqend](http://www.baqend.com/js-sdk/latest/baqend.html) - The Baqend SDK
+- [baqend](https://www.baqend.com/js-sdk/latest/baqend.html) - The Baqend SDK
 - [express](http://expressjs.com/4x/api.html) - HTTP server
 - [twilio](http://twilio.github.io/twilio-node/) - APIs for Text Messaging, VoIP & Voice in the Cloud 
 - [lwip](https://github.com/EyalAr/lwip/) - a Light Weight Image Processor for NodeJS
@@ -3072,7 +3072,7 @@ In addition, we ensure that the CDN always contains the most recent data, by ins
 
 The [Bloom filter](http://de.slideshare.net/felixgessert/bloom-filters-for-web-caching-lightning-talk) is a probabilistic data structure with a tunable false positive rate, which means that the set may Indicate containment for objects which were never added. This is not a huge problem since it just means the we first revalidate the freshness of an object before we serve it from the browsers cache. Note that the false positive rate is very low and it is what enables us to make the footprint of the set very small. For an example we just need 11Kbyte to store 20,000 distinct updates.
 
-There is lot of stream processing (query match detection), machine learning (optimal TTL estimation) and distributed coordination (scalable Bloom filter maintenance) happening at the server side. If you’re interested in the nitty-gritty details have a look at this [paper](http://www.baqend.com/paper/btw-cache.pdf) or [these slides](http://de.slideshare.net/felixgessert/talk-cache-sketches-using-bloom-filters-and-web-caching-against-slow-load-times) for a deep-dive.
+There is lot of stream processing (query match detection), machine learning (optimal TTL estimation) and distributed coordination (scalable Bloom filter maintenance) happening at the server side. If you’re interested in the nitty-gritty details have a look at this [paper](https://www.baqend.com/paper/btw-cache.pdf) or [these slides](http://de.slideshare.net/felixgessert/talk-cache-sketches-using-bloom-filters-and-web-caching-against-slow-load-times) for a deep-dive.
 
 <div class="note"><strong>Note:</strong> Caching is active for all CRUD operations by default. Query Caching is currently in beta, if you would like to test it please contact <a href="mailto:support@baqend.com">support@baqend.com</a>.</div>
 
