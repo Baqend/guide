@@ -681,8 +681,7 @@ console.log(activity.id); //undefined
 To actually persist an embedded object you have to assign the embedded object to an entity and save that outer entity.
 ```js
 var activity = new DB.Activity({start: new Date()});
-var todo = new DB.Todo({name: 'My first Todo', activities: new DB.List()});
-todo.activities.add(activity);
+var todo = new DB.Todo({name: 'My first Todo', activities: [activity]});
 todo.save();
 ```
 
@@ -2720,7 +2719,7 @@ All assets stored in the **www** root folder can be accessed under your app doma
 
  <div class="table-wrapper"><table class="table">
   <tr>
-    <th>Folder (`folder`)</th>
+    <th>Folder (`parent`)</th>
     <th>File Name (`name`)</th>
     <th>Public Url</th>
   </tr>
@@ -2848,16 +2847,16 @@ In a common html template engine you can just write:
 <img src="{{file.url}}">
 ```
 
-If you manager your files in folders you can access them by adding the folder property:
+If you manage your files in folders you can access them by adding the parent property:
 
 ```js
 //creates the same file reference
 var file = new DB.File('/file/www/images/myPic.jpg');
-//folders start with the root folder, e.g. /www and followed by additional folders
+//parent start with the root folder, e.g. /www and followed by additional folders
 var file = new DB.File({parent: '/www/images', name: 'myPic.jpg'});
 ```
 
-Note that folders always start with a root folder, since the access control who can access and modify the folder contents 
+Note that parent paths always start with a root folder, since the access control who can access and modify the folder contents 
 can only be set for the root folder and is applied to all nesting files and folders.
 
 ## Uploading Files
