@@ -33,11 +33,13 @@ To install Baqend, just add our CDN-hosted script in your website (available bot
 ```html
 <script src="//baqend.global.ssl.fastly.net/js-sdk/latest/baqend.min.js"></script>
 ```
-
 For additional setup information visit our [GitHub page](https://github.com/Baqend/js-sdk/blob/master/README.md).
 
 <div class="tip"><strong>Tip:</strong>
 If you use our <a href="/starters">Starter Kits</a> the Baqend SDK is already included and you can skip this setup.</div>
+
+<div class="note"><strong>Note:</strong>
+It is a good idea to use the latest SDK version from <code>//baqend.global.ssl.fastly.net/js-sdk/latest/baqend.min.js</code> in development to always be up-to-date. In production, however, you should use the last exact version you tested with. Be aware that otherwise minor changes in a newly released version may break parts of your production application.</div>
 
 
 The Baqend SDK is written and tested for Chrome 24+, Firefox 18+, Internet Explorer 9+, Safari 7+, Node 4+, IOS 7+, Android 4+ and PhantomJS 1.9+
@@ -439,8 +441,8 @@ return todo.update().then(function() {
 });
 ```
 
-**Note**: When you try to update an already deleted object, it will also be treated as a concurrent modification and the
-update will be rejected.
+<div class="note"><strong>Note:</strong>  When you try to update an already deleted object, it will also be treated as a concurrent modification and the
+update will be rejected.</div>
 
 There are also some situations where we would like to omit this behaviour and force a write of our changes. To do so the force option can be passed to the `update` method. Be aware that this *last-writer-wins*-scheme may result in lost updates.
 ```js
@@ -449,6 +451,15 @@ todo.name = 'My first Todo of this day';
 return todo.update({force: true}).then(function() {
   //the todo was successfully persisted
 });
+```
+
+Each object also automatically keeps track of its creation time and the last time it was updated in form of <a href="#primitives">DateTime</a> fields. Both of these fields are maintained automatically and are read only, i.e. you can not change them yourself.
+```js
+todo.name = 'My first Todo of this day';
+return todo.update().then(function(updatedTodo) {
+  console.log(updatedTodo.createdAt);
+  console.log(updatedTodo.updatedAt);
+};
 ```
 
 ## Delete
@@ -747,7 +758,7 @@ and their corresponding JavaScript types.
     <td>GeoPoint</td>
     <td>DB.GeoPoint(&lt;lat&gt;, &lt;lng&gt;)</td>
     <td>new DB.GeoPoint(53.5753, 10.0153)</td>
-    <td></td>
+    <td>You can get the current GeoPoint of the User with <code>DB.GeoPoint.current()</code>. This only works with an HTTPS connection.<br></td>
   </tr>
   <tr>
     <td>JsonObject</td>
@@ -761,6 +772,7 @@ and their corresponding JavaScript types.
     <td>[1,2,3]</td>
   </tr>
 </table></div>
+
 
 ## Collections
 
@@ -801,7 +813,7 @@ For all collection methods see the MDN docs of
 
 To retrieve objects by more complex criteria than their id, queries can be used. They are executed on Baqend and 
 return the matching objects.
-The Baqend SDK features a [query builder](https://www.baqend.com/js-sdk/latest/query.Builder.html) that creates 
+The Baqend SDK features a [query builder](https://www.baqend.com/js-sdk/latest/query.Builder.html) that creates
 [MongoDB queries](http://docs.mongodb.org/manual/tutorial/query-documents/) under the hood. It is possible
  to formulate native MongoDB queries, but using the query builder is the recommend way: it is far more readable and 
  does all the plumbing and abstraction from MongoDB obscurities.
@@ -835,7 +847,7 @@ DB.Todo.find().count(function(count) {
 
 ## Filters
 Usually queries are employed to exert some kind of filter. The query builder supports lots of different 
-[filters](https://www.baqend.com/js-sdk/latest/query.Filter.html), 
+[filters](https://www.baqend.com/js-sdk/latest/query.Filter.html),
 that can be applied on entity attributes. By default chained filters are *and*-combined.
 ```js
 DB.Todo.find()
@@ -1026,7 +1038,7 @@ The following table list all available query filters and the types on which they
   </tr>
   <tr>  
     <td><a href="http://docs.mongodb.org/manual/reference/operator/query/nearSphere/">$nearSphere</a></td>
-    <td>GeoPoint</td>
+    <td><a href="#primitives">GeoPoint</a></td>
     <td>
       The geo point field has to be within the maximum distance in meters to the given GeoPoint.
       Returns from nearest to furthest.<br>
@@ -1038,7 +1050,7 @@ The following table list all available query filters and the types on which they
   </tr>
   <tr>  
     <td><a href="http://docs.mongodb.org/manual/reference/operator/query/nearSphere/">$geoWithin</a></td>
-    <td>GeoPoint</td>
+    <td><a href="#primitives">GeoPoint</a></td>
     <td>
       The geo point of the object has to be contained within the given polygon.
       You need a Geospatial Index on this field, to use this kind of query. Read the [query indexes](#query-indexes) section 
@@ -1047,6 +1059,8 @@ The following table list all available query filters and the types on which they
   </tr>
   </tbody>
 </table></div>
+
+You can get the current GeoPoint of the User with <code>DB.GeoPoint.current()</code>. This only works with an HTTPS connection.
 
 References can and should be used in filters. Internally references are converted to ids
  and used for filtering. To get all Todos owned by the currently logged-in user, we can simply use the User instance 
@@ -1139,7 +1153,7 @@ Filters are joined with `and` by default. In more complex cases you may want to 
 [or](http://docs.mongodb.org/manual/reference/operator/query/or/) or 
 [nor](http://docs.mongodb.org/manual/reference/operator/query/nor/)  expressions. 
 For such cases the initial `find()` call returns a 
-[Query.Builder](https://www.baqend.com/js-sdk/latest/query.Builder.html) instance. The builder provides 
+[Query.Builder](https://www.baqend.com/js-sdk/latest/query.Builder.html) instance. The builder provides
 additional methods to compose filter expressions.
 
 The following query finds all todos which the logged-in user is not currently working on and all todos which aren't 
@@ -1174,13 +1188,25 @@ Currently we support three types of indexes:
 **Unique Index:** A index that requires uniqueness of the field values. Inserting or updating objects that violates the 
  unique constraint will be rejected with an ObjectExists error.
 
-**Geospatial Index:** This index can be created on GeoPoint fields and are required for `near` and `withinPolygon` query 
+**Geospatial Index:** This index can be created on GeoPoint fields and is required for `near` and `withinPolygon` query
 filters. This Index is created on GeoPoint fields by using the *Index* Button.
 
 
 # Streaming Queries
 
-Baqend does not only feature powerful queries, but also streaming result updates to keep your critical data up-to-date in the face of concurrent updates by other users. 
+Baqend does not only feature powerful queries, but also streaming result updates to keep your critical data up-to-date in the face of concurrent updates by other users.
+
+Calling `.stream()` on a query object opens a [websocket](https://developer.mozilla.org/de/docs/WebSockets) connection to Baqend, registers a streaming query and returns an event stream in form of an [RxJS observable](http://reactivex.io/documentation/observable.html) that provides you with updates to the query result as they happen over time.
+
+```js
+var stream = DB.Todo.find().stream();
+```
+
+To make your code react to result set changes, you can subscribe to the stream and provide a function that is called for every incoming change event:
+
+```js
+var subscription = stream.subscribe(event => console.log(event));
+```
 
 In order to activate streaming updates for a query, all you have to do is register it as a streaming query and provide a function to execute for every received change event:
 
@@ -1193,9 +1219,9 @@ var subscription = query.stream()
               .subscribe(event => console.log(event));
 //...
 new DB.Todo({name: 'My Todo XYZ'}).insert();//insert data
-//... 
+//...
 //{
-//  "matchType":"add", 
+//  "matchType":"add",
 //  "operation":"insert",
 //  "data":{"name":"do groceries",...},
 //  "date":"2016-11-09T12:42:31.322Z",
@@ -1203,18 +1229,6 @@ new DB.Todo({name: 'My Todo XYZ'}).insert();//insert data
 //  "initial":true,
 //  "index":1
 //}
-```
-
-Calling `.stream()` on a query object opens a [websocket](https://developer.mozilla.org/de/docs/WebSockets) connection to Baqend, registers a streaming query and returns an event stream in form of an [RxJS observable](http://reactivex.io/documentation/observable.html) that provides you with updates to the query result as they happen over time.
-
-```js
-var stream = DB.Todo.find().stream();
-```
-
-To make your code react to result set changes, you can subscribe to the stream and provide a function that is called for every incoming change event:
-
-```js
-var subscription = stream.subscribe(event => console.log(event));
 ```
 
 <div class="note"><strong>Note:</strong> You have to use the <a href="https://github.com/Baqend/js-sdk/blob/master/README.md#baqend-streaming-sdk" target="_blank">Baqend Streaming SDK</a> to use the streaming query feature.</div>
@@ -1235,15 +1249,15 @@ Every event can carry the following information:
 
 - **target:** the query on which `.stream([options])` was invoked.
 - **data:** the database entity this event was generated for, e.g. an entity that just entered or left the result set.
-- **operation:** the operation by which the entity was altered (`'insert'`, `'update'` or `'delete'`; `'none'` if unknown or not applicable).  
+- **operation:** the operation by which the entity was altered (`'insert'`, `'update'` or `'delete'`; `'none'` if unknown or not applicable).
 For an example where neither `'insert'`, `'update'` nor `'delete'` can reasonably be applied to an event, consider how the last one in a top-10 query result is pushed out when a new contender enters the top-10: While one event represents the insertion of the new contender itself, another event represents the entity leaving the result which was neither inserted, updated nor deleted. Consequently, Baqend would deliver this event with a `'none'` operation.
-- **matchType:** indicates how the transmitted entity relates to the query result.  
+- **matchType:** indicates how the transmitted entity relates to the query result.
 Every event is delivered with one of the following match types:
     + `'add'`: the entity entered the result set, i.e. it did not match before and is matching now.
     + `'change'`: the entity was updated, but remains a match.
-    + `'changeIndex'` (for sorting queries only): the entity was updated and remains a match, but changed its position within the query result. 
+    + `'changeIndex'` (for sorting queries only): the entity was updated and remains a match, but changed its position within the query result.
     + `'remove'`: the entity was a match before, but is not matching any longer.
-    + `'match'`: the entity matches the query (subsumes `'add'`, `'change'` and `'changeIndex'`). You will only receive this match type, if you explicitly request it. 
+    + `'match'`: the entity matches the query (subsumes `'add'`, `'change'` and `'changeIndex'`). You will only receive this match type, if you explicitly request it.
 - **initial:** a boolean value indicating whether this event reflects the matching status at query time (`true`) or a recent change data change (`false`).
 - **index** (for sorting queries only): the position of the matching entity in the ordered result (`undefined` for non-matching entities).
 - **date**: server-time from the instant at which the event was generated.
@@ -1254,9 +1268,9 @@ Every event is delivered with one of the following match types:
 By default, you receive the initial result set and all events that are required to maintain it. However, the optional argument for the `.stream([options])` function lets you restrict the kind of event notifications to receive by setting the appropriate attribute values:
 
 - **initial** (default: `true`): whether or not you want to receive the initial result set. If set to `true`, every entity matching the query at subscription time will be delivered with match type `add`, irrespective of whether and which restrictions you impose on operations and match types (see the other options). If set to `false`, you will only receive an event when something changes.
-- **matchTypes** (default: `['all']`): The default gives you all events with the most specific match type (`'add'`, `'change'`, `'changeIndex'` or `'remove'`). If you are only interested in a specific subset of match types, you can specify any combination of them to listen for.  
-If you do not care about the difference between new and updated items, you can also use match type `'match'`. This will yield the same events as the combination of `'add'`, `'change'` and `'changeIndex'`, but the match type of the received events will always be `'match'`. 
-- **operations** (default: `['any']`): By default, events will not be sorted out based on their operation, but you can choose any combination of `'insert'`, `'update'`, `'delete'` and `'none'` to narrow down the kind of matches you receive. 
+- **matchTypes** (default: `['all']`): The default gives you all events with the most specific match type (`'add'`, `'change'`, `'changeIndex'` or `'remove'`). If you are only interested in a specific subset of match types, you can specify any combination of them to listen for.
+If you do not care about the difference between new and updated items, you can also use match type `'match'`. This will yield the same events as the combination of `'add'`, `'change'` and `'changeIndex'`, but the match type of the received events will always be `'match'`.
+- **operations** (default: `['any']`): By default, events will not be sorted out based on their operation, but you can choose any combination of `'insert'`, `'update'`, `'delete'` and `'none'` to narrow down the kind of matches you receive.
 
 <div class="note"><strong>Note:</strong>
 You can only restrict the event stream by either match types or operations, but not both.
@@ -1316,7 +1330,7 @@ var stream = DB.Todo.find()
                .stream({initial: false, operations: 'insert'});
 ```
 
-It is important to note, however, that the above query will only tell you when a new todo list matches your query *on insert*; it will *not* produce an event when an already-existing list is renamed to match your pattern, because that would happen by `update` (while the stream is targeting `insert` operations only). 
+It is important to note, however, that the above query will only tell you when a new todo list matches your query *on insert*; it will *not* produce an event when an already-existing list is renamed to match your pattern, because that would happen by `update` (while the stream is targeting `insert` operations only).
 
 If you are really looking for a streaming query that gives you new matches irrespective of the triggering operation, you should work with `matchTypes` and leave `operations` at the default:
 
@@ -1353,7 +1367,7 @@ var stream = queryBuilder
 
 ## Streaming Sorting Queries
 
-All features described so far are also available for *sorting queries*, i.e. queries that contain `limit`, `offset`, `ascending`, `descending` or `sort`. 
+All features described so far are also available for *sorting queries*, i.e. queries that contain `limit`, `offset`, `ascending`, `descending` or `sort`.
 Streaming sorting queries are great to maintain ordered results such as high-score rankings or prioritized todo lists.
 
 The following maintains your top-20 todo lists, sorted by urgency, name and status:
@@ -1386,8 +1400,8 @@ var stream = DB.Todo.find()
                .ascending('name')
                .descending('active')
                .stream()//no limit clause
-               .subscribe(event => console.log('Next!'), 
-                 error => console.log('Error!')); 
+               .subscribe(event => console.log('Next!'),
+                 error => console.log('Error!'));
 //'Error!'
 ```
 
@@ -1411,10 +1425,10 @@ With respect to efficiency, the same rules apply to streaming and non-streaming 
 
 ## Example: Subscription and Events
 
-For an example of how a streaming query behaves, consider the following example where two users are working concurrently on the same database. <span class="user1">User 1</span> subscribes to a streaming sorting query and listens for the result and updates, whereas <span class="user2">User 2</span> is working on the data. 
+For an example of how a streaming query behaves, consider the following example where two users are working concurrently on the same database. <span class="user1">User 1</span> subscribes to a streaming sorting query and listens for the result and updates, whereas <span class="user2">User 2</span> is working on the data.
 
-**Timestamp 0:** <span class="user1">User 1</span> and <span class="user2">User 2</span> are connected to the same database. 
- 
+**Timestamp 0:** <span class="user1">User 1</span> and <span class="user2">User 2</span> are connected to the same database.
+
 **Timestamp 1:** <span class="user2">User 2</span> inserts `todo1`:
 ```js
 var todo1 = new DB.Todo({name: 'My Todo 1'});
@@ -1432,9 +1446,9 @@ var stream = DB.Todo.find()
     .limit(3)
     .stream();
 subscription = stream.subscribe((event) => {
-  console.log(event.matchType + '/' 
-    + event.operation + ': ' 
-	+ event.data.name + ' is now at index ' 
+  console.log(event.matchType + '/'
+    + event.operation + ': '
+	+ event.data.name + ' is now at index '
 	+ event.index);
 });
 ...//one round-trip later
@@ -1486,9 +1500,9 @@ var todo0 = new DB.Todo({name: 'My Todo 0'});
 todo0.insert();
 
 //entities in DB: [ todo0, todo1, todo3 ], todo2
-//                 <--- within limit ---> 
+//                 <--- within limit --->
 ```
-Because of the `.limit(3)` clause, only the first three of all four matching entities are valid matches and the last one — currently `todo2` — is *pushed beyond limit* and therefore leaves the result. 
+Because of the `.limit(3)` clause, only the first three of all four matching entities are valid matches and the last one — currently `todo2` — is *pushed beyond limit* and therefore leaves the result.
 
 **Timestamp 10:** <span class="user1">User 1</span> receives two events that correspond to the two relevant changes to the result:
 ```js
@@ -1502,7 +1516,7 @@ todo3.name = 'My Todo 3';
 todo3.update();
 
 //entities in DB: [ todo0, todo1, todo2 ], todo3
-//                 <--- within limit ---> 
+//                 <--- within limit --->
 ```
 Through this update, `todo2` and `todo3` swap places.
 
@@ -1527,7 +1541,7 @@ Note that the deleted entity was not part of the result set.
 
 User 1 starts receiving the initial result directly after subscription (Timestamp 2). From this point on, any write operation performed by User 2 is forwarded to User 1 — as long as it's affecting the subscribed query's result. Changes to non-matching items have no effect in the eyes of User 1 (Timestamps 13/14).
 
-Be aware that operation-related semantics are rather complex for sorting queries: For example, `insert` and `update` operations may trigger an item to *leave* the result (Timestamps 9/10 and 11/12). Similarly (even though not shown in the example), an `add` event can be triggered by a `delete` when an item enters the result set from beyond limit. When triggered by an operation on a different entity, an event may even be delivered with no operation at all (Timestamps 10 and 12). 
+Be aware that operation-related semantics are rather complex for sorting queries: For example, `insert` and `update` operations may trigger an item to *leave* the result (Timestamps 9/10 and 11/12). Similarly (even though not shown in the example), an `add` event can be triggered by a `delete` when an item enters the result set from beyond limit. When triggered by an operation on a different entity, an event may even be delivered with no operation at all (Timestamps 10 and 12).
 
 <div class="tip"><strong>Tip:</strong>
 Bottom line, be careful when filtering streaming sorting queries by operation!
@@ -1536,8 +1550,8 @@ Bottom line, be careful when filtering streaming sorting queries by operation!
 
 ## Advanced Features: RxJS
 
-The Baqend Streaming SDK is shipped with [basic support for ES7 Observables](https://github.com/tc39/proposal-observable), so that you can use it without requiring external dependencies. 
-To leverage the full potential of Baqend's streaming query engine, though, we recommend using it in combination with the feature-rich RxJS client library.  
+The Baqend Streaming SDK is shipped with [basic support for ES7 Observables](https://github.com/tc39/proposal-observable), so that you can use it without requiring external dependencies.
+To leverage the full potential of Baqend's streaming query engine, though, we recommend using it in combination with the feature-rich RxJS client library.
 
 In the following, we give you some references and a few examples of what you can do with RxJS and Baqend Streaming Queries.
 
@@ -1552,7 +1566,7 @@ Since the [RxJS documentation is great and extensive](http://reactivex.io/tutori
 
 ### Maintaining Query Results
 
-An obvious advantage of streaming queries over common non-streaming queries is the ability to keep your result up-to-date while you and other users are inserting, updating and deleting data. 
+An obvious advantage of streaming queries over common non-streaming queries is the ability to keep your result up-to-date while you and other users are inserting, updating and deleting data.
 
 For an example, imagine you and your colleagues are working on some projects and you are interested in the most urgent tasks to tackle. Your query could look something like this:
 
@@ -1576,9 +1590,9 @@ query.resultList(result => console.log(result));
 //...
 ```
 
-This pattern is inefficient and introduces staleness to your critical data. 
+This pattern is inefficient and introduces staleness to your critical data.
 
-With Baqend streaming queries, on the other hand, you can just have the database deliver the relevant changes and thus never miss a beat. 
+With Baqend streaming queries, on the other hand, you can just have the database deliver the relevant changes and thus never miss a beat.
 The following code does not only retrieve an ordered result, but also maintains it:
 
 ```js
@@ -1604,17 +1618,17 @@ var subscription = query.stream().scan(maintainResult, [])
                           .subscribe(result => console.log(result));
 ```
 
-The `scan` operator can be used to maintain a data structure (the *accumulator*) by processing the incoming events. It takes two arguments: a function that is executed for every event (the *maintenance function*) and the initial value for the accumulator. Every invocation uses the accumulator value returned by the previous invocation. 
-In this case, the accumulator is the query result and is initialized as an empty array (`[]`). The maintenance function `maintainResult(result, event)` takes the current result and the incoming event and returns the updated `result`. 
+The `scan` operator can be used to maintain a data structure (the *accumulator*) by processing the incoming events. It takes two arguments: a function that is executed for every event (the *maintenance function*) and the initial value for the accumulator. Every invocation uses the accumulator value returned by the previous invocation.
+In this case, the accumulator is the query result and is initialized as an empty array (`[]`). The maintenance function `maintainResult(result, event)` takes the current result and the incoming event and returns the updated `result`.
 
-Whenever there is a change in the top-10, the complete list will be printed to the console. 
+Whenever there is a change in the top-10, the complete list will be printed to the console.
 
 **No need to refresh the result.**
 
 ### Real-Time Aggregations
 
-Another neat use case for streaming queries is to compute and maintain aggregates in real-time.  
-Similar to result set maintenance, the basic idea is to keep all relevant information in an *accumulator* and to recompute and output the updated aggregate value whenever an event is received. 
+Another neat use case for streaming queries is to compute and maintain aggregates in real-time.
+Similar to result set maintenance, the basic idea is to keep all relevant information in an *accumulator* and to recompute and output the updated aggregate value whenever an event is received.
 
 #### Count
 
@@ -1671,9 +1685,9 @@ var maintainAverage = (accumulator, event) => {
   return accumulator;
 };
 ```
- 
-The maintenance function extracts the current number of activities (`newValue`) from the incoming event and the former value (`oldValue`) from the `contributors` map in the accumulator. Depending on whether the incoming entity contributes to the average or not, it either stores the new value in the map or removes the old value. Finally, `sum` and `count` are updated and the average is computed and stored as `accumulator.average`. 
- 
+
+The maintenance function extracts the current number of activities (`newValue`) from the incoming event and the former value (`oldValue`) from the `contributors` map in the accumulator. Depending on whether the incoming entity contributes to the average or not, it either stores the new value in the map or removes the old value. Finally, `sum` and `count` are updated and the average is computed and stored as `accumulator.average`.
+
 Since we are only interested in the average value, we add another step to extract it from the accumulator via the `map` operator:
 
 ```js
@@ -1686,7 +1700,7 @@ var subscription = stream.scan(maintainAverage, initialAccumulator)//update coun
 
 Streaming is available for all queries with the following limitations:
 
-- The initial result of a streaming query is limited to *500 objects*. Streaming sorting queries therefore require a `limit` predicate (the sum of `offset` and `limit` may not exceed 500). 
+- The initial result of a streaming query is limited to *500 objects*. Streaming sorting queries therefore require a `limit` predicate (the sum of `offset` and `limit` may not exceed 500).
 - Currently, *streaming sorting queries only return public data*, even when executed with admin privileges; to retrieve private data, use non-streaming sorting queries or streaming queries that do not contain `limit`, `offset`, `ascending`, `descending` or `sort`.
 - Geospatial queries (`withinSphere`, `withinPolygon`) are currently not available for streaming
 
@@ -1916,15 +1930,18 @@ DB.Role.find().equal('name', 'My First Role').singleResult(function(role) {
 
 Another way to login or register is via a 'Sign in with' - 'Google' or 'Facebook' button. 
 In general any OAuth provider can be used to authenticate and authorise a user. 
-As of now, Baqend supports five providers. 
+As of now, Baqend supports the main five providers.
 
 ### Setup
-To set them up, you need to register your applications on the provider's 
-website. The provider generates a client ID and a client secret. You can find them on the provider's website after 
-registration. There is also a text field where you need to add a redirect URL.
-Add `https://[APP_NAME]-bq.global.ssl.fastly.net/v1/db/User/[PROVIDER]` (with *APP_NAME* and *PROVIDER* substituted) and 
-copy the client ID and client secret into the settings page of the dashboard. 
+To set them up, follow these steps:
+ <ul>
+ 	<li>Register your applications on the provider's website.</li>
+ 	<li>Keep the <b>client ID</b> and a <b>client secret</b> generated by the provider for later.</li>
+ 	<li>Take the link from the table below (according to your provider) and set it as the redirect URL on the provider's website.</li>
+ 	<li>Lastly go to the setting in your Baqend dashboard and paste in the <b>client ID</b> and <b>client secret</b> for the provider</li>
+ </ul>
 
+### Supported Providers
  <div class="table-wrapper"><table class="table">
     <tr>
         <th colspan="2">Provider Setup</th>
@@ -1963,33 +1980,31 @@ copy the client ID and client secret into the settings page of the dashboard.
     </tr>
 </table></div>
 
-OAuth is a way to delegate rights of third party resources owned by users to your application. A simple login always 
-receives a token and requests basic information including the unique user ID. The public profile information 
-is the most restricted scope a provider can offer. All supported providers (except Twitter) have a public profile + email scope 
-which is the default in the Baqend SDK. The Baqend server checks if an email is in the allowed scope and sets it as the
-username. For Twitter or if you change the scope within the frontend an uuid will be created as username.
+### Login & Registration
 
-### Login
-
-On the client side, trigger `DB.User.loginWithGoogle(clientID [, options])` to start the OAuth login process. The call 
-opens a new window showing the provider-specific login page. To work despite popup blockers the 
-call needs to be made on response to a user interaction, e.g. after a click on the sign-in button. Similarly to a 
-register or a login call, a promise is returned that completes with the logged-in user. The OAuth login does not 
-distinguish between registration and login.
+In order to use an OAuth provider to register or login users, you call one of the following SDK methods, depending on the provider:
 
 ```js
-//DB.User.loginWithGoogle(...)
+DB.User.loginWithGoogle(clientID, options).then(function(user) {
+	//logged in successfully
+	db.User.me == user;
+});
+// Same for
 //DB.User.loginWithFacebook(...)
 //DB.User.loginWithGitHub(...)
 //DB.User.loginWithTwitter(...)
 //DB.User.loginWithLinkedIn(...)
-DB.User.loginWithGoogle(clientID).then(function(user) {
-  //logged in successfully
-  db.User.me == user;
-});
 ```
+The login call returns a promise and opens a new window showing the provider-specific login page.
+The promise is resolved with the logged in user, once the login in the new window is completed.
+The OAuth login does not distinguish between registration and login, so you don't have to worry about whether a user is already registered or not.
 
-<div class="note"><strong>Note:</strong> An OAuth login will be aborted after 5 minutes of inactivity. The timeout can be changed with the timeout option.</div>
+In the `options` passed to the login you can configure !?!??!?!?!.
+On registration the username is set to the email address if it's in the allowed skope. Otherwise a `uuid` is used.
+
+<div class="note"><strong>Note:</strong> For the login to work despite popup blockers the call needs to be made on response to a user interaction,
+e.g. after a click on the sign-in button. Also, an OAuth login will be aborted after 5 minutes of inactivity. The timeout can be changed with the timeout option.</div>
+
 
 ### Baqend Code
 
@@ -2388,6 +2403,39 @@ exports.post = function(db, req, res) {
 };
 ```
 
+## Handling Files
+
+In the Baqend Code you can use the same <a href="#files">File API</a> as from your client. For Baqend Code we, however, support two additional file content formats, namely <code>stream</code> and <code>buffer</code>.
+
+With the <code>stream</code> format you can for example stream data through your Baqend Code into the database without buffering it, as the following example shows:
+```js
+var http = require('https');
+
+exports.call = function(db, data, req) {
+  return new Promise((success, error) => {
+    var httpReq = http.request({
+      method: 'GET',
+      hostname: data.host,
+      path: data.path
+    }, success);
+
+    httpReq.on('error', error);
+    httpReq.end();
+  }).then((stream) => {
+    var file = new db.File({parent: '/www', name: data.name});
+    var type = stream.headers['content-type'];
+    var size = stream.headers['content-length'];
+    return file.upload({data: stream, type: 'stream', mimeType: type, size: size});
+  });
+};
+```
+This example shows a Baqend Module that sends an HTTP request (<code>httpReq</code>) to download whatever is referenced
+by the URL (<code>data.host</code> and <code>data.path</code>). We take the <code>stream</code> from this download and
+upload a file with this content into the <code>/www</code> root folder. This happens without buffering the downloaded
+data as it is streamed right through to the database.
+
+<div class="note"><strong>Note:</strong> If you stream the file content to the server you always need to specify the file size as shown in the example.</div>
+
 ## Importing code and libraries
 Baqend code constitutes CommonJS modules and can require other modules and external libraries. 
 
@@ -2765,6 +2813,32 @@ If you cannot find your provider's CNAME configuration instructions, Google main
 
 <div class="note"><strong>Note:</strong> The registration of your domain as well as your dns-entry can take a few minutes until they are accessable. If you have trouble configuring your CNAME records, contact us at <a href="maito:support@baqend.com">support@baqend.com.</a></div>
 
+### Single Page Apps
+
+#### History API
+
+If you use the <b>History API</b> of your single page app framework (like Angular2 or React), you need to host your <code>index.html</code> also as <code>404.html</code>. This leaves you with the two identical files:
+<div class="table-wrapper"><table class="table">
+  <tr>
+    <th>Folder (`parent`)</th>
+    <th>File Name (`name`)</th>
+    <th>Public Url</th>
+  </tr>
+  <tr>
+    <td>www</td>
+    <td>index.html</td>
+    <td>&lt;appName&gt;.app.baqend.com/</td>
+  </tr>
+  <tr>
+    <td>www</td>
+    <td>404.html</td>
+    <td>Every URL where no file is hosted</td>
+  </tr>
+</table></div>
+This is in order to make sure that ever entrypoint into the app uses the code from your <code>index.html</code>.
+
+If a user for example directly opens a URL like <code>http://yourapp.com/products/42</code> this request needs to be handled by the single page app because there is no hosted HTML file under <code>/www/products/42.html</code>.
+The <code>404.html</code> is returned whenever no hosted file is found for a URL (like <code>http://yourapp.com/products/42</code>). By hosting the same code in both your <code>index.html</code> and <code>404.html</code> all entrypoints will be correctly handled.
 
 ### SSL Hosting
 
@@ -2786,15 +2860,16 @@ formats. In the following table we list all supported file formats:
   </tr>
   <tr>
     <td>'arraybuffer'</td>
-    <td>ArrayBuffer</td>
+    <td><a href="https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer">ArrayBuffer</a></td>
     <td>The content is represented as a fixed-length raw binary data buffer<br>
     <code>var buffer = new ArrayBuffer(8)</code></td>
   </tr>
   <tr>
     <td>'blob'</th>
-    <td>Blob|File</td>
+    <td><a href="https://developer.mozilla.org/en/docs/Web/API/Blob">Blob</a>|<a href="https://developer.mozilla.org/en/docs/Web/API/File">File</a></td>
     <td>The content is represented as a simple blob<br>
-    <code>var blob = new Blob(["&lt;a href=..."], {type : 'text/html'})</code></td>
+    <code>var blob = new Blob(["&lt;a href=..."], {type : 'text/html'})</code><br>
+    Note: This does <b>not</b> work in Baqend code</td>
   </tr>
   <tr>
     <td>'json'</td>
@@ -2820,9 +2895,23 @@ formats. In the following table we list all supported file formats:
     <td>A data url which represents the file content<br>
     <code>'data:image/gif;base64,R0lGODlhD...'</code></td>
   </tr>
+  <tr>
+    <td>'stream'</td>
+    <td><a href="https://nodejs.org/api/stream.html">Stream</a></td>
+    <td>A stream containing the file content<br>
+    See our <a href="#handling-files">example</a>.<br>
+    Note: This <b>only</b> works in Baqend code.</td>
+  </tr>
+  <tr>
+    <td>'buffer'</td>
+    <td><a href="https://nodejs.org/api/buffer.html">Buffer</a></td>
+    <td>A buffer containing the file content<br>
+    <code>'var buffer = Buffer.from(array)'</code><br>
+    Note: This <b>only</b> works in Baqend code</td>
+  </tr>
 </table></div>
 
-The file API accept all the listed formats as upload type and transforms the content to the correct binary representation 
+The file API accepts all the listed formats as upload type and transforms the content to the correct binary representation
 while uploading it. The SDK guesses the correct type except for the `base64` type and transforms it automatically. 
 
 When you download a file you can specify in which format the downloaded content should be provided.
@@ -2856,8 +2945,8 @@ var file = new DB.File('/file/www/images/myPic.jpg');
 var file = new DB.File({parent: '/www/images', name: 'myPic.jpg'});
 ```
 
-Note that parent paths always start with a root folder, since the access control who can access and modify the folder contents 
-can only be set for the root folder and is applied to all nesting files and folders.
+<div class="note"><strong>Note:</strong> Parent paths always start with a root folder, since the access control (who can access and modify the folder contents)
+can only be set for the root folder and is applied to all nested files and folders.</div>
 
 ## Uploading Files
 
