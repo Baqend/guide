@@ -31,6 +31,14 @@ $(document).ready(function() {
 $( document ).ready(function() {
     hljs.initHighlightingOnLoad();
     $('table').addClass('table table-striped table-hover');
+
+    $.getJSON("https://api.github.com/repos/Baqend/js-sdk/tags").done(function (json) {
+        var release = json[0].name.substring(1);
+        var releasTag = $('.release .html .hljs-value');
+        console.log(release);
+        var newRelease = releasTag.text().replace('latest',release);
+        releasTag.text(newRelease);
+    })
 });
 
 
