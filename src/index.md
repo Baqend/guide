@@ -40,7 +40,7 @@ For additional setup information visit our [GitHub page](https://github.com/Baqe
 If you use our <a href="/starters">Starter Kits</a> the Baqend SDK is already included and you can skip this setup.</div>
 
 <div class="note"><strong>Note:</strong>
-It is a good idea to use the latest SDK version from <code>//baqend.global.ssl.fastly.net/js-sdk/latest/baqend.min.js</code> in development to always be up-to-date. In production, however, you should use the last exact version you tested with. Be aware that otherwise minor changes in a newly released version may break parts of your production application.</div>
+It is generally a good idea to use the latest SDK version from <code>//baqend.global.ssl.fastly.net/js-sdk/latest/baqend.min.js</code> in development to always be up-to-date. In production, however, you should use the last exact version you tested with. Be aware that otherwise minor changes in a newly released version may break parts of your production application. See our <a href="https://github.com/Baqend/js-sdk/blob/master/CHANGELOG.md">latest changes</a> to the SDK.</div>
 
 
 The Baqend SDK is written and tested for Chrome 24+, Firefox 18+, Internet Explorer 9+, Safari 7+, Node 4+, IOS 7+, Android 4+ and PhantomJS 1.9+
@@ -2932,13 +2932,19 @@ When you download a file you can specify in which format the downloaded content 
 
 ## Accessing Files
 
-The simplest way to access a file is retrieve the absolute url form the baqend SDK. Therefore you can use any existing 
-file reference or you can create one by yourself. 
+The simplest way to access a file is to retrieve the absolute url form the baqend SDK. Therefore you can use any existing
+file reference or you can create one by yourself.
+
+The are multiple ways to reference a file:
 
 ```js
-//creates the same file reference
-//each file reference starts with /file followed by the root folder, e.g. /www
+// Absolute references have to start with '/file' followed by a root folder e.g. '/www'
 var file = new DB.File('/file/www/myPic.jpg');
+// Alternatively you can give the path of the file, starting with the root folder
+var file = new DB.File({path: '/www/myPic.jpg'});
+// Or you specify the name and parent (folder) of the file
+var file = new DB.File({parent: '/www', name: 'myPic.jpg'});
+// Because '/www' is the default parent in can be omitted
 var file = new DB.File({name: 'myPic.jpg'});
 ```
 
@@ -2949,8 +2955,7 @@ In a common html template engine you can just write:
 ```html
 <img src="{{file.url}}">
 ```
-
-If you manage your files in folders you can access them by adding the parent property:
+You can also manage your files in folders for example like this:
 
 ```js
 //creates the same file reference
@@ -2962,9 +2967,41 @@ var file = new DB.File({parent: '/www/images', name: 'myPic.jpg'});
 <div class="note"><strong>Note:</strong> Parent paths always start with a root folder, since the access control (who can access and modify the folder contents)
 can only be set for the root folder and is applied to all nested files and folders.</div>
 
+## Metadata
+Suppose you have an uploaded file `/www/images/myPic.jpg` and a reference to it.
+Then you can use the `load` method to get additional file metadata (not the [content itself](#downloading-files)):
+
+```js
+var file = new DB.File('/file/www/images/myPic.jpg');
+file.load(function() {
+	file.isMetadataLoaded // > true
+	file.lastModified // > The time of the last update
+	file.size // > Filesize in byte
+});
+```
+## Listing Files
+You can also list all files inside a folder. Either provide the path to the folder as string or a file reference representing the folder
+
+```
+var folder = new DB.File('/file/www/images/');
+DB.File.listFiles(folder).then(function(files) {
+	// all the files in the folder '/www/images/'
+});
+
+```
+<div class="note"><strong>Note:</strong> If you have many files in a folder, you should always specify a limit on how many files are returned. See the <a href="https://www.baqend.com/js-sdk/latest/binding.FileFactory.html">SDK documentation</a> for details.</div>
+
+You can also list all **root folders**:
+```
+DB.File.listBuckets().then(function(rootFolders) {
+	// all root folders
+});
+
+```
+
 ## Uploading Files
 
-To upload a file you must first create a file with it name and its content.
+To upload a file you must first create a file with its name and its content.
 Afterwards you can simply upload the file by just invoking `upload()`:
 
 ```js
