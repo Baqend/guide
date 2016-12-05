@@ -1716,7 +1716,7 @@ per-objects rules. These access control lists (ACLs) are expressed through allow
 
 To restrict access to a specific role or user, the user needs a user account. Baqend supports a simple registration 
 process to create a new user account. The user class is a predefined class which will be instantiated during the registration 
-process. A user object has a predefined `username` which uniquely identifies the user and a `password`. The password 
+process. A user object has a predefined `username` which uniquely identifies the user (usually an email address) and a `password`. The password
 will be hashed and salted by Baqend before being saved.   
 ```js
 DB.User.register('john.doe@example.com', 'MySecretPassword').then(function() {
@@ -1725,8 +1725,8 @@ DB.User.register('john.doe@example.com', 'MySecretPassword').then(function() {
 });
 ```    
 
-If you like to set additional user attributes for the registration, you can create a new user instance and register 
-the newly created instance with an password.
+If you like to set additional user attributes for the registration, you can alternatively create a new user instance and register
+the newly created instance with a password.
 ```js
 var user = new DB.User({
   'username': 'john.doe@example.com',
@@ -1739,7 +1739,16 @@ DB.User.register(user, 'MySecretPassword').then(function() {
   //Hey we are logged in
   console.log(DB.User.me === user); //true
 });
-```    
+```
+
+### Email Verification
+By default a newly registered user is automatically logged in and does not need to verify his email address.
+To enable email verification open the **settings** in the Baqend dashboard and go to the email section.
+There you can enable the email verification and setup a template for the verification email, which is then automatically send to every newly registered user.
+
+Until the newly registered user has verified his email address by clicking on the verification link in the verification email, he is considered inactive and cannot log in.
+This state is indicated by a read only `inactive` field of type `Boolean` in the user object. After verification this field is automatically set to `false`.
+Only the admin is able to set the `inactive` field manually, e.g. to activate or ban users.
 
 ## Login and Logout
 
@@ -1754,15 +1763,21 @@ DB.User.login('john.doe@example.com', 'MySecretPassword').then(function() {
 After the successful login a session will be established and all further requests to Baqend are authenticated 
 with the currently logged-in user.
 
-Sessions in Baqend are stateless, that means a user is not required to logout in order to close the session. When a
-session is started a session token with a specified lifetime is created. If this lifetime is exceeded, the session 
-is closed automatically. A logout just locally deletes the session token and removes the current `DB.User.me` object.
+Sessions in Baqend are stateless, that means there is no state attached to a session on the server side.
+When a session is started a session token with a specified lifetime is created to identify the user.
+This session is refreshed as long a the user is active. If this lifetime is exceeded, the session
+is closed automatically. A logout simply locally deletes the session token and removes the current
+`DB.User.me` object.
 ```js
 DB.User.logout().then(function() {
   //We are logged out again
   console.log(DB.User.me); //null
 });
 ```
+<div class="note"><strong>Note:</strong> There is no need to close the session on the server side or handle any session state like in a PHP application for example.</div>
+
+<div class="tip"><strong>Tip:</strong>  The <b>maximum session lifetime</b> is determined by the so called session <i>longlife</i> (default: 30 days). After this time the session expired and the user has to explicitly log in again.
+You can set the <i>longlife</i> in the settings of your Baqend dashboard.</div>
 
 ## New Passwords
 
@@ -1782,9 +1797,9 @@ DB.User.newPassword("Username", null, "newPassword").then(...);
 
 ## Auto login
 
-During initialization the Baqend SDK checks, if the user is already registered and has been logged in. A
-new user is anonymous by default and no user object is associated with the DB. Returning users are
-automatically logged in and the `DB.User.me` object is present.
+During initialization the Baqend SDK checks, if the user is already registered and has been logged in before in this session and has not logged out explicitly.
+As a consequence, returning users are automatically logged in and the `DB.User.me` object is set.
+New user are anonymous by default and no user object is associated with the DB.
 ```js
 DB.ready(function() {
   if (DB.User.me) {
