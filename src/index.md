@@ -218,17 +218,17 @@ The Baqend SDK uses the promise-based approach for the entire documentation sinc
 
 # Baqend Dashboard
 
-The baqend dashboard is the main tool, which you will use to manage and configure your baqend instance. After you have 
+The Baqend dashboard is the main tool, which you will use to manage and configure your Baqend instance. After you have
 created your first app, you have in the left navigation bar a quick overview over all the configurable and usable 
- functionalities of baqend. 
+ functionalities of Baqend.
   
 Here is a quick overview of those:
 
-**Baqend Modules** - can be used to create baqend code, which can later be called by your app to execute trusted 
+**Baqend Modules** - can be used to create Baqend code, which can later be called by your app to execute trusted
 business logic. See also [Baqend Modules](#modules). By clicking the *+* you can create new modules, Afterwards a module 
 code template will be opened.
 
-**Tables** - are the part where you can create and extend the data model of baqend to fit your app requirements. 
+**Tables** - are the part where you can create and extend the data model of Baqend to fit your app requirements.
 By clicking on the class name, you can view and edit the table content and its metadata like schema, access 
 rules and code hooks. Each table is represented by one entity class and each row is an instance of this class in the SDK.
 On the upper right side you can navigate with the tabs through those categories:
@@ -244,7 +244,7 @@ On the upper right side you can navigate with the tabs through those categories:
   the data. Therefore you can restrict the access per operation on class or object level. In this view you can modify 
   the access permission for the selected class. You can add new users and roles to the acl and can specify those access 
   restrictions. [Read more](#users-roles-and-permissions)
-  - **Handler:** are baqend code hooks, which are invoked before an object is modified. Here you can implement custom 
+  - **Handler:** are Baqend code hooks, which are invoked before an object is modified. Here you can implement custom
   logic that is invoked every time when an object is inserted, updated or deleted. Within the code you can validate the 
   modification, modify some fields or can completely reject the modifications as your needs. [Read More](#handlers)
 
@@ -255,7 +255,7 @@ There are three predefined classes which you can also extend with custom fields:
   - **Role:** Roles can be created to group users and together and use those groups to give them special privileges 
   such as ACLs. There are three predefined roles the admin role, the loggedin role and the node role. Roles contains a predefined users list 
   field, which contains all the members of the role. [Read More](#roles)
-  - **Device:** represents registered devices which can later be used to send them push notifications out of baqend 
+  - **Device:** represents registered devices which can later be used to send them push notifications out of Baqend
   code. Devices can be queried like any other table to send a push notification to multiple devices at once. 
   [Read More](#push-notifications)
 
@@ -267,11 +267,11 @@ name and hit enter. The schema view will appear and you can begin to model your 
   - **AccessLog:** Each request wich is served by our Baqend servers or the CDN generates a log entry. You can view and 
   search in the access logs within a period of 30 days. [Read More](#app-logging)
   - **AppLog:** While developing and later in production is is really common to log specific actions of your app or 
-  baqend code for debugging and usage analysis. Therefore the SDK provides a simple logging API that you can use to 
+  Baqend code for debugging and usage analysis. Therefore the SDK provides a simple logging API that you can use to
   create log entries which are kept for an period of 30 days. [Read More](#access-logs)
  
 **API Explorer** - The API Explorer provides a GUI to serve the underlying REST API of Baqend. Here you can explore and
-made direct HTTP calls to your baqend server.
+made direct HTTP calls to your Baqend server.
  
 **Settings** - Her you can configure additional settings of your Baqend app like:
   
@@ -296,8 +296,8 @@ by typing `baqend --help` in any folder.
 
  <div class="tip"><strong>Tip:</strong> A good way to manage a Baqend-based project is to manage the files and collaboration via [git](https://git-scm.com/) and using the CLI to deploy files and code to Baqend.</div>
 
-The Baqend CLI is automatically shipped with our SDK. You can use the baqend CLI directly in any [npm script](https://docs.npmjs.com/misc/scripts).
-Therefore add a baqend script entry to the scripts section in your projects **package.json**
+The Baqend CLI is automatically shipped with our SDK. You can use the Baqend CLI directly in any [npm script](https://docs.npmjs.com/misc/scripts).
+Therefore add a Baqend script entry to the scripts section in your projects **package.json**
 
 ```js
   "scripts": {
@@ -318,7 +318,7 @@ credentials each time you deploy.
 
  <div class="note"><strong>Note:</strong> If you have created your Baqend account with OAuth (Google, Facebook or GitHub) you must add a password to your account first. This can be done in the account settings of the dashboard.</div>
 
- You can logout the baqend CLI and remove all locally stored credentials by typing `baqend logout`
+ You can logout the Baqend CLI and remove all locally stored credentials by typing `baqend logout`
 
 ##Deploy
  
@@ -354,13 +354,13 @@ it belongs to. Within the folder the files should be named:
 Therefore `baqend/User/insert.js` contains the insert handler code wich is invoked each time a new user object is inserted
 to the `User` table. 
 
-Read more about baqend code in the [Baqend Code](#baqend-code_1) chapter.         
+Read more about Baqend code in the [Baqend Code](#baqend-code_1) chapter.
        
 </div>
 
 ##Typings (TypeScript Support)
 
-The baqend SDK itself comes with a [TypeScript declaration file](https://www.typescriptlang.org/docs/handbook/declaration-files/introduction.html),
+The Baqend SDK itself comes with a [TypeScript declaration file](https://www.typescriptlang.org/docs/handbook/declaration-files/introduction.html),
 which enables seamless integration into TypeScript and allows better code completion.
 The SDK comes with a dynamic API part, which is generated on the fly depending on your current schema.
 To make your TypeScript application work properly with this dynamic part you can generate the additional typings for your 
@@ -2029,7 +2029,7 @@ To customize the login and registration behavior you can simply create a Baqend 
 In this module you can access the logged in user and a data object containing the OAuth token as well as the user information shared by the OAuth provider.
 The token can be used to directly do further API calls or save the token for later use.
 
-As an example, if you like to edit the OAuth login for google, create the baqend module `oauth.google`. The module will be called after the user is successfully authorized:
+As an example, if you like to edit the OAuth login for google, create the Baqend module `oauth.google`. The module will be called after the user is successfully authorized:
 
 ```js
 exports.call = function(db, data, req) {
@@ -2309,7 +2309,7 @@ obj.delete().then(function() {
 
 ## Advanced request handling
 
-In addition to the simplified `call(db, obj, req)` method we provide an advanced way to handle requests within baqend modules. 
+In addition to the simplified `call(db, obj, req)` method we provide an advanced way to handle requests within Baqend modules.
 You can implement GET and POST request handling separately by implementing a equivalent `get(db, req, res)` and 
 `post(db, req, res)`. 
 
@@ -2363,14 +2363,14 @@ exports.get = function(db, req, res) {
 
 It is important that you send the content back with one of the express `res.send()` helpers. Otherwise the response will 
 not be send back to the client. In addition ensure that you return a [promise](#promise) when you make asynchronous calls within 
-your baqend module, otherwise the request will be aborted with an error!
+your Baqend module, otherwise the request will be aborted with an error!
 
 ## Handling binary data
 
-As a part of the advanced request handling, it is also possible to upload and download binary files in baqend modules. 
+As a part of the advanced request handling, it is also possible to upload and download binary files in Baqend modules.
 
-To send binary data to your baqend module, you can specify the 'requestType' option. 
-With the 'responseType' option you can receive binary data in the specified type from your baqend module. 
+To send binary data to your Baqend module, you can specify the 'requestType' option.
+With the 'responseType' option you can receive binary data in the specified type from your Baqend module.
 This works similar to the file API and you can use all the listed [file types](#files) as 'requestType' and 'responseType' too.
 
 ```js
@@ -2386,7 +2386,7 @@ return db.modules.post(bucket, svgBase64, {
 });
 ```
 
-To handle the binary files in a baqend module, you must process the incoming raw stream directly. The incoming request 
+To handle the binary files in a Baqend module, you must process the incoming raw stream directly. The incoming request
 object is a node.js [Readable Stream](https://nodejs.org/api/stream.html#stream_readable_streams) and you will receive 
 the incoming raw data as [Buffer](https://nodejs.org/api/buffer.html) chunks.
 
@@ -2397,7 +2397,7 @@ If you have completed the request handling you need to resolve the previously re
 of the request handling.
 
 ```js
-//this simple baqend handler just sends the uploaded file back to the client
+//this simple Baqend handler just sends the uploaded file back to the client
 exports.post = function(db, req, res) {
   return new Promise(function(success) {
     //node gives the file stream as chunks of Buffer 
@@ -2491,7 +2491,7 @@ exports.onUpdate = function(db, obj) {
 }; 
 ```
 
-The following additional libraries can always be required in baqend code:
+The following additional libraries can always be required in Baqend code:
 
 - [http](https://nodejs.org/api/http.html) - Node.js http core library
 - [https](https://nodejs.org/api/https.html) - Node.js https core library 
@@ -2515,7 +2515,7 @@ In addition there are some Baqend API resources which can only be accessed by th
 # Push Notifications
 
 Baqend provides the ability to send push notifications to end users devices. Before you can send a push notification you 
-must first register the Device of the User. Registered devices can then later be used in baqend Code to send push 
+must first register the Device of the User. Registered devices can then later be used in Baqend Code to send push
 notifications to. 
 
 <div class="note"><strong>Note:</strong> Currently Baqend supports IOS and Android devices, support for more platforms are planed. </div>
@@ -2525,8 +2525,8 @@ notifications to.
 ### Apple Push Notifcation Service (APNS)
 
 To enable push notifications for iOS devices you have to upload your production or sandbox certificate in the
-baqend settings view of your app. Please upload your certificate as a *p12*-file without any password protection. Otherwise it's
-not possible for baqend to use it.
+Baqend settings view of your app. Please upload your certificate as a *p12*-file without any password protection. Otherwise it's
+not possible for Baqend to use it.
 
 The sandbox certificate is needed, when testing the app directly from Xcode. If the app has been published to the app
 store or should be tested in *TestFlight*, you must upload your production certificate. It's currently not possible
@@ -2537,12 +2537,12 @@ show hows to enabled push notification in your app and how to export your certif
 
 ### Google Cloud Messaging (GCM)
 
-To enabled push notifications for Android devices baqend needs your GCM API key. The key can be saved in the baqend settings
+To enabled push notifications for Android devices Baqend needs your GCM API key. The key can be saved in the Baqend settings
 view of your app.
 
 To get your API key browse to the [Google Developers Console](https://console.developers.google.com/), open
 *Enable and manage APIs*, create or chose your app, click on *Credentials* on the left side. If you already created
-an server key, copy it from the list and save it at the baqend settings view of your app, otherwise click on
+an server key, copy it from the list and save it at the Baqend settings view of your app, otherwise click on
 *Create credentials* -> *API key* -> *Server key* to create a new api key. It's important, that the field
 *Accept requests from these server IP addresses* is empty.
 
@@ -2551,9 +2551,9 @@ in the Google Developers Console.
 
 ## Device registration
 
-A registered device is represented in baqend by the Device class. The Device class contains the `deviceOs` field which 
+A registered device is represented in Baqend by the Device class. The Device class contains the `deviceOs` field which
 contains the platform name of the registered device, currently `Android` or `IOS`. To register a new device you must 
-first obtain a device token with your used mobile framework. With the token you can register the device on baqend.
+first obtain a device token with your used mobile framework. With the token you can register the device on Baqend.
 
 It is not required to register a Device every time your App initialize. The SDK provides you a flag, that indicates if 
 the Device is already registered. Therefore you must only request a device token if the device is currently not 
@@ -2570,7 +2570,7 @@ DB.ready().then(function() {
 });
 ```
 
-The device class can be extended with custom fields like any other class in baqend. This allows you to save additional 
+The device class can be extended with custom fields like any other class in Baqend. This allows you to save additional
 data with your device, which you can later use to query the devices that should receive a push notification. To persist 
 additional data with your device while registering it, you can pass a Device object to the registration method.
 
@@ -2625,13 +2625,13 @@ devices. In addition to the message itself a PushMessage can transport additiona
 
 ## Sending push
 
-Push notifications can only be send within [baqend code](#baqend-code). To send a push notification to one or more devices, you must 
+Push notifications can only be send within [Baqend code](#baqend-code). To send a push notification to one or more devices, you must
 first obtain the desired device ids. Therefore you can use the additional data stored in the device object to query those, 
 or can save the device reference in another object.
 
 ```js
 /**
- * The baqend code sends a push notification to the given list of users. 
+ * The Baqend code sends a push notification to the given list of users.
  * Therefore the extended device class contains a user field.
  * @param {Array<String>} data.users A list of user ids
  * @param {String} data.message The message to push
@@ -2932,7 +2932,7 @@ When you download a file you can specify in which format the downloaded content 
 
 ## Accessing Files
 
-The simplest way to access a file is to retrieve the absolute url form the baqend SDK. Therefore you can use any existing
+The simplest way to access a file is to retrieve the absolute url form the Baqend SDK. Therefore you can use any existing
 file reference or you can create one by yourself.
 
 The are multiple ways to reference a file:
@@ -3151,7 +3151,7 @@ The following table gives an overview of the required permissions per operation:
 ### Set root folder Permissions
 
 Per default only the admin can access root folders with one exception. The `www` folder is public readable for the file 
-hosting feature of baqend.
+hosting feature of Baqend.
 
 To change the permissions for a specific root folder yous should commonly use the Baqend Dashboard. 
 But if you like to change the permissions programmatically you can use the `saveMetadata()` method:
@@ -3266,11 +3266,11 @@ DB.Todo.load("myTodo", {local : true }).then(function() {
 
 # Logging
 
-As required by many apps, we provide a easy to use logging API to log data out of your app. In addition we provide a 
-access to the access logs which contains all the resources requested by your users.
+As required by many apps, we provide an easy to use logging API to log data out of your app. Additionally the Baqend dashboard shows
+access logs which contain all the resources requested by your users.
 
-App and Access logs are accessible through the dashboard and kept for **30 days**. In addition you can view, query and 
-manage the permissions of the logs like any other data you persist to baqend. But you can't modify the schema, the 
+App logs and Access logs are accessible through the Baqend dashboard and kept for **30 days**. In addition you can view, query and
+manage the permissions of the logs like any other data you persist to Baqend. But you can't modify the schema, the
 logged data nor the permissions of insert, update and delete operations.
 
 <div class="note"><strong>Note:</strong> When querying logs you must always use a date predicate, otherwise you will only get the last 5 minutes of 
@@ -3278,7 +3278,7 @@ the logs.</div>
 
 ## App logging
 
-The Baqend SDK provides a simple logging API which you can use in your app as well as in baqend code.
+The Baqend SDK provides a simple logging API which you can use in your app as well as in Baqend code.
 
 The SDK provides a simple log method which takes a log level, a message, arguments and a optional data object.
 In addition the SDK logs the current date and the logged in user.
@@ -3301,6 +3301,12 @@ DB.log.debug('A simple debug message');
 DB.log.info('A simple info message');
 DB.log.warn('A simple warn message');
 DB.log.error('A simple error message');
+```
+
+By default only `error`, `warn` and `info` logs are activated. If you want to use `debug` or `trace` logs or maybe deactivate one of the other levels you can specify the minimum log level to track like this:
+```js
+DB.log.level = 'debug'; // to track all logs except for 'trace'
+DB.log.level = 'warn'; // to track only 'warn' and 'error'
 ```
 
 ### Log Arguments
@@ -3344,8 +3350,8 @@ The following data will be collected by us:
 - method - The HTTP Method, one of (HEAD, GET, POST, PUT, DELETE, OPTIONS)
 - server - The server who has generated the log entry, indicates the fastly pop location by default
 - url - The URL of the resource that is requested
-- status - The returned response status of the baqend server
+- status - The returned response status of the Baqend server
 - download - The amount of data transferred to the client (includes head and body payload)
 - upload - The amount of data transferred from the client (includes head and body payload)
 - latency - The latency to handle the actual request measured by the fastly server 
-- cacheHit - Indicates if the request was directly served by the fastly server without contacting baqend (Cache HIT)
+- cacheHit - Indicates if the request was directly served by the fastly server without contacting Baqend (Cache HIT)
