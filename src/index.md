@@ -37,7 +37,7 @@ To install Baqend, just add our CDN-hosted script in your website (available bot
 For additional setup information visit our [GitHub page](https://github.com/Baqend/js-sdk/blob/master/README.md).
 
 <div class="tip"><strong>Tip:</strong>
-If you use our <a href="/starters">Starter Kits</a> the Baqend SDK is already included and you can skip this setup.</div>
+If you use our <a href="./starters">Starter Kits</a> the Baqend SDK is already included and you can skip this setup.</div>
 
 <div class="note"><strong>Note:</strong>
 It is generally a good idea to use the latest SDK version from <code>//baqend.global.ssl.fastly.net/js-sdk/latest/baqend.min.js</code> in development to always be up-to-date. In production, however, you should use the last exact version you tested with. Be aware that otherwise minor changes in a newly released version may break parts of your production application. See our <a href="https://github.com/Baqend/js-sdk/blob/master/CHANGELOG.md">latest changes</a> to the SDK.</div>
