@@ -2081,6 +2081,67 @@ The following table lists more information on what data can be shared by the OAu
 
 <div class="note"><strong>Note:</strong> The returned properties depend on the requested scope.</div>
 
+### OAuth Login via Redirect
+
+In some cases it may be desirable to use the OAuth authorization without opening a new window,
+e.g. unavailable cross window communication because of a missing `localStorage` object.
+
+To use the login via redirect you need to set a redirect parameter when calling the particular login method.
+In this case the SDK won´t return the user object, but creates a unique token and redirects to the specified redirect url.
+Your site will be closed and the provider login opens instead.
+
+```js
+//Set redirect parameter in loginOption
+loginOption = {'redirect': 'http://.../yourRedirectPage'};
+
+//call SDK method with loginOption
+DB.User.loginWithGoogle(clientID, loginOption).then(function(user) {
+	...
+});
+```
+
+After communicating with the OAuth provider, the unique token is sent as a query parameter to the specified redirect page.
+In case of a failure the particular error message is sent instead.
+The following table lists more information of all possible query parameters:
+
+ <div class="table-wrapper"><table class="table">
+  <tr>
+    <th>Parameter</th>
+    <th>Meaning</th>
+  </tr>
+  <tr>
+    <td>token</td>
+    <td>
+      A unique token to identify the user object (in case of success)
+    </td>
+  </tr>
+  <tr>
+    <td>loginOption</td>
+    <td>The specified login options (in case of success)</td>
+  </tr>
+  <tr>
+    <td>errorMessage</td>
+    <td>
+        A url encoded error message (in case of failure)
+    </td>
+  </tr>
+</table></div>
+
+In case of success you can call the following SDK method with the unique token and the specified login options
+as parameters to login the user.
+
+```js
+DB.User.loginWithToken(token, options).then(function(user) {
+	//logged in successfully
+	db.User.me == user;
+});
+```
+
+The login call returns a promise which is resolved with the logged in user. The OAuth login does not distinguish between
+registration and login, so you don't have to worry about whether a user is already registered or not.
+
+<div class="note"><strong>Note:</strong> For the login via redirect to work ensure to register all valid redirect URL´s
+(e.g. 'http://.../yourRedirectPage') in the "Authorized Domains" section of your dashboard settings.</div>
 
 # Baqend Code
 
