@@ -2083,12 +2083,12 @@ The following table lists more information on what data can be shared by the OAu
 
 ### OAuth Login via Redirect
 
-In some cases it may be desirable to use the OAuth authorization without opening a new window,
-e.g. unavailable cross window communication because of a missing `localStorage` object.
+In some cases, it may be desirable to use the OAuth authorization without opening a new window,
+e.g. when cross-window communication is unavailable because of a missing `localStorage` object.
 
-To use the login via redirect you need to set a redirect parameter when calling the particular login method.
-In this case the SDK won´t return the user object, but creates a unique token and redirects to the specified redirect url.
-Your site will be closed and the provider login opens instead.
+To use the login via redirect, you need to set a redirect parameter when calling the particular login method.
+In this case, the SDK does not return the user object, but creates a unique token and redirects to the specified redirect URL.
+Your site will be closed and the provider login will open instead.
 
 ```js
 //Set redirect parameter in loginOption
@@ -2101,7 +2101,7 @@ DB.User.loginWithGoogle(clientID, loginOption).then(function(user) {
 ```
 
 After communicating with the OAuth provider, the unique token is sent as a query parameter to the specified redirect page.
-In case of a failure the particular error message is sent instead.
+In case of a failure, the particular error message is sent instead.
 The following table lists more information of all possible query parameters:
 
  <div class="table-wrapper"><table class="table">
@@ -2122,12 +2122,12 @@ The following table lists more information of all possible query parameters:
   <tr>
     <td>errorMessage</td>
     <td>
-        A url encoded error message (in case of failure)
+        A url-encoded error message (in case of failure)
     </td>
   </tr>
 </table></div>
 
-In case of success you can call the following SDK method with the unique token and the specified login options
+In case of success, you can call the following SDK method with the unique token and the specified login options
 as parameters to login the user.
 
 ```js
@@ -2140,7 +2140,7 @@ DB.User.loginWithToken(token, options).then(function(user) {
 The login call returns a promise which is resolved with the logged in user. The OAuth login does not distinguish between
 registration and login, so you don't have to worry about whether a user is already registered or not.
 
-<div class="note"><strong>Note:</strong> For the login via redirect to work ensure to register all valid redirect URL´s
+<div class="note"><strong>Note:</strong> For the login via redirect to work, ensure to register all valid redirect URLs
 (e.g. 'http://.../yourRedirectPage') in the "Authorized Domains" section of your dashboard settings.</div>
 
 # Baqend Code
