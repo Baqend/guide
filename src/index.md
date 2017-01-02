@@ -31,7 +31,7 @@ download the complete package from [GitHub](https://github.com/Baqend/js-sdk/rel
 To install Baqend, just add our CDN-hosted script in your website (available both over HTTPS and HTTP).
 <div class="release">
 ```html
-<script src="//baqend.global.ssl.fastly.net/js-sdk/latest/baqend.min.js"></script>
+<script src="//www.baqend.com/js-sdk/latest/baqend.min.js"></script>
 ```
 </div>
 For additional setup information visit our [GitHub page](https://github.com/Baqend/js-sdk/blob/master/README.md).
@@ -40,7 +40,7 @@ For additional setup information visit our [GitHub page](https://github.com/Baqe
 If you use our <a href="./starters">Starter Kits</a> the Baqend SDK is already included and you can skip this setup.</div>
 
 <div class="note"><strong>Note:</strong>
-It is generally a good idea to use the latest SDK version from <code>//baqend.global.ssl.fastly.net/js-sdk/latest/baqend.min.js</code> in development to always be up-to-date. In production, however, you should use the last exact version you tested with. Be aware that otherwise minor changes in a newly released version may break parts of your production application. See our <a href="https://github.com/Baqend/js-sdk/blob/master/CHANGELOG.md">latest changes</a> to the SDK.</div>
+It is generally a good idea to use the latest SDK version from <code>//www.baqend.com/js-sdk/latest/baqend.min.js</code> in development to always be up-to-date. In production, however, you should use the last exact version you tested with. Be aware that otherwise minor changes in a newly released version may break parts of your production application. See our <a href="https://github.com/Baqend/js-sdk/blob/master/CHANGELOG.md">latest changes</a> to the SDK.</div>
 
 
 The Baqend SDK is written and tested for Chrome 24+, Firefox 18+, Internet Explorer 9+, Safari 7+, Node 4+, IOS 7+, Android 4+ and PhantomJS 1.9+
@@ -405,7 +405,12 @@ DB.Todo.load('Todo1').then(function(todo) {
 ```
 
 If an object is loaded from the Baqend all its attributes, collections and embedded objects will be loaded, too.
-References to other entities will not be loaded by default. For more details see the [Persistence](#persistence) chapter.
+References to other entities will not be loaded by default. You can, however, specify an optional `depth`-parameter to indicate how deep referenced entities should be loaded:
+```js
+DB.Todo.load('Todo1', {depth: 1}).then(function(todo) {
+  // With 'depth: 1' all directly referenced objects will be loaded.
+});
+```
 
 When you load the same object a second time, the object will be loaded from the local cache. This ensures that you
 always get the same object instance for a given object id.
@@ -582,10 +587,10 @@ The advantage of embedding is that data can be read in one chunk making retrieva
 With referencing, dependent data is not embedded, but instead references are followed to find related objects. In the world of relational database systems this is called *normalization* and the references foreign keys. Referencing is a good choice if:
 
 - Data is used in multiple places.
-- For many-to-many (n:m) relationships. For example a "friends with" relationship would best modelled by a list of references to friend profile objects.
+- For many-to-many (n:m) relationships. For example a "friends with" relationship would best be modelled by a list of references to friend profile objects.
 - Deep hierarchies have to be modelled, e.g. the namespace of a file system.
 
-The downside of referencing is that multiple reads and updates are required if connected data is changed.
+The downside of referencing is that multiple reads and updates are required if connected data is changed. With the `depth`-parameter you can, however, load and save entities with all its references. See [references](/#references).
 
 ## Entity Objects
 
@@ -756,10 +761,16 @@ and their corresponding JavaScript types.
     <td>The date part of the date will be stripped out and the time will be saved in GMT.</td>
   </tr>
   <tr>
+    <td>File</td>
+    <td>File(&lt;fileId&gt;)</td>
+    <td>new File('/file/www/my.png')</td>
+    <td>The file id points to an uploaded file.</td>
+  </tr>
+  <tr>
     <td>GeoPoint</td>
     <td>DB.GeoPoint(&lt;lat&gt;, &lt;lng&gt;)</td>
     <td>new DB.GeoPoint(53.5753, 10.0153)</td>
-    <td>You can get the current GeoPoint of the User with <code>DB.GeoPoint.current()</code>. This only works with an HTTPS connection.<br></td>
+    <td>You can get the current GeoPoint of the User with <code>GeoPoint.current()</code>. This only works with an HTTPS connection.<br></td>
   </tr>
   <tr>
     <td>JsonObject</td>
@@ -829,6 +840,9 @@ DB.Todo.find().resultList(function(result) {
   });
 });
 ```
+
+You can also use the `depth`-parameter to query the entities to a specified depth just like for normal [reads](/#read).
+
 
 To find just the first matching object use the `singleResult` method.
 ```js
@@ -1221,6 +1235,7 @@ var subscription = query.stream()
 //...
 new DB.Todo({name: 'My Todo XYZ'}).insert();//insert data
 //...
+// The insert produces the following event:
 //{
 //  "matchType":"add",
 //  "operation":"insert",
@@ -1288,8 +1303,8 @@ var onNext = event => console.log(event);
 var onError = error => console.log(error);
 var subscription = stream.subscribe(onNext, onError);
 //...
-//BAM!!
-//...
+// A serverside error produces the following output:
+//
 //{
 //  "errorMessage":"Invalid query! Limit clause required for sorting query!",
 //  "date":"2016-11-11T16:48:24.863Z",
@@ -1452,7 +1467,7 @@ subscription = stream.subscribe((event) => {
 	+ event.data.name + ' is now at index '
 	+ event.index);
 });
-...//one round-trip later
+// ... one round-trip later
 //'add/none: My Todo 1 is now at index 0'
 ```
 
@@ -1812,6 +1827,13 @@ DB.ready(function() {
 });
 ```
 
+### Loading Users
+
+User objects are private by default, i.e. only admins and the user itself can load or update the object. This behaviour is intended to protect sensitive user information. There are two ways to grant access to user objects:
+
+* The first (**not** recommended) way is to grant access to specific users or groups or even to make the user objects publicly accessible. Because user objects are protected by object-level ACLs you need to have a look at Baqend's [permission system](/#permissions) to change the permissions.
+* The second (recommended) way is to divide your user information into two categories `public` and `private`. Then store the private information in the private `user` object and the public information in a separate `profile` object that is publicly accessible and linked to the `user` object.
+
 ## Roles
 
 The Role class is also a predefined class which has a `name` and  a `users` collection. The users collection 
@@ -1848,8 +1870,9 @@ Predefined roles can be used just like normal roles. Typical use-case are that y
 
 There are two types of permissions: *class-based* and *object-based*. The class-based permissions can be set
  by privileged users on the Baqend dashboard or by manipulating the class metadata. The object-based permissions can 
- be set by users which have write-access to an object. If a user requests an operation access must be allowed 
- class-based as well as object-based in order to perform the specific operation. 
+ be set by users which have write-access to an object. As shown in the image below the class-level permissions are checked first. If the requesting user has the right permission on class level, the object-level permissions are checked. Only if the requesting user also has the right permissions on object level, he is granted acces to the entity.
+
+ <img src="img/acls.png" style="width:100%;">
 
 Each permission consists of one allow and one deny list. In the allow list user and roles can be white listed and in 
 the deny list they can be black listed. 
@@ -2867,6 +2890,10 @@ All assets stored in the **www** root folder can be accessed under your app doma
 <div class="tip"><strong>Tip:</strong> Baqend hosting works great with <b>static site generators</b> like <a href="https://jekyllrb.com/">Jekyll</a>, <a href="http://octopress.org/">Hugo</a>, <a href="http://octopress.org/">Octopress</a> or <a href="https://hexo.io/">Hexo</a>. You can start completely static or even import data from CMS like Wordpres. Later you can gradually add dynamic parts using the Baqend SDK. From the first static blog post to a highly dynamic site, everything will be cached and accelerated by Baqend.</div>
 
 
+### Deployment
+
+To deploy your assets you can either use the file explorer in the Baqend dashboard (e.g. drag-and-drop files and folders) or for an easy, automated deployment user the [**Baqend CLI**](/#baqend-cli).
+
 ### Custom Domains
 
 To serve your website under your own domain you have to create a dns entry and register the custom domain in your Baqend dashboard:
@@ -2887,6 +2914,7 @@ If you cannot find your provider's CNAME configuration instructions, Google main
 
 
 <div class="note"><strong>Note:</strong> The registration of your domain as well as your dns-entry can take a few minutes until they are accessable. If you have trouble configuring your CNAME records, contact us at <a href="maito:support@baqend.com">support@baqend.com.</a></div>
+<div class="note"><strong>Note:</strong> To register an <b>apex/naked-domain</b> (such as <code>exmaple.com</code>, without <code>www</code>) you still need to establish the link to <code>global.prod.fastly.net.</code> (read <a href="https://docs.fastly.com/guides/basic-configuration/using-fastly-with-apex-domains">here</a> why this is a problem). Some domain providers have solutions for that (like <a href="https://aws.amazon.com/de/blogs/aws/root-domain-website-hosting-for-amazon-s3/">AWS</a>). A workaround could be to redirect to your <code>www</code> domain using a service like <a href="http://wwwizer.com/naked-domain-redirect">this</a>. If you're unable to find a solution for your provider contact us at <a href="maito:support@baqend.com">support@baqend.com.</a></div>
 
 ### Single Page Apps
 
@@ -3027,6 +3055,16 @@ var file = new DB.File({parent: '/www/images', name: 'myPic.jpg'});
 
 <div class="note"><strong>Note:</strong> Parent paths always start with a root folder, since the access control (who can access and modify the folder contents)
 can only be set for the root folder and is applied to all nested files and folders.</div>
+
+### Embedded Files
+Files can also be embedded in other objects like for example a profile image in a user object (see [primitive types](/#primitives)):
+```js
+db.User.me.load().then(function(user) {
+	var file = user.profileImage;
+	console.log(file.url); // The file url, e.g. 'http://app.baqend.com/v1/file/users/img/myImg.png'
+});
+```
+
 
 ## Metadata
 Suppose you have an uploaded file `/www/images/myPic.jpg` and a reference to it.
