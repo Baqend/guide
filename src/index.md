@@ -24,7 +24,7 @@ The JavaScript SDK is packaged as an UMD module, it can be used with RequireJS, 
 To get started please install the Baqend SDK with [npm](https://www.npmjs.com/package/baqend) or [bower](https://libraries.io/bower/baqend) or 
 download the complete package from [GitHub](https://github.com/Baqend/js-sdk/releases/latest).
 
-<div class="note"><strong>Note:</strong> If you are not using JavaScript you can use Baqend via its <b>REST API</b> from the programming language of your choice. Baqend's REST API is documented with <a href="http://swagger.io/">Swagger</a> and can be explored <a href="https://dashboard.global.ssl.fastly.net/swagger-ui/?url=https%3A%2F%2Ftoodle-bq.global.ssl.fastly.net%2Fv1%2Fspec&#/crud">here</a>. In the <a href="http://dashboard.baqend.com/">dashboard of you Baqend app</a> you can goto "API Explorer" to explore and use the REST API of your own instance.</div>
+<div class="note"><strong>Note:</strong> If you are not using JavaScript you can use Baqend via its <b>REST API</b> from the programming language of your choice. Baqend's REST API is documented with <a href="http://swagger.io/">Swagger</a> and can be explored <a href="https://dashboard.baqend.com/swagger-ui/?url=https%3A%2F%2Ftoodle.app.baqend.com%2Fv1%2Fspec&#/crud">here</a>. In the <a href="https://dashboard.baqend.com/">dashboard of you Baqend app</a> you can goto "API Explorer" to explore and use the REST API of your own instance.</div>
 
 ## Setup
 
@@ -1989,7 +1989,7 @@ To set them up, follow these steps:
     <tr>
         <td>[google](https://console.developers.google.com/project/_/apiui/credential)</td>
         <td>[docs](https://support.google.com/cloud/answer/6158849?hl=de&ref_topic=6262490)</td>
-        <td>Add as redirect URL: <br> `https://[APP_NAME]-bq.global.ssl.fastly.net/v1/db/User/OAuth/google`</td>
+        <td>Add as redirect URL: <br> `https://<appName>.app.baqend.com/v1/db/User/OAuth/google`</td>
     </tr>
     <tr>
         <td>[facebook](https://developers.facebook.com/apps)</td>
@@ -1997,25 +1997,25 @@ To set them up, follow these steps:
         <td>
             To set up Facebook-OAuth open the settings page of your 
             [Facebook app](https://developers.facebook.com/apps), switch to *Advanced*, activate *Web OAuth Login* and 
-            add <br> `https://[APP_NAME]-bq.global.ssl.fastly.net/v1/db/User/OAuth/facebook` <br> as *Valid OAuth redirect URI*. 
+            add <br> `https://<appName>.app.baqend.com/v1/db/User/OAuth/facebook` <br> as *Valid OAuth redirect URI*. 
         </td>
     </tr>
     <tr>
         <td>[github](https://github.com/settings/applications)</td>
         <td>[docs](https://developer.github.com/v3/oauth/)</td>
-        <td>Add as redirect URL: <br> `https://[APP_NAME]-bq.global.ssl.fastly.net/v1/db/User/OAuth/github`</td>
+        <td>Add as redirect URL: <br> `https://<appName>.app.baqend.com/v1/db/User/OAuth/github`</td>
     </tr>
     <tr>
         <td>[twitter](https://apps.twitter.com/)</td>
         <td>[docs](https://dev.twitter.com/oauth/overview/faq)</td>
-        <td>Add as redirect URL: <br>`https://[APP_NAME]-bq.global.ssl.fastly.net/v1/db/User/OAuth/twitter`
+        <td>Add as redirect URL: <br>`https://<appName>.app.baqend.com/v1/db/User/OAuth/twitter`
             Twitter does not support E-Mail scope. In default case a uuid is set as username.
         </td>
     </tr>
     <tr>
         <td>[linkedin](https://www.linkedin.com/secure/developer?newapp=)</td>
         <td>[docs](https://developer.linkedin.com/docs/oauth2)</td>
-        <td>Add as redirect URL: <br> `https://[APP_NAME]-bq.global.ssl.fastly.net/v1/db/User/OAuth/linkedin`</td>
+        <td>Add as redirect URL: <br> `https://<appName>.app.baqend.com/v1/db/User/OAuth/linkedin`</td>
     </tr>
 </table></div>
 
@@ -2900,7 +2900,7 @@ To serve your website under your own domain you have to create a dns entry and r
 
 1. Log into the account at your domain provider and add a CNAME rule like the following to your DNS entries:
 
-    `www.yourdomain.com. IN CNAME global.prod.fastly.net.`
+    `www.yourdomain.com. IN CNAME <appName>.app.baqend.com.`
 
     **Note**: You should not use a top level domain as a CNAME, since many DNS providers do not support it. Instead use a sub domain
 such as **www.**yourdomain.com. In addition you should ensure that no other DNS-entry is set for the used domain.
@@ -2914,7 +2914,17 @@ If you cannot find your provider's CNAME configuration instructions, Google main
 
 
 <div class="note"><strong>Note:</strong> The registration of your domain as well as your dns-entry can take a few minutes until they are accessable. If you have trouble configuring your CNAME records, contact us at <a href="maito:support@baqend.com">support@baqend.com.</a></div>
-<div class="note"><strong>Note:</strong> To register an <b>apex/naked-domain</b> (such as <code>exmaple.com</code>, without <code>www</code>) you still need to establish the link to <code>global.prod.fastly.net.</code> (read <a href="https://docs.fastly.com/guides/basic-configuration/using-fastly-with-apex-domains">here</a> why this is a problem). Some domain providers have solutions for that (like <a href="https://aws.amazon.com/de/blogs/aws/root-domain-website-hosting-for-amazon-s3/">AWS</a>). A workaround could be to redirect to your <code>www</code> domain at your domain provider or using a service like <a href="http://wwwizer.com/naked-domain-redirect">this</a>. If you're unable to find a solution for your provider contact us at <a href="maito:support@baqend.com">support@baqend.com.</a></div>
+ <div class="note"><strong>Note:</strong> If you can't use a subdomain and want to directly use an <b>apex/naked-domain</b> (such as <code>exmaple.com</code>, without <code>www</code>) 
+you should create four <b>A records</b> which point to our Anycast IP addresses:
+
+```
+yourdomain.com. IN A 151.101.2.8
+yourdomain.com. IN A 151.101.66.8
+yourdomain.com. IN A 151.101.130.8
+yourdomain.com. IN A 151.101.194.8
+```
+
+</div>
 
 ### Single Page Apps
 
@@ -2945,7 +2955,9 @@ The <code>404.html</code> is returned whenever no hosted file is found for a URL
 
 ### SSL Hosting
 
-All data accessed over the Baqend SDK is SSL encrypted by enforcing encryption at [connect](#connect_the_sdk). If you need SSL encryption for your hosted assets too please contact us ([support@baqend.com](mailto:support@baqend.com?subject=SSL%20Hosting)), as this feature is not automated yet.
+All data accessed over the Baqend SDK is SSL encrypted by enforcing encryption at [connect](#connect_the_sdk). 
+If you need SSL encryption for your hosted assets too please contact us ([support@baqend.com](mailto:support@baqend.com?subject=SSL%20Hosting)),
+as this feature is not automated yet.
 
 # Files
 
