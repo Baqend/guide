@@ -1407,21 +1407,32 @@ var stream = DB.Todo.find()
                .stream();
 ```
 
-**The `limit` clause is mandatory** and a query without limit will produce an error on subscription:
+**The `limit` clause is optional** and a query without limit will be registered with the maximum permitted limit: `offset + limit <= 500` must always hold. In other words, `limit` can never assume values greater than `500 - offset`. Correspondingly, queries with an `offset` of more than 499 are illegal.  
+Since the maximum limit is implicitly enforced, the following three streaming queries are registered identical:
 
 ```js
-var stream = DB.Todo.find()
+var implicitLimit = DB.Todo.find()
                .matches('name', /^My Todo/)
                .ascending('deadline')
-               .ascending('name')
-               .descending('active')
-               .stream()//no limit clause
-               .subscribe(event => console.log('Next!'),
-                 error => console.log('Error!'));
-//'Error!'
+               .offset(5)
+               .stream(); // implicit limit: 495 (= 500 - offset)
+               
+var explicitLimit = DB.Todo.find()
+               .matches('name', /^My Todo/)
+               .ascending('deadline')
+               .offset(5)
+               .limit(495) // explicit limit
+               .stream();
+               
+var cappedLimit = DB.Todo.find()
+               .matches('name', /^My Todo/)
+               .ascending('deadline')
+               .offset(5)
+               .limit(500) // limit is capped to 495, so that offset + limit <= 500
+               .stream();
 ```
 
-A streaming sorting query with `offset` maintains an ordered result, hiding the first few items from you and shaping events accordingly. Since the first index in a sorting query without `offset` is `0`, events for the following subscription will never carry `index` values smaller than `10` or greater than `29`:
+A streaming sorting query with `offset` maintains an ordered result, hiding the first few items from you. However, the first index in a sorted query result is always `0`, irrespective of whether it is specified with `offset` or not. Accordingly, events for the following subscription will carry `index` values in the range between `0` and `9`:
 
 ```js
 var stream = DB.Todo.find()
@@ -1429,8 +1440,8 @@ var stream = DB.Todo.find()
                .ascending('deadline')
                .ascending('name')
                .descending('active')
-               .offset(10)// skip the first 10 items
-               .limit(20)
+               .offset(5)// skip the first 5 items
+               .limit(10)// only return the first 10 items
                .stream();
 ```
 
@@ -1716,7 +1727,6 @@ var subscription = stream.scan(maintainAverage, initialAccumulator)//update coun
 
 Streaming is available for all queries with the following limitations:
 
-- The initial result of a streaming query is limited to *500 objects*. Streaming sorting queries therefore require a `limit` predicate (the sum of `offset` and `limit` may not exceed 500).
 - Currently, *streaming sorting queries only return public data*, even when executed with admin privileges; to retrieve private data, use non-streaming sorting queries or streaming queries that do not contain `limit`, `offset`, `ascending`, `descending` or `sort`.
 - Geospatial queries (`withinSphere`, `withinPolygon`) are currently not available for streaming
 
