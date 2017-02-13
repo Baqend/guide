@@ -1212,13 +1212,13 @@ filters. This Index is created on GeoPoint fields by using the *Index* Button.
 Baqend does not only feature powerful queries, but also **streaming result updates to keep your critical data up-to-date** in the face of concurrent updates by other users. 
 
 Calling `.stream()` or `.streamResult()` on a query object opens a [websocket](https://developer.mozilla.org/de/docs/WebSockets) connection to Baqend, registers a streaming query and returns an event stream in form of an [RxJS observable](http://reactivex.io/documentation/observable.html) that provides you with an update to your query every time a relevant change occurs.  
-Baqend lets you choose whether you want the updated result (`.streamResult()`) or the triggering events (`.stream()`). The following sections describe both streaming query flavors in detail.
+Baqend lets you choose whether you want the updated result (`.streamResult()`) or the modified entities (`.stream()`) with every event. The following sections describe both streaming query flavors in detail.
 
 <div class="note"><strong>Note:</strong> You have to use the <a href="https://github.com/Baqend/js-sdk/blob/master/README.md#baqend-streaming-sdk" target="_blank">Baqend Streaming SDK</a> to use the streaming query feature.</div>
 
 ## Self-Maintaining Queries
 
-Baqend streaming queries behave as though you were querying the database immediately after each and every relevant data modification: You will receive both the current result once upfront and an updated result on every change.
+In principle, Baqend streaming queries behave as though you were querying the database immediately after each and every relevant data modification: You will receive both the current result once upfront and an updated result on every change.
 
 For an example, imagine you and your colleagues are working on some projects and you are interested in the most urgent tasks to tackle. Since you as well as your colleagues might be taking off or adding a task any time, the query result is subject to constant change.  
 The following code does not only print the current top-10 to the console when you issue the query, but will do so every time the top-10 changes in any way:
@@ -1229,7 +1229,7 @@ var query = DB.Todo.find()
               .ascending('deadline')
               .limit(10);
 var subscription = query.streamResult()
-                        .subscribe(result => console.log(result));
+                        .subscribe(event => console.log(event.data));
 ```
 
 To stop receiving events from a streaming query, you can simply unsubscribe:
@@ -1257,7 +1257,6 @@ This pattern is inefficient and introduces staleness to your critical data. Thro
 
 
 ## Event Stream Queries
-
 
 Calling `.stream()` on a query object provides you with events for all data modifications that are relevant to your query as soon as they happen. Instead of a full-blown result, you will receive a notification describing what exactly happened.  
 You can create a streaming query like this:
@@ -1307,7 +1306,7 @@ Once subscribed to a stream, you will get an event for every database entity in 
 Every event can carry the following information:
 
 - **target:** the query on which `.stream([options])` was invoked.
-- **data:** the database entity this event was generated for, e.g. an entity that just entered or left the result set.
+- **data:** the database entity this event was generated for, e.g. an entity that just entered or left the result set. (For self-maintaining queries, this attribute carries the updated result.)
 - **operation:** the operation by which the entity was altered (`'insert'`, `'update'` or `'delete'`; `'none'` if unknown or not applicable).
 For an example where neither `'insert'`, `'update'` nor `'delete'` can reasonably be applied to an event, consider how the last one in a top-10 query result is pushed out when a new contender enters the top-10: While one event represents the insertion of the new contender itself, another event represents the entity leaving the result which was neither inserted, updated nor deleted. Consequently, Baqend would deliver this event with a `'none'` operation.
 - **matchType:** indicates how the transmitted entity relates to the query result.
@@ -2330,7 +2329,7 @@ object access rights. An elegant way to simplify such cases is the use of `after
 
 Baqend Modules are JavaScript modules stored in Baqend. They can be called by 
 clients and be imported by other modules and handlers. Only modules that export a `call` method can be called by 
-clients directly. The Baqend module will get the DB object as the first, data send by the client as 
+clients directly. The Baqend module will get the DB object as the first, data sent by the client as 
 the second and the [request](http://expressjs.com/api.html#req) object as the third parameter.
 
 Let's create a simple invite system. To invite a user to an event, the invitation is added to this/her invite list. 
@@ -2349,7 +2348,7 @@ exports.call = function(db, data, req) {
 ```
 The `body` parameter passed into the function contains the request payload, i.e. the decoded query parameters of a GET request or the parsed body of a `POST` request.
 
-On the client side we can now invite a user by its username to our event by invoking the Baqend invite method. Baqend 
+On the client side, we can now invite a user by its username to our event by invoking the Baqend invite method. Baqend 
 modules can be invoked using `get` for reading data and with `post` to modify data. 
 
 - with `get` data is sent with url query parameters of an HTTP GET request (URL size limit: 2KB)
