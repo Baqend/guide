@@ -1139,9 +1139,9 @@ DB.Todo.find()
   .resultList(...)
 ```
 
-**Note**: An offset query on large result sets yields [poor query performance](http://use-the-index-luke
+<div class="note"><strong>Note:</strong> An offset query on large result sets yields [poor query performance](http://use-the-index-luke
 .com/sql/partial-results/fetch-next-page). Instead, consider using a filter and sort criteria to navigate through 
-results.
+results.</div>
  
 For instance if you implement a simple pagination, you can sort by id and can get the data of the next
 page by a simple greaterThen filter. As the id always has an index this results in good performance regardless of the
@@ -1929,8 +1929,8 @@ operation.
   </tr>
 </table></div>
 
-**Note**: There is currently no way to check if a user has permissions to perform an operation without actually 
-performing the operation. 
+<div class="note"><strong>Note:</strong> There is currently no way to check if a user has permissions to perform an operation without actually 
+performing the operation. </div>
 
 ## Anonymous Users & Public Access
    
@@ -1943,8 +1943,8 @@ todo.acl.isPublicReadAllowed() //will return true by default
 todo.acl.isPublicWriteAllowed() //will return true by default
 ```
 
-**Note**: The access can still be restricted to specific roles or users by class-based permissions even if 
-  `acl.isPublicReadAllowed()` or `todo.acl.isPublicWriteAllowed()` returns `true`.
+ <div class="note"><strong>Note:</strong> The access can still be restricted to specific roles or users by class-based permissions even if 
+  `acl.isPublicReadAllowed()` or `todo.acl.isPublicWriteAllowed()` returns `true`.</div>
 
 ## Setting Object Permissions
 
