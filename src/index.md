@@ -1209,18 +1209,71 @@ filters. This Index is created on GeoPoint fields by using the *Index* Button.
 
 # Streaming Queries
 
-Baqend does not only feature powerful queries, but also streaming result updates to keep your critical data up-to-date in the face of concurrent updates by other users.
+Baqend does not only feature powerful queries, but also **streaming result updates to keep your critical data up-to-date** in the face of concurrent updates by other users. 
 
-Calling `.stream()` on a query object opens a [websocket](https://developer.mozilla.org/de/docs/WebSockets) connection to Baqend, registers a streaming query and returns an event stream in form of an [RxJS observable](http://reactivex.io/documentation/observable.html) that provides you with updates to the query result as they happen over time.
+Calling `.stream()` or `.streamResult()` on a query object opens a [websocket](https://developer.mozilla.org/de/docs/WebSockets) connection to Baqend, registers a streaming query and returns an event stream in form of an [RxJS observable](http://reactivex.io/documentation/observable.html) that provides you with an update to your query every time a relevant change occurs.  
+Baqend lets you choose whether you want the updated result (`.streamResult()`) or the triggering events (`.stream()`). The following sections describe both streaming query flavors in detail.
+
+<div class="note"><strong>Note:</strong> You have to use the <a href="https://github.com/Baqend/js-sdk/blob/master/README.md#baqend-streaming-sdk" target="_blank">Baqend Streaming SDK</a> to use the streaming query feature.</div>
+
+## Self-Maintaining Queries
+
+Baqend streaming queries behave as though you were querying the database immediately after each and every relevant data modification: You will receive both the current result once upfront and an updated result on every change.
+
+For an example, imagine you and your colleagues are working on some projects and you are interested in the most urgent tasks to tackle. Since you as well as your colleagues might be taking off or adding a task any time, the query result is subject to constant change.  
+The following code does not only print the current top-10 to the console when you issue the query, but will do so every time the top-10 changes in any way:
 
 ```js
-var stream = DB.Todo.find().stream();
+var query = DB.Todo.find()
+              .matches('name', /^My Todo/)
+              .ascending('deadline')
+              .limit(10);
+var subscription = query.streamResult()
+                        .subscribe(result => console.log(result));
+```
+
+To stop receiving events from a streaming query, you can simply unsubscribe:
+
+```js
+subscription.unsubscribe();
+```
+
+Without this feature, you would have to evaluate the query again and again to keep an eye on how things are going:
+
+```js
+query.resultList(result => console.log(result));
+//...
+//Did something change?
+query.resultList(result => console.log(result));
+//...
+//Let's check again...
+query.resultList(result => console.log(result));
+//...
+```
+
+This pattern is inefficient and introduces staleness to your critical data. Through push-based access through Baqend streaming queries, on the other hand, there is **no need to actively refresh the result**.
+
+
+## Event Stream Queries
+
+
+Calling `.stream()` on a query object provides you with events for all data modifications that are relevant to your query as soon as they happen. Instead of a full-blown result, you will receive a notification describing what exactly happened.  
+You can create a streaming query like this:
+
+```js
+var stream = DB.Todo.find().matches('name', /^My Todo/).stream();
 ```
 
 To make your code react to result set changes, you can subscribe to the stream and provide a function that is called for every incoming change event:
 
 ```js
 var subscription = stream.subscribe(event => console.log(event));
+```
+
+To cancel your subscription and thus stop receiving events from a streaming query, you can simply unsubscribe:
+
+```js
+subscription.unsubscribe();
 ```
 
 In order to activate streaming updates for a query, all you have to do is register it as a streaming query and provide a function to execute for every received change event:
@@ -1247,18 +1300,6 @@ new DB.Todo({name: 'My Todo XYZ'}).insert();//insert data
 //}
 ```
 
-<div class="note"><strong>Note:</strong> You have to use the <a href="https://github.com/Baqend/js-sdk/blob/master/README.md#baqend-streaming-sdk" target="_blank">Baqend Streaming SDK</a> to use the streaming query feature.</div>
-
-To stop receiving events from a streaming query, you can simply unsubscribe:
-
-```js
-subscription.unsubscribe();
-```
-
-<div class="note"><strong>Note:</strong>
-Access rules for streaming queries are the same as for regular queries (see <a href="#permissions">permissions</a>). In other words, if your data would not be returned by a regular query, it won't be returned by streaming query, either.
-</div>
-
 Once subscribed to a stream, you will get an event for every database entity in the initial result set (i.e. every entity matching at subscription time) and for every entity that enters the result set, leaves the result set or is updated while in the result set.
 
 Every event can carry the following information:
@@ -1278,6 +1319,10 @@ Every event is delivered with one of the following match types:
 - **index** (for sorting queries only): the position of the matching entity in the ordered result (`undefined` for non-matching entities).
 - **date**: server-time from the instant at which the event was generated.
 
+
+<div class="note"><strong>Note:</strong>
+Access rules for streaming queries are the same as for regular queries (see <a href="#permissions">permissions</a>). In other words, if your data would not be returned by a regular query, it won't be returned by streaming query, either.
+</div>
 
 ## Options
 
@@ -1590,67 +1635,6 @@ Since the [RxJS documentation is great and extensive](http://reactivex.io/tutori
 - [What is an observable?](http://reactivex.io/documentation/observable.html)
 - [Operators: What can I do with an observable?](http://reactivex.io/documentation/operators.html)
 - [Which operator do I need for ...?](http://xgrommx.github.io/rx-book/content/which_operator_do_i_use/instance_operators.html)
-
-### Maintaining Query Results
-
-An obvious advantage of streaming queries over common non-streaming queries is the ability to keep your result up-to-date while you and other users are inserting, updating and deleting data.
-
-For an example, imagine you and your colleagues are working on some projects and you are interested in the most urgent tasks to tackle. Your query could look something like this:
-
-```js
-var query = DB.Todo.find()
-              .matches('name', /^My Todo/)
-              .ascending('deadline')
-              .limit(10);
-```
-
-When executed as a common *non-streaming* query, this will give you the current top-10 of the most urgent todos. However, as new tasks might come up and others might be ticked off by your colleagues, you have to evaluate the query again and again if you want to keep an eye on how things are going:
-
-```js
-query.resultList(result => console.log(result));
-//...
-//Did something change?
-query.resultList(result => console.log(result));
-//...
-//Let's check again...
-query.resultList(result => console.log(result));
-//...
-```
-
-This pattern is inefficient and introduces staleness to your critical data.
-
-With Baqend streaming queries, on the other hand, you can just have the database deliver the relevant changes and thus never miss a beat.
-The following code does not only retrieve an ordered result, but also maintains it:
-
-```js
-var maintainResult = (result, event) => {
-    if (event.matchType === 'add') {//new entity
-      result.splice(event.index || 0, 0, event.data);
-    } else if (event.matchType === 'remove') {//leaving entity
-      for (var i = 0; i < result.length; i++) {
-        if (result[i].id === event.data.id) {
-          result.splice(i, 1);
-          break;
-        }
-      }
-    } else if (event.matchType === 'changeIndex') {//updated position
-      var index = result.indexOf(event.data);
-      result.splice(index, 1);
-      result.splice(event.index, 0, event.data);
-    }
-    return result;
-  };
-
-var subscription = query.stream().scan(maintainResult, [])
-                          .subscribe(result => console.log(result));
-```
-
-The `scan` operator can be used to maintain a data structure (the *accumulator*) by processing the incoming events. It takes two arguments: a function that is executed for every event (the *maintenance function*) and the initial value for the accumulator. Every invocation uses the accumulator value returned by the previous invocation.
-In this case, the accumulator is the query result and is initialized as an empty array (`[]`). The maintenance function `maintainResult(result, event)` takes the current result and the incoming event and returns the updated `result`.
-
-Whenever there is a change in the top-10, the complete list will be printed to the console.
-
-**No need to refresh the result.**
 
 ### Real-Time Aggregations
 
