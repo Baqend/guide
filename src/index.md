@@ -1238,9 +1238,10 @@ To stop receiving events from a streaming query, you can simply unsubscribe:
 subscription.unsubscribe();
 ```
 
-Without this feature, you would have to evaluate the query again and again to keep an eye on how things are going:
+Without the possibility of push-based access through streaming queries, you would have to evaluate the query again and again to keep an eye on how things are going:
 
 ```js
+//Maintaining a result with purely pull-based queries is tedious:
 query.resultList(result => console.log(result));
 //...
 //Did something change?
@@ -1249,6 +1250,7 @@ query.resultList(result => console.log(result));
 //Let's check again...
 query.resultList(result => console.log(result));
 //...
+//Don't do this! Use streaming queries instead!
 ```
 
 This pattern is inefficient and introduces staleness to your critical data. Through push-based access through Baqend streaming queries, on the other hand, there is **no need to actively refresh the result**.
