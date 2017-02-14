@@ -1160,6 +1160,30 @@ DB.Todo.find()
   })
 ```
 
+But often you want to sort your result by another attribute (e.g. `createdAt`). When you sort by an attribute which 
+by itself is not unique you must combine it with a unique attribute (e.g. `id`). 
+
+```js
+//initialize default values
+var resultsPerPage = 30;
+var lastObject = {id: '', createdAt: new Date(0)};
+
+//later page through the pages by the following query
+var qb = DB.Todo.find(); 
+qb.or(qb.equal('createdAt', lastObject.createdAt).greaterThan('id', lastObject.id), qb.greaterThan('createdAt', lastObject.createdAt))
+     .ascending('createdAt')
+     .ascending('id')
+     .limit(resultsPerPage)
+     .resultList(function(result) {
+        //track last seen object
+        lastObject = result[result.length - 1]; 
+        console.log(result);
+      });
+```
+
+*Explanation:* By combining the results of the query which fetches all remaining entities where the `createdAt` is equal to our last seen `createdAt` 
+plus all ids which are greater than the last seen `id` we make our result unique when `createdAt` has the same value on 
+multiple entities. That guarantees a unique order for none unique attributes.
 
 ## Composing Filters by `and`, `or` and `nor`
 
