@@ -1231,20 +1231,23 @@ Currently we support three types of indexes:
 filters. This Index is created on GeoPoint fields by using the *Index* Button.
 
 
-# Streaming Queries
+# Real-Time Queries
 
-Baqend does not only feature powerful queries, but also **streaming result updates to keep your critical data up-to-date** in the face of concurrent updates by other users. 
+<div class="warning"><strong>ATTENTION:</strong> 
+The Baqend real-time features are in <b>private beta</b> at the moment. If you want to try real-time queries for your app, just <a href="mailto:support@baqend.com%3E?subject=Real-time&nbsp;queries">drop us a line and we will happily <b>enable it for you</b></a>.</div>
 
-Calling `.stream()` or `.streamResult()` on a query object opens a [websocket](https://developer.mozilla.org/de/docs/WebSockets) connection to Baqend, registers a streaming query and returns an event stream in form of an [RxJS observable](http://reactivex.io/documentation/observable.html) that provides you with an update to your query every time a relevant change occurs.  
-Baqend lets you choose whether you want the updated result (`.streamResult()`) or the modified entities (`.stream()`) with every event. The following sections describe both streaming query flavors in detail.
+Baqend does not only feature powerful queries, but also **real-time result updates to keep your critical data up-to-date** in the face of concurrent updates by other users. 
 
-<div class="note"><strong>Note:</strong> You have to use the <a href="https://github.com/Baqend/js-sdk/blob/master/README.md#baqend-streaming-sdk" target="_blank">Baqend Streaming SDK</a> to use the streaming query feature.</div>
+Calling `.eventStream()` or `.resultStream()` on a query object opens a [websocket](https://developer.mozilla.org/de/docs/WebSockets) connection to Baqend, registers a real-time query and returns an event stream in form of an [RxJS observable](http://reactivex.io/documentation/observable.html) that provides you with an update to your query every time a relevant change occurs.  
+Baqend lets you choose whether you want the updated result (`.resultStream()`) or individual events for the modified entities (`.eventStream()`) with every data modification. The following sections describe both real-time query flavors in detail.
+
+<div class="note"><strong>Note:</strong> You have to use the <a href="https://github.com/Baqend/js-sdk/blob/master/README.md#baqend-real-time-sdk" target="_blank">Baqend Real-Time SDK</a> to use the real-time query feature.</div>
 
 ## Self-Maintaining Queries
 
-In principle, Baqend streaming queries behave as though you were querying the database immediately after each and every relevant data modification: You will receive both the current result once upfront and an updated result on every change.
+Baqend Self-Maintaining Queries behave exactly as though you were querying the database immediately after each and every relevant data modification: You will receive both the current result once upfront and an updated result on every change.
 
-For an example, imagine you and your colleagues are working on some projects and you are interested in the most urgent tasks to tackle. Since you as well as your colleagues might be taking off or adding a task any time, the query result is subject to constant change.  
+For an example, imagine you and your colleagues are working on some projects and you are interested in the most urgent tasks to tackle. Since you as well as your colleagues might be ticking off or adding a task any time, the query result is subject to constant change.  
 The following code does not only print the current top-10 to the console when you issue the query, but will do so every time the top-10 changes in any way:
 
 ```js
@@ -1252,17 +1255,17 @@ var query = DB.Todo.find()
               .matches('name', /^My Todo/)
               .ascending('deadline')
               .limit(10);
-var subscription = query.streamResult()
-                        .subscribe(event => console.log(event.data));
+var subscription = query.resultStream()
+                        .subscribe(result => console.log(result));
 ```
 
-To stop receiving events from a streaming query, you can simply unsubscribe:
+To stop receiving events from a real-time query, you can simply unsubscribe:
 
 ```js
 subscription.unsubscribe();
 ```
 
-Without the possibility of push-based access through streaming queries, you would have to evaluate the query again and again to keep an eye on how things are going:
+Without the possibility of push-based access through real-time queries, you would have to evaluate the query again and again to keep an eye on how things are going:
 
 ```js
 //Maintaining a result with purely pull-based queries is tedious:
@@ -1274,19 +1277,28 @@ query.resultList(result => console.log(result));
 //Let's check again...
 query.resultList(result => console.log(result));
 //...
-//Don't do this! Use streaming queries instead!
+//Don't do this! Use real-time queries instead!
 ```
 
-This pattern is inefficient and introduces staleness to your critical data. Through push-based access through Baqend streaming queries, on the other hand, there is **no need to actively refresh the result**.
+This pattern is inefficient and introduces staleness to your critical data. Through push-based access through Baqend Real-Time Queries, on the other hand, there is **no need to actively refresh the result**.
+
+
+
+### Options
+
+By design, self-maintaining queries are straightforward to use and do not require you to configure anything. However, with the optional argument of the `.resultStream([options])` function, you can turn a few knobs:
+
+- **reconnect** (default: `-1`): determines how often the self-maintaining query is resubscribed after connection loss.  
+By default, a self-maintaining query will be resubscribed and the full initial result will be delivered again whenever the websocket connection drops. Since the full query result (and not just changed objects) is transmitted on subscription, **reconnecting can impose significant communication overhead** for large result sets. To shield against this kind of performance leak, you can specify a non-negative integer to override this behavior. Beware that the query will not maintain itself after the number of reconnect tries has been exhausted, though.
 
 
 ## Event Stream Queries
 
-Calling `.stream()` on a query object provides you with events for all data modifications that are relevant to your query as soon as they happen. Instead of a full-blown result, you will receive a notification describing what exactly happened.  
-You can create a streaming query like this:
+Calling `.eventStream()` on a query object provides you with events for all data modifications that are relevant to your query as soon as they happen. Instead of a full-blown result, you will receive a notification describing what exactly happened.  
+You can create an event stream query like this:
 
 ```js
-var stream = DB.Todo.find().matches('name', /^My Todo/).stream();
+var stream = DB.Todo.find().matches('name', /^My Todo/).eventStream();
 ```
 
 To make your code react to result set changes, you can subscribe to the stream and provide a function that is called for every incoming change event:
@@ -1295,23 +1307,23 @@ To make your code react to result set changes, you can subscribe to the stream a
 var subscription = stream.subscribe(event => console.log(event));
 ```
 
-To cancel your subscription and thus stop receiving events from a streaming query, you can simply unsubscribe:
+To cancel your subscription and thus stop receiving events from an event stream query, you can simply unsubscribe:
 
 ```js
 subscription.unsubscribe();
 ```
 
-In order to activate streaming updates for a query, all you have to do is register it as a streaming query and provide a function to execute for every received change event:
+In order to activate event stream updates for a query, all you have to do is register it as an event stream query and provide a function to execute for every received change event:
 
 ```js
 var query = DB.Todo.find()
               .matches('name', /^My Todo/)
               .ascending('deadline')
               .limit(20);
-var subscription = query.stream()
+var subscription = query.eventStream()
               .subscribe(event => console.log(event));
 //...
-new DB.Todo({name: 'My Todo XYZ'}).insert();//insert data
+new DB.Todo({name: 'My Todo XYZ'}).insert(); // insert data
 //...
 // The insert produces the following event:
 //{
@@ -1329,7 +1341,7 @@ Once subscribed to a stream, you will get an event for every database entity in 
 
 Every event can carry the following information:
 
-- **target:** the query on which `.stream([options])` was invoked.
+- **target:** the query on which `.eventStream([options])` was invoked.
 - **data:** the database entity this event was generated for, e.g. an entity that just entered or left the result set. (For self-maintaining queries, this attribute carries the updated result.)
 - **operation:** the operation by which the entity was altered (`'insert'`, `'update'` or `'delete'`; `'none'` if unknown or not applicable).
 For an example where neither `'insert'`, `'update'` nor `'delete'` can reasonably be applied to an event, consider how the last one in a top-10 query result is pushed out when a new contender enters the top-10: While one event represents the insertion of the new contender itself, another event represents the entity leaving the result which was neither inserted, updated nor deleted. Consequently, Baqend would deliver this event with a `'none'` operation.
@@ -1345,13 +1357,10 @@ Every event is delivered with one of the following match types:
 - **date**: server-time from the instant at which the event was generated.
 
 
-<div class="note"><strong>Note:</strong>
-Access rules for streaming queries are the same as for regular queries (see <a href="#permissions">permissions</a>). In other words, if your data would not be returned by a regular query, it won't be returned by streaming query, either.
-</div>
 
-## Options
+### Options
 
-By default, you receive the initial result set and all events that are required to maintain it. However, the optional argument for the `.stream([options])` function lets you restrict the kind of event notifications to receive by setting the appropriate attribute values:
+By default, you receive the initial result set and all events that are required to maintain it. However, the optional argument for the `.eventStream([options])` function lets you restrict the kind of event notifications to receive by setting the appropriate attribute values:
 
 - **initial** (default: `true`): whether or not you want to receive the initial result set. If set to `true`, every entity matching the query at subscription time will be delivered with match type `add`, irrespective of whether and which restrictions you impose on operations and match types (see the other options). If set to `false`, you will only receive an event when something changes.
 - **matchTypes** (default: `['all']`): The default gives you all events with the most specific match type (`'add'`, `'change'`, `'changeIndex'` or `'remove'`). If you are only interested in a specific subset of match types, you can specify any combination of them to listen for.
@@ -1364,7 +1373,7 @@ You can only restrict the event stream by either match types or operations, but 
 
 
 
-## Error Handling
+### Error Handling
 
 On error, the subscription will automatically be canceled, but you can provide a custom error handler function that is executed whenever something goes wrong:
 
@@ -1376,7 +1385,7 @@ var subscription = stream.subscribe(onNext, onError);
 // A serverside error produces the following output:
 //
 //{
-//  "errorMessage":"Invalid query! Limit clause required for sorting query!",
+//  "errorMessage":"Access denied! User does not have query permissions on bucket.",
 //  "date":"2016-11-11T16:48:24.863Z",
 //  "target":{"name":{"$regex":"^My Todo"}}
 //}
@@ -1388,42 +1397,42 @@ Every error event has the following attributes:
 - **date**: server-time from the instant at which the error occurred.
 - **target:** the query for which the error occurred.
 
-## Streaming Simple Queries
+### Event Stream Simple Queries
 
-*Simple queries* are queries that just return all entities in a collection, no filtering involved. While streaming simple queries can be very useful (for example to monitor all operations on the collection), they can produce vast amounts of events for collections that have many members or are updated very often. Therefore, you should be *particularly* careful to only subscribe to events you really want to be bothered with when using streaming simple queries.
+*Simple queries* are queries that just return all entities in a collection, no filtering involved. While event stream simple queries can be very useful (for example to monitor all operations on the collection), they can produce vast amounts of events for collections that have many members or are updated very often. Therefore, you should be *particularly* careful to only subscribe to events you really want to be bothered with when using event stream simple queries.
 
 For instance, if you are interested in all todo lists and only want to be notified as *new* lists are created, you could subscribe to the following stream:
 
 ```js
-var stream = DB.Todo.find().stream({operations: 'insert'});// initial result is delivered by default
+var stream = DB.Todo.find().eventStream({operations: 'insert'});// initial result is delivered by default
 ```
 
 If, on the other hand, you only care for the creation of new todo lists and not for the ones that are already in the database, you should not request the initial result set:
 
 ```js
-var stream = DB.Todo.find().stream({initial: false, operations: 'insert'});
+var stream = DB.Todo.find().eventStream({initial: false, operations: 'insert'});
 ```
 
-## Streaming Filter Queries
+### Event Stream Filter Queries
 
-Like regular filter queries, *streaming filter queries* allow you to select entities based on their attribute values by applying [filters](#filters).
+Like regular filter queries, *event stream filter queries* allow you to select entities based on their attribute values by applying [filters](#filters).
 
 You can, for instance, have the database send you an event for every todo list that is *created* with a name that matches a particular pattern:
 
 ```js
 var stream = DB.Todo.find()
                .matches('name', /^My Todo/)
-               .stream({initial: false, operations: 'insert'});
+               .eventStream({initial: false, operations: 'insert'});
 ```
 
 It is important to note, however, that the above query will only tell you when a new todo list matches your query *on insert*; it will *not* produce an event when an already-existing list is renamed to match your pattern, because that would happen by `update` (while the stream is targeting `insert` operations only).
 
-If you are really looking for a streaming query that gives you new matches irrespective of the triggering operation, you should work with `matchTypes` and leave `operations` at the default:
+If you are really looking for an event stream query that gives you new matches irrespective of the triggering operation, you should work with `matchTypes` and leave `operations` at the default:
 
 ```js
 var stream = DB.Todo.find()
                .matches('name', /^My Todo/)
-               .stream({initial: false, matchTypes: 'add'});// operations: ['any'] by default
+               .eventStream({initial: false, matchTypes: 'add'});// operations: ['any'] by default
 ```
 
 To get the full picture, you can also request the initial result upfront. Initial matches are always delivered with match type `add`:
@@ -1431,7 +1440,7 @@ To get the full picture, you can also request the initial result upfront. Initia
 ```js
 var stream = DB.Todo.find()
                .matches('name', /^My Todo/)
-               .stream({matchTypes: 'add'});// initial: true by default
+               .eventStream({matchTypes: 'add'});// initial: true by default
 ```
 
 Of course, you can combine several predicates using `and`, `or` and `nor`. The following query keeps you up-to-date on all todo lists that are active and match one pattern or have already been marked as done and match another pattern:
@@ -1448,13 +1457,13 @@ var condition2 = queryBuilder
 
 var stream = queryBuilder
                .or(condition1, condition2)
-               .stream();
+               .eventStream();
 ```
 
-## Streaming Sorting Queries
+### Event Stream Sorting Queries
 
-All features described so far are also available for *sorting queries*, i.e. queries that contain `limit`, `offset`, `ascending`, `descending` or `sort`.
-Streaming sorting queries are great to maintain ordered results such as high-score rankings or prioritized todo lists.
+All features described so far are also available for *event stream sorting queries*, i.e. queries that contain `limit`, `offset`, `ascending`, `descending` or `sort`.
+Events stream sorting queries are great to maintain ordered results such as high-score rankings or prioritized todo lists.
 
 The following maintains your top-20 todo lists, sorted by urgency, name and status:
 
@@ -1465,7 +1474,7 @@ var stream = DB.Todo.find()
                .ascending('name')
                .descending('active')
                .limit(20)
-               .stream();
+               .eventStream();
 ```
 
 Entities that sort identically are **implicitly ordered by ID**. Thus, a query without explicit ordering will result in more or less random order by default as IDs are generated randomly:
@@ -1474,35 +1483,35 @@ Entities that sort identically are **implicitly ordered by ID**. Thus, a query w
 var stream = DB.Todo.find()
                .matches('name', /^My Todo/)
                .limit(20)// no order provided? Implicitly ordered by ID!
-               .stream();
+               .eventStream();
 ```
 
 **The `limit` clause is optional** and a query without limit will be registered with the maximum permitted limit: `offset + limit <= 500` must always hold. In other words, `limit` can never assume values greater than `500 - offset`. Correspondingly, queries with an `offset` of more than 499 are illegal.  
-Since the maximum limit is implicitly enforced, the following three streaming queries are registered identical:
+Since the maximum limit is implicitly enforced, the following three event stream queries are registered identical:
 
 ```js
 var implicitLimit = DB.Todo.find()
                .matches('name', /^My Todo/)
                .ascending('deadline')
                .offset(5)
-               .stream(); // implicit limit: 495 (= 500 - offset)
+               .eventStream(); // implicit limit: 495 (= 500 - offset)
                
 var explicitLimit = DB.Todo.find()
                .matches('name', /^My Todo/)
                .ascending('deadline')
                .offset(5)
                .limit(495) // explicit limit
-               .stream();
+               .eventStream();
                
 var cappedLimit = DB.Todo.find()
                .matches('name', /^My Todo/)
                .ascending('deadline')
                .offset(5)
                .limit(500) // limit is capped to 495, so that offset + limit <= 500
-               .stream();
+               .eventStream();
 ```
 
-A streaming sorting query with `offset` maintains an ordered result, hiding the first few items from you. However, the first index in a sorted query result is always `0`, irrespective of whether it is specified with `offset` or not. Accordingly, events for the following subscription will carry `index` values in the range between `0` and `9`:
+An event stream sorting query with `offset` maintains an ordered result, hiding the first few items from you. However, the first index in a sorted query result is always `0`, irrespective of whether it is specified with `offset` or not. Accordingly, events for the following subscription will carry `index` values in the range between `0` and `9`:
 
 ```js
 var stream = DB.Todo.find()
@@ -1512,17 +1521,17 @@ var stream = DB.Todo.find()
                .descending('active')
                .offset(5)// skip the first 5 items
                .limit(10)// only return the first 10 items
-               .stream();
+               .eventStream();
 ```
 
-With respect to efficiency, the same rules apply to streaming and non-streaming queries: Sorting huge results is expensive and sorting queries should therefore be avoided when filter queries would do as well.
+With respect to efficiency, the same rules apply to event stream and regular (i.e. non-streaming) queries: Enforcing order on huge results is expensive and sorting queries should therefore be avoided when filter queries would do as well.
 
-<div class="note"><strong>Note:</strong> Currently, streaming sorting queries are <em>always executed as anonymous queries</em>, i.e. they will only give you data that is publicly visible. To retrieve data protected by object ACLs, you have to either forgo streaming (use a plain sorting query) or ordering (use a streaming query without <code>limit</code>, <code>offset</code>, <code>ascending</code> and <code>descending</code>).
+<div class="note"><strong>Note:</strong> Currently, event stream sorting queries are <em>always executed as anonymous queries</em>, i.e. they will only give you data that is publicly visible. To retrieve data protected by object ACLs, you have to either forgo real-time (use a plain sorting query) or ordering (use a real-time query without <code>limit</code>, <code>offset</code>, <code>ascending</code> and <code>descending</code>).
 </div>
 
-## Example: Subscription and Events
+### Example: Subscription and Events
 
-For an example of how a streaming query behaves, consider the following example where two users are working concurrently on the same database. <span class="user1">User 1</span> subscribes to a streaming sorting query and listens for the result and updates, whereas <span class="user2">User 2</span> is working on the data.
+For an example of how an event stream query behaves, consider the following example where two users are working concurrently on the same database. <span class="user1">User 1</span> subscribes to an event stream sorting query and listens for the result and updates, whereas <span class="user2">User 2</span> is working on the data.
 
 **Timestamp 0:** <span class="user1">User 1</span> and <span class="user2">User 2</span> are connected to the same database.
 
@@ -1534,14 +1543,14 @@ todo1.insert();
 //actual result: [ todo1 ]
 ```
 
-**Timestamp 2:** <span class="user1">User 1</span> subscribes to a streaming query and immediately receives a match event for `todo1`:
+**Timestamp 2:** <span class="user1">User 1</span> subscribes to an event stream query and immediately receives a match event for `todo1`:
 ```js
 var stream = DB.Todo.find()
     .matches('name', /^My Todo/)
     .ascending('name')
     .descending('active')
     .limit(3)
-    .stream();
+    .eventStream();
 subscription = stream.subscribe((event) => {
   console.log(event.matchType + '/'
     + event.operation + ': '
@@ -1641,16 +1650,16 @@ User 1 starts receiving the initial result directly after subscription (Timestam
 Be aware that operation-related semantics are rather complex for sorting queries: For example, `insert` and `update` operations may trigger an item to *leave* the result (Timestamps 9/10 and 11/12). Similarly (even though not shown in the example), an `add` event can be triggered by a `delete` when an item enters the result set from beyond limit. When triggered by an operation on a different entity, an event may even be delivered with no operation at all (Timestamps 10 and 12).
 
 <div class="tip"><strong>Tip:</strong>
-Bottom line, be careful when filtering streaming sorting queries by operation!
+Bottom line, be careful when filtering the event stream of a sorted query by operation!
 </div>
 
 
 ## Advanced Features: RxJS
 
-The Baqend Streaming SDK is shipped with [basic support for ES7 Observables](https://github.com/tc39/proposal-observable), so that you can use it without requiring external dependencies.
-To leverage the full potential of Baqend's streaming query engine, though, we recommend using it in combination with the feature-rich RxJS client library.
+The Baqend Real-Time SDK is shipped with [basic support for ES7 Observables](https://github.com/tc39/proposal-observable), so that you can use it without requiring external dependencies.
+To leverage the full potential of Baqend's real-time query engine, though, we recommend using it in combination with the feature-rich RxJS client library.
 
-In the following, we give you some references and a few examples of what you can do with RxJS and Baqend Streaming Queries.
+In the following, we give you some references and a few examples of what you can do with RxJS and Baqend Real-Time Queries.
 
 ### RxJS: The ReactiveX JavaScript Client Library
 
@@ -1663,7 +1672,7 @@ Since the [RxJS documentation is great and extensive](http://reactivex.io/tutori
 
 ### Real-Time Aggregations
 
-Another neat use case for streaming queries is to compute and maintain aggregates in real-time.
+Another neat use case for event stream queries is to compute and maintain aggregates in real-time.
 Similar to result set maintenance, the basic idea is to keep all relevant information in an *accumulator* and to recompute and output the updated aggregate value whenever an event is received.
 
 #### Count
@@ -1687,7 +1696,7 @@ var subscription = stream.scan(maintainCardinality, 0)// update counter
 The current number of entities in the result set will be printed to the console whenever a change occurs.
 
 <div class="tip"><strong>Tip:</strong>
-Count maintenance is a good example where it makes sense to not subscribe to the default match types (<code>['all']</code>), because you are actually only interested in <code>add</code> and <code>remove</code> events: To restrict the events you will receive to those that really matter, register the streaming query with <code>.stream({matchTypes: ['add', 'remove']})</code>.
+Count maintenance is a good example where it makes sense to not subscribe to the default match types (<code>['all']</code>), because you are actually only interested in <code>add</code> and <code>remove</code> events: To restrict the events you will receive to those that really matter, register the event stream query with <code>.eventStream({matchTypes: ['add', 'remove']})</code>.
 </div>
 
 #### Average
@@ -1734,10 +1743,10 @@ var subscription = stream.scan(maintainAverage, initialAccumulator)//update coun
 
 ## Limitations
 
-Streaming is available for all queries with the following limitations:
+The real-time feature is available for all queries with the following limitations:
 
-- Currently, *streaming sorting queries only return public data*, even when executed with admin privileges; to retrieve private data, use non-streaming sorting queries or streaming queries that do not contain `limit`, `offset`, `ascending`, `descending` or `sort`.
-- Geospatial queries (`withinSphere`, `withinPolygon`) are currently not available for streaming
+- Currently, *real-time sorting queries only return public data*, even when executed with admin privileges; to retrieve private data, use regular (i.e. non-streaming) sorting queries or real-time queries that do not contain `limit`, `offset`, `ascending`, `descending` or `sort`.
+- Geospatial queries (`withinSphere`, `withinPolygon`) are currently not available for real-time
 
 
 # Users, Roles and Permissions
