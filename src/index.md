@@ -283,6 +283,7 @@ made direct HTTP calls to your Baqend server.
 
 The CLI (Command Line Interface) provides a simple way to:
 
+ - Register a Baqend account and start an app 
  - Deploy application assets (HTML, images, CSS, etc.)
  - Register Baqend Modules and Handlers
 
@@ -308,10 +309,10 @@ Therefore add a Baqend script entry to the scripts section in your projects **pa
 Afterwards you can type `npm run baqend -- --help`
 <div class="note"><strong>Note:</strong> The extra `--` are required to seperate the npm run arguments from the Baqend ones.</div>
 
-##Login and Logout
+##Register, Login and Logout
 
-Before you can actually deploy assets and code to your app, you must login the CLI to your Baqend account. By typing
-`baqend login` you can save your login credentials on your local machine.
+Before you can actually deploy assets and code you have to create a Baqend account. The easiest way is to use `baqend register`. If you already have an account you are able login the CLI by typing
+`baqend login`. These commands will locally save your credentials.
 
 If you do not want so save your login credentials , you can skip the login step and provide the login
 credentials each time you deploy.
@@ -325,7 +326,7 @@ credentials each time you deploy.
 With the deploy command you can upload your static files and assets as well as Baqend code (handlers and modules) to your Baqend app:
 
 ```bash
-$ baqend deploy your-app-name
+$ baqend deploy
 ```
 
 We expect a folder named `www` by default that is uploaded to the Baqend `www` folder and served as a website.
@@ -357,6 +358,8 @@ to the `User` table.
 Read more about Baqend code in the [Baqend Code](#baqend-code_1) chapter.
        
 </div>
+
+After deploying your app, you can open it by typing `baqend open` or use the dashboard with `baqend dashboard`.
 
 ##Typings (TypeScript Support)
 
