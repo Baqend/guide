@@ -1233,39 +1233,42 @@ filters. This Index is created on GeoPoint fields by using the *Index* Button.
 
 # Real-Time Queries
 
-<div class="warning"><strong>ATTENTION:</strong> 
-The Baqend real-time features are in <b>private beta</b> at the moment. If you want to try real-time queries for your app, just <a href="mailto:support@baqend.com%3E?subject=Real-time&nbsp;queries">drop us a line and we will happily <b>enable it for you</b></a>.</div>
+Baqend does not only feature powerful queries, but also real-time mechanisms that **keep query results up-to-date** while the underlying database is under constant change. Baqend Real-Time Queries comes in two flavors:
 
-Baqend does not only feature powerful queries, but also **real-time result updates to keep your critical data up-to-date** in the face of concurrent updates by other users. 
++ **Self-maintaining queries** (`.resultStream()`): You'll get the complete (updated) result whenever it changes.
++ **Event stream queries** (`.eventStream()`): You'll receive an event message for every database write that affects your query.
 
-Calling `.eventStream()` or `.resultStream()` on a query object opens a [websocket](https://developer.mozilla.org/de/docs/WebSockets) connection to Baqend, registers a real-time query and returns an event stream in form of an [RxJS observable](http://reactivex.io/documentation/observable.html) that provides you with an update to your query every time a relevant change occurs.  
-Baqend lets you choose whether you want the updated result (`.resultStream()`) or individual events for the modified entities (`.eventStream()`) with every data modification. The following sections describe both real-time query flavors in detail.
+Calling `.eventStream()` or `.resultStream()` on a query object opens a [websocket](https://developer.mozilla.org/de/docs/WebSockets) connection to Baqend, registers a real-time query and returns an [RxJS observable](http://reactivex.io/documentation/observable.html). This observable provides you with an instant update to your query whenever a relevant change occurs.  
 
-<div class="note"><strong>Note:</strong> You have to use the <a href="https://github.com/Baqend/js-sdk/blob/master/README.md#baqend-real-time-sdk" target="_blank">Baqend Real-Time SDK</a> to use the real-time query feature.</div>
+The following sections describe both real-time query types in detail.
+
+<div class="warning"><strong>Private Beta:</strong> 
+Baqend Real-Time Queries are currently not public. If you want to try our real-time features, just <a href="mailto:support@baqend.com%3E?subject=Real-time&nbsp;queries">drop us a line and we will happily <b>enable it for your app</b></a>.
+</div>
+
+<div class="warning"><strong>Special SDK:</strong> 
+To use real-time features, you have to include the <a href="https://github.com/Baqend/js-sdk/blob/master/README.md#baqend-real-time-sdk" target="_blank"><b>Baqend Real-Time SDK</b></a>.
+</div>
 
 ## Self-Maintaining Queries
 
-Baqend Self-Maintaining Queries behave exactly as though you were querying the database immediately after each and every relevant data modification: You will receive both the current result once upfront and an updated result on every change.
+Baqend Self-Maintaining Queries behave **exactly like regular queries**, but with one important distinction: They **update themselves** and thus never become stale. You will receive both the current result once upfront and the updated result whenever a regular query would return a different result than before.
 
-For an example, imagine you and your colleagues are working on some projects and you are interested in the most urgent tasks to tackle. Since you as well as your colleagues might be ticking off or adding a task any time, the query result is subject to constant change.  
-The following code does not only print the current top-10 to the console when you issue the query, but will do so every time the top-10 changes in any way:
+All you have to do is use <code>result<b><u>Stream</u></b>()</code> instead of <code>result<b><u>List</u></b>()</code> for your queries. 
+
+### Going Real-Time: <code>result<b><u>List</u></b>()</code> vs. <code>result<b><u>Stream</u></b>()</code>
+
+To shed more light on the difference between regular and real-time queries, consider the following example: Imagine you and your colleagues are collaborating on a shared todo list that is frequently updated. And let's say you want to keep an eye on the 10 most urgent open tasks by the following query:
 
 ```js
 var query = DB.Todo.find()
               .matches('name', /^My Todo/)
+              .ascending(status)
               .ascending('deadline')
               .limit(10);
-var subscription = query.resultStream()
-                        .subscribe(result => console.log(result));
 ```
 
-To stop receiving events from a real-time query, you can simply unsubscribe:
-
-```js
-subscription.unsubscribe();
-```
-
-Without the possibility of push-based access through real-time queries, you would have to evaluate the query again and again to keep an eye on how things are going:
+With a regular query that does not update itself (<code>result<b><u>List</u></b>()</code>), you would have to evaluate the query again and again to make sure you don't miss any updates:
 
 ```js
 //Maintaining a result with purely pull-based queries is tedious:
@@ -1280,34 +1283,144 @@ query.resultList(result => console.log(result));
 //Don't do this! Use real-time queries instead!
 ```
 
-This pattern is inefficient and introduces staleness to your critical data. Through push-based access through Baqend Real-Time Queries, on the other hand, there is **no need to actively refresh the result**.
+This pattern is obviously inefficient and introduces staleness to your critical data. Using a self-maintaining query, on the other hand, there is **no need to actively refresh the result**. You simply replace <code>result<b><u>List</u></b>()</code> by <code>result<b><u>Stream</u></b>()</code> and &mdash; that's it: 
 
+```js
+// will print the result once upfront and whenever it changes:
+query.resultStream(result => console.log(result));
+```
 
+With the above code, the top-10 list is not only printed to console once (as it would be with a regular query), but every time &mdash; and *immediately* &mdash; when a task enters the top-10, is updated within the top-10 or leaves the top-10. 
+
+### Observables and Subscriptions
+
+To harness the expressiveness of real-time queries, the Baqend client SDK uses the [**observer pattern**](https://en.wikipedia.org/wiki/Observer_pattern). This section explains the basic concepts in the context of Baqend Real-Time Queries. For a more generic approach, have a look at other resources such as the [RxJS manual](http://reactivex.io/rxjs/manual/overview.html).
+
+Every real-time query produces a **stream** (i.e. a sequence of query updates) that is represented by an abstraction called **observable**. An observable maintains a list of so-called **observers**, each of which is a collection of callback functions. Whenever new data becomes available in the stream, the observable notifies each observer, so that they can apply their callback functions to the new data. To add a new observer to an observable, one has to create a **subscription**. This subscription can be canceled (*unsubscribed*) to remove its respective observer from the observable. 
+
+In a nutshell, you have to subscribe to an observable and provide a few callback functions in order to define application behavior. In particular, you can define the following three callback functions:
+
++ **`next`**: *What to do when an update arrives in the stream?*  
+For self-maintaining queries, this callback function receives the complete updated query result. For [event stream queries](#event-stream-queries), it receives individual change events.
++ **`error`** (optional): *What to do when there is an error?*  
+This callback receives a server-side error, for example when you issue a real-time query with insufficient access rights. 
++ **`complete`** (optional): *What to do when the network connection is closed?*  
+*Self-maintaining queries* will transparently reconnect by default (see [`reconnect`](#options) option), so this handler can usually be ignored for them. *Event stream queries*, on the other hand, do not support automatic reconnects: They will just silently stop working when disconnected, unless a `complete` function is provided.
+
+<div class="note"><strong>Note:</strong> 
+On an <code>error</code> or <code>complete</code> event, the corresponding subscription will automatically be <b>canceled</b>. 
+</div> 
+
+The simplest way to create a subscription is to just provide the `next` handler as argument to `.resultStream()` as illustrated in the last section. As a return value, you get the **subscription** object that you can use to unsubscribe later:
+
+```js
+// start:
+var subscription = query.resultStream(result => console.log(result)); 
+// ...
+// stop:
+subscription.unsubscribe(); 
+```
+
+But you can, of course, provide all three handlers in the same fashion:
+
+```js
+var onNext = result => console.log(result);
+var onError = err => console.log(err); // optional
+var onComplete = () => console.log('I am offline!'); // optional
+
+var subscription = query.resultStream(onNext, onError, onComplete);
+```
+
+The above code is equivalent to first creating an observable and then subscribing to it:
+
+```js
+var stream = query.resultStream(); // observable
+var subscription = stream.subscribe(onNext, onError, onComplete); 
+```
+
+However, if you first create a `stream` observable, you can create multiple subscriptions on top of it:
+
+```js
+// one single observable:
+var stream = query.resultStream(); 
+
+// Multiple subscriptions on the same observable:
+var subscription = stream.subscribe(onNext);
+var otherSubscription = stream.subscribe(otherOnNext);
+```
+
+#### Error Handling
+
+On error, your subscription will automatically be canceled, but you can provide a custom error handler function that is executed whenever something goes wrong:
+
+```js
+var onNext = event => console.log(event);
+var onError = error => console.log(error);
+var subscription = stream.subscribe(onNext, onError);
+//...
+// A serverside error produces the following output:
+//
+//{
+//  "errorMessage":"Access denied! User does not have query permissions on bucket.",
+//  "date":"2016-11-11T16:48:24.863Z",
+//  "target":{"name":{"$regex":"^My Todo"}}
+//}
+```
+
+Every error event has the following attributes:
+
+- **errorMessage:** a problem description that should point you towards the problem.
+- **date**: server-time from the instant at which the error occurred.
+- **target:** the query for which the error occurred.
 
 ### Options
 
-By design, self-maintaining queries are straightforward to use and do not require you to configure anything. However, with the optional argument of the `.resultStream([options])` function, you can turn a few knobs:
+By design, self-maintaining queries are straightforward to use and do not require you to configure anything. However, you can customize behavior by providing an `options` argument as first parameter to the `resultStream` function.  
+Currently, there is only one parameter:
 
-- **reconnect** (default: `-1`): determines how often the self-maintaining query is resubscribed after connection loss.  
-By default, a self-maintaining query will be resubscribed and the full initial result will be delivered again whenever the websocket connection drops. Since the full query result (and not just changed objects) is transmitted on subscription, **reconnecting can impose significant communication overhead** for large result sets. To shield against this kind of performance leak, you can specify a non-negative integer to override this behavior. Beware that the query will not maintain itself after the number of reconnect tries has been exhausted, though.
+- **reconnect** (default: `-1`): determines how often the self-maintaining query is resubscribed after connection loss (negative values indicating infinite retries).  
+By default, a self-maintaining query will be resubscribed and the full initial result will be delivered again whenever the websocket connection drops. Since the full query result (and not just changed objects) is transmitted on subscription, **reconnecting can impose significant communication overhead** for large result sets. To shield against this kind of performance leak, you can specify a non-negative integer to override this behavior. In this case, you should also provide a [`complete`](#observables-and-subscriptions) handler which is going to be called after the number of reconnect tries has been exhausted.
 
 
 ## Event Stream Queries
 
-Calling `.eventStream()` on a query object provides you with events for all data modifications that are relevant to your query as soon as they happen. Instead of a full-blown result, you will receive a notification describing what exactly happened.  
-You can create an event stream query like this:
+Calling `.eventStream()` on a query object creates an observable that encapsulates all data modifications relevant to your query. But in contrast to a self-maintaining query, an event stream query will not give you a full-blown result on every change, but instead an event notification describing what exactly happened.  
 
-```js
-var stream = DB.Todo.find().matches('name', /^My Todo/).eventStream();
+<div class="note"><strong>Note:</strong> 
+If you haven't already, you should read the guide section on <b><a href="#observables-and-subscriptions">observables and subscriptions</a></b> as an introduction on how to work with Baqend's real-time API.
+</div>
+
+You can create an event stream observable like this:
+
+```js 
+var query = DB.Todo.find().matches('name', /^My Todo/);
+var stream = query.eventStream(); // observable
 ```
 
-To make your code react to result set changes, you can subscribe to the stream and provide a function that is called for every incoming change event:
+To make your code react to result changes, you can subscribe to the observable and provide a function that is called for every incoming change event:
 
 ```js
 var subscription = stream.subscribe(event => console.log(event));
 ```
 
-To cancel your subscription and thus stop receiving events from an event stream query, you can simply unsubscribe:
+As with self-maintaining queries, you can also provide functions to handle errors and connection problems:
+
+```js
+var onNext = event => console.log(event);
+var onError = err => console.log(err); // optional
+var onComplete = () => console.log('I am offline!'); // optional
+
+var subscription = stream.subscribe(onNext, onError, onComplete);
+```
+
+And of course, you can also skip creating the observable and directly subscribe to an event streaming query:
+
+
+```js
+var subscription = query.eventStream(onNext, onError, onComplete);
+```
+
+To cancel your subscription and thus stop receiving events from an event stream query, just unsubscribe:
 
 ```js
 subscription.unsubscribe();
@@ -1343,7 +1456,7 @@ Every event can carry the following information:
 
 - **target:** the query on which `.eventStream([options])` was invoked.
 - **data:** the database entity this event was generated for, e.g. an entity that just entered or left the result set. (For self-maintaining queries, this attribute carries the updated result.)
-- **operation:** the operation by which the entity was altered (`'insert'`, `'update'` or `'delete'`; `'none'` if unknown or not applicable).
+- **operation:** the operation by which the entity was altered (`'insert'`, `'update'` or `'delete'`; `'none'` if unknown or not applicable).  
 For an example where neither `'insert'`, `'update'` nor `'delete'` can reasonably be applied to an event, consider how the last one in a top-10 query result is pushed out when a new contender enters the top-10: While one event represents the insertion of the new contender itself, another event represents the entity leaving the result which was neither inserted, updated nor deleted. Consequently, Baqend would deliver this event with a `'none'` operation.
 - **matchType:** indicates how the transmitted entity relates to the query result.
 Every event is delivered with one of the following match types:
@@ -1365,37 +1478,15 @@ By default, you receive the initial result set and all events that are required 
 - **initial** (default: `true`): whether or not you want to receive the initial result set. If set to `true`, every entity matching the query at subscription time will be delivered with match type `add`, irrespective of whether and which restrictions you impose on operations and match types (see the other options). If set to `false`, you will only receive an event when something changes.
 - **matchTypes** (default: `['all']`): The default gives you all events with the most specific match type (`'add'`, `'change'`, `'changeIndex'` or `'remove'`). If you are only interested in a specific subset of match types, you can specify any combination of them to listen for.
 If you do not care about the difference between new and updated items, you can also use match type `'match'`. This will yield the same events as the combination of `'add'`, `'change'` and `'changeIndex'`, but the match type of the received events will always be `'match'`.
-- **operations** (default: `['any']`): By default, events will not be sorted out based on their operation, but you can choose any combination of `'insert'`, `'update'`, `'delete'` and `'none'` to narrow down the kind of matches you receive.
+- **operations** (default: `['any']`): By default, events will not be sorted out based on their operation, but you can choose any combination of `'insert'`, `'update'`, `'delete'` and `'none'` to narrow down the kind of matches you receive. 
 
-<div class="note"><strong>Note:</strong>
-You can only restrict the event stream by either match types or operations, but not both.
+<div class="note"><strong>Note:</strong> 
+You can only restrict the event stream by <b>either match type or operation</b>, but not both.
 </div>
 
-
-
-### Error Handling
-
-On error, the subscription will automatically be canceled, but you can provide a custom error handler function that is executed whenever something goes wrong:
-
-```js
-var onNext = event => console.log(event);
-var onError = error => console.log(error);
-var subscription = stream.subscribe(onNext, onError);
-//...
-// A serverside error produces the following output:
-//
-//{
-//  "errorMessage":"Access denied! User does not have query permissions on bucket.",
-//  "date":"2016-11-11T16:48:24.863Z",
-//  "target":{"name":{"$regex":"^My Todo"}}
-//}
-```
-
-Every error event has the following attributes:
-
-- **errorMessage:** a problem description that should point you towards the problem.
-- **date**: server-time from the instant at which the error occurred.
-- **target:** the query for which the error occurred.
+<div class="warning"><strong>Complex semantics:</strong> 
+Filtering events by <b>operation</b> does not work as straightforward as you might think at first glance. So before using this feature, be sure to read the parameter description above and the <a href="#example-subscription-and-events">example</a> below.
+</div>
 
 ### Event Stream Simple Queries
 
