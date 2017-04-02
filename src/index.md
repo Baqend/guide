@@ -1236,6 +1236,10 @@ filters. This Index is created on GeoPoint fields by using the *Index* Button.
 
 # Real-Time Queries
 
+<div class="warning"><strong>Private Beta:</strong> 
+Baqend Real-Time Queries are currently not public. If you want to try our real-time features, just <a href="mailto:support@baqend.com%3E?subject=Real-time&nbsp;queries">drop us a line and we will happily <b>enable it for your app</b></a>.
+</div>
+
 Baqend does not only feature powerful queries, but also real-time mechanisms that **keep query results up-to-date** while the underlying database is under constant change. Baqend Real-Time Queries comes in two flavors:
 
 + **Self-maintaining queries** (`.resultStream()`): You'll get the complete (updated) result whenever it changes.
@@ -1245,11 +1249,7 @@ Calling `.eventStream()` or `.resultStream()` on a query object opens a [websock
 
 The following sections describe both real-time query types in detail.
 
-<div class="warning"><strong>Private Beta:</strong> 
-Baqend Real-Time Queries are currently not public. If you want to try our real-time features, just <a href="mailto:support@baqend.com%3E?subject=Real-time&nbsp;queries">drop us a line and we will happily <b>enable it for your app</b></a>.
-</div>
-
-<div class="warning"><strong>Special SDK:</strong> 
+<div class="warning"><strong>Real-Time SDK:</strong> 
 To use real-time features, you have to include the <a href="https://github.com/Baqend/js-sdk/blob/master/README.md#baqend-real-time-sdk" target="_blank"><b>Baqend Real-Time SDK</b></a>.
 </div>
 
