@@ -1240,7 +1240,7 @@ filters. This Index is created on GeoPoint fields by using the *Index* Button.
 Baqend Real-Time Queries are currently not public. If you want to try our real-time features, just <a href="mailto:support@baqend.com%3E?subject=Real-time&nbsp;queries">drop us a line and we will happily <b>enable it for your app</b></a>.
 </div>
 
-Baqend does not only feature powerful queries, but also real-time mechanisms that **keep query results up-to-date** while the underlying database is under constant change. Baqend Real-Time Queries comes in two flavors:
+Baqend does not only feature powerful queries, but also real-time mechanisms that **keep query results up-to-date** while the underlying database is under constant change. Baqend Real-Time Queries come in two flavors:
 
 + **Self-maintaining queries** (`.resultStream()`): You'll get the complete (updated) result whenever it changes.
 + **Event stream queries** (`.eventStream()`): You'll receive an event message for every database write that affects your query.
@@ -1301,7 +1301,7 @@ To harness the expressiveness of real-time queries, the Baqend client SDK uses t
 
 Every real-time query produces a **stream** (i.e. a sequence of query updates) that is represented by an abstraction called **observable**. An observable maintains a list of so-called **observers**, each of which is a collection of callback functions. Whenever new data becomes available in the stream, the observable notifies each observer, so that they can apply their callback functions to the new data. To add a new observer to an observable, one has to create a **subscription**. This subscription can be canceled (*unsubscribed*) to remove its respective observer from the observable. 
 
-In a nutshell, you have to subscribe to an observable and provide a few callback functions in order to define application behavior. In particular, you can define the following three callback functions:
+In a nutshell, you have to subscribe to an observable and provide a few callback functions in order to define application behavior. In particular, you can define the following three callback functions for a real-time query:
 
 + **`next`**: *What to do when an update arrives in the stream?*  
 For self-maintaining queries, this callback function receives the complete updated query result. For [event stream queries](#event-stream-queries), it receives individual change events.
@@ -1314,7 +1314,7 @@ This callback receives a server-side error, for example when you issue a real-ti
 On an <code>error</code> or <code>complete</code> event, the corresponding subscription will automatically be <b>canceled</b>. 
 </div> 
 
-The simplest way to create a subscription is to just provide the `next` handler as argument to `.resultStream()` as illustrated in the last section. As a return value, you get the **subscription** object that you can use to unsubscribe later:
+The simplest way to create a subscription is to just provide the `next` handler as an argument to `.resultStream()` as illustrated in the last section. As a return value, you get the **subscription** object that you can use to unsubscribe later:
 
 ```js
 // start:
@@ -1363,18 +1363,18 @@ var subscription = stream.subscribe(onNext, onError);
 //...
 // A serverside error produces the following output:
 //
-//{
-//  "errorMessage":"Access denied! User does not have query permissions on bucket.",
-//  "date":"2016-11-11T16:48:24.863Z",
-//  "target":{"name":{"$regex":"^My Todo"}}
-//}
+// {
+//   "id":"919ed4a1-9492-497c-af38-8c1aed29bb27",
+//   "reason":"Query Not Supported",
+//   "message":"Offset + limit may not exceed 500, but offset already was 500."
+// }
 ```
 
 Every error event has the following attributes:
 
-- **errorMessage:** a problem description that should point you towards the problem.
-- **date**: server-time from the instant at which the error occurred.
-- **target:** the query for which the error occurred.
+- **id**: the subscription ID
+- **reason**: the name of the problem
+- **message:** a more elaborate problem description that should point you towards the problem.
 
 ### Options
 
@@ -1446,8 +1446,7 @@ new DB.Todo({name: 'My Todo XYZ'}).insert(); // insert data
 //  "matchType":"add",
 //  "operation":"insert",
 //  "data":{"name":"do groceries",...},
-//  "date":"2016-11-09T12:42:31.322Z",
-//  "target":{...},
+//  "date":"2016-11-09T12:42:31.322Z"
 //  "initial":true,
 //  "index":1
 //}
@@ -1457,10 +1456,11 @@ Once subscribed to a stream, you will get an event for every database entity in 
 
 Every event can carry the following information:
 
-- **target:** the query on which `.eventStream([options])` was invoked.
+- **id**: the subscription ID
+- **date**: server-time from the instant at which the event was generated.
+- **initial:** a boolean value indicating whether this event reflects the matching status at query time (`true`) or a recent change data change (`false`).
+- **index** (for sorting queries only): the position of the matching entity in the ordered result (`undefined` for non-matching entities).
 - **data:** the database entity this event was generated for, e.g. an entity that just entered or left the result set. (For self-maintaining queries, this attribute carries the updated result.)
-- **operation:** the operation by which the entity was altered (`'insert'`, `'update'` or `'delete'`; `'none'` if unknown or not applicable).  
-For an example where neither `'insert'`, `'update'` nor `'delete'` can reasonably be applied to an event, consider how the last one in a top-10 query result is pushed out when a new contender enters the top-10: While one event represents the insertion of the new contender itself, another event represents the entity leaving the result which was neither inserted, updated nor deleted. Consequently, Baqend would deliver this event with a `'none'` operation.
 - **matchType:** indicates how the transmitted entity relates to the query result.
 Every event is delivered with one of the following match types:
     + `'add'`: the entity entered the result set, i.e. it did not match before and is matching now.
@@ -1468,9 +1468,8 @@ Every event is delivered with one of the following match types:
     + `'changeIndex'` (for sorting queries only): the entity was updated and remains a match, but changed its position within the query result.
     + `'remove'`: the entity was a match before, but is not matching any longer.
     + `'match'`: the entity matches the query (subsumes `'add'`, `'change'` and `'changeIndex'`). You will only receive this match type, if you explicitly request it.
-- **initial:** a boolean value indicating whether this event reflects the matching status at query time (`true`) or a recent change data change (`false`).
-- **index** (for sorting queries only): the position of the matching entity in the ordered result (`undefined` for non-matching entities).
-- **date**: server-time from the instant at which the event was generated.
+- **operation:** the operation by which the entity was altered (`'insert'`, `'update'` or `'delete'`; `'none'` if unknown or not applicable).  
+For an example where neither `'insert'`, `'update'` nor `'delete'` can reasonably be applied to an event, consider how the last one in a top-10 query result is pushed out when a new contender enters the top-10: While one event represents the insertion of the new contender itself, another event represents the entity leaving the result which was neither inserted, updated nor deleted. Consequently, Baqend would deliver this event with a `'none'` operation.
 
 
 
@@ -1559,7 +1558,7 @@ var stream = queryBuilder
 All features described so far are also available for *event stream sorting queries*, i.e. queries that contain `limit`, `offset`, `ascending`, `descending` or `sort`.
 Events stream sorting queries are great to maintain ordered results such as high-score rankings or prioritized todo lists.
 
-The following maintains your top-20 todo lists, sorted by urgency, name and status:
+The following generates events for your top-20 todo lists, sorted by urgency, name and status:
 
 ```js
 var stream = DB.Todo.find()
