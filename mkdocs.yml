@@ -19,7 +19,7 @@ pages:
         - 'User Management': 'topics/user-management.md'
         - 'Baqend Code': 'topics/baqend-code.md'
         - 'Push Notifications': 'topics/push.md'
-        - 'Persistence': 'topics/persistence.md'
+        - 'Deep Loading': 'topics/deep-loading.md'
         - 'Hosting': 'topics/hosting.md'
         - 'Files': 'topics/files.md'
         - 'Caching': 'topics/caching.md'

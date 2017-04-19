@@ -1,4 +1,4 @@
-# Persistence
+# Persistence and Deep Loading
 
 The Baqend SDK internally tracks the state of all living entity instances and their attributes. If an attribute of an 
 entity is changed, the entity will be marked as dirty. Only dirty entities will be send back to the Baqend while calling

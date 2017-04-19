@@ -95,57 +95,52 @@ img {
 .chapter-container {
   display: flex;
   flex-flow: row wrap;
-  justify-content: center;
+  justify-content: space-between;
+  margin-bottom: 50px;
 }
 
 .chapter-item {
-  background: darkorange;
   display: flex;
   flex-flow: column nowrap;
-  justify-content: space-around;
-  width: 220px;
-  height: 220px;
+  justify-content: space-between;
+  width: 250px;
+  height: 250px;
   margin: 20px;
-  padding: 25px 27px;
-  border-radius: 50%;
-  color: white;
+  padding: 20px;
+  color: inherit;
   font-weight: bold;
   text-align: center;
 }
 
 .chapter-item:hover {
-  background: #2780e3;
+  background: #fafafa;
   text-decoration: none;
-  color: white;
+  color: inherit;
 }
 
 .chapter-icon {
+  color: darkorange;
   justify-self: flex-start;
   font-size: 75px;
   text-shadow:
-          -1px -1px #a85400, -1px 1px #a85400, 1px -1px #a85400, 1px 1px #a85400,
-          2px -2px #a85400,
-          3px -3px #a85400;
+          -1px -1px #a85400, -1px 1px #a85400, 1px -1px #a85400, 1px 1px #a85400;
 }
 
 .chapter-item:hover .chapter-icon {
+  transform: translate(0, 3px);
   text-shadow:
-          -1px -1px #1a417d, -1px 1px #1a417d, 1px -1px #1a417d, 1px 1px #1a417d,
-          2px -2px #1a417d,
-          3px -3px #1a417d;
+          -1px -1px #a85400, -1px 1px #a85400, 1px -1px #a85400, 1px 1px #a85400,
+          0 -2px #a85400,
+          0 -3px #a85400;
 }
 
 .chapter-heading {
-  font-size: 120%;
+  font-size: 130%;
 }
 
 .chapter-info {
-  font-size: 75%;
   color: #a85400;
-}
-
-.chapter-item:hover .chapter-info {
-  color: #1a417d;
+  white-space: nowrap;
 }
 
 #footer {

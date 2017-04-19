@@ -1,6 +1,6 @@
 # Baqend Guide
 
-On this page, you find all the information how to use Baqend to develop your app.
+Learn how to use Baqend to develop your app.
 Just click a topic below to get more details.
 
 <div class="note">
@@ -11,81 +11,81 @@ Just click a topic below to get more details.
   <a class="chapter-item" href="topics/overview">
     <span class="chapter-icon fa fa-info"></span>
     <span class="chapter-heading">Overview</span>
-    <span class="chapter-info">What is part of Baqend's architecture</span>
+    <span class="chapter-info">An overview over <br> Baqend's architecture <br> and ecosystem.</span>
   </a>
   <a class="chapter-item" href="topics/dashboard">
     <span class="chapter-icon fa fa-dashboard"></span>
     <span class="chapter-heading">Dashboard</span>
-    <span class="chapter-info">Manage your Baqend app online</span>
+    <span class="chapter-info">Manage your Baqend <br> app's data, schema, <br> and settings online.</span>
   </a>
   <a class="chapter-item" href="topics/cli">
     <span class="chapter-icon fa fa-terminal"></span>
     <span class="chapter-heading">CLI</span>
-    <span class="chapter-info">Work with Baqend from your terminal</span>
+    <span class="chapter-info">Work with your <br> Baqend app from <br> your terminal.</span>
   </a>
   <a class="chapter-item" href="topics/setup">
     <span class="chapter-icon fa fa-gift"></span>
     <span class="chapter-heading">Setup</span>
-    <span class="chapter-info">How you get up and running</span>
+    <span class="chapter-info">How you set up <br> and get running <br> your first app.</span>
   </a>
   <a class="chapter-item" href="topics/crud">
-    <span class="chapter-icon fa fa-save"></span>
+    <span class="chapter-icon fa fa-exchange"></span>
     <span class="chapter-heading">CRUD</span>
-    <span class="chapter-info">How to perform basic operations</span>
+    <span class="chapter-info">Learn to perform basic <br> create, read, update, <br> and delete operations.</span>
   </a>
   <a class="chapter-item" href="topics/schema">
     <span class="chapter-icon fa fa-sitemap"></span>
-    <span class="chapter-heading">Schema <br/> and Types</span>
-    <span class="chapter-info">How to setup your data model</span>
+    <span class="chapter-heading">Schema and Types</span>
+    <span class="chapter-info">See how to setup <br> your app's data model <br> and types.</span>
   </a>
   <a class="chapter-item" href="topics/queries">
     <span class="chapter-icon fa fa-commenting"></span>
     <span class="chapter-heading">Queries</span>
-    <span class="chapter-info">Execute complex data queries</span>
+    <span class="chapter-info">Retrieve specific data <br> from Baqend by <br> performing queries.</span>
   </a>
   <a class="chapter-item" href="topics/realtime">
     <span class="chapter-icon fa fa-heartbeat"></span>
     <span class="chapter-heading">Real-Time Queries</span>
-    <span class="chapter-info">Perform queries in real time</span>
+    <span class="chapter-info">Track results of <br> complex queries <br> in real time.</span>
   </a>
   <a class="chapter-item" href="topics/user-management">
     <span class="chapter-icon fa fa-users"></span>
-    <span class="chapter-heading">User <br/> Management</span>
-    <span class="chapter-info">Setting users, roles, and permissions</span>
+    <span class="chapter-heading">User Management</span>
+    <span class="chapter-info">Change access rights <br> by managing users, <br> roles, and permissions.</span>
   </a>
   <a class="chapter-item" href="topics/baqend-code">
     <span class="chapter-icon fa fa-file-code-o"></span>
     <span class="chapter-heading">Baqend Code</span>
-    <span class="chapter-info">Server-side modules and handlers</span>
+    <span class="chapter-info">Write server-side <br> code and handlers <br> in pure JavaScript.</span>
   </a>
   <a class="chapter-item" href="topics/push">
     <span class="chapter-icon fa fa-bell"></span>
-    <span class="chapter-heading">Push <br/> Notifications</span>
-    <span class="chapter-info">Sending push to your app users</span>
+    <span class="chapter-heading">Push Notifications</span>
+    <span class="chapter-info">Send push notifications <br> to inform users <br> of your app.</span>
   </a>
-  <a class="chapter-item" href="topics/persistence">
-    <span class="chapter-icon fa fa-download"></span>
-    <span class="chapter-heading">Persistence</span>
-    <span class="chapter-info">How to persist your data</span>
+  <a class="chapter-item" href="topics/deep-loading">
+    <span class="chapter-icon fa fa-line-chart"></span>
+    <span class="chapter-heading">Deep Loading</span>
+    <span class="chapter-info">Learn how Baqend <br> persists your data <br> and use deep loading.</span>
   </a>
   <a class="chapter-item" href="topics/hosting">
     <span class="chapter-icon fa fa-globe"></span>
     <span class="chapter-heading">Hosting</span>
-    <span class="chapter-info">Using Baqend to host your app</span>
+    <span class="chapter-info">Deliver your app <br> blazingly fast to users <br> using Baqend Hosting.</span>
   </a>
   <a class="chapter-item" href="topics/files">
     <span class="chapter-icon fa fa-file"></span>
     <span class="chapter-heading">Files</span>
-    <span class="chapter-info">Uploading and downloading files</span>
+    <span class="chapter-info">Use the file storage to <br> upload and download <br> files, like images or CSS.</span>
   </a>
   <a class="chapter-item" href="topics/caching">
     <span class="chapter-icon fa fa-hdd-o"></span>
     <span class="chapter-heading">Caching</span>
-    <span class="chapter-info">How does the Baqend caching work</span>
+    <span class="chapter-info">Learn how Baqend <br> caches your data and <br> what it asserts.</span>
   </a>
   <a class="chapter-item" href="topics/logging">
     <span class="chapter-icon fa fa-bar-chart"></span>
     <span class="chapter-heading">Logging</span>
-    <span class="chapter-info">Log your app</span>
+    <span class="chapter-info">Ease the debbuging <br> of your app by <br> logging its status.</span>
   </a>
 </div>
