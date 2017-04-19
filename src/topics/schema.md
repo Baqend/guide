@@ -16,7 +16,7 @@ The types that Baqend supports can be classified in five categories.
 
 Here is an example for creating the data model of Todo objects in the dashboard:
 
-<img src="/img/tutorial-schema-cropped.gif" style="width:100%">
+<img src="../../img/tutorial-schema-cropped.gif" style="width:100%">
 
 Under the hood, Baqend stores data in MongoDB. However, in contrast to data modelling in MongoDB, Baqend supports a rich schema that is checked and validated whenever data ist stored. By using the JSON data types Baqend objects can have arbitrary schemaless parts.
 
@@ -34,7 +34,7 @@ With embedding, related content is stored together. This is also called *denorma
 
 The advantage of embedding is that data can be read in one chunk making retrieval more efficient. The downside is that whenever embedded objects are contained in multiple parent objects, more than one update has to be made in order to keep all instances of the embedded object consistent with each other.
 
-<img src="/img/data-modelling.png" style="width:100%">
+<img src="../../img/data-modelling.png" style="width:100%">
 
 With referencing, dependent data is not embedded, but instead references are followed to find related objects. In the world of relational database systems this is called *normalization* and the references foreign keys. Referencing is a good choice if:
 

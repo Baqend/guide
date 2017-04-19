@@ -12,7 +12,7 @@ by typing `baqend --help` in any folder.
  <div class="note"><strong>Note:</strong> Ensure that your `PATH` system enviroment variable contains the global
  [npm bin path](https://docs.npmjs.com/cli/bin) (`$ npm bin -g`) to let npm installed commands work properly.</div>
 
-<img src="/img/cli.png" alt="Baqend CLI" style="width: 100%">
+<img src="../../img/cli.png" alt="Baqend CLI" style="width: 100%">
 
  <div class="tip"><strong>Tip:</strong> A good way to manage a Baqend-based project is to manage the files and collaboration via [git](https://git-scm.com/) and using the CLI to deploy files and code to Baqend.</div>
 
@@ -66,7 +66,7 @@ The CLI can additionally deploy your Baqend code. Baqend code should be located 
 The following screenshot visiualizes a typical project layout including Baqend code.
 
  <div class="clearfix">
-    <img src="/img/cli-project.png" alt="CLI Project Layout" style="float: left; margin: 0 20px 20px 0">
+    <img src="../../img/cli-project.png" alt="CLI Project Layout" style="float: left; margin: 0 20px 20px 0">
 All Baqend modules should sit top level within the `baqend` folder.
 For example, `baqend/firstModule.js` will be uploaded as `firstModule`.
 

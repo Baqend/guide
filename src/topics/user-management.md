@@ -149,7 +149,7 @@ There are two types of permissions: *class-based* and *object-based*. The class-
  by privileged users on the Baqend dashboard or by manipulating the class metadata. The object-based permissions can 
  be set by users which have write-access to an object. As shown in the image below the class-level permissions are checked first. If the requesting user has the right permission on class level, the object-level permissions are checked. Only if the requesting user also has the right permissions on object level, he is granted acces to the entity.
 
- <img src="img/acls.png" style="width:100%;">
+ <img src="../../img/acls.png" style="width:100%;">
 
 Each permission consists of one allow and one deny list. In the allow list user and roles can be white listed and in 
 the deny list they can be black listed. 
