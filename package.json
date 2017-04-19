@@ -3,13 +3,15 @@
   "version": "1.0.0",
   "description": "Baqend Guide ============",
   "scripts": {
+    "build": "mkdocs build",
+    "start": "mkdocs serve",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git@vm.orestes.info:orestes/orestes-docs.git"
   },
-  "author": "",
+  "author": "Baqend GmbH",
   "license": "ISC",
   "devDependencies": {
     "aws-sdk": "^2.1.24",
