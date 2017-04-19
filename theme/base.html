@@ -31,10 +31,28 @@
 
         {% include "nav.html" %}
 
+        {% if page.is_homepage %}
+        <div class="container" role="main">
+            {% include "content.html" %}
+        </div>
+        {% else %}
         <div class="container">
             <div class="col-md-3">{% include "toc.html" %}</div>
-            <div class="col-md-9" role="main">{% include "content.html" %}</div>
+            <div class="col-md-9" role="main">
+                {% include "content.html" %}
+
+                {% if page.next_page %}
+                <p>
+                    <a href="{{ page.next_page.url }}" class="next-chapter">
+                        <span>Proceed to next Chapter:</span>
+                        <strong>{{ page.next_page.title }}</strong>
+                        <span class="fa fa-arrow-right"></span>
+                    </a>
+                </p>
+                {% endif %}
+            </div>
         </div>
+        {% endif %}
 
         <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
             <div class="modal-dialog">

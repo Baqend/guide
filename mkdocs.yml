@@ -1,12 +1,32 @@
-site_name: Baqend Guide
-site_favicon: 'img/favicon.ico'
+site_name: 'Baqend Guide'
+site_favicon: '/img/favicon.ico'
 site_url: 'https://www.baqend.com'
-repo_url: https://github.com/Baqend/guide
+repo_url: 'https://github.com/Baqend/guide'
 pages:
-- Quickstart: 'gettingstarted.md'
-- Guide: 'index.md'
-- Starter Kits: 'starters.md'
-- Roadmap: 'roadmap.md'
+    - Quickstart: 'gettingstarted.md'
+    - Guide:
+        - 'Home': 'index.md'
+
+        - 'Overview': 'guide/overview.md'
+        - 'Dashboard': 'guide/dashboard.md'
+        - 'CLI': 'guide/cli.md'
+
+        - 'Setup': 'guide/setup.md'
+        - 'CRUD': 'guide/crud.md'
+        - 'Schema and Types': 'guide/schema.md'
+        - 'Queries': 'guide/queries.md'
+        - 'Real-Time Queries': 'guide/realtime.md'
+        - 'User Management': 'guide/user-management.md'
+        - 'Baqend Code': 'guide/baqend-code.md'
+        - 'Push Notifications': 'guide/push.md'
+        - 'Persistence': 'guide/persistence.md'
+        - 'Hosting': 'guide/hosting.md'
+        - 'Files': 'guide/files.md'
+        - 'Caching': 'guide/caching.md'
+        - 'Logging': 'guide/logging.md'
+
+    - Starter Kits: 'starters.md'
+    - Roadmap: 'roadmap.md'
 docs_dir: src
 site_dir: docs
 theme_dir: theme

@@ -1,94 +1,149 @@
 .user1 {
-    font-weight: bold;
-    color: blue;
+  font-weight: bold;
+  color: blue;
 }
 
 .user2 {
-    font-weight: bold;
-    color: darkorange;
+  font-weight: bold;
+  color: darkorange;
 }
 
 .note, .tip, .warning {
-    padding: 20px;
-    margin: 15px 0;
-    border-radius: 4px;
-    line-height: 19pt;
+  padding: 20px;
+  margin: 15px 0;
+  border-radius: 4px;
+  line-height: 19pt;
 }
 
 .note {
-    color: #31708f;
-    background-color: #d9edf7;
-    border: 1px solid #bce8f1;
+  color: #31708f;
+  background-color: #d9edf7;
+  border: 1px solid #bce8f1;
 }
 
 .tip {
-    color: #3c763d;
-    background-color: #dff0d8;
-    border: 1px solid #d6e9c6;
+  color: #3c763d;
+  background-color: #dff0d8;
+  border: 1px solid #d6e9c6;
 }
 
 .warning {
-    color: #806600;
-    background-color: #ffeb99;
-    border: 1px solid #ffcc00;
+  color: #806600;
+  background-color: #ffeb99;
+  border: 1px solid #ffcc00;
 }
 
 .note strong, .tip strong, .warning strong {
-    text-transform: uppercase;
-    font-size: 19px;
+  text-transform: uppercase;
+  font-size: 19px;
 }
 
 .note code {
-    background: none;
-    font-size: 100%;
+  background: none;
+  font-size: 100%;
 }
 
 .note strong:before {
-    content: "\f05a";
-    font-family: FontAwesome;
-    padding-right: 5px;
-    font-size: 19px;
+  content: "\f05a";
+  font-family: FontAwesome;
+  padding-right: 5px;
+  font-size: 19px;
 }
 
 .tip strong:before {
-    content: "\f06a";
-    font-family: FontAwesome;
-    padding-right: 5px;
-    font-size: 19px;
+  content: "\f06a";
+  font-family: FontAwesome;
+  padding-right: 5px;
+  font-size: 19px;
 }
 
 .warning strong:before {
-    content: "\f071";
-    font-family: FontAwesome;
-    padding-right: 5px;
-    font-size: 19px;
+  content: "\f071";
+  font-family: FontAwesome;
+  padding-right: 5px;
+  font-size: 19px;
 }
 
 .container {
-    padding-left: 5px;
-    padding-right: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 @media (min-width: 1200px) {
-    .container {
-        width: 100%;
-        max-width: 1300px;
-    }
+  .container {
+    width: 100%;
+    max-width: 1300px;
+  }
 }
-
 
 @media (max-width: 667px) {
-    code {
-        overflow-wrap: break-word;
-    }
-    .table-wrapper {
-        overflow-x: scroll;
-        max-width: 100%;
-        width: 100%;
-    }
+  code {
+    overflow-wrap: break-word;
+  }
+
+  .table-wrapper {
+    overflow-x: scroll;
+    max-width: 100%;
+    width: 100%;
+  }
 }
 
-
 img {
-    margin: 10px 0;
+  margin: 10px 0;
+}
+
+.chapter-container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+}
+
+.chapter-item {
+  background: darkorange;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-around;
+  width: 220px;
+  height: 220px;
+  margin: 20px;
+  padding: 25px 27px;
+  border-radius: 50%;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+}
+
+.chapter-item:hover {
+  background: #2780e3;
+  text-decoration: none;
+  color: white;
+}
+
+.chapter-icon {
+  justify-self: flex-start;
+  font-size: 75px;
+  text-shadow:
+          -1px -1px #a85400, -1px 1px #a85400, 1px -1px #a85400, 1px 1px #a85400,
+          2px -2px #a85400,
+          3px -3px #a85400;
+}
+
+.chapter-item:hover .chapter-icon {
+  text-shadow:
+          -1px -1px #1a417d, -1px 1px #1a417d, 1px -1px #1a417d, 1px 1px #1a417d,
+          2px -2px #1a417d,
+          3px -3px #1a417d;
+}
+
+.chapter-heading {
+  font-size: 120%;
+}
+
+.chapter-info {
+  font-size: 75%;
+  color: #a85400;
+}
+
+.chapter-item:hover .chapter-info {
+  color: #1a417d;
 }
