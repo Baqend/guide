@@ -1,6 +1,6 @@
 site_name: 'Baqend Guide'
 site_favicon: 'img/favicon.ico'
-site_url: 'https://www.baqend.com'
+site_url: 'https://www.baqend.com/guide'
 repo_url: 'https://github.com/Baqend/guide'
 pages:
     - Quickstart: 'gettingstarted.md'
