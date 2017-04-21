@@ -31,7 +31,11 @@ All assets stored in the **www** root folder can be accessed under your app doma
 </table></div>
 
 
-<div class="tip"><strong>Tip:</strong> Baqend hosting works great with <b>static site generators</b> like <a href="https://jekyllrb.com/">Jekyll</a>, <a href="http://octopress.org/">Hugo</a>, <a href="http://octopress.org/">Octopress</a> or <a href="https://hexo.io/">Hexo</a>. You can start completely static or even import data from CMS like Wordpres. Later you can gradually add dynamic parts using the Baqend SDK. From the first static blog post to a highly dynamic site, everything will be cached and accelerated by Baqend.</div>
+<div class="tip">
+  <strong>Tip:</strong>
+  Baqend hosting works great with <b>static site generators</b> like <a target="_blank" rel="nofollow" href="https://jekyllrb.com/">Jekyll</a>, <a target="_blank" rel="nofollow" href="https://gohugo.io/">Hugo</a>, <a target="_blank" rel="nofollow" href="http://octopress.org/">Octopress</a>, or <a target="_blank" rel="nofollow" href="https://hexo.io/">Hexo</a>. You can start completely static or even import data from CMS like Wordpres.
+  Later you can gradually add dynamic parts using the Baqend SDK. From the first static blog post to a highly dynamic site, everything will be cached and accelerated by Baqend.
+</div>
 
 
 ### Deployment
