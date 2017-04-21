@@ -5,7 +5,7 @@ With Baqend, you use a fully managed backend service with an automatically accel
 
 In terms of **architecture** Baqend gives you the hosting of your application (e.g. HTML and JS files) plus the APIs for backend concerns such as data storage, queries, push, OAuth, user management, access control and server-side business logic:
 
-<img src="../../img/architektur-guide.png" style="width:90%;">
+![Baqend's architecture](architecture.png)
 
 
 ## Getting Started

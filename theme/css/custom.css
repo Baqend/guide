@@ -1,3 +1,7 @@
+.container img {
+  max-width: 100%;
+}
+
 .user1 {
   font-weight: bold;
   color: blue;

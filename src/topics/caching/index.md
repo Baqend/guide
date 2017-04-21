@@ -10,7 +10,7 @@ The tricky thing when using such caches is that you must specify a cache lifetim
 
 But wait! What do you do with all the data which is loaded and changed by your application at runtime? Changing user profiles, updating a post or adding a new comment are seemingly impossible to combine with the browsers cache, since you cannot estimate when such updates will happen in the future. Therefore, caching is just disabled or very low TTLs are used.
 
-<img src="../../img/normal-caching.png" style="width: 100%;">
+![How does the browser cache work](normal-caching.png)
 
 #### Baqend’s Cache-Sketch
 
@@ -18,7 +18,7 @@ We have researched and developed a solution where we can check the staleness of 
 
 In addition, we ensure that the CDN always contains the most recent data, by instantly purging data when it becomes stale.
 
-<img src="../../img/cache-sketch.png" style="width: 100%;">
+![Sketch of the Bloomfilter Cache](cache-sketch.png)
 
 The [Bloom filter](http://de.slideshare.net/felixgessert/bloom-filters-for-web-caching-lightning-talk) is a probabilistic data structure with a tunable false positive rate, which means that the set may Indicate containment for objects which were never added. This is not a huge problem since it just means the we first revalidate the freshness of an object before we serve it from the browsers cache. Note that the false positive rate is very low and it is what enables us to make the footprint of the set very small. For an example we just need 11Kbyte to store 20,000 distinct updates.
 
