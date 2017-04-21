@@ -33,6 +33,27 @@ DB.User.register(user, 'MySecretPassword').then(function() {
 });
 ```
 
+### `LoginOption`
+If you don't want your user to be logged in or his login only to be valid for the current session after his registration, you can also pass a login option as third parameter:
+
+```js
+DB.User.register('john.doe@example.com', 'MySecretPassword', DB.User.LoginOption.NO_LOGIN).then(function() {
+  //Hey we are not logged in
+  console.log(DB.User.me); //null
+});
+```
+
+The following login options exist:
+
+- `LoginOption.NO_LOGIN` - Users are not logged in after registration.
+- `LoginOption.SESSION_LOGIN` - User is only logged in for the active session – after he closes the browser, he will be logged out.
+- `LoginOption.PERSIST_LOGIN` - User is fully logged in (default behavior). 
+
+<div class="tip">
+  <strong>Tip:</strong>
+  You can also use the <code>LoginOption</code> when logging a user in: <code>DB.User.login('username', 'password', DB.User.LoginOption.SESSION_LOGIN)</code>, for example.
+</div>
+
 ### Email Verification
 By default a newly registered user is automatically logged in and does not need to verify his email address.
 To enable email verification open the **settings** in the Baqend dashboard and go to the email section.
