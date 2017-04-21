@@ -63,6 +63,39 @@ Until the newly registered user has verified his email address by clicking on th
 This state is indicated by a read only `inactive` field of type `Boolean` in the user object. After verification this field is automatically set to `false`.
 Only the admin is able to set the `inactive` field manually, e.g. to activate or ban users.
 
+### Email Hooks
+Every time Baqend sends an email to a user, you can hook to that event by [providing a module](../baqend-code/#modules).
+There are two emails sent out:
+
+* the `user.register` hook is called before a registration email is sent,
+* the `user.resetPassword` hook is called before a reset-password email is sent.
+
+You can manipulate the contents of the email via the following fields:
+
+* `template` - the email template you can configure in the settings. 
+* `body` - the compiled template containing the variable values.
+* `link` - the link which can be configured in the settings.
+* `subject` - the email subject.
+* `to` - email of the receiver.
+* `fromName` - name of the sender of the email.
+
+Make sure to **return the email object** in the end; if not, no email will be sent!
+
+Here is an example:
+
+```js
+exports.call = function call(db, email, req) {
+  var recipient = db.User.me; //Get the recipient's unloaded user object
+  
+  email.to = 'Jane Doe <jane.doe@example.com>';
+  email.fromName = 'John Doe';
+  email.template = 'Hey Jane! Follow the link to reset your password: {{link}} – Yours, John';
+  email.subject = 'Forgotten Password';
+  
+  return email;
+}
+```
+
 ## Login and Logout
 
 When a user is already registered, he can login with the `DB.User.login()` method. 
@@ -138,7 +171,7 @@ DB.User.me.newPassword('oldPassword', 'newPassword').then(...);
 DB.User.newPassword('Username', null, 'newPassword').then(...);
 ```
 
-## Auto login
+## Automatic Login
 
 During initialization the Baqend SDK checks, if the user is already registered and has been logged in before in this session and has not logged out explicitly.
 As a consequence, returning users are automatically logged in and the `DB.User.me` object is set.
