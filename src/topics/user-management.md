@@ -75,6 +75,7 @@ DB.User.login('john.doe@example.com', 'MySecretPassword').then(function() {
 
 After the successful login a session will be established and all further requests to Baqend are authenticated 
 with the currently logged-in user.
+You can also pass [login options](#loginoption) as a third parameter if you want the user to be logged in during the current session.
 
 Sessions in Baqend are stateless, that means there is no state attached to a session on the server side.
 When a session is started a session token with a specified lifetime is created to identify the user.
@@ -92,20 +93,49 @@ DB.User.logout().then(function() {
 <div class="tip"><strong>Tip:</strong>  The <b>maximum session lifetime</b> is determined by the so called session <i>longlife</i> (default: 30 days). After this time the session expired and the user has to explicitly log in again.
 You can set the <i>longlife</i> in the settings of your Baqend dashboard.</div>
 
+## Forgot Password
+
+If your user forgot his password, you will want him to reset it.
+Therefore, you can let Baqend send him an email which includes a “reset password” link, by calling:
+ 
+```js
+// Send a “reset password” email
+DB.User.resetPassword('Username').then(() => {
+  //User received an email
+});
+```
+
+In your app settings, you can configure the email template and the reset-password URL the user is navigated to when he clicks the link in that email. 
+
+<img src="../reset-password.png" alt="Screenshot of reset E-Mail password" style="width:100%">
+
+On your reset-password site, you can then set the new password in Baqend by calling:
+ 
+```js
+const paramName = 'bq-token='; //Default token parameter 
+const search = location.search;
+const token = search.substring(search.indexOf(paramName) + paramName.length);
+DB.User.newPassword(token, 'NewPassword').then(() => {
+ //User is now logged in
+});
+```
+
+You can also pass [login options](#loginoption) as a third parameter if you don't want the user to be logged in after setting his password.
+
 ## New Passwords
 
 Password can be changed by giving the old password and specifying the new one. Admin users can change the passwords of all users without giving the previous one:
 ```js
 //Using the user name
-DB.User.newPassword("Username", "oldPassword", "newPassword").then(()=> {
+DB.User.newPassword('Username', 'oldPassword', 'newPassword').then(() => {
     //New Password is set
 });
 
 //Using a user object
-DB.User.me.newPassword("oldPassword", "newPassword").then(...);
+DB.User.me.newPassword('oldPassword', 'newPassword').then(...);
 
 //When logged in as an admin
-DB.User.newPassword("Username", null, "newPassword").then(...);
+DB.User.newPassword('Username', null, 'newPassword').then(...);
 ```
 
 ## Auto login
@@ -322,7 +352,7 @@ To set them up, follow these steps:
 In order to use an OAuth provider to register or login users, you call one of the following SDK methods, depending on the provider:
 
 ```js
-DB.User.loginWithGoogle(clientID, options).then(function(user) {
+DB.User.loginWithGoogle(clientID, options).then((user) => {
 	//logged in successfully
 	db.User.me == user;
 });
