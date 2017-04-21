@@ -71,8 +71,10 @@ return todo.update().then(function() {
 });
 ```
 
-<div class="note"><strong>Note:</strong>  When you try to update an already deleted object, it will also be treated as a concurrent modification and the
-update will be rejected.</div>
+<div class="note">
+  <strong>Note:</strong>
+  When you try to update an already deleted object, it will also be treated as a concurrent modification and the update will be rejected.
+</div>
 
 There are also some situations where we would like to omit this behaviour and force a write of our changes. To do so the force option can be passed to the `update` method. Be aware that this *last-writer-wins*-scheme may result in lost updates.
 ```js
@@ -154,7 +156,7 @@ performing an update. In that case you can use the `load({refresh: true})` metho
 version from Baqend. 
 ```js
 //updates the local object with the most up-to-date version
-todo.load({refresh: true}).then(function() { 
+todo.load({ refresh: true }).then(() => { 
   todo.name = 'My first Todo of this day';   
   todo.save(); //updates the object
 });
@@ -163,9 +165,19 @@ todo.load({refresh: true}).then(function() {
 While performing an insert or update, you can also refresh the object after performing the operation. To do so you 
 can pass the `refresh` flag to the `insert()`, `update()` or `save()` method.
 ```js
-todo.save({refresh: true}).then(...); //refreshing the object after saving it
+todo.save({ refresh: true }).then(...); //refreshing the object after saving it
 ```    
 
 This option is very useful if you have a [Baqend Code](#baqend-code) update handler which performs additional 
 server-side modifications on the entity being saved. By passing the `refresh` flag you enforce that the modification will
  be loaded from the Baqend after the entity has been saved. 
+
+## Read-only Fields
+
+Some fields can't be manipulated by normal users, their update will be rejected.
+Those properties are:
+
+- **“createdAt”**  contains the `Date` when the object was created.  
+- **“updatedAt”**  contains the `Date` of the last object update.
+- **“username”**  is the username of a user object.
+- **“inactive”**  holds a boolean flag whether a user object is inactive.
