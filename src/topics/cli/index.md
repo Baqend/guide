@@ -12,7 +12,7 @@ by typing `baqend --help` in any folder.
  <div class="note"><strong>Note:</strong> Ensure that your `PATH` system enviroment variable contains the global
  [npm bin path](https://docs.npmjs.com/cli/bin) (`$ npm bin -g`) to let npm installed commands work properly.</div>
 
-<img src="cli.png" alt="Baqend CLI" style="width: 100%">
+![Baqend CLI](cli.png)
 
  <div class="tip"><strong>Tip:</strong> A good way to manage a Baqend-based project is to manage the files and collaboration via [git](https://git-scm.com/) and using the CLI to deploy files and code to Baqend.</div>
 
@@ -27,6 +27,7 @@ Therefore add a Baqend script entry to the scripts section in your projects **pa
 
 Afterwards you can type `npm run baqend -- --help`
 <div class="note"><strong>Note:</strong> The extra `--` are required to seperate the npm run arguments from the Baqend ones.</div>
+
 
 ## Register, Login, and Logout
 
@@ -47,6 +48,7 @@ credentials each time you deploy.
 
 You can logout the Baqend CLI and remove all locally stored credentials by typing `baqend logout`
 
+
 ## Deployment
  
 With the `deploy` command, you can upload your static files and assets as well as Baqend Code (modules and handlers) to your Baqend app:
@@ -55,15 +57,23 @@ With the `deploy` command, you can upload your static files and assets as well a
 $ baqend deploy
 ```
 
-We expect a folder named `www` by default that is uploaded to the Baqend `www` folder and served as a website.
+### Deploying Static Files
+You can host the static files and assets of your web app on Baqend.
+Therefore, move your working directory to your app root folder.
+We expect you to have a folder named `www` by default that is uploaded to the `www` folder in [Baqend Files](../files) and served as a website.
 
-Read more about Baqend Hosting in the [Hosting](#hosting) chapter.
+<div class="tip">
+  <strong>Tip:</strong>
+  If you want do upload a different directory, you can use the <code>--file-dir</code> or <code>-f</code> option to specify a directory:
+  <code>baqend deploy --file-dir dist</code>.
+</div>
 
- <div class="tip"><strong>Tip:</strong> You can provide a different web folder to upload with
-`baqend deploy --file-dir dist`.</div>
+The files are then hosted from Baqend.
+Read more about **Baqend Hosting** in the [Hosting](#hosting) chapter.
 
-The CLI can additionally deploy your Baqend code. Baqend code should be located in an folder named `baqend`.
-The following screenshot visiualizes a typical project layout including Baqend code.
+### Deploying Baqend Code
+The CLI can additionally deploy your Baqend Code. Baqend code should be located in an folder named `baqend`.
+The following screenshot visualizes a typical project layout including Baqend code.
 
  <div class="clearfix">
     <img src="cli-project.png" alt="CLI Project Layout" style="float: left; margin: 0 20px 20px 0">
