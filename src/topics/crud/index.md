@@ -181,3 +181,18 @@ Those properties are:
 - **“updatedAt”**  contains the `Date` of the last object update.
 - **“username”**  is the username of a user object.
 - **“inactive”**  holds a boolean flag whether a user object is inactive.
+
+## The `DB.getReference` Method
+
+Sometimes you don't need the fully loaded object, e.g. if you want to check if two users are part of the same role. 
+In that case, you don't need the loaded role to check the reference in both user objects.
+Therefore, the `DB.getReference(id)` method returns an unloaded object of the specific kind:
+
+```js
+//create a reference to the user with ID “1”
+const userRef = DB.getReference('/db/User/1');
+
+//load the actual user object with all data
+let user;
+userRef.load(result => user = result); 
+```
