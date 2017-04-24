@@ -159,7 +159,7 @@ exports.onDelete = function(db, obj) {
 All four handlers are `before`-operation handlers. Be aware that they are called after the class level permissions are 
 checked, but before object level permissions were validated. Thus, making changes to other objects inside handlers 
 should be treated with care: these operations could succeed while the original operation might fail due to missing 
-object access rights. An elegant way to simplify such cases is the use of `after`-handlers, one of our [Upcoming Features](#upcoming-features).
+object access rights. An elegant way to simplify such cases is the use of `after`-handlers, one of our [Upcoming Features](../../roadmap).
 
 
 ## Modules
@@ -278,7 +278,7 @@ exports.get = function(db, req, res) {
 ```
 
 It is important that you send the content back with one of the express `res.send()` helpers. Otherwise the response will 
-not be send back to the client. In addition ensure that you return a [promise](#promise) when you make asynchronous calls within 
+not be send back to the client. In addition ensure that you return a [promise](../setup#promises) when you make asynchronous calls within 
 your Baqend module, otherwise the request will be aborted with an error!
 
 ## Handling binary data
@@ -287,7 +287,7 @@ As a part of the advanced request handling, it is also possible to upload and do
 
 To send binary data to your Baqend module, you can specify the 'requestType' option.
 With the 'responseType' option you can receive binary data in the specified type from your Baqend module.
-This works similar to the file API and you can use all the listed [file types](#files) as 'requestType' and 'responseType' too.
+This works similar to the file API and you can use all the listed [file types](../files) as 'requestType' and 'responseType' too.
 
 ```js
 var svgBase64 = 'PHN2ZyB4bWxucz0...';

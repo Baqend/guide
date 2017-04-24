@@ -28,7 +28,7 @@ DB.Todo.find().singleResult(function(todo) {
 });
 ```
 
-Both `resultList` and `singleResult` [support deep loading](#deep-loading-with-queries) to also load references.
+Both `resultList` and `singleResult` [support deep loading](../deep-loading#deep-loading-with-queries) to also load references.
 
 If you just need the number of matching objects, use the `count` method.
 ```js
@@ -245,7 +245,7 @@ The following table list all available query filters and the types on which they
     <td><a href="#primitives">GeoPoint</a></td>
     <td>
       The geo point of the object has to be contained within the given polygon.
-      You need a Geospatial Index on this field, to use this kind of query. Read the [query indexes](#query-indexes) section 
+      You need a Geospatial Index on this field, to use this kind of query. Read the [query indexes](../queries#query-indexes) section 
       for more details.
     </td>
   </tr>

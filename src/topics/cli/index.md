@@ -69,7 +69,7 @@ We expect you to have a folder named `www` by default that is uploaded to the `w
 </div>
 
 The files are then hosted from Baqend.
-Read more about **Baqend Hosting** in the [Hosting](#hosting) chapter.
+Read more about **Baqend Hosting** in the [Hosting](../hosting) chapter.
 
 ### Deploying Baqend Code
 The CLI can additionally deploy your Baqend Code. Baqend code should be located in an folder named `baqend`.
@@ -83,15 +83,15 @@ For example, `baqend/firstModule.js` will be uploaded as `firstModule`.
 For each code handler you should create a folder named similar to the table 
 it belongs to. Within the folder the files should be named:
   
-`baqend/<Table>/insert.js` for an [onInsert](#oninsert) handler <br>
-`baqend/<Table>/update.js` for an [onUpdate](#uonpdate) handler <br>
-`baqend/<Table>/delete.js` for an [onDelete](#ondelete) handler <br>
-`baqend/<Table>/validate.js` for an [onValidate](#onvalidate) handler
+`baqend/<Table>/insert.js` for an [onInsert](../baqend-code#oninsert-and-onupdate) handler <br>
+`baqend/<Table>/update.js` for an [onUpdate](../baqend-code#oninsert-and-onupdate) handler <br>
+`baqend/<Table>/delete.js` for an [onDelete](../baqend-code#ondelete) handler <br>
+`baqend/<Table>/validate.js` for an [onValidate](../baqend-code#onvalidate) handler
        
 Therefore `baqend/User/insert.js` contains the insert handler code wich is invoked each time a new user object is inserted
 to the `User` table. 
 
-Read more about Baqend code in the [Baqend Code](#baqend-code_1) chapter.
+Read more about Baqend code in the [Baqend Code](../baqend-code) chapter.
        
 </div>
 

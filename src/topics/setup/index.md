@@ -100,13 +100,13 @@ DB.connect('example', function() {
 });
 ```
 
-Behind the scenes Baqend is requested, the metadata of your app is loaded and the [Data Models](#schema-and-types) are created and initialized.
+Behind the scenes Baqend is requested, the metadata of your app is loaded and the [Data Models](../schema) are created and initialized.
 If you want to register the handler afterwards, you can use the ready method to wait on the SDK initialization.
 ```js
 DB.ready(function() { DB... //work with the DB });
 ```
 
-If you are familiar with [Promises](#promise) you can alternatively use the returned promise instead of passing 
+If you are familiar with [Promises](../setup#promises) you can alternatively use the returned promise instead of passing 
 a callback. This works for all places in the Baqend SDK that exhibit asynchronous behaviour.
 ```js
 DB.ready().then(function() {

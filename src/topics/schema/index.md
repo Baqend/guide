@@ -125,7 +125,7 @@ DB.Todo.load('7b2c...', {depth: true}).then(function(firstTodo) {
 });
 ```
 
-For further information on persisting and loading strategies see the [Persistence](#persistence) chapter.
+For further information on persisting and loading strategies see the [Deep Loading](../deep-loading) chapter.
 
 ## Embedded Objects
 The second type of objects are *embedded objects*. They can be used within an entity or a

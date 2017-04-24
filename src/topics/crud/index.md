@@ -168,7 +168,7 @@ can pass the `refresh` flag to the `insert()`, `update()` or `save()` method.
 todo.save({ refresh: true }).then(...); //refreshing the object after saving it
 ```    
 
-This option is very useful if you have a [Baqend Code](#baqend-code) update handler which performs additional 
+This option is very useful if you have a [Baqend Code](../baqend-code) update handler which performs additional 
 server-side modifications on the entity being saved. By passing the `refresh` flag you enforce that the modification will
  be loaded from the Baqend after the entity has been saved. 
 
