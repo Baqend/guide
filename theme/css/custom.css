@@ -99,7 +99,7 @@ img {
 .chapter-container {
   display: flex;
   flex-flow: row wrap;
-  justify-content: space-between;
+  justify-content: center;
   margin-bottom: 50px;
 }
 

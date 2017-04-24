@@ -3,10 +3,6 @@
 Learn how to use Baqend to develop your app.
 Just click a topic below to get more details.
 
-<div class="note">
-  <strong>Note:</strong> If you have any questions not answered by this guide, feel free to contact us via <a href="mailto:support@baqend.com">support@baqend.com</a> or the chat on the bottom.
-</div>
-
 <div class="chapter-container">
   <a class="chapter-item" href="https://www.baqend.com/tutorial.html">
     <span class="chapter-icon fa fa-graduation-cap"></span>
@@ -103,4 +99,8 @@ Just click a topic below to get more details.
     <span class="chapter-heading">Logging</span>
     <span class="chapter-info">Ease the debbuging <br> of your app by <br> logging its status.</span>
   </a>
+</div>
+
+<div class="note">
+  <strong>Note:</strong> If you have any questions not answered by this guide, feel free to contact us via <a href="mailto:support@baqend.com">support@baqend.com</a> or the chat on the bottom.
 </div>
