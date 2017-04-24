@@ -148,6 +148,8 @@ img {
 }
 
 #footer {
+  position: relative;
+  z-index: 2;
   font-weight: 300;
   color: #F3F4F7;
   background: #122337;
