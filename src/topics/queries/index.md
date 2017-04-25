@@ -96,7 +96,7 @@ The following table list all available query filters and the types on which they
     <td colspan="3" style="border-top: none; padding-top: 20px"><code>notEqual('name', 'My Todo')</code></td>
   </tr>
   <tr>  
-    <td><a href="http://docs.mongodb.org/manual/reference/operator/query/neq/">$neq</a></td>
+    <td><a href="http://docs.mongodb.org/manual/reference/operator/query/ne/">$neq</a></td>
     <td>All types</td>
     <td>Complex types like embedded objects only match if their complete structure matches.</td>
   </tr>
