@@ -95,11 +95,6 @@
   font-size: 19px;
 }
 
-.container {
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
 @media (min-width: 1200px) {
   .container {
     width: 100%;
