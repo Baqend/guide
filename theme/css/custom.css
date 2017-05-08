@@ -1,5 +1,28 @@
+.navbar {
+  min-height: 60px;
+  font-size: 15px;
+}
+
+.navbar-brand {
+  height: 60px;
+  display: block;
+  padding: 14px 35px 6px 0;
+}
+
+.navbar-fixed-top .navbar-brand img {
+  height: 40px;
+  margin: 0;
+}
+
+.navbar-nav > li > a {
+  padding-top: 17.5px;
+  padding-bottom: 17.5px;
+  font-weight: bold;
+}
+
 .container img {
   max-width: 100%;
+  margin: 10px 0;
 }
 
 .user1 {
@@ -100,10 +123,6 @@ p.next-page {
   margin: 40px 0;
 }
 
-img {
-  margin: 10px 0;
-}
-
 .chapter-container {
   display: flex;
   flex-flow: row wrap;
@@ -153,4 +172,79 @@ img {
 .chapter-info {
   color: #a85400;
   white-space: nowrap;
+}
+
+.search-form {
+  position: relative;
+  margin: 10.5px 0;
+}
+
+.form-control.search-input {
+  transition: all .5s;
+  width: 150px;
+  height: 39px;
+  padding-left: 28px;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.search-results {
+  display: none;
+  background: white;
+  border: 1px solid lightgray;
+  position: absolute;
+  top: 50px;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+  padding: 0;
+  width: 400px;
+  height: 500px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+.search-input:focus + .search-results, .search-form:hover .search-results {
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+
+.form-control.search-input:focus, .search-form:hover .form-control.search-input {
+  width: 250px;
+}
+
+.search-no-results {
+  margin: auto auto;
+}
+
+a.search-result {
+  text-decoration: none;
+  display: block;
+  padding: 10px;
+  border-top: 1px solid #ccc;
+  outline: 0;
+  color: inherit;
+}
+a.search-result:focus, a.search-result:hover {
+  background: #eeeeee;
+}
+
+.search-result-title {
+  font-weight: bold;
+  font-size: 110%;
+  margin: 0 0 5px 0;
+  padding: 0;
+}
+
+.search-result-summary {
+  margin: 0;
+  padding: 0;
+}
+
+.search-form-group {
+  position: relative;
+}
+.search-icon {
+  position: absolute;
+  left: 10px;
+  top: 12px;
 }

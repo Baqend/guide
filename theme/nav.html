@@ -45,14 +45,8 @@
               </li>
             </ul>
 
-            <!-- Search, Navigation and Repo links -->
+            <!-- Navigation and Repo links -->
             <ul class="nav navbar-nav navbar-right">
-
-                <li>
-                    <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
-                        <i class="fa fa-search"></i><span class="visible-lg-inline"> Search Help</span>
-                    </a>
-                </li>
 
                 <li>
                     <a href="http://dashboard.baqend.com/" class="hidden-sm hidden-xs">
@@ -86,6 +80,17 @@
                 {% endif %}
 
             </ul>
+
+            <!-- Search -->
+            <form class="navbar-form navbar-right form-inline search-form">
+                <div class="form-group search-form-group">
+                    <input type="search" class="form-control search-input" id="search-query" placeholder="Search Guide" name="q" autocomplete="off">
+                    <div id="search-results" class="search-results">
+                        <p class="search-no-results">Please enter a search query ...</p>
+                    </div>
+                    <i class="search-icon fa fa-search"></i>
+                </div>
+            </form>
         </div>
     </div>
 </div>
