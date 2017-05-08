@@ -20,6 +20,10 @@
   font-weight: bold;
 }
 
+.bs-sidebar .nav .nav {
+  display: block;
+}
+
 .container img {
   max-width: 100%;
   margin: 10px 0;
