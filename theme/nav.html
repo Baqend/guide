@@ -17,8 +17,25 @@
 
         <!-- Expanded navigation -->
         <div id="nav" class="navbar-collapse collapse">
+            <!-- Search -->
+            <form class="navbar-right form-inline search-form">
+                <div class="form-group search-form-group">
+                    <input type="search" class="form-control search-input" id="search-query" placeholder="Search Guide" name="q" autocomplete="off">
+                    <div id="search-results" class="search-results">
+                        <p class="search-no-results">Please enter a search query ...</p>
+                    </div>
+                    <i class="search-icon fa fa-search"></i>
+                </div>
+            </form>
+
             <!-- Main navigation -->
             <ul class="nav navbar-nav">
+                <li>
+                    <a href="http://dashboard.baqend.com/" class="hidden-sm hidden-xs">
+                        <span class="hidden-lg"> <i class="fa fa-rocket"></i> </span>
+                        <span class="visible-lg-inline">  Dashboard</span>
+                    </a>
+                </li>
             {% for nav_item in nav %}
             {% if nav_item.children %}
                 <li class="dropdown{% if nav_item.active %} active{% endif %}">
@@ -40,57 +57,10 @@
                 <li>
                     <a href="http://www.baqend.com/js-sdk/latest/baqend.html"><span class="hidden-sm hidden-xs">JS</span> API</a>
                 </li>
-              <li>
-                <a href="http://www.baqend.com/tutorial.html">Tutorial</a>
-              </li>
-            </ul>
-
-            <!-- Navigation and Repo links -->
-            <ul class="nav navbar-nav navbar-right">
-
                 <li>
-                    <a href="http://dashboard.baqend.com/" class="hidden-sm hidden-xs">
-                        <i class="fa fa-rocket"></i><span class="visible-lg-inline">  Dashboard</span>
-                    </a>
+                    <a href="http://www.baqend.com/tutorial.html">Tutorial</a>
                 </li>
-
-                {% if false %}
-                <li {% if not page.previous_page %}class="disabled"{% endif %}>
-                    <a rel="next" {% if page.previous_page %}href="{{ page.previous_page.url }}"{% endif %}>
-                        <i class="fa fa-arrow-left"></i><span class="visible-lg-inline">  Previous</span>
-                    </a>
-                </li>
-                <li {% if not page.next_page %}class="disabled"{% endif %}>
-                    <a rel="prev" {% if page.next_page %}href="{{ page.next_page.url }}"{% endif %}>
-                        Next <i class="fa fa-arrow-right"></i>
-                    </a>
-                </li>
-                {% endif %}
-                {% if config.repo_url %}
-                <li class="hidden">
-                    <a href="{{ config.repo_url }}">
-                        {% if config.repo_name == 'GitHub' %}
-                            <i class="fa fa-github"></i>
-                        {% elif config.repo_name == 'Bitbucket' %}
-                            <i class="fa fa-bitbucket"></i>
-                        {% endif %}
-                        {{ config.repo_name }}
-                    </a>
-                </li>
-                {% endif %}
-
             </ul>
-
-            <!-- Search -->
-            <form class="navbar-form navbar-right form-inline search-form">
-                <div class="form-group search-form-group">
-                    <input type="search" class="form-control search-input" id="search-query" placeholder="Search Guide" name="q" autocomplete="off">
-                    <div id="search-results" class="search-results">
-                        <p class="search-no-results">Please enter a search query ...</p>
-                    </div>
-                    <i class="search-icon fa fa-search"></i>
-                </div>
-            </form>
         </div>
     </div>
 </div>
