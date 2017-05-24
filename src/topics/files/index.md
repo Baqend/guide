@@ -118,17 +118,27 @@ db.User.me.load().then(function(user) {
 
 
 ## Metadata
-Suppose you have an uploaded file `/www/images/myPic.jpg` and a reference to it.
-Then you can use the `load` method to get additional file metadata (not the [content itself](#downloading-files)):
+Suppose you have an uploaded file `/www/images/myPic.jpg` and a reference to it. 
+Then you can't use the file metadata (mimeType, acls, size, etc.) before you actually download the file 
+or load its metadata. 
+Therefore you can use the `loadMetadata` method to get additional file metadata 
+(not the [content itself](#downloading-files)):
 
 ```js
 var file = new DB.File('/file/www/images/myPic.jpg');
-file.load(function() {
+file.loadMetadata(function() {
 	file.isMetadataLoaded // > true
 	file.lastModified // > The time of the last update
 	file.size // > Filesize in byte
 });
 ```
+
+To actually check if the metadata of a file is actually available, you can use the `isMetadataLoaded` property.
+
+```js
+file.isMetadataLoaded // > false if the metadata was not previously fetched by file.loadMetadata() or file.doanload()
+```
+
 ## Listing Files
 You can also list all files inside a folder. Either provide the path to the folder as string or a file reference representing the folder
 
