@@ -112,9 +112,10 @@ can only be set for the root folder and is applied to all nested files and folde
 ### Embedded Files
 Files can also be embedded in other objects like for example a profile image in a user object (see [primitive types](/#primitives)):
 ```js
-db.User.me.load().then((user) => {
+DB.User.me.load().then((user) => {
 	const file = user.profileImage;
-	console.log(file.url); // The file url, e.g. 'http://app.baqend.com/v1/file/users/img/myImg.png'
+	// The file url, e.g. 'http://app.baqend.com/v1/file/users/img/myImg.png'
+	console.log(file.url); 
 });
 ```
 
@@ -129,9 +130,9 @@ Therefore you can use the `loadMetadata` method to get additional file metadata
 ```js
 const file = new DB.File('/file/www/images/myPic.jpg');
 file.loadMetadata(() => {
-	file.isMetadataLoaded // > true
-	file.lastModified // > The time of the last update
-	file.size // > Filesize in byte
+	console.log(file.isMetadataLoaded); // true
+	console.log(file.lastModified);     // The time of the last update
+	console.log(file.size);             // file size in bytes
 });
 ```
 
@@ -169,12 +170,12 @@ Afterwards you can simply upload the file by just invoking `upload()`:
 ```js
 const file = new DB.File({ name: 'test.png', data: file, type: 'blob' })
 file.upload().then((file) => {
-    //upload succeed successfully 
-    file.mimeType //contains the media type of the file
-    file.lastModified //the upload date
-    file.eTag //the eTag of the file
+    // Upload succeed successfully 
+    console.log(file.mimeType);     // contains the media type of the file
+    console.log(file.lastModified); // the upload date
+    console.log(file.eTag);         // the eTag of the file
 }, (error) => {
-    //upload failed with an error 
+    // Upload failed with an error 
 });
 ```
 
@@ -190,13 +191,13 @@ function uploadFiles(files) {
   const pendingUploads = [];
 
   for (let i = 0, numFiles = files.length; i < numFiles; i++) {
-    //If you omit the name parameter, the name of the provided file object is used
+    // If you omit the name parameter, the name of the provided file object is used
     const file = new DB.File({data: files[i]});
     pendingUploads.push(file.upload());
   }
   
-  Promise.all(pendingUploads).then(function() {
-    //all files are successfully uploaded
+  Promise.all(pendingUploads).then(() => {
+    // All files are successfully uploaded
   });
 }
 ```
@@ -206,12 +207,12 @@ In the cases you want to upload base64 encoded binary data you can use the base6
 ```js
 const file = new DB.File({ name: 'test.png', data: 'R0lGODlhDAAeALMAAG...', type: 'base64', mimeType: 'image/gif' });
 file.upload().then((file) => {
-    //upload succeed successfully 
-    file.mimeType //contains the media type of the file
-    file.lastModified //the upload date
-    file.eTag //the eTag of the file
+    // Upload succeed successfully 
+    console.log(file.mimeType);     // contains the media type of the file
+    console.log(file.lastModified); // the upload date
+    console.log(file.eTag);         // the eTag of the file
 }, (error) => {
-    //upload failed with an error 
+    // Upload failed with an error 
 });
 ```
 
@@ -228,12 +229,12 @@ Downloading a file works similar to uploading one. Just create a file reference 
 ```js
 const file = new DB.File({ name: 'myPic.jpg' });
 file.download((data) => {
-    data //is provided as Blob per default
+    console.log(data); // is provided as Blob per default
 
-    //accessing the metadata of the file 
-    file.mimeType //contains the media type of the file
-    file.lastModified //the upload date
-    file.eTag //the eTag of the file
+    // Accessing the metadata of the file 
+    console.log(file.mimeType);     // contains the media type of the file
+    console.log(file.lastModified); // the upload date
+    console.log(file.eTag);         // the eTag of the file
 });
 ```
 
@@ -242,8 +243,8 @@ To load the file content in a different format, just request a download `type`
 ```js
 const file = new DB.File({ name: 'myPic.jpg', type: 'data-url' });
 file.download((data) => {
-    // Data is a data URL string
-    data // "data:image/jpeg;base64,R0lGODlhDAA..."
+    // Data is now a data URL string
+    console.log(data); // "data:image/jpeg;base64,R0lGODlhDAA..."
 });
 ```
 
@@ -321,11 +322,11 @@ But if you like to change the permissions programmatically you can use the `save
 ```js
 // Grant full access on the pictures root folder for the current user
 DB.File.saveMetadata('pictures', {
-   load: new DB.util.Permission().allowAccess(db.User.me),
-   insert: new DB.util.Permission().allowAccess(db.User.me),
-   update: new DB.util.Permission().allowAccess(db.User.me),
-   delete: new DB.util.Permission().allowAccess(db.User.me),
-   query: new DB.util.Permission().allowAccess(db.User.me)
+   load:   new DB.util.Permission().allowAccess(DB.User.me),
+   insert: new DB.util.Permission().allowAccess(DB.User.me),
+   update: new DB.util.Permission().allowAccess(DB.User.me),
+   delete: new DB.util.Permission().allowAccess(DB.User.me),
+   query:  new DB.util.Permission().allowAccess(DB.User.me)
 });
 ```
 
@@ -342,8 +343,8 @@ const file = new DB.File({
     name: 'test.png', 
     data: file, 
     acl: new DB.Acl()
-        .allowReadAccess(db.User.me)
-        .allowWriteAccess(db.User.me)
+        .allowReadAccess(DB.User.me)
+        .allowWriteAccess(DB.User.me)
 });
 file.upload().then(...);
 ```

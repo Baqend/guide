@@ -387,7 +387,7 @@ In order to use an OAuth provider to register or login users, you call one of th
 ```js
 DB.User.loginWithGoogle(clientID, options).then((user) => {
 	//logged in successfully
-	db.User.me == user;
+	DB.User.me == user;
 });
 // Same for
 DB.User.loginWithFacebook(...)
@@ -515,9 +515,9 @@ In case of success, you can call the following SDK method with the unique token 
 as parameters to login the user.
 
 ```js
-DB.User.loginWithToken(token, options).then(function(user) {
+DB.User.loginWithToken(token, options).then((user) {
 	//logged in successfully
-	db.User.me == user;
+	DB.User.me == user;
 });
 ```
 

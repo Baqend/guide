@@ -39,7 +39,7 @@ to wait for the initialization.
 1. You can use the `DBReady` resolver to delay the route component rendering, or `DBLoggedIn` to prevent navigation to
 protected routes that are only accessible by logged in users. For a live example look into the `src/app/app.routes.ts`.
 
-2. Or you can manually wait on `db.ready()` within your components and use the SDK afterwards.
+2. Or you can manually wait on `DB.ready()` within your components and use the SDK afterwards.
 ```js
 import {Component, OnInit} from '@angular/core';
 import {db} from "baqend";

@@ -3,7 +3,7 @@
 Baqend Code Handlers and Modules are JavaScript (Node.js) functions that can be defined in the dashboard and get 
 evaluated on the server side. They come in handy when you need to enforce rules and cannot trust clients.
 
-##Handlers
+## Handlers
 
 With handlers you are able to intercept and modify CRUD operations sent by clients. To register a handler, open the
 handler page of a class on the dashboard. There are four tabs, one for each of the three basic data manipulation 
@@ -29,12 +29,12 @@ containing the validation information.
 
 ```js
 user.username = "john.doe@example.com";
-var result = user.validate();
+const result = user.validate();
 if (result.isValid) {
   //true if all fields are valid
 } 
 
-var emailResult = result.fields.email;
+const emailResult = result.fields.email;
 if (!emailResult.isValid) {
   //if the email is not valid, the errors can be retrieved from the error array
   console.log(emailResult.errors[0]) //'The email is not valid'
@@ -52,10 +52,10 @@ function onValidate(password, passwordRepeat) {
 
 ```js
 user.password = "mySecretPassword";
-user.passwordRepeat = "mySecretPasswort"
-var result = user.validate();
+user.passwordRepeat = "mySecretPasswort";
+const result = user.validate();
 
-var passwordResult = result.fields.password;
+const passwordResult = result.fields.password;
 if (!passwordResult.isValid) {
   //if the email is not valid, the errors can be retrieved from the error array
   console.log(passwordResult.errors[0]) //'The passwords does not match'
@@ -93,11 +93,11 @@ under update to the previous state.
 
 ```js
 exports.onUpdate = function(db, obj) {
-  return db.Todo.load(obj.id).then(function(oldTodo) {
+  return db.Todo.load(obj.id).then((oldTodo) => {
     if (oldTodo.done != obj.done) {
-      return db.User.me.load().then(function(user) {
-        var totalTime = obj.activities.reduce(function(totalTime, activity) {
-          return totalTime += activity.end.getTime() - activity.start.getTime();
+      return db.User.me.load().then((user) => {
+        const totalTime = obj.activities.reduce((time, activity) => {
+          return time + activity.end.getTime() - activity.start.getTime();
         }, 0);
 
         if (obj.done) {
@@ -107,9 +107,9 @@ exports.onUpdate = function(db, obj) {
         }
 
         return user.save();
-      }
+      });
     }
-  }
+  });
 }
 ```
 
@@ -126,16 +126,16 @@ exports.onUpdate = function(db, obj) {
 
 ```js
 //on client side without refresh
-DB.Test.load('546c6-a...').then(function(obj) {
+DB.Test.load('546c6-a...').then((obj) => {
   return obj.save();
-}).then(function(obj) {
+}).then((obj) => {
   //obj.counter == 0
 });
 
 //on client side with refresh
-DB.Test.load('546c6-a...').then(function(obj) {
+DB.Test.load('546c6-a...').then((obj) => {
   return obj.save({refresh: true});
-}).then(function(obj) {
+}).then((obj) => {
   //obj.counter == 1
 });
 ```
@@ -151,8 +151,8 @@ for instance be used to log information or delete related objects.
 
 ```js
 exports.onDelete = function(db, obj) {
-  obj.id //the id of the object which will be deleted
-  obj.name //null
+  obj.id   // the id of the object which will be deleted
+  obj.name // null
 }
 ```
 
@@ -177,7 +177,7 @@ This process needs to be encapsulated in a Baqend modules as it requires write p
 exports.call = function(db, data, req) {
   return db.User.find()
     .equal('username', data.username)
-    .singleResult(function(user) {
+    .singleResult((user) => {
       user.invites.add(data.invite);
       return user.save();
     });
@@ -192,9 +192,9 @@ modules can be invoked using `get` for reading data and with `post` to modify da
 - with `post` data is sent in the body of an HTTP POST request
 
 ```js
-DB.modules.post('invite', {email: 'peter@example.com', invite: 'My new event'})
-  .then(function() {
-    //invite was send successfully
+DB.modules.post('invite', { email: 'peter@example.com', invite: 'My new event' })
+  .then(() => {
+    // Invite was sent successfully
   });
 ```    
 
@@ -206,7 +206,7 @@ To abort an insert, update, delete or Baqend module invocation, handlers as well
 
 ```js
 exports.onDelete = function(db, obj) {
-  throw new Abort('Delete not allowed.', {id: obj.id});
+  throw new Abort('Delete not allowed.', { id: obj.id });
 }
 ```
 
@@ -215,11 +215,11 @@ data parameter transfers additional JSON data back to the client. The data can b
 object passed to the reject handler of the promise.
 
 ```js
-obj.delete().then(function() {
-  //object was deleted successfully  
-}, function(e) {
-  e.message //The error message
-  e.data.id //The data sent backed to the client
+obj.delete().then(() => {
+  // Object was deleted successfully  
+}, (error) => {
+  error.message // the error message
+  error.data.id // the data sent backed to the client
 });
 ```
 
@@ -233,19 +233,19 @@ You can implement GET and POST request handling separately by implementing a equ
 <a href="http://expressjs.com/api.html#res">response</a> object.</div>
 
 With the request object, you can handle form submissions via get or post
-```
-//Handle get submissions
+```js
+// Handle get submissions
 exports.get = function(db, req, res) {
-  //access url get parameters
-  var myParam = req.query.myParam;
+  // Access url get parameters
+  const myParam = req.query.myParam;
 
   res.json(req.query);
 };
 
-//Handle post submissions
+// Handle post submissions
 exports.post = function(db, req, res) {
-  //access form post parameters
-  var myParam = req.body.myParam;
+  // Access form post parameters
+  const myParam = req.body.myParam;
 
   res.json(req.body);
 };
@@ -254,14 +254,14 @@ exports.post = function(db, req, res) {
 With the response object, you can send additional response headers and have a better control over the content which will 
 be send back. You can use the complete express API to handle the actual request.
 
-```
+```js
 exports.get = function(db, req, res) {
-  var myParam = req.query.myParam;
+  const myParam = req.query.myParam;
 
-  if(db.User.me) {
-    //we are logged in
-    return db.User.me.load().then(function() {
-      //use the powerful express helpers
+  if (db.User.me) {
+    // We are logged in
+    return db.User.me.load().then(() => {
+      // Use the powerful express helpers
       res.status(200);
       res.json({
         myParam: myParam, 
@@ -270,7 +270,7 @@ exports.get = function(db, req, res) {
       });
     });
   } else {
-    //we are anonymous, lets redirect the user to a login page
+    // We are anonymous, lets redirect the user to a login page
     res.redirect('http://myApp.baqend.com/login');
     res.send();
   }
@@ -290,14 +290,14 @@ With the 'responseType' option you can receive binary data in the specified type
 This works similar to the file API and you can use all the listed [file types](../files) as 'requestType' and 'responseType' too.
 
 ```js
-var svgBase64 = 'PHN2ZyB4bWxucz0...';
-var mimeType = 'image/svg+xml';
+const svgBase64 = 'PHN2ZyB4bWxucz0...';
+const mimeType = 'image/svg+xml';
 
 return db.modules.post(bucket, svgBase64, {
-  requestType: 'base64',    //Sending the file as a base64 string 
-  mimeType: mimeType,       //Setting the mimeType as Content-Type
-  responseType: 'data-url'  //Receiving the data as a data-url
-}).then(function(result) {
+  requestType: 'base64',    // Sending the file as a base64 string 
+  mimeType: mimeType,       // Setting the mimeType as Content-Type
+  responseType: 'data-url'  // Receiving the data as a data-url
+}).then((result) => {
   result // 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0...'
 });
 ```
@@ -315,14 +315,14 @@ of the request handling.
 ```js
 //this simple Baqend handler just sends the uploaded file back to the client
 exports.post = function(db, req, res) {
-  return new Promise(function(success) {
+  return new Promise((success) => {
     //node gives the file stream as chunks of Buffer 
-    var chunks = []; 
-    req.on('data', function(chunk) {
+    const chunks = []; 
+    req.on('data', (chunk) => {
       chunks.push(chunk);
     });
-    req.on('end', function() {
-      var requestData = Buffer.concat(chunks);
+    req.on('end', () => {
+      const requestData = Buffer.concat(chunks);
       // do something with the requestData
       res.status(200)
           .type(req.get('Content-Type'))
@@ -339,11 +339,11 @@ In the Baqend Code you can use the same <a href="#files">File API</a> as from yo
 
 With the <code>stream</code> format you can for example stream data through your Baqend Code into the database without buffering it, as the following example shows:
 ```js
-var http = require('https');
+const http = require('https');
 
 exports.call = function(db, data, req) {
   return new Promise((success, error) => {
-    var httpReq = http.request({
+    const httpReq = http.request({
       method: 'GET',
       hostname: data.host,
       path: data.path
@@ -352,9 +352,9 @@ exports.call = function(db, data, req) {
     httpReq.on('error', error);
     httpReq.end();
   }).then((stream) => {
-    var file = new db.File({parent: '/www', name: data.name});
-    var type = stream.headers['content-type'];
-    var size = stream.headers['content-length'];
+    const file = new db.File({parent: '/www', name: data.name});
+    const type = stream.headers['content-type'];
+    const size = stream.headers['content-length'];
     return file.upload({data: stream, type: 'stream', mimeType: type, size: size});
   });
 };
@@ -372,25 +372,26 @@ Baqend code constitutes CommonJS modules and can require other modules and exter
 Baqend modules not exposing a call method can't be called by the client but may be required by 
 other modules and handlers.
 ```js
-//myModule
+// myModule
 exports.updateMe = function(db) {
-  return db.User.me.load().then(function(user) {
+  return db.User.me.load().then((user) => {
     user.visits++;
     return user.save();
   });
-}; 
+};
 ```
 
 Baqend modules are imported through relative require calls and external libraries through absolute 
 require calls.
 
 ```js
-//require another Baqend module
-var myModule = require('./myModule');
-//require an update (or insert, delete, validate) handler from 'MyClass'
-var updateHandler = require('./MyClass/update');
-//require the http core module for external http requests
-var http = require('http');
+// Require another Baqend module
+const myModule = require('./myModule');
+// Require an update (or insert, delete, validate) handler from 'MyClass'
+const updateHandler = require('./MyClass/update');
+// Require the http core module for external http requests
+const http = require('http');
+
 exports.call = function(db, data, req) {
   return myModule.updateMe(db);
 }; 
@@ -399,9 +400,11 @@ exports.call = function(db, data, req) {
 In Baqend Handlers modules are required from the parent folder. 
 
 ```js
-//onUpdate              
-//Require the module form the parent folder
-var myModule = require('../myModule');       
+// onUpdate              
+
+// Require the module form the parent folder
+const myModule = require('../myModule');
+
 exports.onUpdate = function(db, obj) {
   return myModule.updateMe(db);
 }; 
