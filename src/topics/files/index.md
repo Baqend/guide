@@ -78,14 +78,15 @@ file reference or you can create one by yourself.
 The are multiple ways to reference a file:
 
 ```js
+let file;
 // Absolute references have to start with '/file' followed by a root folder e.g. '/www'
-var file = new DB.File('/file/www/myPic.jpg');
+file = new DB.File('/file/www/myPic.jpg');
 // Alternatively you can give the path of the file, starting with the root folder
-var file = new DB.File({path: '/www/myPic.jpg'});
+file = new DB.File({ path: '/www/myPic.jpg' });
 // Or you specify the name and parent (folder) of the file
-var file = new DB.File({parent: '/www', name: 'myPic.jpg'});
+file = new DB.File({ parent: '/www', name: 'myPic.jpg' });
 // Because '/www' is the default parent in can be omitted
-var file = new DB.File({name: 'myPic.jpg'});
+file = new DB.File({ name: 'myPic.jpg' });
 ```
 
 To get the full url to access the file just use the `file.url` shorthand. This ensures that the domain is correctly used, 
@@ -98,10 +99,11 @@ In a common html template engine you can just write:
 You can also manage your files in folders for example like this:
 
 ```js
-//creates the same file reference
-var file = new DB.File('/file/www/images/myPic.jpg');
-//parent start with the root folder, e.g. /www and followed by additional folders
-var file = new DB.File({parent: '/www/images', name: 'myPic.jpg'});
+let file;
+// Creates the same file reference
+file = new DB.File('/file/www/images/myPic.jpg');
+// Parent start with the root folder, e.g. /www and followed by additional folders
+file = new DB.File({parent: '/www/images', name: 'myPic.jpg'});
 ```
 
 <div class="note"><strong>Note:</strong> Parent paths always start with a root folder, since the access control (who can access and modify the folder contents)
@@ -110,8 +112,8 @@ can only be set for the root folder and is applied to all nested files and folde
 ### Embedded Files
 Files can also be embedded in other objects like for example a profile image in a user object (see [primitive types](/#primitives)):
 ```js
-db.User.me.load().then(function(user) {
-	var file = user.profileImage;
+db.User.me.load().then((user) => {
+	const file = user.profileImage;
 	console.log(file.url); // The file url, e.g. 'http://app.baqend.com/v1/file/users/img/myImg.png'
 });
 ```
@@ -125,8 +127,8 @@ Therefore you can use the `loadMetadata` method to get additional file metadata
 (not the [content itself](#downloading-files)):
 
 ```js
-var file = new DB.File('/file/www/images/myPic.jpg');
-file.loadMetadata(function() {
+const file = new DB.File('/file/www/images/myPic.jpg');
+file.loadMetadata(() => {
 	file.isMetadataLoaded // > true
 	file.lastModified // > The time of the last update
 	file.size // > Filesize in byte
@@ -165,13 +167,13 @@ To upload a file you must first create a file with its name and its content.
 Afterwards you can simply upload the file by just invoking `upload()`:
 
 ```js
-var file = new DB.File({name: 'test.png', data: file, type: 'blob'})
-file.upload().then(function(file) {
+const file = new DB.File({ name: 'test.png', data: file, type: 'blob' })
+file.upload().then((file) => {
     //upload succeed successfully 
     file.mimeType //contains the media type of the file
     file.lastModified //the upload date
     file.eTag //the eTag of the file
-}, function(error) {
+}, (error) => {
     //upload failed with an error 
 });
 ```
@@ -185,11 +187,11 @@ drag & drop event.
 
 ```js
 function uploadFiles(files) {
-  var pendingUploads = [];
+  const pendingUploads = [];
 
-  for (var i = 0, numFiles = files.length; i < numFiles; i++) {
+  for (let i = 0, numFiles = files.length; i < numFiles; i++) {
     //If you omit the name parameter, the name of the provided file object is used
-    var file = new DB.File({data: files[i]});
+    const file = new DB.File({data: files[i]});
     pendingUploads.push(file.upload());
   }
   
@@ -202,13 +204,13 @@ function uploadFiles(files) {
 In the cases you want to upload base64 encoded binary data you can use the base64 type in the options object:
 
 ```js
-var file = new DB.File({name: 'test.png', data: 'R0lGODlhDAAeALMAAG...', type: 'base64', mimeType: 'image/gif'})
-file.upload().then(function(file) {
+const file = new DB.File({ name: 'test.png', data: 'R0lGODlhDAAeALMAAG...', type: 'base64', mimeType: 'image/gif' });
+file.upload().then((file) => {
     //upload succeed successfully 
     file.mimeType //contains the media type of the file
     file.lastModified //the upload date
     file.eTag //the eTag of the file
-}, function(error) {
+}, (error) => {
     //upload failed with an error 
 });
 ```
@@ -224,8 +226,8 @@ If you like to skip the verification, you can pass the `{force: true}` option to
 Downloading a file works similar to uploading one. Just create a file reference and call `file.download()`:
 
 ```js
-var file = new DB.File({name: 'myPic.jpg'});
-file.download(function(data) {
+const file = new DB.File({ name: 'myPic.jpg' });
+file.download((data) => {
     data //is provided as Blob per default
 
     //accessing the metadata of the file 
@@ -238,9 +240,9 @@ file.download(function(data) {
 To load the file content in a different format, just request a download `type`
 
 ```js
-var file = new DB.File({name: 'myPic.jpg', type: 'data-url'});
-file.download(function(data) {
-    //data is a data url string
+const file = new DB.File({ name: 'myPic.jpg', type: 'data-url' });
+file.download((data) => {
+    // Data is a data URL string
     data // "data:image/jpeg;base64,R0lGODlhDAA..."
 });
 ```
@@ -252,11 +254,11 @@ file.download(function(data) {
 To delete a file just call the `delete()` method after creating the file reference:
 
 ```js
-var file = new DB.File({name: 'test.png'})
-file.delete().then(function(file) {
-    //deletion succeed
-}, function(error) {
-    //upload failed with an error 
+const file = new DB.File({ name: 'test.png' });
+file.delete().then((file) => {
+    // Deletion succeed
+}, (error) => {
+    // Upload failed with an error 
 });
 ```
 
@@ -316,8 +318,8 @@ hosting feature of Baqend.
 To change the permissions for a specific root folder yous should commonly use the Baqend Dashboard. 
 But if you like to change the permissions programmatically you can use the `saveMetadata()` method:
 
-```
-//grant full access on the pictures root folder for the current user
+```js
+// Grant full access on the pictures root folder for the current user
 DB.File.saveMetadata('pictures', {
    load: new DB.util.Permission().allowAccess(db.User.me),
    insert: new DB.util.Permission().allowAccess(db.User.me),
@@ -336,12 +338,12 @@ The file permissions can be set when a file is uploaded. Therefore you can pass 
 or to the upload method. 
 
 ```js
-var file = new DB.File({
+const file = new DB.File({
     name: 'test.png', 
     data: file, 
     acl: new DB.Acl()
-        .allowReadAccess(db1.User.me)
-        .allowWriteAccess(db1.User.me)
+        .allowReadAccess(db.User.me)
+        .allowWriteAccess(db.User.me)
 });
 file.upload().then(...);
 ```
