@@ -3,6 +3,15 @@
   font-size: 15px;
 }
 
+.navbar-nav>li>.dropdown-menu {
+  font-size: 15px;
+  top: 85px !important;
+}
+
+.navbar-fixed-top .dropdown .dropdown-menu a {
+  padding: 5px 20px;
+}
+
 .navbar-brand {
   height: 60px;
   display: block;
@@ -257,4 +266,8 @@ a.search-result:focus, a.search-result:hover {
   position: absolute;
   left: 10px;
   top: 12px;
+}
+#footer {
+  z-index: 1;
+  position: relative;
 }
