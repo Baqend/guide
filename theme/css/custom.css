@@ -8,6 +8,10 @@
   top: 85px !important;
 }
 
+.navbar-nav>li>.dropdown-menu .active a {
+  color: white;
+}
+
 .navbar-fixed-top .dropdown .dropdown-menu a {
   padding: 5px 20px;
 }
