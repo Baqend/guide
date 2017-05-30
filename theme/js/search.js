@@ -37,6 +37,11 @@ require([
 
   var search = function () {
     var query = document.getElementById('search-query').value;
+
+    // Fix search query to match our spelling…
+    query = query.replace(/(\w+)time\b/gi, '$1 time');
+    query = query.replace(/(\w+)aware\b/gi, '$1 aware');
+
     while ($results.firstChild) {
       $results.removeChild($results.firstChild);
     }
