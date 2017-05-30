@@ -280,6 +280,7 @@ a.search-result:focus, a.search-result:hover {
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
+  margin-bottom: 50px;
 }
 
 .starter-kits-item {
@@ -295,18 +296,15 @@ a.search-result:focus, a.search-result:hover {
   }
 }
 
-.starter-kits-item:focus, .starter-kits-item:hover {
-  background: #eeeeee;
-}
-
 .starter-kits-item > img {
   width: 200px;
   height: 200px;
   display: block;
   margin: 0 auto 10px;
+  image-rendering: auto;
 }
 .starter-kits-item:focus > img, .starter-kits-item:hover > img {
-  filter: drop-shadow(0 0 10px rgba(127, 127, 255, 0.5));
+  filter: drop-shadow(0 0 15px rgba(127, 127, 255, 0.7));
 }
 
 .starter-kits-item > span {
