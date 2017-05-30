@@ -1,38 +1,3 @@
-.navbar {
-  min-height: 60px;
-  font-size: 15px;
-}
-
-.navbar-nav>li>.dropdown-menu {
-  font-size: 15px;
-  top: 85px !important;
-}
-
-.navbar-nav>li>.dropdown-menu .active a {
-  color: white;
-}
-
-.navbar-fixed-top .dropdown .dropdown-menu a {
-  padding: 5px 20px;
-}
-
-.navbar-brand {
-  height: 60px;
-  display: block;
-  padding: 14px 35px 6px 0;
-}
-
-.navbar-fixed-top .navbar-brand img {
-  height: 40px;
-  margin: 0;
-}
-
-.navbar-nav > li > a {
-  padding-top: 17.5px;
-  padding-bottom: 17.5px;
-  font-weight: bold;
-}
-
 .bs-sidebar .nav .nav {
   display: block;
 }
