@@ -14,7 +14,7 @@ Just click a topic below to get more details.
     <span class="chapter-heading">Quickstart</span>
     <span class="chapter-info">How to embed Baqend <br> in your JavaScript app <br> to get started quickly.</span>
   </a>
-  <a class="chapter-item" href="starters/">
+  <a class="chapter-item" href="starter-kits/">
     <span class="chapter-icon fa fa-archive"></span>
     <span class="chapter-heading">Starter Kits</span>
     <span class="chapter-info">Some starter kits for <br> popular frameworks <br> integrating Baqend.</span>

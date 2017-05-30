@@ -275,3 +275,41 @@ a.search-result:focus, a.search-result:hover {
   z-index: 1;
   position: relative;
 }
+
+.starter-kits {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+}
+
+.starter-kits-item {
+  display: block;
+  text-align: center;
+  margin: 10px 30px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+@media (min-width: 1024px) {
+  .starter-kits-item {
+    flex-basis: 350px;
+  }
+}
+
+.starter-kits-item:focus, .starter-kits-item:hover {
+  background: #eeeeee;
+}
+
+.starter-kits-item > img {
+  width: 200px;
+  height: 200px;
+  display: block;
+  margin: 0 auto 10px;
+}
+.starter-kits-item:focus > img, .starter-kits-item:hover > img {
+  filter: drop-shadow(0 0 10px rgba(127, 127, 255, 0.5));
+}
+
+.starter-kits-item > span {
+  width: 200px;
+  font-size: 120%;
+}

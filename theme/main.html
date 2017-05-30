@@ -30,7 +30,7 @@
 
         {% include "nav.html" %}
 
-        {% if page.is_homepage %}
+        {% if page.is_homepage or page.title == 'Starter Kits Overview' %}
         <div class="container" role="main">
             {% include "content.html" %}
         </div>
