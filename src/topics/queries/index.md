@@ -7,12 +7,12 @@ The Baqend SDK features a [query builder](https://www.baqend.com/js-sdk/latest/q
  to formulate native MongoDB queries, but using the query builder is the recommend way: it is far more readable and 
  does all the plumbing and abstraction from MongoDB obscurities.
 
-## resultList, singleResult and count
+## `resultList`, `singleResult` and `count`
 The simplest query is one that has no filter criterion and thus returns all objects. 
 The actual result is retrieved via the `resultList` method.
 ```js
-DB.Todo.find().resultList(function(result) {
-  result.forEach(function(todo) {
+DB.Todo.find().resultList((result) => {
+  result.forEach((todo) => {
     console.log(todo.name); //'My first Todo', 'My second Todo', ...
   });
 });
@@ -21,10 +21,15 @@ DB.Todo.find().resultList(function(result) {
 You can also use the `depth`-parameter to query the entities to a specified depth just like for normal [reads](/#read).
 
 
-To find just the first matching object use the `singleResult` method.
+To find just the first matching object, use the `singleResult` method.
+If there is no result, it will give you null.
 ```js
-DB.Todo.find().singleResult(function(todo) {
-  console.log(todo.name); //'My first Todo'
+DB.Todo.find().singleResult((todo) => {
+  if (!todo) {
+    // No todo available…    
+  } else {
+    console.log(todo.name); //'My first Todo'    
+  }
 });
 ```
 
@@ -32,7 +37,7 @@ Both `resultList` and `singleResult` [support deep loading](../deep-loading#deep
 
 If you just need the number of matching objects, use the `count` method.
 ```js
-DB.Todo.find().count(function(count) {
+DB.Todo.find().count((count) => {
   console.log(count); //'17'
 });
 ```
