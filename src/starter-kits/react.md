@@ -1,11 +1,12 @@
-# React, Redux and Baqend Starter
+# React and React Native Starter
 !["Logo"](https://github.com/Baqend/react-redux-starter/raw/master/react_baqend.png)
 
-With this React, Redux and Baqend starter kit you can build **blazingly fast single page applications** in no time. Setup your project by following the simple steps below.
+## React Starter
+With these React, Redux and Baqend starter kits you can build **blazingly fast single page applications** in no time. Setup your project by following the simple steps below.
 
-This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
-## How to use the template
+## [React Starter](https://github.com/Baqend/react-redux-starter)
+This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app)
 
 1. Make sure you have [Node.js](https://nodejs.org/en/) installed on your machine
 2. Install the [yarn](https://yarnpkg.com) package manager with `npm install -g yarn` if you like
@@ -14,20 +15,18 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 5. Start the server with `npm start` or `yarn start`
 6. Open the url in your browser [http://localhost:3000](http://localhost:3000), you should see a small sample application with signup capability
 
+
+## [React Native Starter](https://github.com/Baqend/react-native-starter)
+This project was bootstrapped with the [React Native cli](https://facebook.github.io/react-native/docs/getting-started.html).
+
+1. Setup your machine following these [instructions](https://facebook.github.io/react-native/docs/getting-started.html)
+2. Install the [yarn](https://yarnpkg.com) package manager with `npm install -g yarn` if you like
+3. Clone the repository with `git clone https://github.com/Baqend/react-native-starter`
+4. Install the project with `npm install` or `yarn install`
+5. Start your app with `react-native run-ios` or `react-native run-android`
+6. An Emulator with a sample application should show up
+
 Your app is currently connected to a Baqend test instance called 'app-starter', which provides common backend features like data and file storage, user authentication (used in the example), queries and push notifications among others.
-
-To develop your own application
-
-1. Launch a free Baqend instance at [baqend.com](http://dashboard.baqend.com/register)
-2. Change the app name in your projects `src/App.js` connect method from `app-starter` to your app name
-3. Your React app will automatically connect to your app instance
-4. To access your data or backend features it´s recommended to use the [redux-baqend-middleware](http://github.com) within your redux actions
-5. You can also simply import the `db`-object with `import {db} from 'baqend'`
-and see our [Guide](http://www.baqend.com/guide/#accessing-data) and [API Docs](http://www.baqend.com/js-sdk/latest/baqend.html) for details
-
-For more information: on [React](https://facebook.github.io/react/docs/hello-world.html), [Redux](http://redux.js.org/), the structure of this
-[project](https://github.com/facebookincubator/create-react-app), or [Baqend](http://www.baqend.com).
-
 
 ## How the Baqend integration into React works
 
@@ -45,6 +44,17 @@ return {
 ```
 For more detailed information take a look on the provided example actions or in the [redux-baqend-middleware](http://github.com) repository.
 
+## To develop your own application
+
+1. Launch a free Baqend instance at [baqend.com](http://dashboard.baqend.com/register)
+2. Change the app name in your projects `src/App.js` connect method from `app-starter` to your app name
+3. Your React app will automatically connect to your app instance
+4. To access your data or backend features it´s recommended to use the [redux-baqend-middleware](http://github.com) within your redux actions
+5. You can also simply import the `db`-object with `import {db} from 'baqend'`
+and see our [Guide](http://www.baqend.com/guide/#accessing-data) and [API Docs](http://www.baqend.com/js-sdk/latest/baqend.html) for details
+
+For more information: on [React](https://facebook.github.io/react/docs/hello-world.html), [Redux](http://redux.js.org/), the structure of this
+[project](https://github.com/facebookincubator/create-react-app), or [Baqend](http://www.baqend.com).
 
 ## How Baqend fits your Backend requirements
 
