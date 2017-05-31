@@ -2,7 +2,7 @@
 
 The **CLI** (Command Line Interface) provides a simple way to:
 
- - Register a Baqend account and start an app 
+ - Register a Baqend account and start an app
  - Deploy application assets (HTML, images, CSS, etc.)
  - Register Baqend Code (modules and handlers)
 
@@ -50,7 +50,7 @@ You can logout the Baqend CLI and remove all locally stored credentials by typin
 
 
 ## Deployment
- 
+
 With the `deploy` command, you can upload your static files and assets as well as Baqend Code (modules and handlers) to your Baqend app:
 
 ```bash
@@ -80,29 +80,46 @@ The following screenshot visualizes a typical project layout including Baqend co
 All Baqend modules should sit top level within the `baqend` folder.
 For example, `baqend/firstModule.js` will be uploaded as `firstModule`.
 
-For each code handler you should create a folder named similar to the table 
+For each code handler you should create a folder named similar to the table
 it belongs to. Within the folder the files should be named:
-  
+
 `baqend/<Table>/insert.js` for an [onInsert](../baqend-code#oninsert-and-onupdate) handler <br>
 `baqend/<Table>/update.js` for an [onUpdate](../baqend-code#oninsert-and-onupdate) handler <br>
 `baqend/<Table>/delete.js` for an [onDelete](../baqend-code#ondelete) handler <br>
 `baqend/<Table>/validate.js` for an [onValidate](../baqend-code#onvalidate) handler
-       
+
 Therefore `baqend/User/insert.js` contains the insert handler code wich is invoked each time a new user object is inserted
-to the `User` table. 
+to the `User` table.
 
 Read more about Baqend code in the [Baqend Code](../baqend-code) chapter.
-       
+
 </div>
 
 After deploying your app, you can open it by typing `baqend open` or use the dashboard with `baqend dashboard`.
+
+### Deploying Schema
+You can download and upload your app schema as well. After downloading your schema, the CLI will create an own json file for each class in the `baqend/schema` directory.
+```bash
+$ baqend schema download
+```
+
+When uploading your new schema, either only new fields are added to you schema and no fields will be deleted or the schema will be completly replaced, depending on wether you use the `-F` option or not.
+```bash
+$ baqend schema upload
+$ baqend schema upload -F
+```
+
+It's also possible to upload your new schema every time you're deploying your baqend code by adding the `-S` option to the `baqend deploy` command.
+```bash
+$ baqend deploy -S
+```
 
 ## TypeScript Support
 
 The Baqend SDK itself comes with a [TypeScript declaration file](https://www.typescriptlang.org/docs/handbook/declaration-files/introduction.html),
 which enables seamless integration into TypeScript and allows better code completion.
 The SDK comes with a dynamic API part, which is generated on the fly depending on your current schema.
-To make your TypeScript application work properly with this dynamic part you can generate the additional typings for your 
+To make your TypeScript application work properly with this dynamic part you can generate the additional typings for your
 current schema with the CLI.
 
 With `baqend typings your-app-name` the CLI generates the TypeScript declaration file in the current folder.
