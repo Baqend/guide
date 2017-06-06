@@ -1,8 +1,8 @@
-#!["Logo"](https://github.com/Baqend/ionic2-starter/raw/master/ionic_baqend.png)
+#!["Logo"](https://github.com/Baqend/ionic-starter/raw/master/ionic_baqend.png)
 
-# Ionic 2 and Baqend Starter
+# Ionic and Baqend Starter
 
-With [this Ionic 2 and Baqend starter kit](https://github.com/baqend/ionic2-starter) you can build **blazingly fast hybrid apps** in no time.
+With [this Ionic and Baqend starter kit](https://github.com/baqend/ionic-starter) you can build **blazingly fast hybrid apps** in no time.
 
 This starter is based on the [Ionic2-Tabs-Starter](https://github.com/driftyco/ionic2-starter-tabs).
 
@@ -11,8 +11,8 @@ This starter is based on the [Ionic2-Tabs-Starter](https://github.com/driftyco/i
 The easiest way to use this starter is to use the ionic cli:
 
  ```bash
- git clone git@github.com:Baqend/ionic2-starter.git
- cd ionic2-starter
+ git clone git@github.com:Baqend/ionic-starter.git
+ cd ionic-starter
  npm install -g ionic cordova
  npm install
  ionic serve

@@ -1,6 +1,6 @@
-#!["Logo"](/img/angular+baqend.svg) Angular2 and Baqend Starter
+#!["Logo"](https://cdn.rawgit.com/Baqend/angular2-starter/master/src/assets/Angular+Baqend.svg) Angular and Baqend Starter
 
-With this Angular2 and Baqend starter kit you can build **blazingly fast single page applications** in no time. Setup your project by following the simple steps below.
+With this Angular and Baqend starter kit you can build **blazingly fast single page applications** in no time. Setup your project by following the simple steps below.
 
 The starter is based on the [Angular2 Webpack Starter](https://github.com/AngularClass/angular2-webpack-starter) and uses:
 
@@ -13,7 +13,7 @@ The starter is based on the [Angular2 Webpack Starter](https://github.com/Angula
 ## How to use the template
 
 1. Make sure you have [Node.js](https://nodejs.org/en/) installed on your machine
-2. Clone the repository with `git clone https://github.com/Baqend/angular2-starter.git`
+2. Clone the repository with `git clone https://github.com/Baqend/angular-starter.git`
 3. Install the project with `npm install`
 4. Start the server with `npm start` (or `npm run server:dev:hmr` for *hot module replacement* - only changed files are recompiled)
 5. Open the url in your browser [http://localhost:3000](http://localhost:3000), you should see a small sample application with signup capability
