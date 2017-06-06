@@ -250,7 +250,7 @@ The following table list all available query filters and the types on which they
     <td><a href="#primitives">GeoPoint</a></td>
     <td>
       The geo point of the object has to be contained within the given polygon.
-      You need a Geospatial Index on this field, to use this kind of query. Read the [query indexes](../queries#query-indexes) section 
+      You need a Geospatial Index on this field, to use this kind of query. Read the <a href="../queries#query-indexes">query indexes</a> section 
       for more details.
     </td>
   </tr>
