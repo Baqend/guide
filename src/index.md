@@ -74,6 +74,11 @@ Just click a topic below to get more details.
     <span class="chapter-heading">Push Notifications</span>
     <span class="chapter-info">Send push notifications <br> to inform users <br> of your app.</span>
   </a>
+  <a class="chapter-item" href="topics/partial-updates/">
+    <span class="chapter-icon fa fa-refresh"></span>
+    <span class="chapter-heading">Partial Updates</span>
+    <span class="chapter-info">Manage many write <br> operations at once <br> using partial updates.</span>
+  </a>
   <a class="chapter-item" href="topics/deep-loading/">
     <span class="chapter-icon fa fa-line-chart"></span>
     <span class="chapter-heading">Deep Loading</span>
