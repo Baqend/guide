@@ -10,7 +10,7 @@ Partial updates help you to improve the concurrency of your app.
 Typical situations when you need that are:
 
 1. Your app is under high load and needs a way to speed up writes.
-2. Your app does not need the full object and just wants to increase a counter for example.
+2. Your app does not need to load the object and just wants to increase a counter for example.
 
 Take the following example.
 You are counting visits of a page in your app and you have a counter field saving that value in the database.
@@ -19,21 +19,32 @@ Normally, you would be implementing that the following way:
 ![Non concurrent counter](non-concurrent-counter.png)
 
 But then you would have the problem that both users read the old counter state `42`, increase it, and write `43` to the database.
-Of course, this is not the desired behavior: We want to count both users, so the write operation of one of the users gets rejected.
+Of course, Baqend detects such undesired behavior and rejects one of the write operations.
+For both users to be counted, the second user than has to retry her operation though.
 
 Now take the example using partial updates:
 
 ![Concurrent counter](concurrent-counter.png)
 
-In a partial update, you specify a **commutative operation** to perform on the data without reading it first.
+In a partial update, you specify **operations** to perform on the data without reading it first.
 So now, we just tell the database to increment the counter field for us and we will get an up-to-date version of the counter field counting both user’s accesses.
+
 
 ## Using Partial Updates
 
 To use partial updates, you take an entity (which needs not to be loaded) and call the `partialUpdate()`  method on it.
-Then, you can use a **fluent interface** to make changes to the object.
+Then, you can use a **fluent interface** to call the below operations on the object.
 
-Here is an overview of the supported operations:
+<div class="note">
+  <strong>Node:</strong>
+  <span>
+    You cannot perform <b>multiple updates on the same field!</b>
+    You will have to execute those updates one after another (like in the examples below).
+  </span>
+</div>
+
+Here is an overview of the supported operations.
+Click on the name to see an example and have more detail on their usage.
 
 | Operation                                                            | Allowed Types              | Description |
 | -------------------------------------------------------------------- | -------------------------- | ----------- | 
@@ -44,13 +55,13 @@ Here is an overview of the supported operations:
 | [`divide("field", by)`](#multiplication-and-division)                | *Integer*, *Double*        | Divides the field by a given divisor |
 | [`min("field", value)`](#minimum-and-maximum)                        | *Integer*, *Double*        | Sets the smaller value on a field |
 | [`max("field", value)`](#minimum-and-maximum)                        | *Integer*, *Double*        | Sets the higher value on a field |
-| [`remove("field", elementOrKey)`](#set-update-operations)            | *List*, *Set*, *Map*       | Remove an element from a list, set or map |
-| [`push("field", element)`](#adding-elements-to-lists)                | *List*                     | Add an element to the end of a list |
-| [`unshift("field", element)`](#adding-elements-to-lists)             | *List*                     | Add an element to the beginning of a list |
-| [`pop("field")`](#removing-elements-from-lists)                      | *List*                     | Remove an element from the end of a list |
-| [`shift("field")`](#removing-elements-from-lists)                    | *List*                     | Remove an element from the beginning of a list |
+| [`remove("field", elementOrKey)`](#set-update-operations)            | *List*, *Set*, *Map*       | Removes an element from a list, set or map |
+| [`push("field", element)`](#adding-elements-to-lists)                | *List*                     | Adds an element to the end of a list |
+| [`unshift("field", element)`](#adding-elements-to-lists)             | *List*                     | Adds an element to the beginning of a list |
+| [`pop("field")`](#removing-elements-from-lists)                      | *List*                     | Removes an element from the end of a list |
+| [`shift("field")`](#removing-elements-from-lists)                    | *List*                     | Removes an element from the beginning of a list |
 | [`replace("field", index, value)`](#replacing-elements-within-lists) | *List*                     | Replaces an element within a list |
-| [`add("field", element)`](#set-update-operations)                    | *Set*                      | Add an element to a set |
+| [`add("field", element)`](#set-update-operations)                    | *Set*                      | Adds an element to a set |
 | [`put("field", key, value)`](#map-update-operations)                 | *Map*                      | Puts a value to a given key in a map |
 | [`toNow("field")`](#date-and-time-update-operations)                 | *Date*, *DateTime*, *Time* | Sets a date field to the current date and time |
 | [`and("field", bitmask)`](#bitwise-update-operations)                | *Integer*                  | Performs a bitwise AND on the field |
@@ -97,9 +108,9 @@ function visitPage(pageId) {
     .increment('hitCounter', 23); // will increment "hitCounter" by 23
    
   return update.execute().then((newPage) => {
-    console.log(newPage === page); // true
+    console.log(newPage === page);                              // true
     console.log(page.visitorCounter === oldVisitorCounter + 1); // true
-    console.log(page.hitCounter === oldHitCounter + 23); // true
+    console.log(page.hitCounter === oldHitCounter + 23);        // true
     // counters are now increased
   });
 }
@@ -115,7 +126,7 @@ function eatCake(cakeId) {
     .decrement('pieces');  // will decrement "pieces" by 1
    
   return update.execute().then(() => {
-    console.log(cake.pieces == pieces - 1);
+    console.log(cake.pieces == pieces - 1); // true
   });
 }
 ```
@@ -132,7 +143,7 @@ function calculateTax(itemId) {
     .multiply('price', 1.25);  // will multiply "price" by 1.25
    
   return update.execute().then(() => {
-    console.log(item.price == price * 1.25);    
+    console.log(item.price == price * 1.25); // true   
   });
 }
 ```
@@ -155,9 +166,9 @@ function weAreTooExpensive(itemId) {
     .min('price3', 9.99);  // will change "price3" to 9.99
    
   return update.execute().then(() => {
-    console.log(item.price1 == 5.99);    
-    console.log(item.price2 == 9.99);    
-    console.log(item.price3 == 9.99);    
+    console.log(item.price1 == 5.99); // true   
+    console.log(item.price2 == 9.99); // true   
+    console.log(item.price3 == 9.99); // true   
   });
 }
 ```
@@ -176,9 +187,9 @@ function weAreTooCheap(itemId) {
     .max('price3', 9.99);  // will do nothing because 16.99 is higher
    
   return update.execute().then(() => {
-    console.log(item.price1 ==  9.99);    
-    console.log(item.price2 ==  9.99);    
-    console.log(item.price3 == 16.99);    
+    console.log(item.price1 ==  9.99); // true   
+    console.log(item.price2 ==  9.99); // true   
+    console.log(item.price3 == 16.99); // true   
   });
 }
 ```
@@ -191,11 +202,6 @@ To ease your work with lists, there are many operations to [add](#adding-element
 ### Adding Elements to Lists
 
 You can **push** to add new elements to the end of a list or **unshift** to add new elements to the beginning of a list.
-
-<div class="note">
-  <strong>Note:</strong>
-  <span>You cannot push <b>and</b> unshift at the same time.</span> 
-</div>
 
 ```js
 function addSomePhysicists(scienceId) {
@@ -216,11 +222,6 @@ function addSomePhysicists(scienceId) {
 
 You can use **pop** to remove an element at the end or **shift** to remove an elements at the beginning of a list.
 
-<div class="note">
-  <strong>Note:</strong>
-  <span>You cannot pop <b>and</b> shift at the same time.</span> 
-</div>
-
 ```js
 function removeSomePhysicists(scienceId) {
   const science = new DB.Science();
@@ -238,7 +239,12 @@ function removeSomePhysicists(scienceId) {
 
 ### Replacing Elements Within Lists
 
-Furthermore, you can also use **replace** to change an element within a list.
+Furthermore, you can also use **replace** elements within a list to change them.
+
+<div class="note">
+  <strong>Note:</strong>
+  <span>While you cannot have multiple operations on the same field, you <b>can</b> replace multiple fields in the same list.</span> 
+</div>
 
 ```js
 function replaceSomePhysicists(scienceId) {
@@ -247,7 +253,13 @@ function replaceSomePhysicists(scienceId) {
   science.pioneers = ['Galilei', 'Newton', 'Schrödinger'];
   
   // replace element with index 2 ("Schrödinger") with "Curie"
-  return science.partialUpdate().replace('pioneers', 2, 'Curie').execute();
+  return science.partialUpdate()
+    .replace('pioneers', 1, 'Planck')
+    .replace('pioneers', 2, 'Curie')
+    .execute()
+    .then(() => {
+      console.log(science.pioneers); // ['Galilei', 'Planck', 'Curie']
+    });
 }
 ```
 
@@ -259,11 +271,21 @@ You can **add** elements into and **remove** elements from a set.
 ```js
 function lookForPlanets(galaxyId) {
   const galaxy = DB.Galaxy.load(galaxyId);
-  const update = galaxy.partialUpdate()
-    .add('knownPlanets', 'Kepler-186f') // will add "Kepler-186f" to "knownPlanets"
-    .remove('knownPlanets', 'Pluto');   // will remove "Pluto" from the set
-   
-  return update.execute();
+  return Promise.resolve()
+  .then(() => {
+    return galaxy.partialUpdate()
+      .add('knownPlanets', 'Kepler-186f') // will add "Kepler-186f" to "knownPlanets"
+      .execute();
+  })
+  .then(() => {
+    console.log(galaxy.knownPlanets.indexOf('Kepler-186f') >= 0); // true
+    return galaxy.partialUpdate()
+      .remove('knownPlanets', 'Pluto') // will remove "Pluto" from the set
+      .execute();
+  })
+  .then(() => {
+    console.log(galaxy.knownPlanets.indexOf('Pluto')); // -1
+  })
 }
 ```
 
@@ -275,16 +297,33 @@ You can **put** elements in and **remove** elements from a map.
 ```js
 function updateSolarSystem(galaxyId) {
   const galaxy = DB.Galaxy.load(galaxyId);
-  const update = galaxy.partialUpdate()
-    .put('planetDistance', 'Earth', '1 au') // assign "1 au" to "Earth"
-    .remove('planetDistance', 'Pluto')      // will remove the "Pluto" key from the map
-    .put('planetDistance', {                // bulk assign many values to a map
-      'Mercury': '0.466 au',
-      'Venus': '0.728 au',
-      'Mars': '1.6660 au',
-    });
-   
-  return update.execute();
+  return Promise.resolve()
+  .then(() => {
+    return galaxy.partialUpdate()
+      .put('planetDistance', 'Earth', '1 au') // assign "1 au" to "Earth"
+      .execute();    
+  })
+  .then(() => {
+    console.log(galaxy.planetDistance['Earth']); // '1 au'
+    return galaxy.partialUpdate()
+      .remove('planetDistance', 'Pluto') // will remove the "Pluto" key from the map
+      .execute();
+  })
+  .then(() => {
+    console.log(galaxy.planetDistance['Pluto']); // undefined
+    return galaxy.partialUpdate()
+      .put('planetDistance', { // bulk assign many values to a map
+        'Mercury': '0.466 au',
+        'Venus': '0.728 au',
+        'Mars': '1.6660 au',
+      })
+      .execute();
+  })
+  .then(() => {                                                
+    console.log(galaxy.planetDistance['Mercury'] === '0.466 au'); // true
+    console.log(galaxy.planetDistance['Venus'] === '0.728 au');   // true
+    console.log(galaxy.planetDistance['Mars'] === '1.6660 au');   // true
+  });
 }
 ```
 
@@ -313,11 +352,19 @@ You can also manipulate your Integer fields with **bitwise operations**, e.g. if
 ```js
 function manipulateRoboParams(robotId) {
   const robot = DB.Robot.load(robotId);
+  console.log(robot.parameter1 === 0b00001111);
+  console.log(robot.parameter2 === 0b11110000);
+  console.log(robot.parameter3 === 0b00001111);
+  
   const update = robot.partialUpdate()
     .and('parameter1', 0b01010101)  // will apply an AND bitmask on "parameter1"
     .or('parameter2', 0b10101010)  // will apply an OR bitmask on "parameter2"
     .xor('parameter3', 0b01010101);  // will apply a XOR bitmask on "parameter3"
    
-  return update.execute();
+  return update.execute().then(() => {
+    console.log(robot.parameter1 === 0b00000101); // true
+    console.log(robot.parameter2 === 0b11111010); // true
+    console.log(robot.parameter3 === 0b01011010); // true    
+  });
 }
 ```
