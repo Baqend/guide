@@ -76,13 +76,15 @@ Use it to overwrite a value in the database without reading it first.
 
 ```js
 function changeNicknameAndAge(userId) {
-  const user = DB.User.load(userId);
-  const update = user.partialUpdate()
-    .set('nickname', 'Alice') // sets "nickname" to "Alice"
-    .set('age', 42);          // sets "age" to 42
-   
-  return update.execute().then((newUser) => {
-    console.log(newUser === user);          // true
+  return DB.User.load(userId)
+  .then((user) => {
+    const update = user.partialUpdate()
+      .set('nickname', 'Alice') // sets "nickname" to "Alice"
+      .set('age', 42);          // sets "age" to 42
+     
+    return update.execute();
+  })
+  .then((user) => {
     console.log(user.nickname === 'Alice'); // true
     console.log(user.age === 42);           // true
   });
@@ -100,18 +102,21 @@ To increment a value of an object by a given number, use the **increment** opera
 
 ```js
 function visitPage(pageId) {
-  const page = DB.Page.load(pageId);
-  const oldVisitorCounter = page.visitorCounter;
-  const oldHitCounter = page.hitCounter;
-  const update = page.partialUpdate()
-    .increment('visitorCounter')  // will increment "visitorCounter" by 1
-    .increment('hitCounter', 23); // will increment "hitCounter" by 23
-   
-  return update.execute().then((newPage) => {
-    console.log(newPage === page);                              // true
+  let oldVisitorCounter, oldHitCounter;
+  return DB.Page.load(pageId)
+  .then((page) => {  
+    oldVisitorCounter = page.visitorCounter;
+    oldHitCounter = page.hitCounter;
+    const update = page.partialUpdate()
+      .increment('visitorCounter')  // will increment "visitorCounter" by 1
+      .increment('hitCounter', 23); // will increment "hitCounter" by 23
+     
+    return update.execute();
+  })
+  .then((page) => {
+    // counters are now increased
     console.log(page.visitorCounter === oldVisitorCounter + 1); // true
     console.log(page.hitCounter === oldHitCounter + 23);        // true
-    // counters are now increased
   });
 }
 ```
@@ -120,12 +125,15 @@ As a shorthand to increment a field by a negative value, you can use **decrement
  
 ```js
 function eatCake(cakeId) {
-  const cake = DB.Cake.load(cakeId);
-  const pieces = cake.pieces;
-  const update = cake.partialUpdate()
-    .decrement('pieces');  // will decrement "pieces" by 1
+  return DB.Cake.load(cakeId)
+  .then((cake) => {  
+    const pieces = cake.pieces;
+    const update = cake.partialUpdate()
+      .decrement('pieces');  // will decrement "pieces" by 1
    
-  return update.execute().then(() => {
+    return update.execute();
+  })
+  .then((cake) => {
     console.log(cake.pieces == pieces - 1); // true
   });
 }
@@ -137,12 +145,15 @@ You can multiply Double and Integer values by a numeric factor using **multiply*
 
 ```js
 function calculateTax(itemId) {
-  const item = DB.Item.load(itemId);
-  const price = item.price;
-  const update = item.partialUpdate()
-    .multiply('price', 1.25);  // will multiply "price" by 1.25
-   
-  return update.execute().then(() => {
+  return DB.Item.load(itemId)
+  .then((item) => {  
+    const price = item.price;
+    const update = item.partialUpdate()
+      .multiply('price', 1.25);  // will multiply "price" by 1.25
+     
+    return update.execute();
+  })
+  .then((item) => {
     console.log(item.price == price * 1.25); // true   
   });
 }
@@ -156,16 +167,19 @@ With min, you update the field to the lower value compared to the one you give a
   
 ```js
 function weAreTooExpensive(itemId) {
-  const item = DB.Item.load(itemId);
-  const price1 = item.price1; //  5.99
-  const price2 = item.price2; //  9.99
-  const price3 = item.price3; // 16.99
-  const update = item.partialUpdate()
-    .min('price1', 9.99)   // will do nothing because 5.99 is lower
-    .min('price2', 9.99)   // will do nothing because it's the same value
-    .min('price3', 9.99);  // will change "price3" to 9.99
-   
-  return update.execute().then(() => {
+  return DB.Item.load(itemId)
+  .then((item) => {  
+    const price1 = item.price1; //  5.99
+    const price2 = item.price2; //  9.99
+    const price3 = item.price3; // 16.99
+    const update = item.partialUpdate()
+      .min('price1', 9.99)   // will do nothing because 5.99 is lower
+      .min('price2', 9.99)   // will do nothing because it's the same value
+      .min('price3', 9.99);  // will change "price3" to 9.99
+     
+    return update.execute();
+  })
+  .then((item) => {
     console.log(item.price1 == 5.99); // true   
     console.log(item.price2 == 9.99); // true   
     console.log(item.price3 == 9.99); // true   
@@ -177,16 +191,18 @@ To do the same but using the higher value, you can use **max**.
 
 ```js
 function weAreTooCheap(itemId) {
-  const item = DB.Item.load(itemId);
-  const price1 = item.price1; //  5.99
-  const price2 = item.price2; //  9.99
-  const price3 = item.price3; // 16.99
-  const update = item.partialUpdate()
-    .max('price1', 9.99)   // will change "price1" to 9.99
-    .max('price2', 9.99)   // will do nothing because it's the same value
-    .max('price3', 9.99);  // will do nothing because 16.99 is higher
-   
-  return update.execute().then(() => {
+  return DB.Item.load(itemId)
+  .then((item) => {  
+    const price1 = item.price1; //  5.99
+    const price2 = item.price2; //  9.99
+    const price3 = item.price3; // 16.99
+    const update = item.partialUpdate()
+      .max('price1', 9.99)   // will change "price1" to 9.99
+      .max('price2', 9.99)   // will do nothing because it's the same value
+      .max('price3', 9.99);  // will do nothing because 16.99 is higher
+     
+    return update.execute();
+  }).then((item) => {
     console.log(item.price1 ==  9.99); // true   
     console.log(item.price2 ==  9.99); // true   
     console.log(item.price3 == 16.99); // true   
@@ -208,12 +224,18 @@ function addSomePhysicists(scienceId) {
   const science = new DB.Science();
   science.name = 'physics';
   science.pioneers = ['Einstein', 'Bohr'];
-  
-  // add "Newton" before "Einstein"
-  return science.partialUpdate().unshift('pioneers', 'Newton').execute()
+  science.save()
+  .then(() => {
+    // add "Newton" before "Einstein"
+    return science.partialUpdate()
+      .unshift('pioneers', 'Newton')
+      .execute();    
+  })
   .then(() => {
     // add "Hawking" after "Bohr"
-    return science.partialUpdate().push('pioneers', 'Hawking').execute();    
+    return science.partialUpdate()
+      .push('pioneers', 'Hawking')
+      .execute();    
   });
 }
 ```
@@ -228,11 +250,18 @@ function removeSomePhysicists(scienceId) {
   science.name = 'physics';
   science.pioneers = ['Galilei', 'Newton', 'Schrödinger'];
   
-  // remove "Galilei"
-  return science.partialUpdate().shift('pioneers').execute()
+  science.save()
+  .then(() => {
+    // remove "Galilei"
+    return science.partialUpdate()
+      .shift('pioneers')
+      .execute()    
+  })
   .then(() => {
     // remove "Schrödinger"
-    return science.partialUpdate().pop('pioneers').execute();    
+    return science.partialUpdate()
+      .pop('pioneers')
+      .execute();    
   });
 }
 ```
@@ -252,14 +281,17 @@ function replaceSomePhysicists(scienceId) {
   science.name = 'physics';
   science.pioneers = ['Galilei', 'Newton', 'Schrödinger'];
   
-  // replace element with index 2 ("Schrödinger") with "Curie"
-  return science.partialUpdate()
-    .replace('pioneers', 1, 'Planck')
-    .replace('pioneers', 2, 'Curie')
-    .execute()
-    .then(() => {
-      console.log(science.pioneers); // ['Galilei', 'Planck', 'Curie']
-    });
+  science.save()
+  .then(() => {
+    // replace element with index 2 ("Schrödinger") with "Curie"
+    return science.partialUpdate()
+      .replace('pioneers', 1, 'Planck')
+      .replace('pioneers', 2, 'Curie')
+      .execute();    
+  })
+  .then(() => {
+    console.log(science.pioneers); // ['Galilei', 'Planck', 'Curie']
+  });
 }
 ```
 
@@ -270,20 +302,19 @@ You can **add** elements into and **remove** elements from a set.
 
 ```js
 function lookForPlanets(galaxyId) {
-  const galaxy = DB.Galaxy.load(galaxyId);
-  return Promise.resolve()
-  .then(() => {
+  return DB.Galaxy.load(galaxyId)
+  .then((galaxy) => {
     return galaxy.partialUpdate()
       .add('knownPlanets', 'Kepler-186f') // will add "Kepler-186f" to "knownPlanets"
       .execute();
   })
-  .then(() => {
+  .then((galaxy) => {
     console.log(galaxy.knownPlanets.indexOf('Kepler-186f') >= 0); // true
     return galaxy.partialUpdate()
       .remove('knownPlanets', 'Pluto') // will remove "Pluto" from the set
       .execute();
   })
-  .then(() => {
+  .then((galaxy) => {
     console.log(galaxy.knownPlanets.indexOf('Pluto')); // -1
   })
 }
@@ -296,20 +327,19 @@ You can **put** elements in and **remove** elements from a map.
 
 ```js
 function updateSolarSystem(galaxyId) {
-  const galaxy = DB.Galaxy.load(galaxyId);
-  return Promise.resolve()
-  .then(() => {
+  return DB.Galaxy.load(galaxyId)
+  .then((galaxy) => {
     return galaxy.partialUpdate()
       .put('planetDistance', 'Earth', '1 au') // assign "1 au" to "Earth"
       .execute();    
   })
-  .then(() => {
+  .then((galaxy) => {
     console.log(galaxy.planetDistance['Earth']); // '1 au'
     return galaxy.partialUpdate()
       .remove('planetDistance', 'Pluto') // will remove the "Pluto" key from the map
       .execute();
   })
-  .then(() => {
+  .then((galaxy) => {
     console.log(galaxy.planetDistance['Pluto']); // undefined
     return galaxy.partialUpdate()
       .put('planetDistance', { // bulk assign many values to a map
@@ -319,7 +349,7 @@ function updateSolarSystem(galaxyId) {
       })
       .execute();
   })
-  .then(() => {                                                
+  .then((galaxy) => {                                                
     console.log(galaxy.planetDistance['Mercury'] === '0.466 au'); // true
     console.log(galaxy.planetDistance['Venus'] === '0.728 au');   // true
     console.log(galaxy.planetDistance['Mars'] === '1.6660 au');   // true
@@ -335,12 +365,14 @@ Use **toNow** to update a field to the current date and time in case of a *DateT
  
 ```js
 function countTheStars(galaxyId) {
-  const galaxy = DB.Galaxy.load(galaxyId);
-  const update = galaxy.partialUpdate()
-    .set('amountOfStars', 42)
-    .toNow('countedStarsAt'); // assign the current date time to "countedStarsAt"
+  return DB.Galaxy.load(galaxyId)
+  .then((galaxy) => {  
+    const update = galaxy.partialUpdate()
+      .set('amountOfStars', 42)
+      .toNow('countedStarsAt'); // assign the current date time to "countedStarsAt"
    
-  return update.execute();
+    return update.execute();
+  });
 }
 ```
 
@@ -351,17 +383,19 @@ You can also manipulate your Integer fields with **bitwise operations**, e.g. if
 
 ```js
 function manipulateRoboParams(robotId) {
-  const robot = DB.Robot.load(robotId);
-  console.log(robot.parameter1 === 0b00001111);
-  console.log(robot.parameter2 === 0b11110000);
-  console.log(robot.parameter3 === 0b00001111);
+  return DB.Robot.load(robotId)
+  .then((robot) => {  
+    console.log(robot.parameter1 === 0b00001111);
+    console.log(robot.parameter2 === 0b11110000);
+    console.log(robot.parameter3 === 0b00001111);
   
-  const update = robot.partialUpdate()
-    .and('parameter1', 0b01010101)  // will apply an AND bitmask on "parameter1"
-    .or('parameter2', 0b10101010)  // will apply an OR bitmask on "parameter2"
-    .xor('parameter3', 0b01010101);  // will apply a XOR bitmask on "parameter3"
-   
-  return update.execute().then(() => {
+    return robot.partialUpdate()
+      .and('parameter1', 0b01010101) // will apply an AND bitmask on "parameter1"
+      .or('parameter2', 0b10101010)  // will apply an OR bitmask on "parameter2"
+      .xor('parameter3', 0b01010101) // will apply a XOR bitmask on "parameter3"
+      .execute();
+  })
+  .then((robot) => {
     console.log(robot.parameter1 === 0b00000101); // true
     console.log(robot.parameter2 === 0b11111010); // true
     console.log(robot.parameter3 === 0b01011010); // true    
