@@ -91,6 +91,23 @@ function changeNicknameAndAge(userId) {
 }
 ```
 
+You can perform partial updates on the **class name**, too.
+Therefore, you use the `partialUpdate(id)` method.
+The following example is equivalent to the one above.
+
+```js
+function changeNicknameAndAgeClassLevel(userId) {
+  return DB.User.partialUpdate(userId)
+    .set('nickname', 'Alice') // sets "nickname" to "Alice"
+    .set('age', 42)           // sets "age" to 42
+    .execute()
+  .then((user) => {
+    console.log(user.nickname === 'Alice'); // true
+    console.log(user.age === 42);           // true
+  });
+}
+```
+
 
 ## Numeric Update Operations
 
@@ -302,12 +319,9 @@ You can **add** elements into and **remove** elements from a set.
 
 ```js
 function lookForPlanets(galaxyId) {
-  return DB.Galaxy.load(galaxyId)
-  .then((galaxy) => {
-    return galaxy.partialUpdate()
-      .add('knownPlanets', 'Kepler-186f') // will add "Kepler-186f" to "knownPlanets"
-      .execute();
-  })
+  return DB.Galaxy.partialUpdate(galaxyId)
+    .add('knownPlanets', 'Kepler-186f') // will add "Kepler-186f" to "knownPlanets"
+    .execute()
   .then((galaxy) => {
     console.log(galaxy.knownPlanets.indexOf('Kepler-186f') >= 0); // true
     return galaxy.partialUpdate()
@@ -327,12 +341,9 @@ You can **put** elements in and **remove** elements from a map.
 
 ```js
 function updateSolarSystem(galaxyId) {
-  return DB.Galaxy.load(galaxyId)
-  .then((galaxy) => {
-    return galaxy.partialUpdate()
-      .put('planetDistance', 'Earth', '1 au') // assign "1 au" to "Earth"
-      .execute();    
-  })
+  return DB.Galaxy.partialUpdate(galaxyId)
+    .put('planetDistance', 'Earth', '1 au') // assign "1 au" to "Earth"
+    .execute()    
   .then((galaxy) => {
     console.log(galaxy.planetDistance['Earth']); // '1 au'
     return galaxy.partialUpdate()
@@ -365,14 +376,11 @@ Use **toNow** to update a field to the current date and time in case of a *DateT
  
 ```js
 function countTheStars(galaxyId) {
-  return DB.Galaxy.load(galaxyId)
-  .then((galaxy) => {  
-    const update = galaxy.partialUpdate()
-      .set('amountOfStars', 42)
-      .toNow('countedStarsAt'); // assign the current date time to "countedStarsAt"
-   
-    return update.execute();
-  });
+  const update = DB.Galaxy.partialUpdate(galaxyId)
+    .set('amountOfStars', 42)
+    .toNow('countedStarsAt'); // assign the current date time to "countedStarsAt"
+ 
+  return update.execute();
 }
 ```
 
