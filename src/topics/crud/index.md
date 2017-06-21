@@ -182,17 +182,33 @@ Those properties are:
 - **“username”**  is the username of a user object.
 - **“inactive”**  holds a boolean flag whether a user object is inactive.
 
-## The `DB.getReference` Method
+## Object References
 
 Sometimes you don't need the fully loaded object, e.g. if you want to check if two users are part of the same role. 
 In that case, you don't need the loaded role to check the reference in both user objects.
-Therefore, the `DB.getReference(id)` method returns an unloaded object of the specific kind:
+
+Therefore, the `ref(id)` method returns an unloaded **object reference** of the specific kind.
+It allows access to all of the object's properties – but beware, it will throw an error if you don't load the object first.
+
+See the following examples to understand the functionality of references:
 
 ```js
-//create a reference to the user with ID “1”
-const userRef = DB.getReference('/db/User/1');
+// Create a reference to the user with ID “1”:
+const userRef = DB.User.ref(1);
 
-//load the actual user object with all data
-let user;
-userRef.load(result => user = result); 
+// You can also use the full object ID:
+const userIdRef = DB.User.ref('/db/User/1');
+console.log(userRef === userIdRef); // true
+
+// You cannot access data of a reference
+let username = userRef.username; // ERROR! throws “This object /db/User/1 is not available.” 
+
+// Load the actual user object with all data
+userRef.load((userLoaded) => {
+  // References and loaded objects are the same after loading:
+  console.log(userLoaded === userRef); // true
+  
+  // Now you can access data of the previous reference, too:
+  username = userRef.username; // This will now work!
+}); 
 ```
