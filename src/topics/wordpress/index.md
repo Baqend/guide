@@ -10,7 +10,7 @@ You can also look for it in your blog's plugin administration (typically located
 
 ## Prepare Your Baqend App
 
-If you haven't already, [register at Baqend](https://dashboard.baqend.com/register) and create your app with a name of your choice.
+If you have not already, [register at Baqend](https://dashboard.baqend.com/register) and create your app with a name of your choice.
 When your app is ready, go to “Settings” in the navigation and find the “Custom Domain” settings in the “Hosting” section.
 Add your domain and follow the DNS setup instructions.
 
