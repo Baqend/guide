@@ -34,6 +34,11 @@ Just click a topic below to get more details.
     <span class="chapter-heading">CLI</span>
     <span class="chapter-info">Work with your <br> Baqend app from <br> your terminal.</span>
   </a>
+  <a class="chapter-item" href="topics/wordpress/">
+    <span class="chapter-icon fa fa-wordpress"></span>
+    <span class="chapter-heading">WordPress Plugin</span>
+    <span class="chapter-info">Easily host your <br> WordPress blog <br> on Baqend.</span>
+  </a>
   <a class="chapter-item" href="topics/setup/">
     <span class="chapter-icon fa fa-gift"></span>
     <span class="chapter-heading">Setup</span>
