@@ -1,9 +1,5 @@
 # Real-Time Queries
 
-<div class="warning"><strong>Private Beta:</strong> 
-Baqend Real-Time Queries are currently not public. If you want to try our real-time features, just <a href="mailto:support@baqend.com%3E?subject=Real-time&nbsp;queries">drop us a line and we will happily <b>enable it for your app</b></a>.
-</div>
-
 Baqend does not only feature powerful queries, but also real-time mechanisms that **keep query results up-to-date** while the underlying database is under constant change. Baqend Real-Time Queries come in two flavors:
 
 + **Self-maintaining queries** (`.resultStream()`): You'll get the complete (updated) result whenever it changes.
