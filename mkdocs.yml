@@ -25,7 +25,7 @@ pages:
         - 'Files': 'topics/files/index.md'
         - 'Caching': 'topics/caching/index.md'
         - 'Logging': 'topics/logging/index.md'
-        - WordPress Plugin: 'topics/wordpress/index.md'
+        #- WordPress Plugin: 'topics/wordpress/index.md'
 
     - Starter Kits:
         - Starter Kits Overview: 'starter-kits/index.md'

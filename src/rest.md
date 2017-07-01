@@ -104,6 +104,21 @@ If-Match: *</code></pre>
         <td><b>204 No Content</b><br> Removes the object and returns nothing.</td>
     </tr>
 </table>
+
+##Login via OAuth
+
+To login via Facebook you must open the following url in a new browser window:
+
+`https://www.facebook.com/dialog/oauth?response_type=code&client_id=CLIENT_ID&scope=email&state={"redirect":"yourapp://path"}&redirect_uri=https://APP_NAME.app.baqend.com/db/User/OAuth/facebook`
+
+CLIENT_ID The Facebook app client id 
+APP_NAME Your baqend app name
+yourapp://path is the url schema where your app is registered on.
+
+After the user has been logged in, you will receive the user token as an get parameter on the yourapp://path?token=TOKEN url.
+
+Afterwards you can access 
+
     
 
 
