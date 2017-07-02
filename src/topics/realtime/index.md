@@ -10,7 +10,8 @@ Calling `.eventStream()` or `.resultStream()` on a query object opens a [websock
 The following sections describe both real-time query types in detail.
 
 <div class="warning"><strong>Real-Time SDK:</strong> 
-To use real-time features, you have to include the <a href="https://github.com/Baqend/js-sdk/blob/master/README.md#baqend-real-time-sdk" target="_blank"><b>Baqend Real-Time SDK</b></a>.
+To use real-time features, you have to include the <a href="https://github.com/Baqend/js-sdk/blob/master/README.md#baqend-real-time-sdk" target="_blank"><b>Baqend Real-Time SDK</b></a> instead of the standard SDK:
+<pre><code><script type="text/javascript" src="//www.baqend.com/js-sdk/latest/baqend-realtime.min.js"></script></code></pre>
 </div>
 
 ## Self-Maintaining Queries
