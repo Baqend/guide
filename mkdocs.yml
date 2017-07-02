@@ -25,12 +25,12 @@ pages:
         - 'Files': 'topics/files/index.md'
         - 'Caching': 'topics/caching/index.md'
         - 'Logging': 'topics/logging/index.md'
-        - WordPress Plugin: 'topics/wordpress/index.md'
+        #- WordPress Plugin: 'topics/wordpress/index.md'
 
     - Starter Kits:
         - Starter Kits Overview: 'starter-kits/index.md'
         - Angular 2 Starter Kit: 'starter-kits/angular2.md'
-        - React and Redux Starter Kit: 'starter-kits/react.md'
+        - React and React Native Starter: 'starter-kits/react.md'
         - Bootstrap Starter Kit: 'starter-kits/bootstrap.md'
         - Ionic 2 Starter Kit: 'starter-kits/ionic2.md'
         - Ionic Starter Kit: 'starter-kits/ionic.md'
