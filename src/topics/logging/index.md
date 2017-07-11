@@ -3,19 +3,50 @@
 As required by many apps, we provide an easy to use logging API to log data out of your app. Additionally the Baqend dashboard shows
 access logs which contain all the resources requested by your users.
 
-App logs and Access logs are accessible through the Baqend dashboard and kept for **30 days**. In addition you can view, query and
-manage the permissions of the logs like any other data you persist to Baqend. But you can't modify the schema, the
-logged data nor the permissions of insert, update and delete operations.
+App logs and Access logs are accessible through the Baqend dashboard. 
+App logs will be kept forever and Access logs will be removed after **10 days** due to privacy terms. 
+
+In addition, you can view, query and manage the permissions of the logs like any other data you persist to Baqend. 
+But you can't modify the schema, the logged data nor the permissions of update and delete operations.
 
 <div class="note"><strong>Note:</strong> When querying logs you must always use a date predicate, otherwise you will only get the last 5 minutes of 
 the logs.</div>
 
 ## App Logging
 
-The Baqend SDK provides a simple logging API which you can use in your app as well as in Baqend code.
+The Baqend SDK provides a powerful logging API. 
 
-The SDK provides a simple log method which takes a log level, a message, arguments and a optional data object.
-In addition the SDK logs the current date and the logged in user.
+- You can use the logging API to remote log events and errors which happen at your user's side.
+- You can log events and errors in Baqend code. Uncaught errors and rejected promises in baqend code will automatically 
+  be logged as errors.
+
+Logging from the browser:
+
+```js
+//Use the debug level while developing. 
+//You can then easily disable all logs by just removing this line
+DB.log.level = 'debug'; 
+
+DB.log.debug('A simple debug message', {test: 'some test data'})
+DB.log.info('A simple message that always be logged');
+```
+
+The SDK provides a simple log method which takes a log level, a message, arguments and an optional data object.
+In addition, the SDK logs the current date and the logged in user.
+
+Logging from Baqend Code:
+
+```js
+exports.call = function(db, data, req) {
+    //Use the debug level while developing. 
+    //You can then easily disable all logs by just removing this line
+    db.log.level = 'debug'; 
+    
+    db.log.debug('A simple debug message', {test: 'some test data'})
+    db.log.info('A simple message that always be logged');  
+}
+```
+
 
 ### Log Levels
 You can use multiple log levels to categorize your logs. You can use one of the predefined logging levels 
@@ -45,19 +76,19 @@ DB.log.level = 'warn'; // to track only 'warn' and 'error'
 
 ### Log Arguments
 
-It is easy to include dynamic data into the log message. You can use placeholder in your log message which will be
-replaced by the additional passed values.
-The can use the placeholders `%s` for strings, `%d` for numbers and `%j` for a json conversion before the values are 
-included into the log message.
+It is easy to include dynamic data into the log message. 
+You can use placeholder in your log message which will be replaced by the additional passed values.
+The can use the placeholders `%s` for strings, `%d` for numbers and `%j` for a JSON conversion before the values are 
+included in the log message.
  
 ```js
 DB.log('debug', 'The value %d is greater then %d', 10, 5);
 //logs the message 'The value 10 is greater then 5'
 ```
 
-Often you want to log additional data, which should not be converted to a string and included into the log message itself. 
-All the log methods allows one additional argument as the last argument. The argument should be a json like object 
-and will be logged in addition to the log message. 
+Often you want to log additional data, which should not be converted to a string and included in the log message itself. 
+All the log methods allow one additional argument as the last argument. 
+The argument should be a JSON like object and will be logged in addition to the log message. 
 
 ```js
 DB.log('debug', 'The value %d is greater then %d', 10, 5, {val1: 10, val2: 5});

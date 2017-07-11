@@ -142,7 +142,7 @@ DB.Test.load('546c6-a...').then((obj) => {
 
 <div class="note"><strong>Note:</strong> Inside Baqend Code data operations (e.g. <code>user.save()</code>) have the access rights of the user starting the 
 request enhanced by an additional <code>node</code> role. Calls to Baqend originating from handlers will not trigger another 
-<code>onUpdate(db)</code> call. See <a href="#predefined-roles">Predefined Roles</a> for more details.</div>
+<code>onUpdate(db)</code> call. See <a href="../user-management/#predefined-roles">Predefined Roles</a> for more details.</div>
 
 ### onDelete
 
@@ -278,7 +278,7 @@ exports.get = function(db, req, res) {
 ```
 
 It is important that you send the content back with one of the express `res.send()` helpers. Otherwise the response will 
-not be send back to the client. In addition ensure that you return a [promise](../setup#promises) when you make asynchronous calls within 
+not be send back to the client. In addition ensure that you return a [promise](../getting-started#promises) when you make asynchronous calls within 
 your Baqend module, otherwise the request will be aborted with an error!
 
 ## Handling binary data
@@ -410,23 +410,61 @@ exports.onUpdate = function(db, obj) {
 }; 
 ```
 
-The following additional libraries can always be required in Baqend code:
-
-- [http](https://nodejs.org/api/http.html) - Node.js http core library
-- [https](https://nodejs.org/api/https.html) - Node.js https core library 
-- [querystring](https://nodejs.org/api/querystring.html) - Node.js core querystring parsing and serialization library
-- [crypto](https://nodejs.org/api/crypto.html) - Node.js core crypto api offers a way of encapsulating secure credentials 
-- [baqend](https://www.baqend.com/js-sdk/latest/baqend.html) - The Baqend SDK
-- [express](http://expressjs.com/4x/api.html) - HTTP server
-- [twilio](http://twilio.github.io/twilio-node/) - APIs for Text Messaging, VoIP & Voice in the Cloud 
-- [lwip](https://github.com/EyalAr/lwip/) - a Light Weight Image Processor for NodeJS
-- [node-mailjet](https://github.com/mailjet/mailjet-apiv3-nodejs) [API v3](https://dev.mailjet.com) Official Mailjet API v3 NodeJS wrapper 
-
-<div class="note"><strong>Note:</strong> If you need custom Node.js modules from npm, please contact us via <a href="mailto:support@baqend.com">support@baqend.com</a> and we will add them.</div>
-
 ## Permissions
 
 Baqend Code is always executed with the permissions of the requesting client. If the requesting user is not logged in, 
 all requests made from Baqend code are anonymous. Both anonymous and authenticated invocations are enhanced by the node 
 role. This predefined role can be used in class and object ACLs to grant Baqend code additional access rights. 
 In addition there are some Baqend API resources which can only be accessed by the admin or the node role. 
+
+## Debugging & Logging
+
+You can easily debug any part of your Baqend Code with the powerful Logging API of Baqend. 
+Any uncaught errors and rejected Promises will automatically be logged into the AppLog Table. So keep an eye on it. 
+
+Read more about it in the [Baqend logging chapter](../logging/)
+
+## NPM Node Modules
+
+You can also install and use custom NPM modules in your Baqned code.
+
+### Installing Public NPM Modules
+
+In the navigation bar you can open Backend Code > Node Modules to open the NPM installation UI. You can install custom NPM 
+modules starting from the [Start-Up Plan](https://www.baqend.com/pricing.html) upwards. 
+
+![Node Module installation](node-installation.png)
+
+In the installation UI you can add new modules by entering the npm package name and selecting the version you want to install. 
+After adding the Module by clicking "Add Module" you can add more node modules as needed. 
+Complete the installation by pressing the "Install & Deploy changes". 
+The Node modules will be installed in background and will be deployed if the installation process succeeds. 
+If an error occurred while installing the modules. the installation will be rolled back to the previous state.
+
+<div class="note"><strong>Note:</strong> We are updating your node server from time to time and will reinstall are 
+your defined node modules. 
+Therfore it is recommanded to specify explicit version so that a later schedulled node module installation does not 
+break your production code</div>
+
+<div class="note"><strong>Note:</strong> Currently the installed NPM modules used file space must fit into 200MB.
+If you hit that limit please contact us at <a href="mailto:support@baqend.com">support@baqend.com</a> or via chat.</div>
+
+
+### Pre installed Node Modules
+
+Baqend is shipped with some pre installed Node Modules. The following additional libraries can always be required in Baqend code:
+
+- [http](https://nodejs.org/api/http.html) - Node.js http core library
+- [https](https://nodejs.org/api/https.html) - Node.js https core library
+- [querystring](https://nodejs.org/api/querystring.html) - Node.js core querystring parsing and serialization library
+- [crypto](https://nodejs.org/api/crypto.html) - Node.js core crypto api offers a way of encapsulating secure credentials 
+- [zlib](https://nodejs.org/api/zlib.html) - Node.js core zlib api provides compression functionality implemented using Gzip and Deflate/Inflate. 
+- [v8](https://nodejs.org/api/v8.html) - Node.js core v8 api provides functionality for node debug purposes.
+- [baqend](https://www.baqend.com/js-sdk/latest/baqend.html) - The Baqend SDK
+- [express](http://expressjs.com/4x/api.html) - HTTP server
+- [twilio](http://twilio.github.io/twilio-node/) - APIs for Text Messaging, VoIP & Voice in the Cloud 
+- [lwip](https://github.com/EyalAr/lwip/) - a Light Weight Image Processor for NodeJS
+- [node-mailjet](https://github.com/mailjet/mailjet-apiv3-nodejs) [API v3](https://dev.mailjet.com) Official Mailjet API v3 NodeJS wrapper 
+
+More modules may be added from time to time.
+

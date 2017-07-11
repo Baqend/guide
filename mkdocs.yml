@@ -7,11 +7,8 @@ pages:
         - Quickstart: 'gettingstarted/index.md'
         - Roadmap: 'roadmap.md'
 
-        - 'Overview': 'topics/overview/index.md'
-        - 'Dashboard': 'topics/dashboard/index.md'
+        - 'Getting Started': 'topics/getting-started/index.md'
         - 'CLI': 'topics/cli/index.md'
-
-        - 'Setup': 'topics/setup/index.md'
         - 'CRUD': 'topics/crud/index.md'
         - 'Schema and Types': 'topics/schema/index.md'
         - 'Queries': 'topics/queries/index.md'
@@ -19,12 +16,13 @@ pages:
         - 'User Management': 'topics/user-management/index.md'
         - 'Baqend Code': 'topics/baqend-code/index.md'
         - 'Push Notifications': 'topics/push/index.md'
-        - Partial Updates: 'topics/partial-updates/index.md'
+        - 'Partial Updates': 'topics/partial-updates/index.md'
         - 'Deep Loading': 'topics/deep-loading/index.md'
         - 'Hosting': 'topics/hosting/index.md'
         - 'Files': 'topics/files/index.md'
         - 'Caching': 'topics/caching/index.md'
         - 'Logging': 'topics/logging/index.md'
+        - 'Backups': 'topics/backups/index.md'
         #- WordPress Plugin: 'topics/wordpress/index.md'
 
     - Starter Kits:

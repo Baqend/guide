@@ -212,3 +212,19 @@ userRef.load((userLoaded) => {
   username = userRef.username; // This will now work!
 }); 
 ```
+
+## Exporting and Importing Tables
+
+You can Export each Table of your App by simply pressing the `Export` button in the Baqend Dashboard. Predefined tables 
+will also export some internal Metadata fields that are indicated by an `_`. E.g. the user table contains a salt and a 
+seeded password hash. 
+
+![Dashboard Export and Import](export.png)
+ 
+At a later time, you can `Import` the Data Table again. Existing objects will always be replaced by the imported once.
+Objects that exist in the Table but not in the Import will remain in the Table. If you want that only the Imported 
+objects will be kept you should `Truncate` the Table first.
+
+<div class="note"><strong>Note:</strong> 
+    To perform an Export, Import or Truncate you need a User with the [Admin Role](../user-management/#predefined-roles).
+</div>

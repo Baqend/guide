@@ -1,7 +1,6 @@
 # Baqend Guide
 
 Learn how to use Baqend to develop your app.
-Just click a topic below to get more details.
 
 <div class="chapter-container">
   <a class="chapter-item" href="https://www.baqend.com/tutorial.html">
@@ -19,15 +18,10 @@ Just click a topic below to get more details.
     <span class="chapter-heading">Starter Kits</span>
     <span class="chapter-info">Some starter kits for <br> popular frameworks <br> integrating Baqend.</span>
   </a>
-  <a class="chapter-item" href="topics/overview/">
-    <span class="chapter-icon fa fa-info"></span>
-    <span class="chapter-heading">Overview</span>
-    <span class="chapter-info">An overview over <br> Baqend's architecture <br> and ecosystem.</span>
-  </a>
-  <a class="chapter-item" href="topics/dashboard/">
-    <span class="chapter-icon fa fa-dashboard"></span>
-    <span class="chapter-heading">Dashboard</span>
-    <span class="chapter-info">Manage your Baqend <br> app's data, schema, <br> and settings online.</span>
+  <a class="chapter-item" href="topics/getting-started/">
+    <span class="chapter-icon fa fa-gears"></span>
+    <span class="chapter-heading">Getting Started</span>
+    <span class="chapter-info">How you set up <br> and get running <br> your first app.</span>
   </a>
   <a class="chapter-item" href="topics/cli/">
     <span class="chapter-icon fa fa-terminal"></span>
@@ -39,11 +33,6 @@ Just click a topic below to get more details.
     <span class="chapter-heading">WordPress Plugin</span>
     <span class="chapter-info">Easily host your <br> WordPress blog <br> on Baqend.</span>
   </a -->
-  <a class="chapter-item" href="topics/setup/">
-    <span class="chapter-icon fa fa-gift"></span>
-    <span class="chapter-heading">Setup</span>
-    <span class="chapter-info">How you set up <br> and get running <br> your first app.</span>
-  </a>
   <a class="chapter-item" href="topics/crud/">
     <span class="chapter-icon fa fa-exchange"></span>
     <span class="chapter-heading">CRUD</span>
@@ -108,6 +97,11 @@ Just click a topic below to get more details.
     <span class="chapter-icon fa fa-bar-chart"></span>
     <span class="chapter-heading">Logging</span>
     <span class="chapter-info">Ease the debbuging <br> of your app by <br> logging its status.</span>
+  </a>
+  <a class="chapter-item" href="topics/backups/">
+    <span class="chapter-icon fa fa-download"></span>
+    <span class="chapter-heading">Backups</span>
+    <span class="chapter-info">Periodic Backups<br> and Recovery of <br> lost Data.</span>
   </a>
 </div>
 
