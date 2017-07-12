@@ -1,10 +1,9 @@
 # Logging
 
-As required by many apps, we provide an easy to use logging API to log data out of your app. Additionally the Baqend dashboard shows
-access logs which contain all the resources requested by your users.
+As required by many apps, we provide an easy-to-use logging API to log data out of your app. Additionally, the Baqend dashboard shows access logs which contain all the resources requested by your users.
 
-App logs and Access logs are accessible through the Baqend dashboard. 
-App logs will be kept forever and Access logs will be removed after **10 days** due to privacy terms. 
+App logs and access logs are accessible through the Baqend dashboard. 
+App logs will be kept forever and access logs will be removed after **10 days** due to privacy terms. 
 
 In addition, you can view, query and manage the permissions of the logs like any other data you persist to Baqend. 
 But you can't modify the schema, the logged data nor the permissions of update and delete operations.
