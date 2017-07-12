@@ -82,7 +82,7 @@ The can use the placeholders `%s` for strings, `%d` for numbers and `%j` for a J
 included in the log message.
  
 ```js
-DB.log('debug', 'The value %d is greater then %d', 10, 5);
+DB.log.debug('The value %d is greater then %d', 10, 5);
 //logs the message 'The value 10 is greater then 5'
 ```
 
@@ -91,18 +91,39 @@ All the log methods allow one additional argument as the last argument.
 The argument should be a JSON like object and will be logged in addition to the log message. 
 
 ```js
-DB.log('debug', 'The value %d is greater then %d', 10, 5, {val1: 10, val2: 5});
+DB.log.debug('The value %d is greater then %d', 10, 5, {val1: 10, val2: 5});
 //logs the message 'The value 10 is greater then 5'
 //and the data {val1: 10, val2: 5}
 ```
 
-You can also use the log level helper methods:
+ES6 Map's and Set's can't be logged directly since their serialized representation results in an empty `{}` object.
+You can use the `Array.from` method to convert them first to an array:
+
 ```js
-DB.log.debug('The value %d is greater then %d', 10, 5, {val1: 10, val2: 5});
+var set = new Set();
+set.add(34);
+
+DB.log.debug('The set value is', Array.from(set));
+//logs the data {data: [34]}
+
+var map = new Map();
+map.set("key", 34);
+
+DB.log.debug('The map value is', Array.from(map));
+//logs the data {data: [["key",34]]} Maps are serialized by an array of key value pairs
+```
+
+You can also log errors by just logging the errors stack
+
+```js
+var error = new Error('An Error');
+DB.log.debug('The error is: ', error.stack);
+// logs somthing simmilar to the following: The error is:, Error: An Error    at <anonymous>:1:21
 ```
 
 <div class="note"><strong>Note:</strong> App logs can be inserted by everyone by default, to restrict log insertion you can change the insert permission
 of the AppLog class in the dashboard.</div>
+
 
 ## Access Logs
 
