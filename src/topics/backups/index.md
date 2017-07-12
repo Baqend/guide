@@ -69,7 +69,7 @@ The following step-by-step guide describes how to recover lost data from a backu
     </code></pre>
 
     This will import your backup data into the `local` database which is the default database for the Community Edition.
-    If you get an error explaining that `mongorestore` is an unknown command, ensure that the `mongorestore` binary is on your `PATH` and try again. (Alternatively, you can also use the fully specified command `bath/to/mongorestore`.)
+    If you get an error explaining that `mongorestore` is an unknown command, ensure that the `mongorestore` binary is on your `PATH` and try again. (Alternatively, you can also use the fully specified command `path/to/mongorestore`.)
     
     Reload the dashboard of your local instance again. The recovered data should appear. 
     You can now export individual objects or entire collections from your local Baqend app and then import them into your cloud-hosted app using the [export and import](../crud/#exporting-and-importing-tables) functionality.
