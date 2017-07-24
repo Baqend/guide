@@ -48,6 +48,11 @@ Learn how to use Baqend to develop your app.
     <span class="chapter-heading">Queries</span>
     <span class="chapter-info">Retrieve specific data <br> from Baqend by <br> performing queries.</span>
   </a>
+  <a class="chapter-item" href="topics/aggregation/">
+    <span class="chapter-icon fa fa-cubes"></span>
+    <span class="chapter-heading">Aggregation</span>
+    <span class="chapter-info">Analyze, transform or<br> process your data.</span>
+  </a>
   <a class="chapter-item" href="topics/realtime/">
     <span class="chapter-icon fa fa-heartbeat"></span>
     <span class="chapter-heading">Real-Time Queries</span>
