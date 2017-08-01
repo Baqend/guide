@@ -200,6 +200,55 @@ DB.modules.post('invite', { email: 'peter@example.com', invite: 'My new event' }
 
 Baqend modules are also useful for sending messages like E-mails, Push notifications and SMS.
 
+
+## Scheduled Code Execution
+
+Baqend supports executing Baqend Modules periodically or at specific points in time.
+ 
+To schedule code for execution, open the corresponding Baqend Module in the dashboard and click on the `Schedule Execution` button. 
+
+### Simple: Periodic Tasks
+
+The basic scheduling options let you choose a timestamp for the **initial execution** of your task, a **uniform time interval** by which your task is going to be carried out in the future and a timestamp to define the **job expiration** (default: every `7 days`, starting `now`, ending `never`). 
+
+You can change both the numeric value and the unit of time in which the interval is defined. For example, to schedule an execution every 48 hours, you could specify an interval of `2 days` or `48 hours`. Likewise, you can choose any future timestamp for the initial execution: Your job will run in the specified interval from that point on. If you specify an expiration timestamp, your job will be canceled at this exact point in time, i.e. it will only be executed until then. 
+
+### Advanced: Cron Jobs
+
+If your task requires more sophisticated execution rules, click on `Advanced Options` and provide a cron job pattern instead of a uniform time interval. 
+
+Here are a few examples for patterns and possible use cases:
+
+- `* */10 * * * *`: Perform a healthcheck every 10 minutes.
+- `00 00 20 * * 1-5`: Run a backup every weekday (Monday through Friday), at 8 PM.
+- `00 30 12 * * 1,3,5`: Email statistics to your CTO every Monday, Wednesday and Friday, at 12:30 PM.
+
+To fiddle out the right pattern, take a peek at the **Live Preview**. It shows you the first 10 execution timestamp, given your current input.
+
+<div class="note"><strong>Note:</strong> We use a third-party library for code scheduling. See their docs for more details on the supported <a href="https://github.com/kelektiv/node-cron#available-cron-patterns" target="_blank">cron job patterns</a>.</div>
+
+A **cron job pattern** may contain the following:
+ 
+- *asterisks* (`*`), 
+- *numbers* (e.g. `3`), 
+- *ranges* (e.g. `1-6` or `1-3,5`), 
+- and *steps* (e.g. `*/2`).
+
+Our cron job patterns adhere to the below structure:
+
+```text
+*    *    *    *    *    *
+┬    ┬    ┬    ┬    ┬    ┬
+│    │    │    │    │    |
+│    │    │    │    │    └ day of week (0 - 6)
+│    │    │    │    └───── month (0 - 11)
+│    │    │    └────────── day of month (1 - 31)
+│    │    └─────────────── hour (0 - 23)
+│    └──────────────────── minute (0 - 59)
+└───────────────────────── second (0 - 59, optional)
+```
+
+
 ## Aborting requests
 To abort an insert, update, delete or Baqend module invocation, handlers as well as modules may throw an 
 `Abort` exception.
