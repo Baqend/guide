@@ -203,13 +203,19 @@ Baqend modules are also useful for sending messages like E-mails, Push notificat
 
 ## Scheduled Code Execution
 
-Baqend supports executing Baqend Modules periodically or at specific points in time.
+You can schedule any Baqend Module for execution, either in intervals or through cron job patterns.
  
-To schedule code for execution, open the corresponding Baqend Module in the dashboard and click on the `Schedule Execution` button. 
+To schedule code for execution, open the corresponding Baqend Module in the dashboard and click on the `Schedule Execution` button. There are three parameters for scheduling: 
 
-### Simple: Periodic Tasks
+- **start**: the moment of the first execution. 
+- **end** (optional): the moment at which the job is canceled.
+- **recurrence**: defines how your code will be called in the future.
+    - *interval-based*: a temporal period (e.g. for execution every `12 hours`) 
+    - *cron job pattern*: a custom scheduling rule (e.g. `0 0 18 * * 6` for execution every Sunday at 6 PM)
 
-The basic scheduling options let you choose a timestamp for the **initial execution** of your task, a **uniform time interval** by which your task is going to be carried out in the future and a timestamp to define the **job expiration** (default: every `7 days`, starting `now`, ending `never`). 
+### Simple Periodic Tasks
+ 
+You can choose a start timestamp for the **initial execution** of your task, a **uniform time interval** by which your task is going to be carried out in the future and a timestamp to define the **job expiration** (default: every `7 days`, starting `now`, ending `never`). 
 
 You can change both the numeric value and the unit of time in which the interval is defined. For example, to schedule an execution every 48 hours, you could specify an interval of `2 days` or `48 hours`. Likewise, you can choose any future timestamp for the initial execution: Your job will run in the specified interval from that point on. If you specify an expiration timestamp, your job will be canceled at this exact point in time, i.e. it will only be executed until then. 
 
@@ -220,8 +226,8 @@ If your task requires more sophisticated execution rules, click on `Advanced Opt
 Here are a few examples for patterns and possible use cases:
 
 - `* */10 * * * *`: Perform a healthcheck every 10 minutes.
-- `00 00 20 * * 1-5`: Run a backup every weekday (Monday through Friday), at 8 PM.
-- `00 30 12 * * 1,3,5`: Email statistics to your CTO every Monday, Wednesday and Friday, at 12:30 PM.
+- `0 0 20 * * 1-5`: Run a backup every weekday (Monday through Friday), at 8 PM.
+- `0 30 12 * * 1,3,5`: Email statistics to your CTO every Monday, Wednesday and Friday, at 12:30 PM.
 
 To fiddle out the right pattern, take a peek at the **Live Preview**. It shows you the first 10 execution timestamp, given your current input.
 
