@@ -223,7 +223,7 @@ If you like to skip the verification, you can pass the `{force: true}` option to
 <div class="note"><strong>Note:</strong> To upload a file you must have at least the insert or update permission on the root folder and write access on the file. </div>
 
 
-## Example: Download to Baqend File
+## Example: Upload from external URL
 
 
 To illustrate how to do uploads with Baqend files, consider a simple use case: You have a third-party URL that you would like to download into a Baqend file. To do this, create a new module "download" in the dashboard and paste the following code:
