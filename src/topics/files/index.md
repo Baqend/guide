@@ -226,12 +226,12 @@ If you like to skip the verification, you can pass the `{force: true}` option to
 ## Example: Download to Baqend File
 
 
-To illustrate how to do uploads with Baqend files, consider a simple use case: you have a third-party URL that you would like to download into a Baqend file. To do this, create a new module "download" in the dashboard and paste the following code:
+To illustrate how to do uploads with Baqend files, consider a simple use case: You have a third-party URL that you would like to download into a Baqend file. To do this, create a new module "download" in the dashboard and paste the following code:
 
 ```js
 const http = require('http');
 /**
- * Fetches a URL an saves it to a Baqend file.
+ * Fetches a URL and saves it to a Baqend file.
  *
  * Usage example:
  * download = require('./download');
@@ -239,9 +239,9 @@ const http = require('http');
  *
  * @param db Baqend db to use
  * @param url the URL that should be downloaded
- * @param target the name of the Baqend file to save it into
- * @param maxRetries number of retries if the response is a 4xx or 5xx status code
- * @returns {Promise} a Promise that resolved to the uploaded file
+ * @param target the name of the target Baqend file
+ * @param maxRetries number of retries if the response has a 4xx or 5xx status code
+ * @returns {Promise} a Promise that resolves to the uploaded file
  */
 function toFile(db, url, target, maxRetries = 10) {
     return new Promise((resolve, reject) => {
