@@ -12,6 +12,7 @@ pages:
         - 'CRUD': 'topics/crud/index.md'
         - 'Schema and Types': 'topics/schema/index.md'
         - 'Queries': 'topics/queries/index.md'
+        - 'Aggregation': 'topics/aggregation/index.md'
         - 'Real-Time Queries': 'topics/realtime/index.md'
         - 'User Management': 'topics/user-management/index.md'
         - 'Baqend Code': 'topics/baqend-code/index.md'
