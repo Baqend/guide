@@ -1,6 +1,7 @@
 const DomParser = require('dom-parser');
 const path = require('path');
 const fs = require('fs');
+const copy = require('copy');
 
 
 function replaceNextTag(string, tag) {
@@ -9,14 +10,21 @@ function replaceNextTag(string, tag) {
 }
 
 function insertCode(string, tag, code) {
-  const regex = new RegExp(`<${tag}[^<]*>(((.|\\n)(?!</${tag}>))*.)</${tag}>`, 'g');
+  const regex = new RegExp(`<${tag}[^<]*>(((.|\\n)(?!</${tag}>)(?!<${tag}>))*.)</${tag}>`, 'g');
   return string.replace(regex, code);
 }
 
-const sourceFilePath = path.resolve(__dirname, '../docs/topics/wordpress/index.html');
-const destFilePath = path.resolve(__dirname, '../../baqend-wordpress/baqend/views/help.phtml');
+function replaceImgSrc(string) {
+  const regex = /<img([^<>]*)src="\.\/([\w\/.-]+)"([^<>]*)>/g;
+  return string.replace(regex, '<img$1src="/wp-content/plugins/baqend/img/$2"$3>');
+}
 
-console.info(`Parsing data from ${sourceFilePath}\nand writing it to ${destFilePath}`);
+const wordPressPath = path.resolve(__dirname, '../../baqend-wordpress/baqend');
+const sourceFilePath = path.resolve(__dirname, '../docs/topics/wordpress/index.html');
+const destViewsPath = path.resolve(wordPressPath, './views/help.phtml');
+const destImgPath = path.resolve(wordPressPath, './img');
+
+console.info(`Parsing data from ${sourceFilePath}\nand writing it to ${destViewsPath}`);
 
 fs.readFile(sourceFilePath, { encoding: 'utf8' }, (err, html) => {
   if (err) throw new Error(err);
@@ -37,11 +45,19 @@ fs.readFile(sourceFilePath, { encoding: 'utf8' }, (err, html) => {
 
   result = insertCode(result, 'h2', "<h2><? _e('$1', 'baqend') ?></h2>");
   result = insertCode(result, 'p', "<p><? _e('$1', 'baqend') ?></p>");
+  result = insertCode(result, 'li', "<li><? _e('$1', 'baqend') ?></li>");
+  result = insertCode(result, 'strong', "<strong><? _e('$1', 'baqend') ?></strong>");
 
-  result = `<div class="wrap"><h1><? _e('Baqend &rsaquo; Help', 'baqend') ?></h1>\n${result}</div>`;
+  result = replaceImgSrc(result);
 
-  fs.writeFile(destFilePath, result, { encoding: 'utf8' }, (err) => {
+  result = `<? /*\n\nGenerated from Guide – Do not change manually!\n\n*/ ?><div class="wrap baqend-help"><h1><? _e('Baqend &rsaquo; Help', 'baqend') ?></h1>\n<? include 'tabs.phtml'; ?>${result}</div>`;
+
+  fs.writeFile(destViewsPath, result, { encoding: 'utf8' }, (err) => {
     if (err) throw new Error(err);
+
+    copy(path.resolve(__dirname, '../docs/topics/wordpress/*.png'), destImgPath, (err) => {
+      if (err) throw new Error(err);
+    });
   });
 });
 
