@@ -1,6 +1,11 @@
 # Websocket: Protocol Description
 
-This document describes what messages are sent between client and server to enable real-time queries, i.e. to provide the client with low-latency updates to query results. The information provided here is intended to cover low-level details that are not part of our client documentation: To get a basic understanding of event message semantics, message format, legal values etc., please read our docs on [Event Stream Queries](./topics/realtime/#event-stream-queries) first. 
+This document describes what messages are sent between client and server to enable real-time queries, i.e. to provide the client with low-latency updates to query results. The information provided here is intended to cover low-level details that are not part of our client SDK documentation: To get a basic understanding of event message semantics, message format, legal values etc., please read our docs on [Event Stream Queries](./topics/realtime/#event-stream-queries) first. 
+
+You can establish a websocket connection to your app through the following endpoints:
+
+- `ws://<app-name>.events.baqend.com/v1/events` (cleartext) 
+- `wss://<app-name>.events.baqend.com/v1/events` (TLS-encrypted) 
 
 ## Real-Time Query Lifecycle
 
