@@ -213,6 +213,35 @@ userRef.load((userLoaded) => {
 }); 
 ```
 
+## Dereferencing Objects
+
+You can also find all objects which reference to an object you pass.
+Therefore, the `obj.getReferencing()` method finds all objects which reference `obj` within singular attributes, lists, and sets.
+
+Here is an example:
+
+```js
+someRoleObject.users === [DB.User.me]; // true
+
+DB.User.me.getReferencing().then((allReferencingObjects) => {
+    // “allReferencingObjects” is an array containing loaded objects
+    
+    console.log(allReferencingObjects.indexOf(someRoleObject) >= 0); // true; e.g., “someRoleObject” will be found
+});
+```
+
+You can pass an array of class names to the method to only find instances of those classes to reference your object:
+
+```js
+someRoleObject.users === [DB.User.me]; // again, this is true
+
+DB.User.me.getReferencing({ classes: ['/db/Role'] }).then((allReferencingRoles) => {
+    // “allReferencingRoles” is an array containing loaded instances of the “Role” class
+    
+    console.log(allReferencingRoles === [someRoleObject]); // true
+});
+```
+
 ## Exporting and Importing Tables
 
 You can Export each Table of your App by simply pressing the `Export` button in the Baqend Dashboard. Predefined tables 
