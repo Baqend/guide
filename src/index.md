@@ -8,20 +8,25 @@ Learn how to use Baqend to develop your app.
     <span class="chapter-heading">Tutorial</span>
     <span class="chapter-info">A tutorial how <br> to write a to-do <br> app with Baqend.</span>
   </a>
-  <a class="chapter-item" href="gettingstarted/">
+    <a class="chapter-item" href="gettingstarted/">
+      <span class="chapter-icon fa fa-code"></span>
+      <span class="chapter-heading">Quickstart</span>
+      <span class="chapter-info">How to embed Baqend <br> in your JavaScript app <br> to get started quickly.</span>
+    </a>
+  <a class="chapter-item" href="speed-kit/">
     <span class="chapter-icon fa fa-rocket"></span>
-    <span class="chapter-heading">Quickstart</span>
-    <span class="chapter-info">How to embed Baqend <br> in your JavaScript app <br> to get started quickly.</span>
+    <span class="chapter-heading">Speed Kit</span>
+    <span class="chapter-info">How to boost web <br> performance on your <br> current technology stack.</span>
   </a>
+    <a class="chapter-item" href="topics/getting-started/">
+      <span class="chapter-icon fa fa-gears"></span>
+      <span class="chapter-heading">Getting Started</span>
+      <span class="chapter-info">How you set up <br> and get running <br> your first app.</span>
+    </a>
   <a class="chapter-item" href="starter-kits/">
     <span class="chapter-icon fa fa-archive"></span>
     <span class="chapter-heading">Starter Kits</span>
     <span class="chapter-info">Some starter kits for <br> popular frameworks <br> integrating Baqend.</span>
-  </a>
-  <a class="chapter-item" href="topics/getting-started/">
-    <span class="chapter-icon fa fa-gears"></span>
-    <span class="chapter-heading">Getting Started</span>
-    <span class="chapter-info">How you set up <br> and get running <br> your first app.</span>
   </a>
   <a class="chapter-item" href="topics/cli/">
     <span class="chapter-icon fa fa-terminal"></span>
