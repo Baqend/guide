@@ -45,10 +45,16 @@ that will speed up your requests.
 ###Host Service Worker
 In order to provide the service worker with its full functionality, it needs to have the root
 scope. Thus, the service worker should be hosted in your root directory. 
+If you are able to do so, the default case is yours. If for whatever reason this is not possible we provided 
+you some implementation options in your dashboard´s "Install Speed Kit" section.
 </li>
+<li>
+###Refresh Content
+If you have changed any kind of content, you need to trigger a service worker refresh or else your users will 
+continue to see the old content. To inform us best case scenario is to implement the refresh calls in your system 
+whenever you upload new content. If you havent implemented this yet, you can use the dashboard to manually call our
+refresh api.</li>
 </ol>
-
-## How Speed Kit works
 
 ## Page Speed Analyzer
 
