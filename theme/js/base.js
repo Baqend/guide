@@ -22,6 +22,11 @@ $('a').click(function (e) {
   $('body').toggleClass('clicky');
 });
 
+$('h1[id], h2[id], h3[id], h4[id], h5[id], h6[id]').click(function (e) {
+  e.preventDefault();
+  window.location.hash = $(this).attr('id')
+})
+
 /* Prevent disabled links from causing a page reload */
 $("li.disabled a").click(function () {
   event.preventDefault();

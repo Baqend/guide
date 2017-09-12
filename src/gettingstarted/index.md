@@ -25,8 +25,8 @@ In a few steps your app will look like this:
 </li>
 <li>
 ###Install Baqend
-To install Baqend to the application (alreay included in the zip you downloaded), just add the CDN-hosted Baqend SDK 
-at the end of the `<body>` section of the index.html using your favourite IDE (e.g. [WebStorm](https://www.jetbrains.com/webstorm/)) 
+To install Baqend to the application (alreay included in the zip you downloaded), just add the CDN-hosted Baqend SDK
+at the end of the `<body>` section of the index.html using your favourite IDE (e.g. [WebStorm](https://www.jetbrains.com/webstorm/))
 or text editor (e.g. [Sublime](https://www.sublimetext.com/3)):
 ```html
 <script src="https://www.baqend.com/js-sdk/latest/baqend.min.js"></script>
@@ -149,7 +149,7 @@ Install the [Baqend CLI](http://www.baqend.com/guide/#baqend-cli) globally with 
 $ npm install -g baqend
 ```
 
-Deploy your first app version by typing: 
+Deploy your first app version by typing:
 
 ```sh
 $ baqend deploy --file-dir . <your-app-name>
@@ -184,9 +184,9 @@ You can use the app you just created as a baseline for a real app. To explore Ba
 }
 
 .getting-started-list h3 {
-    margin-top: -110px;
+    margin-top: -116px;
     position: relative;
-    z-index: -1;
+    z-index: 1;
 }
 
 .getting-started-list>li {

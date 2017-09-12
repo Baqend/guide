@@ -103,30 +103,80 @@ p.next-page {
 .chapter-container {
   display: flex;
   flex-flow: row wrap;
-  justify-content: center;
+  /*justify-content: center;*/
   margin-bottom: 50px;
+  margin-left: -16px;
+  margin-right: -16px;
+}
+
+.chapter-item-outer {
+  padding: 16px;
+  flex-basis: 33%;
+  display: flex;
+  overflow: hidden;
+}
+
+@media(max-width: 991px) {
+  .chapter-item-outer {
+    flex-basis: 50%;
+  }
+}
+@media(max-width: 600px) {
+  .chapter-item-outer {
+    flex-basis: 100%;
+    flex-grow: 1;
+  }
+  .chapter-item {
+    flex-grow: 1;
+  }
 }
 
 .chapter-item {
   display: flex;
   flex-flow: column nowrap;
-  justify-content: space-between;
-  width: 250px;
-  height: 250px;
-  margin: 20px;
-  padding: 20px;
+  padding: 32px;
   color: inherit;
-  font-weight: bold;
-  text-align: center;
+  background: white;
+  box-shadow: 0px 2px 4px rgba(0,0,0,.1);
+  transition: transform 0.1s;
+  overflow: hidden;
 }
 
 .chapter-item:hover {
+  transform: scale(1.01);
+  text-decoration: none;
+  color: #000;
+}
+
+.chapter-item .chapter-heading {
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  font-size: 24px;
+  margin-bottom: 24px;
+}
+
+.chapter-item .chapter-heading .icon {
+  width: 45px;
+  height: 45px;
+  display: block;
+  text-align: center;
+  margin-right: 16px;
+}
+
+.chapter-item .chapter-heading .icon img {
+  max-width: 100%;
+  max-height: 100%;
+  margin: 0;
+}
+
+/*.chapter-item:hover {
   background: #fafafa;
   text-decoration: none;
   color: inherit;
-}
+}*/
 
-.chapter-icon {
+/*.chapter-icon {
   color: darkorange;
   justify-self: flex-start;
   font-size: 75px;
@@ -149,7 +199,7 @@ p.next-page {
 .chapter-info {
   color: #a85400;
   white-space: nowrap;
-}
+}*/
 
 #footer {
   z-index: 1;
@@ -190,4 +240,14 @@ p.next-page {
 .starter-kits-item > span {
   width: 200px;
   font-size: 120%;
+}
+
+
+/* styling quick fixes */
+h1, h2, h3, h4, h5, h6 {
+  color: inherit;
+  margin-top: -64px;
+}
+h1[id], h2[id], h3[id], h4[id], h5[id], h6[id] {
+  cursor: pointer;
 }
