@@ -216,11 +216,78 @@ file.upload().then((file) => {
 });
 ```
 
-If you try to overwrite an existing file and do not have previously fetched the file or its metadata, or the file has 
-been changed in the meantime the upload will be rejected to prevent accidental file replacement. 
-If you like to skip the verification, you can pass the `{force: true}` option to the `upload()` call. 
+If you try to overwrite an existing file and do not have previously fetched the file or its metadata, or the file has
+been changed in the meantime the upload will be rejected to prevent accidental file replacement.
+If you like to skip the verification, you can pass the `{force: true}` option to the `upload()` call.
 
 <div class="note"><strong>Note:</strong> To upload a file you must have at least the insert or update permission on the root folder and write access on the file. </div>
+
+
+## Example: Upload from external URL
+
+
+To illustrate how to do uploads with Baqend files, consider a simple use case: You have a third-party URL that you would like to download into a Baqend file. To do this, create a new module "download" in the dashboard and paste the following code:
+
+```js
+const http = require('http');
+/**
+ * Fetches a URL and saves it to a Baqend file.
+ *
+ * Usage example:
+ * download = require('./download');
+ * download.toFile(db, "http://...test.jpg", "/www/image.jpg", 0);
+ *
+ * @param db Baqend db to use
+ * @param url the URL that should be downloaded
+ * @param target the name of the target Baqend file
+ * @param maxRetries number of retries if the response has a 4xx or 5xx status code
+ * @returns {Promise} a Promise that resolves to the uploaded file
+ */
+function toFile(db, url, target, maxRetries = 10) {
+    return new Promise((resolve, reject) => {
+        http.get(url, (res) => {
+            const file = new db.File({path: target});
+            const size = res.headers['content-length'];
+            const mimeType = res.headers['content-type'];
+
+            //Retry on error
+            if (res.statusCode >= 400 && res.statusCode < 600) {
+                if(maxRetries <= 0) {
+                    reject(new Error("Maximum number of retries reached without success"));
+                } else {
+                    resolve(toFile(db, url, target, maxRetries - 1));
+                }
+                return;
+            }
+
+            //Full response
+            if (size) {
+                resolve(file.upload({mimeType, size, type: 'stream', data: res}));
+                return;
+            }
+
+            //Or chunked encoding
+            const chunks = [];
+            res.on('data', chunks.push.bind(chunks));
+            res.on('end', () => {
+                const buf = Buffer.concat(chunks);
+                resolve(file.upload({mimeType, size: buf.length, type: 'buffer', data: buf, force: true}));
+            });
+        }).on('error', (e) => {
+            reject(e);
+        });
+    });
+}
+exports.toFile = toFile;
+```
+
+To use this module, import it and provide it with the URL to download and the target file path in Baqend. The call will return a Promise resolving to the downloaded Baqend file.
+
+```js
+download = require('./download');
+download.toFile(db, "http://...test.jpg", "/www/image.jpg");
+```
+
 
 ## Downloading Files
 

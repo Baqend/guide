@@ -410,6 +410,47 @@ exports.onUpdate = function(db, obj) {
 }; 
 ```
 
+## Example: rate-limiting calls by IP
+
+
+Sometimes you will execute code that should not be invoked too frequently, e.g. because you otherwise run into the limits of a third-party API. To rate-limit users based on their IP address, create a new module `rateLimiter`. Make sure, you have the two npm modules `node-cache` and `limiter` installed. The rate limiter will allow a configurable amount of requests per minute and "refill" available requests at a constant rate (token bucket algorithm):
+
+```js
+const NodeCache = require('node-cache');
+const cache = new NodeCache( { stdTTL: 60*60, checkperiod: 600, useClones : false } );
+const RateLimiter = require('limiter').RateLimiter;
+
+/**
+ * Checks if an IP address is rate-limited.
+ *
+ * @param req the request object containing the IP
+ * @param reqPerMinute allowed requests per minute
+ * @returns {boolean} true if the user is rate limited
+ */
+exports.isRateLimited = (req, reqPerMinute = 10) => {
+    const ip = req.get('X-Forwarded-For');
+    let limiter = cache.get(ip);
+    if(limiter === undefined) {
+        limiter = new RateLimiter(reqPerMinute, 'minute', true);
+        cache.set(ip, limiter);
+    }
+    return !limiter.tryRemoveTokens(1);
+};
+```
+
+The `rateLimiter` module uses a cache of seen IP addresses that discards user information after 60 minutes. To rate-limit a module or a handler, simply import the rate limiter. For example, to limit a module to 50 calls per minute and user, do this:
+
+```js
+const Limiter = require('./rateLimiter');
+exports.call = function (db, data, req) {
+    //Check if IP is rate-limited
+    if(Limiter.isRateLimited(req, 50)) {
+        throw new Abort('Too many requests.');
+    }
+    // do stuff
+}
+```
+
 ## Permissions
 
 Baqend Code is always executed with the permissions of the requesting client. If the requesting user is not logged in, 
