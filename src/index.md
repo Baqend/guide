@@ -25,10 +25,9 @@ Learn how to use Baqend to develop your app.
     <a class="chapter-item" href="speed-kit/">
       <span class="chapter-heading">
         <span class="icon"><img src="icons/quickstart.png"/></span>
-        <span class="text">Quickstart</span>
+        <span class="text">Speed Kit</span>
       </span>
-      <span class="chapter-heading">Speed Kit</span>
-      <span class="chapter-info">How to boost web <br> performance on your <br> current technology stack.</span>
+      <span class="chapter-info">How to boost web performance on your current technology stack.</span>
     </a>
   </div>
   <div class="chapter-item-outer">
