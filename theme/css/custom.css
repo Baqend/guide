@@ -104,7 +104,7 @@ p.next-page {
   display: flex;
   flex-flow: row wrap;
   /*justify-content: center;*/
-  margin-bottom: 50px;
+  /*margin-bottom: 50px;*/
   margin-left: -16px;
   margin-right: -16px;
 }
