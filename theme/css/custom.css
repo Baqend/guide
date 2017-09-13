@@ -221,20 +221,21 @@ p.next-page {
 }
 @media (min-width: 1024px) {
   .starter-kits-item {
-    flex-basis: 350px;
+    flex-basis: 275px;
   }
 }
 
 .starter-kits-item > img {
-  width: 200px;
-  height: 200px;
+  width: 175px;
+  height: 175px;
   display: block;
   margin: 0 auto 10px;
   image-rendering: auto;
-  transition: transform 0.5s;
+  transition: transform 0.3s;
+  background: #f6f6f6;
 }
 .starter-kits-item:focus > img, .starter-kits-item:hover > img {
-  transform: scale(1.01);
+  transform: scale(1.02);
 }
 
 .starter-kits-item > span {

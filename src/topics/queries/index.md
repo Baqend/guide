@@ -1,14 +1,14 @@
 # Queries
 
-To retrieve objects by more complex criteria than their id, queries can be used. They are executed on Baqend and 
+To retrieve objects by more complex criteria than their id, queries can be used. They are executed on Baqend and
 return the matching objects.
 The Baqend SDK features a [query builder](https://www.baqend.com/js-sdk/latest/query.Builder.html) that creates
 [MongoDB queries](http://docs.mongodb.org/manual/tutorial/query-documents/) under the hood. It is possible
- to formulate native MongoDB queries, but using the query builder is the recommend way: it is far more readable and 
+ to formulate native MongoDB queries, but using the query builder is the recommend way: it is far more readable and
  does all the plumbing and abstraction from MongoDB obscurities.
 
 ## `resultList`, `singleResult` and `count`
-The simplest query is one that has no filter criterion and thus returns all objects. 
+The simplest query is one that has no filter criterion and thus returns all objects.
 The actual result is retrieved via the `resultList` method.
 ```js
 DB.Todo.find().resultList((result) => {
@@ -43,7 +43,7 @@ DB.Todo.find().count((count) => {
 ```
 
 ## Filters
-Usually queries are employed to exert some kind of filter. The query builder supports lots of different 
+Usually queries are employed to exert some kind of filter. The query builder supports lots of different
 [filters](https://www.baqend.com/js-sdk/latest/query.Filter.html),
 that can be applied on entity attributes. By default chained filters are *and*-combined.
 ```js
@@ -54,14 +54,14 @@ DB.Todo.find()
   .resultList(...)
 ```
 
-The above query searches for all todos, whose name starts with `'My Todo'`, are currently active and contain an 
+The above query searches for all todos, whose name starts with `'My Todo'`, are currently active and contain an
 activity in its activities list that has been started before the current date.
 
-Note that all valid MongoDB attribute expressions can be used as a field name in a filter, in particular 
+Note that all valid MongoDB attribute expressions can be used as a field name in a filter, in particular
 path-expressions such as 'activities.start'.
 
 If you are familiar with [MongoDB queries](http://docs.mongodb.org/manual/tutorial/query-documents/), you can
-use the `where` method to describe a query in MongoDB's JSON format. An equivalent query to the above one would look 
+use the `where` method to describe a query in MongoDB's JSON format. An equivalent query to the above one would look
 like this:
 ```js
 DB.Todo.find()
@@ -153,8 +153,8 @@ The following table list all available query filters and the types on which they
     <td>All types</td>
     <td>
         For primitive fields <strong>any</strong> of the given values have to match the field value.
-        On set and list fields <strong>at least one</strong> value must be contained in the collection in order for the 
-        filter to match. 
+        On set and list fields <strong>at least one</strong> value must be contained in the collection in order for the
+        filter to match.
     </td>
   </tr>
   <tr>
@@ -164,8 +164,8 @@ The following table list all available query filters and the types on which they
     <td><a href="http://docs.mongodb.org/manual/reference/operator/query/nin/">$nin</a></td>
     <td>All types</td>
     <td>
-      On primitive fields <strong>none</strong> of the given values must match the field value. 
-      On set and list fields <strong>none</strong> of the given values must to be contained in the collection in order 
+      On primitive fields <strong>none</strong> of the given values must match the field value.
+      On set and list fields <strong>none</strong> of the given values must to be contained in the collection in order
       for the filter to match.
     </td>
   </tr>
@@ -246,11 +246,11 @@ The following table list all available query filters and the types on which they
     <td colspan="3" style="border-top: none; padding-top: 20px"><code>withinPolygon('location', &lt;geo point list&gt;)</code></td>
   </tr>
   <tr>  
-    <td><a href="http://docs.mongodb.org/manual/reference/operator/query/nearSphere/">$geoWithin</a></td>
+    <td><a href="https://docs.mongodb.com/manual/reference/operator/query/geoWithin/">$geoWithin</a></td>
     <td><a href="#primitives">GeoPoint</a></td>
     <td>
       The geo point of the object has to be contained within the given polygon.
-      You need a Geospatial Index on this field, to use this kind of query. Read the <a href="../queries#query-indexes">query indexes</a> section 
+      You need a Geospatial Index on this field, to use this kind of query. Read the <a href="../queries#query-indexes">query indexes</a> section
       for more details.
     </td>
   </tr>
@@ -260,7 +260,7 @@ The following table list all available query filters and the types on which they
 You can get the current GeoPoint of the User with <code>DB.GeoPoint.current()</code>. This only works with an HTTPS connection.
 
 References can and should be used in filters. Internally references are converted to ids
- and used for filtering. To get all Todos owned by the currently logged-in user, we can simply use the User instance 
+ and used for filtering. To get all Todos owned by the currently logged-in user, we can simply use the User instance
  in the query builder:
 
 ```js
@@ -274,7 +274,7 @@ login process see the <a href="#user-roles-and-permissions">User, Roles and Perm
 
 ## Sorting
 
-It is possible to sort the query result for one or more attributes. The query builder can be used to specify 
+It is possible to sort the query result for one or more attributes. The query builder can be used to specify
 which attributes shall be used for sorting. Let's sort our query result by name:
 ```js
 DB.Todo.find()
@@ -283,8 +283,8 @@ DB.Todo.find()
   .resultList(...)
 ```
 
-If you use more than one sort criterion, the order of the result reflects the order in which the sort methods were 
-called. The following query will list all active tasks before the inactive ones and sort the tasks by their name in 
+If you use more than one sort criterion, the order of the result reflects the order in which the sort methods were
+called. The following query will list all active tasks before the inactive ones and sort the tasks by their name in
 ascending order.
 ```js
 DB.Todo.find()
@@ -294,10 +294,10 @@ DB.Todo.find()
   .resultList(...)
 ```
 
-When calling `descending('active')` before `ascending('name')` the result is sorted by name and 
-then by active flag, which is only relevant for multiple todos having the same name. 
+When calling `descending('active')` before `ascending('name')` the result is sorted by name and
+then by active flag, which is only relevant for multiple todos having the same name.
 
-You can also set the sort criteria with the MongoDB [orderby](http://docs.mongodb.org/manual/reference/operator/meta/orderby/) 
+You can also set the sort criteria with the MongoDB [orderby](http://docs.mongodb.org/manual/reference/operator/meta/orderby/)
 syntax by using the `sort()` method. An equivalent expression to the above is this:
 ```js
 DB.Todo.find()
@@ -307,7 +307,7 @@ DB.Todo.find()
 ```
 
 ## Offset and Limit
-On larger data sets you usually don't want to load everything at once. Its often reasonable to instead page through the 
+On larger data sets you usually don't want to load everything at once. Its often reasonable to instead page through the
 query results. It is therefore possible to skip objects and limit the result size.
 ```js
 var page = 3;
@@ -322,9 +322,9 @@ DB.Todo.find()
 ```
 
 <div class="note"><strong>Note:</strong> An offset query on large result sets yields [poor query performance](http://use-the-index-luke
-.com/sql/partial-results/fetch-next-page). Instead, consider using a filter and sort criteria to navigate through 
+.com/sql/partial-results/fetch-next-page). Instead, consider using a filter and sort criteria to navigate through
 results.</div>
- 
+
 For instance if you implement a simple pagination, you can sort by id and can get the data of the next
 page by a simple greaterThen filter. As the id always has an index this results in good performance regardless of the
  query result size.
@@ -342,8 +342,8 @@ DB.Todo.find()
   })
 ```
 
-But often you want to sort your result by another attribute (e.g. `createdAt`). When you sort by an attribute which 
-by itself is not unique you must combine it with a unique attribute (e.g. `id`). 
+But often you want to sort your result by another attribute (e.g. `createdAt`). When you sort by an attribute which
+by itself is not unique you must combine it with a unique attribute (e.g. `id`).
 
 ```js
 //initialize default values
@@ -351,33 +351,33 @@ var resultsPerPage = 30;
 var lastObject = {id: '', createdAt: new Date(0)};
 
 //later page through the pages by the following query
-var qb = DB.Todo.find(); 
+var qb = DB.Todo.find();
 qb.or(qb.equal('createdAt', lastObject.createdAt).greaterThan('id', lastObject.id), qb.greaterThan('createdAt', lastObject.createdAt))
      .ascending('createdAt')
      .ascending('id')
      .limit(resultsPerPage)
      .resultList(function(result) {
         //track last seen object
-        lastObject = result[result.length - 1]; 
+        lastObject = result[result.length - 1];
         console.log(result);
       });
 ```
 
-*Explanation:* By combining the results of the query which fetches all remaining entities where the `createdAt` is equal to our last seen `createdAt` 
-plus all ids which are greater than the last seen `id` we make our result unique when `createdAt` has the same value on 
+*Explanation:* By combining the results of the query which fetches all remaining entities where the `createdAt` is equal to our last seen `createdAt`
+plus all ids which are greater than the last seen `id` we make our result unique when `createdAt` has the same value on
 multiple entities. That guarantees a unique order for none unique attributes.
 
 ## Composing Filters by `and`, `or` and `nor`
 
-Filters are joined with `and` by default. In more complex cases you may want to formulate a query with one or more 
-[and](http://docs.mongodb.org/manual/reference/operator/query/and/), 
-[or](http://docs.mongodb.org/manual/reference/operator/query/or/) or 
-[nor](http://docs.mongodb.org/manual/reference/operator/query/nor/)  expressions. 
-For such cases the initial `find()` call returns a 
+Filters are joined with `and` by default. In more complex cases you may want to formulate a query with one or more
+[and](http://docs.mongodb.org/manual/reference/operator/query/and/),
+[or](http://docs.mongodb.org/manual/reference/operator/query/or/) or
+[nor](http://docs.mongodb.org/manual/reference/operator/query/nor/)  expressions.
+For such cases the initial `find()` call returns a
 [Query.Builder](https://www.baqend.com/js-sdk/latest/query.Builder.html) instance. The builder provides
 additional methods to compose filter expressions.
 
-The following query finds all todos which the logged-in user is not currently working on and all todos which aren't 
+The following query finds all todos which the logged-in user is not currently working on and all todos which aren't
 done yet:
 ```js
 var queryBuilder = DB.Todo.find();
@@ -396,17 +396,17 @@ queryBuilder.or(condition1, condition2)
 
 ## Query Indexes
 Indexes on fields that are frequently queried can massively impact the overall query performance. Therefore our Dashboard
-provides a very comfortable way to create custom indexes on fields. It is always an tradeof on which fields you should 
-create an index. A good index should be created on fields that contains many distinct values. But to many indexes on the 
+provides a very comfortable way to create custom indexes on fields. It is always an tradeof on which fields you should
+create an index. A good index should be created on fields that contains many distinct values. But to many indexes on the
 same class can also reduce the write throughput. If you like to read more about indexes we currently use, visit the mongo
 [indexes docs](https://docs.mongodb.org/manual/indexes/).
 
-To create an Index open the schema view of the class and use the *Index* or *Unique Index* button to create an index. 
-Currently we support three types of indexes: 
+To create an Index open the schema view of the class and use the *Index* or *Unique Index* button to create an index.
+Currently we support three types of indexes:
 
-**Index:** A simple index which contains a single field used to improve querys which filters the specified field. 
+**Index:** A simple index which contains a single field used to improve querys which filters the specified field.
 
-**Unique Index:** A index that requires uniqueness of the field values. Inserting or updating objects that violates the 
+**Unique Index:** A index that requires uniqueness of the field values. Inserting or updating objects that violates the
  unique constraint will be rejected with an ObjectExists error.
 
 **Geospatial Index:** This index can be created on GeoPoint fields and is required for `near` and `withinPolygon` query
