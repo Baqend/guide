@@ -184,7 +184,7 @@ The following table list all available query filters and the types on which they
     <td><a href="http://docs.mongodb.org/manual/reference/operator/query/exists/">$exists</a></td>
     <td>All types</td>
     <td>
-      Checks if the field has a value; equivalent to <code>where({'name': {"$exists" true, "$ne", null})</code>
+      Checks if the field has a value; equivalent to <code>where({ "name": { "$exists": true, "$ne": null } })</code>
     </td>
   </tr>
   <tr>
