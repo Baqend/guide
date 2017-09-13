@@ -6,10 +6,10 @@ Thereby you gain a remarkable boost of performance to your website.
 ## Why Speed Kit?
 
 Page load time is money. This is not only true for companies like Amazon that loose more than $1.3B in revenue per year,
-if their website is a 10th of a second slower. It is also true for publishers, whose business model depends on a user 
-experience that facilitates consumption of as much content as possible. However, many publishers have heterogenous and 
+if their website is a 10th of a second slower. It is also true for publishers, whose business model depends on a user
+experience that facilitates consumption of as much content as possible. However, many publishers have heterogenous and
 complex technology stacks that make it extremely hard to tackle performance, scalability, and page load time.
-Novel browser technologies now offer a means of making web performance as simple as including a script. 
+Novel browser technologies now offer a means of making web performance as simple as including a script.
 
 ![Major Advantages](major-advantages.png)
 
@@ -24,8 +24,8 @@ Follow these 5 steps to set up Baqend Speed Kit and speed up your website.
  <ol class="getting-started-list">
 <li>
 ###Configure Speed Kit
-In your account simply enter **your site's URL** as well as all **white- and blacklisted domains**, respectively. 
-All requests to whitelisted domains are rerouted to Baqend while requests to blacklisted domains will not be speeded up. 
+In your account simply enter **your site's URL** as well as all **white- and blacklisted domains**, respectively.
+All requests to whitelisted domains are rerouted to Baqend while requests to blacklisted domains will not be speeded up.
 A common example of blacklisted domains are those of tracking or ad services.
 
 <img src="configure-speed-kit.png" style="width:60%;">
@@ -44,29 +44,29 @@ that will speed up your requests.
 <li>
 ###Host Service Worker
 In order to provide the service worker with its full functionality, it needs to have the root
-scope. Thus, the service worker should be hosted in your root directory. 
-If you are able to do so, the default case is yours. If for whatever reason this is not possible we provided 
+scope. Thus, the service worker should be hosted in your root directory.
+If you are able to do so, the default case is yours. If for whatever reason this is not possible we provided
 you some implementation options in your dashboard´s "Install Speed Kit" section.
 </li>
 <li>
 ###Refresh Content
-If you have changed any kind of content, you need to trigger a service worker refresh or else your users will 
-continue to see the old content. To inform us best case scenario is to implement the refresh calls in your system 
+If you have changed any kind of content, you need to trigger a service worker refresh or else your users will
+continue to see the old content. To inform us best case scenario is to implement the refresh calls in your system
 whenever you upload new content. If you havent implemented this yet, you can use the dashboard to manually call our
 refresh api.</li>
 </ol>
 
 ## Page Speed Analyzer
 
-The [Page Speed Analyzer](http://makefast.app.baqend.com/) is a testing tool that gives you an impression of 
-how **Baqend Speed Kit** influences the performance of your website. To this end, the analyzer runs a series 
-of tests against your website and reports how your current backend stack delivers your website compared to 
+The [Page Speed Analyzer](http://makefast.app.baqend.com/) is a testing tool that gives you an impression of
+how **Baqend Speed Kit** influences the performance of your website. To this end, the analyzer runs a series
+of tests against your website and reports how your current backend stack delivers your website compared to
 a version using Speed Kit.
 
 ![Page Speed Analyzer](page-speed-analyzer.png)
 
 For comparison, the analyzer collects the following metrics by using [Google's PageSpeed Insights API](https://developers.google.com/speed/docs/insights/v1/getting_started)
-and private instances of [WebPagetest](https://sites.google.com/a/webpagetest.org/docs/private-instances): 
+and private instances of [WebPagetest](https://sites.google.com/a/webpagetest.org/docs/private-instances):
 
 - **Domains:** Number of unique hosts referenced by the page.
 - **Resources:** Number of HTTP(S) resources loaded by the page.
@@ -78,12 +78,12 @@ and private instances of [WebPagetest](https://sites.google.com/a/webpagetest.or
 - **Last Visual Change:** Represents the last point in the test when something visually changed on the screen.
 
 
-Additionally, the tool collects a **performance video** of both website versions to give a visual impression. 
+Additionally, the tool collects a **performance video** of both website versions to give a visual impression.
 
 <div class="tip">
     <strong>Tip:</strong>
     Customize the analyzer to your desired test situation by switching the location of the client or choosing whether
-    to cache or not. You can also provide a comma-separated list of domain patterns to tell Speed Kit which requests it 
+    to cache or not. You can also provide a comma-separated list of domain patterns to tell Speed Kit which requests it
     should handle.
 </div>
 
@@ -100,9 +100,9 @@ Additionally, the tool collects a **performance video** of both website versions
 }
 
 .getting-started-list h3 {
-    margin-top: -110px;
+    margin-top: -116px;
     position: relative;
-    z-index: -1;
+    z-index: 1;
 }
 
 .getting-started-list>li {
