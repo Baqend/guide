@@ -4,10 +4,10 @@
     <h1>Baqend Guide</h1>
     Learn how to use Baqend to develop your app.
     <div class="shooting-star">
-      <img src="/img/shooting-star.png" />
+      <img src="./img/shooting-star.png" />
     </div>
     <div class="shooting-star-right">
-      <img src="/img/shooting-star.png" />
+      <img src="./img/shooting-star.png" />
     </div>
   </div>
 </div>
