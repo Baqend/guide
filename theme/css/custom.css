@@ -234,10 +234,14 @@ p.next-page {
 
 
 /* styling quick fixes */
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3 {
   color: inherit;
   margin-top: -64px;
 }
-#main h1[id], #main h2[id], #main h3[id], #main h4[id], #main h5[id], #main h6[id] {
-  cursor: pointer;
+
+a.anchor {
+  margin-left: 8px;
+  font-size: 22px;
+  text-decoration: none;
+  margin-top: 5px;
 }

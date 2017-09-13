@@ -177,6 +177,7 @@ You can use the app you just created as a baseline for a real app. To explore Ba
     counter-reset: cnt;
     margin-left: 0;
     margin-top: 40px;
+    overflow: hidden;
 }
 
 .getting-started-list ul li{

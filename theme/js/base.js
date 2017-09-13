@@ -22,9 +22,8 @@ $('a').click(function (e) {
   $('body').toggleClass('clicky');
 });
 
-$('#main h1[id], #main h2[id], #main h3[id], #main h4[id], #main h5[id], #main h6[id]').click(function (e) {
-  e.preventDefault();
-  window.location.hash = $(this).attr('id')
+$('#main h1[id], #main h2[id], #main h3[id], #main h4[id], #main h5[id], #main h6[id]').each(function (e) {
+  $(this).append($(`<a href="#${$(this).attr('id')}" class="anchor fa fa-link"></a>`))
 })
 
 /* Prevent disabled links from causing a page reload */
