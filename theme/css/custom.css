@@ -192,9 +192,10 @@ p.next-page {
   transition: transform 0.3s;
   flex-basis: 275px;
 }
-.starter-kits-item:hover {
+.starter-kits-item:hover, .starter-kits-item:focus {
   transform: scale(1.02);
   text-decoration: none;
+  color: #111;
 }
 
 .starter-kits-item .logo-container {
@@ -237,6 +238,6 @@ h1, h2, h3, h4, h5, h6 {
   color: inherit;
   margin-top: -64px;
 }
-h1[id], h2[id], h3[id], h4[id], h5[id], h6[id] {
+#main h1[id], #main h2[id], #main h3[id], #main h4[id], #main h5[id], #main h6[id] {
   cursor: pointer;
 }
