@@ -4,10 +4,10 @@
     <h1>Baqend Starter Kits</h1>
     Get started with the Baqend starter kits
     <div class="shooting-star">
-      <img src="./img/shooting-star.png" />
+      <img src="/guide/img/shooting-star.png" />
     </div>
     <div class="shooting-star-right">
-      <img src="./img/shooting-star.png" />
+      <img src="/guide/img/shooting-star.png" />
     </div>
   </div>
 </div>
