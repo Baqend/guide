@@ -157,8 +157,8 @@ p.next-page {
 }
 
 .chapter-item .chapter-heading .icon {
-  width: 45px;
-  height: 45px;
+  width: 50px;
+  height: 50px;
   display: block;
   text-align: center;
   margin-right: 16px;
@@ -169,37 +169,6 @@ p.next-page {
   max-height: 100%;
   margin: 0;
 }
-
-/*.chapter-item:hover {
-  background: #fafafa;
-  text-decoration: none;
-  color: inherit;
-}*/
-
-/*.chapter-icon {
-  color: darkorange;
-  justify-self: flex-start;
-  font-size: 75px;
-  text-shadow:
-          -1px -1px #a85400, -1px 1px #a85400, 1px -1px #a85400, 1px 1px #a85400;
-}
-
-.chapter-item:hover .chapter-icon {
-  transform: translate(0, 3px);
-  text-shadow:
-          -1px -1px #a85400, -1px 1px #a85400, 1px -1px #a85400, 1px 1px #a85400,
-          0 -2px #a85400,
-          0 -3px #a85400;
-}
-
-.chapter-heading {
-  font-size: 130%;
-}
-
-.chapter-info {
-  color: #a85400;
-  white-space: nowrap;
-}*/
 
 #footer {
   z-index: 1;
@@ -216,31 +185,50 @@ p.next-page {
 .starter-kits-item {
   display: block;
   text-align: center;
-  margin: 32px;
+  margin: 16px;
   box-sizing: border-box;
+  background: white;
+  box-shadow: 0 2px 4px rgba(0,0,0,.1);
+  transition: transform 0.3s;
+  flex-basis: 275px;
 }
-@media (min-width: 1024px) {
-  .starter-kits-item {
-    flex-basis: 275px;
-  }
+.starter-kits-item:hover {
+  transform: scale(1.02);
+  text-decoration: none;
 }
 
-.starter-kits-item > img {
+.starter-kits-item .logo-container {
+  padding: 8px;
+}
+
+.starter-kits-item img {
   width: 175px;
   height: 175px;
   display: block;
-  margin: 0 auto 10px;
-  image-rendering: auto;
-  transition: transform 0.3s;
-  background: #f6f6f6;
-}
-.starter-kits-item:focus > img, .starter-kits-item:hover > img {
-  transform: scale(1.02);
+  margin: 0 auto;
 }
 
-.starter-kits-item > span {
-  width: 200px;
-  font-size: 120%;
+.starter-kits-item .name {
+  font-weight: bold;
+  color: #444;
+  padding: 16px;
+  font-size: 18px;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 8px 12px;
+}
+
+.tags .tag {
+    background: #e8e8e8;
+    color: #555;
+    font-size: 12px;
+    padding: 4px 8px;
+    margin: 0 4px 8px;
+    border-radius: 2px;
 }
 
 

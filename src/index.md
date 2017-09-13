@@ -1,7 +1,48 @@
-# Baqend Guide
+<!-- # Baqend Guide -->
+<div class="stars">
+  <div class="container">
+    <h1>Baqend Guide</h1>
+    Learn how to use Baqend to develop your app.
+    <div class="shooting-star">
+      <img src="https://www.baqend.com/img/shooting-star.cf4c6b95.png" />
+    </div>
+    <div class="shooting-star-right">
+      <img src="https://www.baqend.com/img/shooting-star.cf4c6b95.png" />
+    </div>
+  </div>
+</div>
+### Popular
+<div class="chapter-container">
+  <div class="chapter-item-outer">
+    <a class="chapter-item" href="speed-kit/">
+      <span class="chapter-heading">
+        <span class="icon"><img src="icons/speedkit.png"/></span>
+        <span class="text">Speed Kit</span>
+      </span>
+      <span class="chapter-info">How to boost web performance on your current technology stack.</span>
+    </a>
+  </div>
+  <div class="chapter-item-outer">
+    <a class="chapter-item" href="starter-kits/">
+      <span class="chapter-heading">
+        <span class="icon"><img src="icons/starter_kits.png"/></span>
+        <span class="text">Starter Kits</span>
+      </span>
+      <span class="chapter-info">Some starter kits for popular frameworks integrating Baqend.</span>
+    </a>
+  </div>
+  <div class="chapter-item-outer">
+    <a class="chapter-item" href="gettingstarted/">
+      <span class="chapter-heading">
+        <span class="icon"><img src="icons/quickstart.png"/></span>
+        <span class="text">Quickstart</span>
+      </span>
+      <span class="chapter-info">How to embed Baqend in your JavaScript app to get started quickly.</span>
+    </a>
+  </div>
+</div>
 
-Learn how to use Baqend to develop your app.
-
+### Baqend Platform
 <div class="chapter-container">
   <div class="chapter-item-outer">
     <a class="chapter-item" href="https://www.baqend.com/tutorial.html">
@@ -19,15 +60,6 @@ Learn how to use Baqend to develop your app.
         <span class="text">Quickstart</span>
       </span>
       <span class="chapter-info">How to embed Baqend in your JavaScript app to get started quickly.</span>
-    </a>
-  </div>
-  <div class="chapter-item-outer">
-    <a class="chapter-item" href="speed-kit/">
-      <span class="chapter-heading">
-        <span class="icon"><img src="icons/speedkit.png"/></span>
-        <span class="text">Speed Kit</span>
-      </span>
-      <span class="chapter-info">How to boost web performance on your current technology stack.</span>
     </a>
   </div>
   <div class="chapter-item-outer">
@@ -190,6 +222,19 @@ Learn how to use Baqend to develop your app.
   </div>
 </div>
 
-<div class="note">
-  <strong>Note:</strong> If you have any questions not answered by this guide, feel free to contact us via <a href="mailto:support@baqend.com">support@baqend.com</a> or the chat on the bottom.
+### Baqend Speed Kit
+<div class="chapter-container">
+  <div class="chapter-item-outer">
+    <a class="chapter-item" href="speed-kit/">
+      <span class="chapter-heading">
+        <span class="icon"><img src="icons/speedkit.png"/></span>
+        <span class="text">Speed Kit</span>
+      </span>
+      <span class="chapter-info">How to boost web performance on your current technology stack.</span>
+    </a>
+  </div>
 </div>
+
+<!-- <div class="note">
+  <strong>Note:</strong> If you have any questions not answered by this guide, feel free to contact us via <a href="mailto:support@baqend.com">support@baqend.com</a> or the chat on the bottom.
+</div> -->

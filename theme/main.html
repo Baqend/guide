@@ -15,6 +15,7 @@
         <link href="{{ base_url }}/css/font-awesome-4.7.0.css" rel="stylesheet">
         <link href="{{ base_url }}/css/highlight.css" rel="stylesheet">
         <link href="{{ base_url }}/css/custom.css" rel="stylesheet">
+        <link href="{{ base_url }}/css/stars.css" rel="stylesheet">
         {%- for path in extra_css %}
         <link href="{{ path }}" rel="stylesheet">
         {%- endfor %}
@@ -31,7 +32,7 @@
         {% include "nav.html" %}
 
         {% if page.is_homepage or page.title == 'Starter Kits Overview' %}
-        <div class="box gray pt-24 pb-64">
+        <div class="box gray pt-24 pb-64" style="padding-top: 218px;">
           <div class="container" role="main">
               {% include "content.html" %}
           </div>
