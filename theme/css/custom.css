@@ -210,14 +210,13 @@ p.next-page {
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
-  margin-bottom: 50px;
+  margin-top: 64px;
 }
 
 .starter-kits-item {
   display: block;
   text-align: center;
-  margin: 10px 30px;
-  padding: 20px;
+  margin: 32px;
   box-sizing: border-box;
 }
 @media (min-width: 1024px) {
@@ -232,9 +231,10 @@ p.next-page {
   display: block;
   margin: 0 auto 10px;
   image-rendering: auto;
+  transition: transform 0.5s;
 }
 .starter-kits-item:focus > img, .starter-kits-item:hover > img {
-  filter: drop-shadow(0 0 15px rgba(127, 127, 255, 0.7));
+  transform: scale(1.01);
 }
 
 .starter-kits-item > span {
