@@ -28,7 +28,7 @@ Click on “Select App” and your plugin will be configured for Baqend.
 
 If you want to change the Baqend account, head over to the *Account* tab and click on “Log Out”.
 
-Now, you can choose between *Speed Kit* and *Hosting* to use for your WordPress blog:
+Now, you can choose *Speed Kit* to use for your WordPress blog:
 
 - Use [Speed Kit](#speed-kit) if you want to accelerate your existing WordPress blog and handle scalability on your own.
   This is easy to use and you will be set-up and done in seconds!
