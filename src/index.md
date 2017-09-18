@@ -54,24 +54,6 @@
     </a>
   </div>
   <div class="chapter-item-outer">
-    <a class="chapter-item" href="gettingstarted/">
-      <span class="chapter-heading">
-        <span class="icon"><img src="icons/quickstart.png"/></span>
-        <span class="text">Quickstart</span>
-      </span>
-      <span class="chapter-info">How to embed Baqend in your JavaScript app to get started quickly.</span>
-    </a>
-  </div>
-  <div class="chapter-item-outer">
-    <a class="chapter-item" href="starter-kits/">
-      <span class="chapter-heading">
-        <span class="icon"><img src="icons/starter_kits.png"/></span>
-        <span class="text">Starter Kits</span>
-      </span>
-      <span class="chapter-info">Some starter kits for popular frameworks integrating Baqend.</span>
-    </a>
-  </div>
-  <div class="chapter-item-outer">
     <a class="chapter-item" href="topics/getting-started/">
       <span class="chapter-heading">
         <span class="icon"><img src="icons/getting_started.png"/></span>
@@ -218,6 +200,24 @@
         <span class="text">Backups</span>
       </span>
       <span class="chapter-info">Periodic Backups and Recovery of lost Data.</span>
+    </a>
+  </div>
+  <div class="chapter-item-outer">
+    <a class="chapter-item" href="gettingstarted/">
+      <span class="chapter-heading">
+        <span class="icon"><img src="icons/quickstart.png"/></span>
+        <span class="text">Quickstart</span>
+      </span>
+      <span class="chapter-info">How to embed Baqend in your JavaScript app to get started quickly.</span>
+    </a>
+  </div>
+  <div class="chapter-item-outer">
+    <a class="chapter-item" href="starter-kits/">
+      <span class="chapter-heading">
+        <span class="icon"><img src="icons/starter_kits.png"/></span>
+        <span class="text">Starter Kits</span>
+      </span>
+      <span class="chapter-info">Some starter kits for popular frameworks integrating Baqend.</span>
     </a>
   </div>
 </div>
