@@ -233,6 +233,15 @@
       <span class="chapter-info">How to boost web performance on your current technology stack.</span>
     </a>
   </div>
+  <div class="chapter-item-outer">
+    <a class="chapter-item" href="topics/wordpress/">
+      <span class="chapter-heading">
+        <span class="icon"><img src="icons/wordpress.png"/></span>
+        <span class="text">WordPress Plugin</span>
+      </span>
+      <span class="chapter-info">How to integrate Speed Kit into your WordPress site.</span>
+    </a>
+  </div>
 </div>
 
 <!-- <div class="note">
