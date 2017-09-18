@@ -6,7 +6,7 @@ pages:
         - Home: 'index.md'
         - Quickstart: 'gettingstarted/index.md'
         - Roadmap: 'roadmap.md'
-        - Speed Kit: 'speed-kit/index.md'
+        - Speed Kit: 'topics/speed-kit/index.md'
 
         - 'Getting Started': 'topics/getting-started/index.md'
         - 'CLI': 'topics/cli/index.md'

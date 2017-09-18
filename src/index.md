@@ -225,7 +225,7 @@
 ### Baqend Speed Kit
 <div class="chapter-container">
   <div class="chapter-item-outer">
-    <a class="chapter-item" href="speed-kit/">
+    <a class="chapter-item" href="topics/speed-kit/">
       <span class="chapter-heading">
         <span class="icon"><img src="icons/speedkit.png"/></span>
         <span class="text">Speed Kit</span>
