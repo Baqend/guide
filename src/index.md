@@ -14,15 +14,6 @@
 ### Popular
 <div class="chapter-container">
   <div class="chapter-item-outer">
-    <a class="chapter-item" href="speed-kit/">
-      <span class="chapter-heading">
-        <span class="icon"><img src="icons/speedkit.png"/></span>
-        <span class="text">Speed Kit</span>
-      </span>
-      <span class="chapter-info">How to boost web performance on your current technology stack.</span>
-    </a>
-  </div>
-  <div class="chapter-item-outer">
     <a class="chapter-item" href="starter-kits/">
       <span class="chapter-heading">
         <span class="icon"><img src="icons/starter_kits.png"/></span>
@@ -38,6 +29,37 @@
         <span class="text">Quickstart</span>
       </span>
       <span class="chapter-info">How to embed Baqend in your JavaScript app to get started quickly.</span>
+    </a>
+  </div>
+  <div class="chapter-item-outer">
+    <a class="chapter-item" href="speed-kit/">
+      <span class="chapter-heading">
+        <span class="icon"><img src="icons/speedkit.png"/></span>
+        <span class="text">Speed Kit</span>
+      </span>
+      <span class="chapter-info">How to boost web performance on your current technology stack.</span>
+    </a>
+  </div>
+</div>
+
+### Baqend Speed Kit
+<div class="chapter-container">
+  <div class="chapter-item-outer">
+    <a class="chapter-item" href="topics/speed-kit/">
+      <span class="chapter-heading">
+        <span class="icon"><img src="icons/speedkit.png"/></span>
+        <span class="text">Speed Kit</span>
+      </span>
+      <span class="chapter-info">How to boost web performance on your current technology stack.</span>
+    </a>
+  </div>
+  <div class="chapter-item-outer">
+    <a class="chapter-item" href="topics/wordpress/">
+      <span class="chapter-heading">
+        <span class="icon"><img src="icons/wordpress.png"/></span>
+        <span class="text">WordPress Plugin</span>
+      </span>
+      <span class="chapter-info">How to integrate Speed Kit into your WordPress site.</span>
     </a>
   </div>
 </div>
@@ -218,28 +240,6 @@
         <span class="text">Starter Kits</span>
       </span>
       <span class="chapter-info">Some starter kits for popular frameworks integrating Baqend.</span>
-    </a>
-  </div>
-</div>
-
-### Baqend Speed Kit
-<div class="chapter-container">
-  <div class="chapter-item-outer">
-    <a class="chapter-item" href="topics/speed-kit/">
-      <span class="chapter-heading">
-        <span class="icon"><img src="icons/speedkit.png"/></span>
-        <span class="text">Speed Kit</span>
-      </span>
-      <span class="chapter-info">How to boost web performance on your current technology stack.</span>
-    </a>
-  </div>
-  <div class="chapter-item-outer">
-    <a class="chapter-item" href="topics/wordpress/">
-      <span class="chapter-heading">
-        <span class="icon"><img src="icons/wordpress.png"/></span>
-        <span class="text">WordPress Plugin</span>
-      </span>
-      <span class="chapter-info">How to integrate Speed Kit into your WordPress site.</span>
     </a>
   </div>
 </div>
