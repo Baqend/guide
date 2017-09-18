@@ -7,7 +7,7 @@ Baqend has special support for **WordPress** with a custom plugin that allows yo
 
 Download the official **Baqend plugin** from [the WordPress Plugin Repository](https://wordpress.org/plugins/baqend/) into your WordPress blog.
 You can also look for it in your blog's plugin administration (typically located under *http://your-wordpress.blog/wp-admin/plugin-install.php*) and install it there.
- 
+
 
 ## Prepare Your Baqend App
 
@@ -45,11 +45,13 @@ Simply head over to the *Speed Kit* tab and check *enabled* next to *Speed Kit I
 
 Now, you have several options to configure Speed Kit for you:
 
-* **Whitelist**
+* **Whitelist URLs**
     - Only the websites given in this list will be handled by Speed Kit. You can also use regular expressions.
-* **Blacklist**
+* **Blacklist URLs**
     - All websites given in this list will be ignored by Speed Kit. You can also use regular expressions.
-* **Content types**
+* **Bypass cache on cookie**
+    - If a page contains one of the cookies given in this list, Speed Kit will ignore the given page. The cookies are given as prefixes.
+* **Allowed content types**
     - Only the given content types will be handled by Speed Kit.
 * **Automatic update interval**
     - Automatically triggers a revalidation of Speed Kit.
