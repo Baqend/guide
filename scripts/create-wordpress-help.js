@@ -43,14 +43,14 @@ fs.readFile(sourceFilePath, { encoding: 'utf8' }, (err, html) => {
   result = replaceNextTag(result, 'h2');
   result = replaceNextTag(result, 'p');
 
-  result = insertCode(result, 'h2', "<h2><? _e('$1', 'baqend') ?></h2>");
-  result = insertCode(result, 'p', "<p><? _e('$1', 'baqend') ?></p>");
-  result = insertCode(result, 'li', "<li><? _e('$1', 'baqend') ?></li>");
-  result = insertCode(result, 'strong', "<strong><? _e('$1', 'baqend') ?></strong>");
+  result = insertCode(result, 'h2', "<h2><?php _e('$1', 'baqend') ?></h2>");
+  result = insertCode(result, 'p', "<p><?php _e('$1', 'baqend') ?></p>");
+  result = insertCode(result, 'li', "<li><?php _e('$1', 'baqend') ?></li>");
+  result = insertCode(result, 'strong', "<strong><?php _e('$1', 'baqend') ?></strong>");
 
   result = replaceImgSrc(result);
 
-  result = `<? /*\n\nGenerated from Guide – Do not change manually!\n\n*/ ?><div class="wrap baqend-help"><h1><? _e('Baqend &rsaquo; Help', 'baqend') ?></h1>\n<? include 'tabs.phtml'; ?>${result}</div>`;
+  result = `<?php /*\n\nGenerated from Guide – Do not change manually!\n\n*/ ?><div class="wrap baqend-help"><h1><?php _e('Baqend &rsaquo; Help', 'baqend') ?></h1>\n<?php include 'tabs.phtml'; ?>${result}</div>\n`;
 
   fs.writeFile(destViewsPath, result, { encoding: 'utf8' }, (err) => {
     if (err) throw new Error(err);
