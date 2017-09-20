@@ -24,7 +24,7 @@ If gulp cannot be found, you need to install it globally with `npm install -g gu
 
 ## Connect to Baqend
 
-By default this start connects to `toodle` the instance of the [Baqend tutorial](http://www.baqend.com/#tutorial). To change this go to app > js > main.js and change
+By default this start connects to `toodle` the instance of the [Baqend tutorial](http://www.baqend.com/tutorial.html). To change this go to app > js > main.js and change
 
 ```javascript
 var app = 'toodle';

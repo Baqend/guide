@@ -85,7 +85,7 @@ return todo.update({force: true}).then(function() {
 });
 ```
 
-Each object also automatically keeps track of its creation time and the last time it was updated in form of <a href="#primitives">DateTime</a> fields. Both of these fields are maintained automatically and are read only, i.e. you can not change them yourself.
+Each object also automatically keeps track of its creation time and the last time it was updated in form of <a href="/topics/schema/#primitives">DateTime</a> fields. Both of these fields are maintained automatically and are read only, i.e. you can not change them yourself.
 ```js
 todo.name = 'My first Todo of this day';
 return todo.update().then(function(updatedTodo) {
@@ -147,7 +147,7 @@ todo.optimisticSave(function(todo, abort) {
 });
 ```
 
-<div class="tip"><strong>Tip:</strong> Optimistic saving is particularly useful for server-side code (<a href="#modules">modules</a>) that updates objects and may be invoked concurrently.</div>
+<div class="tip"><strong>Tip:</strong> Optimistic saving is particularly useful for server-side code (<a href="/topics/baqend-code/#modules">modules</a>) that updates objects and may be invoked concurrently.</div>
 
 ## Load / Refresh
 
@@ -168,7 +168,7 @@ can pass the `refresh` flag to the `insert()`, `update()` or `save()` method.
 todo.save({ refresh: true }).then(...); //refreshing the object after saving it
 ```    
 
-This option is very useful if you have a [Baqend Code](../baqend-code) update handler which performs additional 
+This option is very useful if you have a [Baqend Code](/topics/baqend-code) update handler which performs additional 
 server-side modifications on the entity being saved. By passing the `refresh` flag you enforce that the modification will
  be loaded from the Baqend after the entity has been saved. 
 
@@ -254,6 +254,8 @@ At a later time, you can `Import` the Data Table again. Existing objects will al
 Objects that exist in the Table but not in the Import will remain in the Table. If you want that only the Imported 
 objects will be kept you should `Truncate` the Table first.
 
-<div class="note"><strong>Note:</strong> 
-    To perform an Export, Import or Truncate you need a User with the [Admin Role](../user-management/#predefined-roles).
+
+<div class="note">
+    <strong>Note:</strong>
+    To perform an Export, Import or Truncate you need a User with the <a href="/topics/user-management/#predefined-roles">Admin Role</a>
 </div>

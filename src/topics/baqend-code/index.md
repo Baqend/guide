@@ -142,7 +142,7 @@ DB.Test.load('546c6-a...').then((obj) => {
 
 <div class="note"><strong>Note:</strong> Inside Baqend Code data operations (e.g. <code>user.save()</code>) have the access rights of the user starting the 
 request enhanced by an additional <code>node</code> role. Calls to Baqend originating from handlers will not trigger another 
-<code>onUpdate(db)</code> call. See <a href="../user-management/#predefined-roles">Predefined Roles</a> for more details.</div>
+<code>onUpdate(db)</code> call. See <a href="/topics/user-management/#predefined-roles">Predefined Roles</a> for more details.</div>
 
 ### onDelete
 
@@ -159,7 +159,7 @@ exports.onDelete = function(db, obj) {
 All four handlers are `before`-operation handlers. Be aware that they are called after the class level permissions are 
 checked, but before object level permissions were validated. Thus, making changes to other objects inside handlers 
 should be treated with care: these operations could succeed while the original operation might fail due to missing 
-object access rights. An elegant way to simplify such cases is the use of `after`-handlers, one of our [Upcoming Features](../../roadmap).
+object access rights. An elegant way to simplify such cases is the use of `after`-handlers, one of our [Upcoming Features](../roadmap).
 
 
 ## Modules
@@ -278,7 +278,7 @@ exports.get = function(db, req, res) {
 ```
 
 It is important that you send the content back with one of the express `res.send()` helpers. Otherwise the response will 
-not be send back to the client. In addition ensure that you return a [promise](../getting-started#promises) when you make asynchronous calls within 
+not be send back to the client. In addition ensure that you return a [promise](/topics/getting-started#promises) when you make asynchronous calls within 
 your Baqend module, otherwise the request will be aborted with an error!
 
 ## Handling binary data
@@ -287,7 +287,7 @@ As a part of the advanced request handling, it is also possible to upload and do
 
 To send binary data to your Baqend module, you can specify the 'requestType' option.
 With the 'responseType' option you can receive binary data in the specified type from your Baqend module.
-This works similar to the file API and you can use all the listed [file types](../files) as 'requestType' and 'responseType' too.
+This works similar to the file API and you can use all the listed [file types](/topics/files) as 'requestType' and 'responseType' too.
 
 ```js
 const svgBase64 = 'PHN2ZyB4bWxucz0...';
@@ -335,7 +335,7 @@ exports.post = function(db, req, res) {
 
 ## Handling Files
 
-In the Baqend Code you can use the same <a href="#files">File API</a> as from your client. For Baqend Code we, however, support two additional file content formats, namely <code>stream</code> and <code>buffer</code>.
+In the Baqend Code you can use the same <a href="/topics/files/">File API</a> as from your client. For Baqend Code we, however, support two additional file content formats, namely <code>stream</code> and <code>buffer</code>.
 
 With the <code>stream</code> format you can for example stream data through your Baqend Code into the database without buffering it, as the following example shows:
 ```js
@@ -463,7 +463,7 @@ In addition there are some Baqend API resources which can only be accessed by th
 You can easily debug any part of your Baqend Code with the powerful Logging API of Baqend. 
 Any uncaught errors and rejected Promises will automatically be logged into the AppLog Table. So keep an eye on it. 
 
-Read more about it in the [Baqend logging chapter](../logging/)
+Read more about it in the [Baqend logging chapter](/topics/logging/)
 
 ## NPM Node Modules
 

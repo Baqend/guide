@@ -64,7 +64,7 @@ This state is indicated by a read only `inactive` field of type `Boolean` in the
 Only the admin is able to set the `inactive` field manually, e.g. to activate or ban users.
 
 ### Email Hooks
-Every time Baqend sends an email to a user, you can hook to that event by [providing a module](../baqend-code/#modules).
+Every time Baqend sends an email to a user, you can hook to that event by [providing a module](/topics/baqend-code/#modules).
 There are two emails sent out:
 
 * the `user.register` hook is called before a registration email is sent,
@@ -192,7 +192,7 @@ DB.ready(function() {
 
 User objects are private by default, i.e. only admins and the user itself can load or update the object. This behaviour is intended to protect sensitive user information. There are two ways to grant access to user objects:
 
-* The first (**not** recommended) way is to grant access to specific users or groups or even to make the user objects publicly accessible. Because user objects are protected by object-level ACLs you need to have a look at Baqend's [permission system](/#permissions) to change the permissions.
+* The first (**not** recommended) way is to grant access to specific users or groups or even to make the user objects publicly accessible. Because user objects are protected by object-level ACLs you need to have a look at Baqend's [permission system](/topics/user-management/#permissions) to change the permissions.
 * The second (recommended) way is to divide your user information into two categories `public` and `private`. Then store the private information in the private `user` object and the public information in a separate `profile` object that is publicly accessible and linked to the `user` object.
 
 ## Roles

@@ -3,6 +3,9 @@
 **Baqend Speed Kit** accelerate your existing website by rerouting the requests through Baqend´s caching infrastructure.
 Thereby you gain a remarkable boost of performance to your website.
 
+You are using WordPress? Check out our [WordPress guide](/topics/wordpress/).
+
+
 ## Why Speed Kit?
 
 Page load time is money. This is not only true for companies like Amazon that loose more than $1.3B in revenue per year,
@@ -17,6 +20,14 @@ Baqend has developed **Speed Kit** that directly hooks into an existing website 
 Therefore, Speed Kit uses [Service Workers](https://developers.google.com/web/fundamentals/getting-started/primers/service-workers)
 which come with a great **browser support (> 75%)** and automatically enable **offline mode** to your website.
 Because it **works for any website**, it is the perfect solution for Publishers, Landing Pages, E-Commerce, and Agencies.
+
+![Speed Kit Industries](speed-kit-industries.png)
+
+<div class="tip">
+    <strong>Tip:</strong>
+    Take a closer look at the <a href="#page-speed-analyzer">Page Speed Analyzer</a> and test whether your website can
+    benefit from Speed Kit´s potential.
+</div>
 
 ## Integrating Speed Kit
 Follow these 5 steps to set up Baqend Speed Kit and speed up your website.
@@ -43,18 +54,74 @@ that will speed up your requests.
 </li>
 <li>
 ###Host Service Worker
-In order to provide the service worker with its full functionality, it needs to have the root
-scope. Thus, the service worker should be hosted in your root directory.
+In order to provide the Service Worker with its full functionality, it needs to have the root
+scope. Thus, the Service Wworker should be hosted in your root directory.
 If you are able to do so, the default case is yours. If for whatever reason this is not possible we provided
-you some implementation options in your dashboard´s "Install Speed Kit" section.
+you some implementation options here:<br><br>
+**Apache**<br>
+Option 1: Rewrite the request url for the service worker to the actual location:
+```sh
+# Add the following lines to your httpd.conf file
+# replace <location> with the actual location of the service worker
+RewriteEngine On
+RewriteRule ^/sw.js$ <location>
+```
+Option 2: Customize the service workers registration path by still giving it root scope
+```sh
+# Add the following lines to your httpd.conf file
+<Files "sw.js">
+Header Set Service-Worker-allowed "/"
+</Files>
+# Find this line in your code snipped: "navigator.serviceWorker.register('sw.js')"
+# and change it like this:
+navigator.serviceWorker.register(<enter your service worker path>, {scope: '/'})
+```
+**Nginx**<br>
+Option 1: Rewrite the request url for the service worker to the actual location:
+```sh
+# Add the following lines to the suitable server or location block in your nginx.conf file
+# replace <location> with your actual service worker location
+rewrite ^(/sw.js)$ <location> last;
+```
+Option 2: Customize the service workers registration path by still giving it root scope
+```sh
+# Add the following lines to your httpd.conf file
+# and replace <location> with your service worker location
+location  = /<location> {
+add_header 'service-worker-allowed' '/';
+}
+# Find this line in your code snipped: "navigator.serviceWorker.register('sw.js')"
+# and change it like this:
+navigator.serviceWorker.register(<enter your service worker path>, {scope: '/'})
+```
+**WordPress**<br>
+Use our <a href="/topics/wordpress/">WordPress Plugin</a>
 </li>
 <li>
 ###Refresh Content
-If you have changed any kind of content, you need to trigger a service worker refresh or else your users will
-continue to see the old content. To inform us best case scenario is to implement the refresh calls in your system
+If you have changed any kind of content, you need to trigger a Service Worker refresh or else your users will
+continue to see the old content. To inform us, best case scenario is to implement the refresh calls in your system
 whenever you upload new content. If you havent implemented this yet, you can use the dashboard to manually call our
-refresh api.</li>
+refresh api. </li>
 </ol>
+
+## How Speed Kit works
+
+The Baqend Speed Kit hooks into existing websites and reroutes the requests to Baqend for a faster content delivery.
+For a deeper understanding of how the Speed Kit works, the following graphic illustrates an overview
+of the underlying Speed Kit architecture. 
+
+![Page Speed Architecture](speed-kit-architecture.png)
+
+The left side of the graphic shows your website with the latest Service Worker script installed. As soon as the Service
+Worker is active, all HTTP requests matching your configuration (whitelist, blacklist etc.) are rerouted to Baqend.
+If the request has been rerouted to Baqend for the first time, the corresponding resources (Media, Text etc.) 
+are pulled from your legacy system. Otherwise, the resources are served directly by the server.
+ 
+On the way to the client, resources are routed through the distributed Baqend caching infrastructure and get cached. 
+Therefor requests rerouted by the Service Worker can be served with very low latency. Whenever content changes, you call
+the Baqend refresh content API, so Baqend immediately fetches changed content. Baqend´s caching algorithms automatically
+update all caches in real-time (including users' browser caches).
 
 ## Page Speed Analyzer
 
@@ -69,8 +136,8 @@ For comparison, the analyzer collects the following metrics by using [Google's P
 and private instances of [WebPagetest](https://sites.google.com/a/webpagetest.org/docs/private-instances):
 
 - **Domains:** Number of unique hosts referenced by the page.
-- **Resources:** Number of HTTP(S) resources loaded by the page.
-- **Response Size:** Number of uncompressed responce bytes for resources on the page.
+- **Resources:** Number of HTTP resources loaded by the page.
+- **Response Size:** Number of uncompressed response bytes for resources on the page.
 - **Speed Index:** Represents how quickly the page rendered the user-visible content.
 - **Time To First Byte:** Measures the amount of time between creating a connection to the server and downloading the contents.
 - **DOMContentLoaded:** Represents the time when the initial HTML document has been completely loaded and parsed, without waiting for external resources.
@@ -100,7 +167,7 @@ Additionally, the tool collects a **performance video** of both website versions
 }
 
 .getting-started-list h3 {
-    margin-top: -116px;
+    padding-top: 45px;
     position: relative;
     z-index: 1;
 }
@@ -108,7 +175,7 @@ Additionally, the tool collects a **performance video** of both website versions
 .getting-started-list>li {
     position: relative;
     border-left: 2px solid #1967CC;
-    padding: 0 0 60px 50px;
+    padding: 0 0 30px 50px;
     /* disable collapsed margin */
     display: inline-block;
     width: 100%;

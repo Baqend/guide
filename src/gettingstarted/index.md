@@ -55,7 +55,7 @@ In the [dashboard](https://dashboard.baqend.com/apps) enter your App and create 
 </table>
 Now go to the **Data** tab and click **Add** to insert a dummy message to the database.
 
-To learn more about data modeling in Baqend, see the [Schema and Types documentation](/#schema-and-types).
+To learn more about data modeling in Baqend, see the [Schema and Types documentation](/topics/schema/).
 </li>
 <li>
 ###Save Data
@@ -88,7 +88,7 @@ function leaveMessage(name, message) {
 ```
 So now we insert a new message, whenever the HTML form is submitted.
 
-See the [**C**reate **R**ead **U**pdate **D**elete documentation](/#crud) to learn more about saving and loading data.
+See the [**C**reate **R**ead **U**pdate **D**elete documentation](/topics/crud/) to learn more about saving and loading data.
 </li>
 <li>
 ###Query Data
@@ -112,13 +112,13 @@ function showMessages() {
 ```
 At this point the application is fully working. Just open the `index.html` in the browser to use your app. If something is not working, press `F12` to see any error messages.
 
-Queries allow you do complex filtering and sorting, see the [Query Docs](/#queris). All data loaded from Baqend Cloud is served with low latency from a global CDN.
+Queries allow you do complex filtering and sorting, see the [Query Docs](/topics/queries/). All data loaded from Baqend Cloud is served with low latency from a global CDN.
 </li>
 <li>
 ###Protect Your Data
 By default, public access to the `Message` table is allowed. Let's restrict that to only allow *inserts*, *reads* and *queries* but disallow any *updates* and *deletes*. Go to the **ACL** (Access Control Lists) tab in the dashboard and revoke delete and update rights from the Public role.
 
-Access rights can be granted and denied both at table level and at object level. This is explained in detail in the [User, Roles and Permissions documentation](/#users-roles-and-permissions).
+Access rights can be granted and denied both at table level and at object level. This is explained in detail in the [User, Roles and Permissions documentation](/topics/user-management/).
 
 Baqend has full SSL support. If you want the Baqend connection to be SSL-encrypted by default, add `true` as the second parameter of the `DB.connect` call.
 </li>
@@ -135,7 +135,7 @@ DB.User.register('john.doe@example.com', 'pwd').then(function() {
 DB.User.login('john.doe@example.com', 'pwd').then(...)
 ```
 
-You can enable and customize email verification in the settings page of the dashboard. To support OAuth logins (e.g. "Login with Facebook"), setup OAuth as [described in the User docs](/#oauth-login), then you can simply call `DB.User.loginWithFacebook`.
+You can enable and customize email verification in the settings page of the dashboard. To support OAuth logins (e.g. "Login with Facebook"), setup OAuth as [described in the User docs](/topics/user-management/#oauth-login), then you can simply call `DB.User.loginWithFacebook`.
 
 
 
@@ -143,7 +143,7 @@ You can enable and customize email verification in the settings page of the dash
 <li>
 ###Install the Baqend CLI and Deploy
 
-Install the [Baqend CLI](http://www.baqend.com/guide/#baqend-cli) globally with ([node.js and npm](https://nodejs.org/en/download/) is required):
+Install the [Baqend CLI](/topics/cli/) globally with ([node.js and npm](https://nodejs.org/en/download/) is required):
 
 ```sh
 $ npm install -g baqend
@@ -162,9 +162,9 @@ View it online by visiting your app domain `<your-app-name>.app.baqend.com`.
 ###Start Building
 You can use the app you just created as a baseline for a real app. To explore Baqend's other features:
 <ul>
-    <li>Take the [Interactive Tutorial](http://www.baqend.com/#tutorial)</li>
+    <li>Take the [Interactive Tutorial](https://www.baqend.com/tutorial.html)</li>
     <li>Read the [Developer Guide](/), to learn about server-side code &amp; validations, push notifications, logging, etc.</li>
-    <li>Read the [JavaScript API Docs](/)</li>
+    <li>Read the [JavaScript API Docs](http://www.baqend.com/js-sdk/latest/baqend.html)</li>
     <li>Play with the Interative REST API: [Open Your App](https://dashboard.baqend.com) and go to *API Explorer*</li>
     <li>If you're starting from scratch, have a look at frontend bootstraping tools: [Initializr](http://www.initializr.com/) (used here), [HTML5 Boilerplate](https://html5boilerplate.com/), [Bootstrap](http://getbootstrap.com/), [Yeoman](http://yeoman.io/) and popular frontend frameworks: [Ionic](http://ionic.io/), [AngularJS](https://angularjs.org/), [React](https://facebook.github.io/react/), [Ember](http://emberjs.com/)</li>
 </ul>
@@ -185,11 +185,10 @@ You can use the app you just created as a baseline for a real app. To explore Ba
 }
 
 .getting-started-list h3 {
-    margin-top: -116px;
+    padding-top: 45px;
     position: relative;
     z-index: 1;
 }
-
 .getting-started-list>li {
     position: relative;
     border-left: 2px solid #1967CC;

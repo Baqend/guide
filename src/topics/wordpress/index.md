@@ -38,7 +38,7 @@ Now, you can choose between *Speed Kit* and *Hosting* to use for your WordPress 
 
 ## Speed Kit
 
-The WordPress plugin makes using [Baqend Speed Kit](../speed-kit) a breeze.
+The WordPress plugin makes using [Baqend Speed Kit](/topics/speed-kit) a breeze.
 Simply head over to the *Speed Kit* tab and check *enabled* next to *Speed Kit Integration*.
 
 ![Enable Speed Kit](speed-kit-enable.png)
@@ -59,7 +59,7 @@ Click “Save Settings” once you are ready.
 
 ## Hosting
 
-The WordPress plugin makes it easy using [Baqend Hosting](../hosting), too.
+The WordPress plugin makes it easy using [Baqend Hosting](/topics/hosting), too.
 
 Now, you have several options to configure Speed Kit for you:
 

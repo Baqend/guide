@@ -110,7 +110,7 @@ file = new DB.File({parent: '/www/images', name: 'myPic.jpg'});
 can only be set for the root folder and is applied to all nested files and folders.</div>
 
 ### Embedded Files
-Files can also be embedded in other objects like for example a profile image in a user object (see [primitive types](/#primitives)):
+Files can also be embedded in other objects like for example a profile image in a user object (see [primitive types](/topics/schema/#primitives)):
 ```js
 DB.User.me.load().then((user) => {
 	const file = user.profileImage;
