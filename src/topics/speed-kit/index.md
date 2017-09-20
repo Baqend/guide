@@ -21,8 +21,6 @@ Therefore, Speed Kit uses [Service Workers](https://developers.google.com/web/fu
 which come with a great **browser support (> 75%)** and automatically enable **offline mode** to your website.
 Because it **works for any website**, it is the perfect solution for Publishers, Landing Pages, E-Commerce, and Agencies.
 
-![Speed Kit Industries](speed-kit-industries.png)
-
 <div class="tip">
     <strong>Tip:</strong>
     Take a closer look at the <a href="#page-speed-analyzer">Page Speed Analyzer</a> and test whether your website can
