@@ -136,9 +136,22 @@ Therefor requests rerouted by the Service Worker can be served with very low lat
 the [Baqend refresh content API](#refresh-content), so Baqend immediately fetches changed content. Baqend´s caching algorithms automatically
 update all caches in real-time (including users' browser caches).
 
-## Refresh Content
+## Defining what to Cache: White- and Blacklisting
+
+## Refreshing Content
 If you have changed any kind of content, you need to trigger a Service Worker refresh or else your users will continue
-to see the old content. 
+to see the old content.
+
+### Pull-based Refreshing
+Cron-Jobs und manuell getriggert im Dashboard (Einstellungen für Content-Types, Prefix etc. erklären)
+
+### Push-based Refreshing
+Über API Calls (API beschreiben), WP nochmal erwähnen
+
+## Speed Kit API
+
+Inhalt aus http://www.baqend.com/speed-kit/latest/ einbetten
+
 ## Page Speed Analyzer
 
 The [Page Speed Analyzer](http://makefast.app.baqend.com/) is a testing tool that gives you an impression of
