@@ -56,7 +56,7 @@ scope. Thus, the Service Worker should be hosted in your root directory.
 If you are able to do so, the default case is yours. If for whatever reason this is not possible, we provide
 you some implementation options here:
 ####WordPress
-Use our <a href="/wordpress/">WordPress Plugin</a>.
+Use our <a href="./wordpress/">WordPress Plugin</a>.
 ####Apache
 Option 1: Rewrite the request url for the service worker to the actual location:
 ```sh

@@ -257,5 +257,5 @@ objects will be kept you should `Truncate` the Table first.
 
 <div class="note">
     <strong>Note:</strong>
-    To perform an Export, Import or Truncate you need a User with the <a href="/user-management/#predefined-roles">Admin Role</a>
+    To perform an Export, Import or Truncate you need a User with the <a href="./user-management/#predefined-roles">Admin Role</a>
 </div>
