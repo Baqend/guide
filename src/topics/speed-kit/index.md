@@ -69,8 +69,8 @@ that will speed up your requests.
 </li>
 <li>
 ###Host Service Worker
-In order to provide the Service Worker with its full functionality, it needs to have the root
-scope. Thus, the Service Worker should be hosted in your root directory.
+In order to provide the Service Worker with its full functionality, it needs to have the [root
+scope](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API/Using_Service_Workers). Thus, the Service Worker should be hosted in your root directory.
 If you are able to do so, the default case is yours. If for whatever reason this is not possible, we provide
 you some implementation options here:
 ####WordPress
@@ -120,7 +120,7 @@ Speed Kit will automatically make your website faster.
 
 ## How Speed Kit works
 
-The Baqend Speed Kit hooks into existing websites and reroutes the requests to Baqend for a faster content delivery.
+Speed Kit hooks into existing websites and reroutes the requests to Baqend for a faster content delivery.
 For a deeper understanding of how the Speed Kit works, the following graphic illustrates an overview
 of the underlying Speed Kit architecture. 
 
