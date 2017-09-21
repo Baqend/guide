@@ -104,7 +104,7 @@ DB.ready().then(function() {
 });
 ```
 
-<div class="tip"><strong>Tip:</strong> Baqend not only gives you APIs for serverless development but also hosts and accelerates your assets, like HTML, CSS, images, etc. See <a href="/topics/hosting/">Hosting</a> for more details.</div>
+<div class="tip"><strong>Tip:</strong> Baqend not only gives you APIs for serverless development but also hosts and accelerates your assets, like HTML, CSS, images, etc. See <a href="/../hosting/">Hosting</a> for more details.</div>
 
 ### Accessing Data
 

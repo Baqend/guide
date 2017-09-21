@@ -235,7 +235,7 @@ The following table list all available query filters and the types on which they
   </tr>
   <tr>  
     <td><a href="http://docs.mongodb.org/manual/reference/operator/query/nearSphere/">$nearSphere</a></td>
-    <td><a href="/guide/topics/schema/#primitives">GeoPoint</a></td>
+    <td><a href="../schema/#primitives">GeoPoint</a></td>
     <td>
       The geo point field has to be within the maximum distance in meters to the given GeoPoint.
       Returns from nearest to furthest.<br>
@@ -247,10 +247,10 @@ The following table list all available query filters and the types on which they
   </tr>
   <tr>  
     <td><a href="https://docs.mongodb.com/manual/reference/operator/query/geoWithin/">$geoWithin</a></td>
-    <td><a href="/guide/topics/schema/#primitives">GeoPoint</a></td>
+    <td><a href="../schema/#primitives">GeoPoint</a></td>
     <td>
       The geo point of the object has to be contained within the given polygon.
-      You need a Geospatial Index on this field, to use this kind of query. Read the <a href="/guide/topics/queries#query-indexes">query indexes</a> section
+      You need a Geospatial Index on this field, to use this kind of query. Read the <a href="../queries#query-indexes">query indexes</a> section
       for more details.
     </td>
   </tr>
@@ -270,7 +270,7 @@ DB.Todo.find()
 ```
 
 <div class="note"><strong>Note:</strong> <code>DB.user.me</code> refers to the currently logged-in User instance. To learn more about users and the
-login process see the <a href="/guide/topics/topics/user-management/#users-roles-and-permissions">User, Roles and Permission chapter</a>.</div>
+login process see the <a href="../topics/user-management/#users-roles-and-permissions">User, Roles and Permission chapter</a>.</div>
 
 ## Sorting
 

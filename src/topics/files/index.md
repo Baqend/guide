@@ -53,7 +53,7 @@ formats. In the following table we list all supported file formats:
     <td>'stream'</td>
     <td><a href="https://nodejs.org/api/stream.html">Stream</a></td>
     <td>A stream containing the file content<br>
-    See our <a href="/guide/topics/baqend-code/#handling-files">example</a>.<br>
+    See our <a href="../baqend-code/#handling-files">example</a>.<br>
     Note: This <b>only</b> works in Baqend code.</td>
   </tr>
   <tr>

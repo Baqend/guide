@@ -85,7 +85,7 @@ return todo.update({force: true}).then(function() {
 });
 ```
 
-Each object also automatically keeps track of its creation time and the last time it was updated in form of <a href="/topics/schema/#primitives">DateTime</a> fields. Both of these fields are maintained automatically and are read only, i.e. you can not change them yourself.
+Each object also automatically keeps track of its creation time and the last time it was updated in form of <a href="../schema/#primitives">DateTime</a> fields. Both of these fields are maintained automatically and are read only, i.e. you can not change them yourself.
 ```js
 todo.name = 'My first Todo of this day';
 return todo.update().then(function(updatedTodo) {
@@ -147,7 +147,7 @@ todo.optimisticSave(function(todo, abort) {
 });
 ```
 
-<div class="tip"><strong>Tip:</strong> Optimistic saving is particularly useful for server-side code (<a href="/topics/baqend-code/#modules">modules</a>) that updates objects and may be invoked concurrently.</div>
+<div class="tip"><strong>Tip:</strong> Optimistic saving is particularly useful for server-side code (<a href="../baqend-code/#modules">modules</a>) that updates objects and may be invoked concurrently.</div>
 
 ## Load / Refresh
 

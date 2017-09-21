@@ -142,7 +142,7 @@ DB.Test.load('546c6-a...').then((obj) => {
 
 <div class="note"><strong>Note:</strong> Inside Baqend Code data operations (e.g. <code>user.save()</code>) have the access rights of the user starting the 
 request enhanced by an additional <code>node</code> role. Calls to Baqend originating from handlers will not trigger another 
-<code>onUpdate(db)</code> call. See <a href="/guide/topics/user-management/#predefined-roles">Predefined Roles</a> for more details.</div>
+<code>onUpdate(db)</code> call. See <a href="../user-management/#predefined-roles">Predefined Roles</a> for more details.</div>
 
 ### onDelete
 
@@ -335,7 +335,7 @@ exports.post = function(db, req, res) {
 
 ## Handling Files
 
-In the Baqend Code you can use the same <a href="/topics/files/">File API</a> as from your client. For Baqend Code we, however, support two additional file content formats, namely <code>stream</code> and <code>buffer</code>.
+In the Baqend Code you can use the same <a href="../files/">File API</a> as from your client. For Baqend Code we, however, support two additional file content formats, namely <code>stream</code> and <code>buffer</code>.
 
 With the <code>stream</code> format you can for example stream data through your Baqend Code into the database without buffering it, as the following example shows:
 ```js
