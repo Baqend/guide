@@ -10,6 +10,7 @@ pages:
 
         - 'Getting Started': 'topics/getting-started/index.md'
         - 'CLI': 'topics/cli/index.md'
+        - 'FAQ': 'topics/faq/index.md'
         - 'CRUD': 'topics/crud/index.md'
         - 'Schema and Types': 'topics/schema/index.md'
         - 'Queries': 'topics/queries/index.md'

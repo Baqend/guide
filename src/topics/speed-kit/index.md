@@ -1,30 +1,48 @@
 # Speed Kit
 
-**Baqend Speed Kit** accelerate your existing website by rerouting the requests through Baqend´s caching infrastructure.
-Thereby you gain a remarkable boost of performance to your website.
+**Baqend Speed Kit** accelerates your existing website by rerouting the requests through Baqend´s caching infrastructure. Using the configuration described in this document, it works for any website and achieves a performance boost of typically 50-300%.
 
-You are using WordPress? Check out our [WordPress guide](/topics/wordpress/).
+### In a nutshell
+You can add Speed Kit to your site at any time and remove it within seconds, should you ever want to. Using Speed Kit involves these simple steps described in this guide:
+
+1. **Tell Speed Kit the domain to make fast**<br>
+   In your Baqend account simply configure which domains and URLs Baqend should accelerate.
+2. **Include the code snippet**<br>
+   The snippet provides a Service Worker script that reroutes your existing website's requests through Baqend's caching infrastructure.
+3. **Define Refresh Patterns**<br>
+   Define how your content is updated either by simple rules (e.g., refreshed every minute) or by calling the Baqend API from your backend.
+4. **Speed Kit in Action**<br>
+   Your website will be roughly 50-300% faster as Baqend automatically applies network optimizations and sophisticated caching.
+
+### Using WordPress?
+Are you using WordPress? Check out our [WordPress guide](/topics/wordpress/). Baqend has special support for WordPress with a custom plugin that allows you to run your WordPress blog blazingly fast on Baqend with a simple setup.
 
 ## Why Speed Kit?
 
-Page load time is money. This is not only true for companies like Amazon that loose more than $1.3B in revenue per year,
+Page load time is money. This is not only true for companies like Amazon that loses more than 1.3B USD in revenue per year,
 if their website is a 10th of a second slower. It is also true for publishers, whose business model depends on a user
-experience that facilitates consumption of as much content as possible. However, many publishers have heterogenous and
+experience that facilitates consumption of as much content as possible. However, many brands, publishers, and e-commerce businesses have heterogeneous and
 complex technology stacks that make it extremely hard to tackle performance, scalability, and page load time.
 Novel browser technologies now offer a means of making web performance as simple as including a script.
 
-![Major Advantages](major-advantages.png)
+<img src="major-advantages.png" style="width:80%;">
 
 Baqend has developed **Speed Kit** that directly hooks into an existing website and makes it **50-300% faster**.
 Therefore, Speed Kit uses [Service Workers](https://developers.google.com/web/fundamentals/getting-started/primers/service-workers)
-which come with a great **browser support (> 75%)** and automatically enable **offline mode** to your website.
-Because it **works for any website**, it is the perfect solution for Publishers, Landing Pages, E-Commerce, and Agencies.
+which come with a **browser support of > 75%** and automatically enable an **offline mode** for users of your website.
+Because it **works for any website**, it is the perfect solution for Publishers, Landing Pages, E-Commerce, Brands, and Agencies.
 
 <div class="tip">
     <strong>Tip:</strong>
-    Take a closer look at the <a href="#page-speed-analyzer">Page Speed Analyzer</a> and test whether your website can
-    benefit from Speed Kit´s potential.
+    Test your site withe the <a href="#page-speed-analyzer">Page Speed Analyzer</a> to learn whether your website can
+    benefit from using Speed Kit.
 </div>
+
+#### Learn More
+For further information on Speed Kit check out these two resources:
+
+- [Speed Kit Pitch deck (PDF)](speed-kit.pdf)
+- [Two-Pager (PDF)](2-pager.pdf)
 
 ## Integrating Speed Kit
 Follow these 5 steps to set up Baqend Speed Kit and speed up your website.

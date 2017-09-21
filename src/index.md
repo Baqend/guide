@@ -2,7 +2,7 @@
 <div class="stars">
   <div class="container">
     <h1>Baqend Guide</h1>
-    Learn how to use Baqend to develop your app.
+    Learn how to use Baqend to develop and accelerate websites and apps.
     <div class="shooting-star">
       <img src="/guide/img/shooting-star.png" />
     </div>
@@ -84,6 +84,15 @@
       <span class="chapter-info">How you set up and get running your first app.</span>
     </a>
   </div>
+<div class="chapter-item-outer">
+  <a class="chapter-item" href="topics/faq/">
+    <span class="chapter-heading">
+      <span class="icon"><img src="icons/faq.png"/></span>
+      <span class="text">FAQ</span>
+    </span>
+    <span class="chapter-info">Frequently Asked Questions on working with Baqend.</span>
+  </a>
+</div>
   <div class="chapter-item-outer">
     <a class="chapter-item" href="topics/cli/">
       <span class="chapter-heading">

@@ -1,3 +1,25 @@
+@media print
+{
+  #footer, #disqus_thread, iframe, a.anchor, .navbar
+  {
+    display: none !important;
+  }
+
+  .getting-started-list>li {
+    border-left: 0 !important;
+  }
+  .content {
+    border: 0 !important;
+  }
+  #main {
+    padding-left: 0 !important;
+  }
+  .box {
+    padding: 0 !important;
+  }
+}
+
+
 .bs-sidebar .nav .nav {
   display: block;
 }
