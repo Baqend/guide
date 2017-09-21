@@ -5,7 +5,6 @@ Thereby you gain a remarkable boost of performance to your website.
 
 You are using WordPress? Check out our [WordPress guide](/topics/wordpress/).
 
-
 ## Why Speed Kit?
 
 Page load time is money. This is not only true for companies like Amazon that loose more than $1.3B in revenue per year,
@@ -53,10 +52,12 @@ that will speed up your requests.
 <li>
 ###Host Service Worker
 In order to provide the Service Worker with its full functionality, it needs to have the root
-scope. Thus, the Service Wworker should be hosted in your root directory.
-If you are able to do so, the default case is yours. If for whatever reason this is not possible we provided
-you some implementation options here:<br><br>
-**Apache**<br>
+scope. Thus, the Service Worker should be hosted in your root directory.
+If you are able to do so, the default case is yours. If for whatever reason this is not possible, we provide
+you some implementation options here:
+####WordPress
+Use our <a href="/topics/wordpress/">WordPress Plugin</a>
+####Apache
 Option 1: Rewrite the request url for the service worker to the actual location:
 ```sh
 # Add the following lines to your httpd.conf file
@@ -74,7 +75,7 @@ Header Set Service-Worker-allowed "/"
 # and change it like this:
 navigator.serviceWorker.register(<enter your service worker path>, {scope: '/'})
 ```
-**Nginx**<br>
+####Nginx
 Option 1: Rewrite the request url for the service worker to the actual location:
 ```sh
 # Add the following lines to the suitable server or location block in your nginx.conf file
@@ -92,15 +93,11 @@ add_header 'service-worker-allowed' '/';
 # and change it like this:
 navigator.serviceWorker.register(<enter your service worker path>, {scope: '/'})
 ```
-**WordPress**<br>
-Use our <a href="/topics/wordpress/">WordPress Plugin</a>
 </li>
 <li>
-###Refresh Content
-If you have changed any kind of content, you need to trigger a Service Worker refresh or else your users will
-continue to see the old content. To inform us, best case scenario is to implement the refresh calls in your system
-whenever you upload new content. If you havent implemented this yet, you can use the dashboard to manually call our
-refresh api. </li>
+###Enjoy Performance
+Speed Kit will automatically make your website faster.
+</li>
 </ol>
 
 ## How Speed Kit works
@@ -111,16 +108,19 @@ of the underlying Speed Kit architecture.
 
 ![Page Speed Architecture](speed-kit-architecture.png)
 
-The left side of the graphic shows your website with the latest Service Worker script installed. As soon as the Service
-Worker is active, all HTTP requests matching your configuration (whitelist, blacklist etc.) are rerouted to Baqend.
-If the request has been rerouted to Baqend for the first time, the corresponding resources (Media, Text etc.) 
-are pulled from your legacy system. Otherwise, the resources are served directly by the server.
+The left side of the graphic shows your website with the [latest Service Worker script](https://www.baqend.com/speed-kit/latest/)
+installed. As soon as the Service Worker is active, all HTTP requests matching your configuration (whitelist, blacklist
+etc.) are rerouted to Baqend. If the request has been rerouted to Baqend for the first time, the corresponding resources
+(Media, Text etc.) are pulled from your legacy system. Otherwise, the resources are served directly by the server.
  
 On the way to the client, resources are routed through the distributed Baqend caching infrastructure and get cached. 
 Therefor requests rerouted by the Service Worker can be served with very low latency. Whenever content changes, you call
-the Baqend refresh content API, so Baqend immediately fetches changed content. Baqend´s caching algorithms automatically
+the [Baqend refresh content API](#refresh-content), so Baqend immediately fetches changed content. Baqend´s caching algorithms automatically
 update all caches in real-time (including users' browser caches).
 
+## Refresh Content
+If you have changed any kind of content, you need to trigger a Service Worker refresh or else your users will continue
+to see the old content. 
 ## Page Speed Analyzer
 
 The [Page Speed Analyzer](http://makefast.app.baqend.com/) is a testing tool that gives you an impression of
