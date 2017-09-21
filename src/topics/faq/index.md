@@ -11,6 +11,23 @@ Here are a few resources additional resources to get help:
 - The <a href="javascript:Tawk_API.maximize();">Chat</a> on the bottom of this page
 - Email Support at [support@baqend.com](support@baqend.com)
 
+To get a deeper understanding of Baqend, here are some deep dives [from our blog](https://medium.baqend.com/):
+
+- [A Real-Time Database Survey: The Architecture of Meteor, RethinkDB, Parse & Firebase](https://medium.baqend.com/real-time-databases-explained-why-meteor-rethinkdb-parse-and-firebase-dont-scale-822ff87d2f87?source=rss----1438a8fccd85---4)
+- [Going Real-Time Has Just Become Easy: Baqend Real-Time Queries Hit Public Beta](https://medium.baqend.com/going-real-time-has-just-become-easy-baqend-real-time-queries-hit-public-beta-3a44a13fde86?source=rss----1438a8fccd85---4)
+- [Building Static Sites in 2017: Cloud-Hosted, CMS-Backed, and API-Driven](https://medium.baqend.com/building-static-sites-in-2017-cloud-hosted-cms-backed-and-api-driven-f68b5debc396?source=rss----1438a8fccd85---4)
+- [A Backend for Your React and React Native Apps: Baqend React Starters](https://medium.baqend.com/a-backend-for-your-react-and-react-native-apps-baqend-react-starters-337d47200ec?source=rss----1438a8fccd85---4)
+- [Lessons Learned Building a Backend-as-a-Service: A Technical Deep Dive](https://medium.baqend.com/how-to-develop-a-backend-as-a-service-from-scratch-lessons-learned-a9fac618c2ce?source=rss----1438a8fccd85---4)
+- [Web Performance in a Nutshell: HTTP/2, CDNs and Browser Caching](https://medium.baqend.com/hosting-lessons-learned-6010992eb257?source=rss----1438a8fccd85---4)
+- [High Performance Website Hosting with SSL and HTTP/2 Made Simple](https://medium.baqend.com/high-performance-website-hosting-with-ssl-and-http-2-made-simple-1ead24a7784a?source=rss----1438a8fccd85---4)
+- [The AWS and MongoDB Infrastructure of Parse: Lessons Learned](https://medium.baqend.com/parse-is-gone-a-few-secrets-about-their-infrastructure-91b3ab2fcf71?source=rss----1438a8fccd85---4)
+- [Building a Shop with Sub-Second Page Loads: Lessons Learned](https://medium.baqend.com/building-a-shop-with-sub-second-page-loads-lessons-learned-4bb1be3ed07?source=rss----1438a8fccd85---4)
+- [Scalable Stream Processing: A Survey of Storm, Samza, Spark and Flink](https://medium.baqend.com/real-time-stream-processors-a-survey-and-decision-guidance-6d248f692056?source=rss----1438a8fccd85---4)
+- [NoSQL Databases: a Survey and Decision Guidance](https://medium.baqend.com/nosql-databases-a-survey-and-decision-guidance-ea7823a822d)
+- [Angular 2 & 4 by Example](https://medium.baqend.com/angular-2-by-example-e85a09fa6480)
+- [Bringing Web-Performance to the Next Level — An Overview of Baqend](https://medium.baqend.com/bringing-web-performance-to-the-next-level-an-overview-of-baqend-be3521bc2faf)
+
+
 ## Security, Privacy and Data Protection
 
 Here we list questions related to data privacy and security as well as the Baqend's counter-measures to data loss.
@@ -24,6 +41,7 @@ Every backup is a downloadable MongoDB dump archive located in the `baqend_backu
 The used backup storage will be charged like normal file storage.
 By default, the MongoDB backups will be retained for 30 days before they are removed.
 If you prefer a custom retention period, contact us via email at [support@baqend.com](mailto:support@baqend.com) or via chat.
+
 
 ### Where is my data stored?
 
@@ -83,6 +101,24 @@ On the business side, we are not headed for a fast exit and have already turned 
 ## Technical
 
 Here we list questions related to technical concerns.
+
+### How is rate-limiting applied in Baqend?
+There are a few rate limits in Baqend, to prevent abuse:
+
+- **HTTP/API requests**: within a 5 minute interval 1000 requests are allowed per IP. When the limit is exceeded, the IP is banned for 30 minutes.
+- **Registration and Forgot Password**: throttled to 5 calls per 5 minute without banning.
+
+Any users that have the admin role are not rate limited. If you ran into the rate limit and wan to unblock an IP, go into the dashboard, open the developer console (F12) and use the following command:
+
+    DB.send(new DB.message.Unban()) //unban everyone
+    DB.send(new DB.message.UnbanIp("192.168.0.1")) //unban a particular IP
+
+If you need to change the above rate limiting settings, contact support@baqend.com
+
+### Can I restore accidentally deleted data?
+
+Yes, the procedure to recover data from your automatically created apps is described here: [Restoring Data from a Backup](http://www.baqend.com/guide/topics/backups/#restoring-data-from-a-backup)
+
 
 
 ### I have legacy system X, do you offer an integration?
