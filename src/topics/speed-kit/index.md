@@ -34,7 +34,7 @@ Because it **works for any website**, it is the perfect solution for Publishers,
 
 <div class="tip">
     <strong>Tip:</strong>
-    Test your site withe the <a href="#page-speed-analyzer">Page Speed Analyzer</a> to learn whether your website can
+    Test your site with the <a href="#page-speed-analyzer">Page Speed Analyzer</a> to learn whether your website can
     benefit from using Speed Kit.
 </div>
 
