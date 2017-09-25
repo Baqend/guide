@@ -70,7 +70,7 @@ function onAfterPrint(){
 }
 
 function getSpeedKitAPIDoc() {
-    $.get( "http://www.baqend.com/speed-kit/latest/", function( data ) {
+    $.get( "https://www.baqend.com/speed-kit/latest/", function( data ) {
       $('#speedKitDoc').append($(data).find('.content').children());
     });
 }
