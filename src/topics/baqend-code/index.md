@@ -458,6 +458,19 @@ all requests made from Baqend code are anonymous. Both anonymous and authenticat
 role. This predefined role can be used in class and object ACLs to grant Baqend code additional access rights. 
 In addition there are some Baqend API resources which can only be accessed by the admin or the node role. 
 
+A common use cas is to query User objects in baqend code. 
+User objects are protected with object ACLs by default. 
+That means that you can't query User objects directly in baqend code. 
+To modify that behaviour you can grant the node role access in the insert handler of the User.
+
+```js
+//the Baqend handler
+exports.onInsert = function(db, obj) {
+  obj.acl.allowReadAccess('/db/Role/2'); // The Role id 2 represents the node role
+}
+```
+ 
+
 ## Debugging & Logging
 
 You can easily debug any part of your Baqend Code with the powerful Logging API of Baqend. 

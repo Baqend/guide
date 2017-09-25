@@ -72,8 +72,8 @@ There are two emails sent out:
 
 You can manipulate the contents of the email via the following fields:
 
+* `body` - the compiled template containing the variable values. 
 * `template` - the email template you can configure in the settings. 
-* `body` - the compiled template containing the variable values.
 * `link` - the link which can be configured in the settings.
 * `subject` - the email subject.
 * `to` - email of the receiver.
@@ -87,12 +87,26 @@ Here is an example:
 exports.call = function call(db, email, req) {
   var recipient = db.User.me; //Get the recipient's unloaded user object
   
-  email.to = 'Jane Doe <jane.doe@example.com>';
-  email.fromName = 'John Doe';
-  email.template = 'Hey Jane! Follow the link to reset your password: {{link}} – Yours, John';
-  email.subject = 'Forgotten Password';
+  email.fromName = 'John Doe'; // change the senders name
+  email.subject = 'Welcome to your App'; // change the email subject
+  email.body = `Hey Jane! Follow the link to verify your email address: {{email.link}} – Yours, John`;
   
   return email;
+}
+```
+
+You can also use additional properties of the created user as well:
+
+```js
+exports.call = function call(db, email, req) {
+  return db.User.me.load().then(recipient => {
+  
+    email.fromName = 'John Doe'; // change the senders name
+    email.subject = 'Forgotten Password'; // change the email subject
+    email.body = `{{recipient.username}} Follow the link to reset your password: {{email.link}} – Yours, John`;
+    
+    return email;
+  });
 }
 ```
 
