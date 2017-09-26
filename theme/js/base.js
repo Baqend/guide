@@ -9,7 +9,11 @@ $(document).ready(function () {
     console.log(release);
     var newRelease = releasTag.text().replace('latest', release);
     releasTag.text(newRelease);
-  })
+  });
+
+  if($('body').has($('#speedKitDoc')).length > 0) {
+      getSpeedKitAPIDoc();
+  }
 });
 
 $('body').scrollspy({
@@ -64,6 +68,13 @@ function onAfterPrint(){
     window.Tawk_API.showWidget();
 
 }
+
+function getSpeedKitAPIDoc() {
+    $.get( "https://www.baqend.com/speed-kit/latest/", function( data ) {
+      $('#speedKitDoc').append($(data).find('.content').children());
+    });
+}
+
 window.addEventListener('beforeprint', onBeforePrint);
 window.addEventListener('afterprint', onAfterPrint);
 window.matchMedia('print').addListener((mql) => mql.matches? this.onBeforePrint(): this.onAfterPrint() );

@@ -103,7 +103,7 @@ exports.call = function call(db, email, req) {
   
     email.fromName = 'John Doe'; // change the senders name
     email.subject = 'Forgotten Password'; // change the email subject
-    email.body = `{{recipient.username}} Follow the link to reset your password: ${email.link} – Yours, John`;
+    email.body = `${recipient.username} Follow the link to reset your password: ${email.link} – Yours, John`;
     
     return email;
   });
