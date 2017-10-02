@@ -182,7 +182,7 @@ As default, all content will be refreshed.
 As first you can choose which kind of content should be affected by the appropriate filter.
 Therefore a list of possible content types (HTML, CSS, JavaScript etc.) is provided to you.
 The second option allows you to specify the URL´s to be handled by the refresh filter.
-These URL´s can be entered in a specific way like `https://www.baqend.com` or by using a prefix like `*/assets/` (refresh all files under "/assets/").
+These URL´s can be entered in a specific way like `https://www.baqend.com` or by using a prefix like `https://www.baqend.com/assets/*` (refresh all files under "/assets/").
 
 As an advanced setting, it is also possible writing your own [MongoDB Query](https://docs.mongodb.com/manual/tutorial/query-documents/)
 to address more complex scenarios. In the following, you can see which attributes are addressable within your individual query. 
