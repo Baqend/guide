@@ -6,7 +6,6 @@ $(document).ready(function () {
   $.getJSON("https://api.github.com/repos/Baqend/js-sdk/tags").done(function (json) {
     var release = json[0].name.substring(1);
     var releasTag = $('.release .html .hljs-value');
-    console.log(release);
     var newRelease = releasTag.text().replace('latest', release);
     releasTag.text(newRelease);
   });
@@ -71,7 +70,9 @@ function onAfterPrint(){
 
 function getSpeedKitAPIDoc() {
     $.get( "https://www.baqend.com/speed-kit/latest/", function( data ) {
-      $('#speedKitDoc').append($(data).find('.content').children());
+      const content = $(data).find('.content');
+      content.children().remove('.page-title');
+      $('#speedKitDoc').append(content.children());
     });
 }
 
