@@ -203,35 +203,23 @@ Baqend modules are also useful for sending messages like E-mails, Push notificat
 
 ## Scheduled Code Execution
 
-You can schedule any Baqend Module for execution, either in intervals or through cron job patterns.
+You can schedule any Baqend Module for execution by adding an entry to the `Job.Definition` collection.
  
-To schedule code for execution, open the corresponding Baqend Module in the dashboard and click on the `Schedule Execution` button. There are three parameters for scheduling: 
+Simply enter the dashboard, click on `Jobs` in the menu on the left and then click on `Definition`. You are now looking at all **cron jobs** that are defined for your app. To start a job, click `add` and provide the following parameters: 
 
-- **start**: the moment of the first execution. 
-- **end** (optional): the moment at which the job is canceled.
-- **recurrence**: defines how your code will be called in the future.
-    - *interval-based*: a temporal period (e.g. for execution every `12 hours`) 
-    - *cron job pattern*: a custom scheduling rule (e.g. `0 0 18 * * 6` for execution every Sunday at 6 PM)
+- **module**: the name of the *Baqend Code module* to execute. 
+- **startsAt**: the moment of the first execution. 
+- **cronpattern**: a custom scheduling rule that determines when your code will be executed; see [below](#cron-patterns) for details
+- **expiresAt** (optional): the moment at which the job is canceled.
 
-### Simple Periodic Tasks
- 
-You can choose a start timestamp for the **initial execution** of your task, a **uniform time interval** by which your task is going to be carried out in the future and a timestamp to define the **job expiration** (default: every `7 days`, starting `now`, ending `never`). 
+To verify that your job is running all right, check the `Job.Status` collection. Your job will write one of the following status values into the collection whenever it is executed:
 
-You can change both the numeric value and the unit of time in which the interval is defined. For example, to schedule an execution every 48 hours, you could specify an interval of `2 days` or `48 hours`. Likewise, you can choose any future timestamp for the initial execution: Your job will run in the specified interval from that point on. If you specify an expiration timestamp, your job will be canceled at this exact point in time, i.e. it will only be executed until then. 
+- `EXECUTING`: The job is currently executing.
+- `SUCCESS`: The job was executed without a problem.
+- `ERROR`: There was an exception while executing the job.
+- `ABORTED`: The job could not be started, for example because you did not provide a module. 
 
-### Advanced: Cron Jobs
-
-If your task requires more sophisticated execution rules, click on `Advanced Options` and provide a cron job pattern instead of a uniform time interval. 
-
-Here are a few examples for patterns and possible use cases:
-
-- `* */10 * * * *`: Perform a healthcheck every 10 minutes.
-- `0 0 20 * * 1-5`: Run a backup every weekday (Monday through Friday), at 8 PM.
-- `0 30 12 * * 1,3,5`: Email statistics to your CTO every Monday, Wednesday and Friday, at 12:30 PM.
-
-To fiddle out the right pattern, take a peek at the **Live Preview**. It shows you the first 10 execution timestamp, given your current input.
-
-<div class="note"><strong>Note:</strong> We use a third-party library for code scheduling. See their docs for more details on the supported <a href="https://github.com/kelektiv/node-cron#available-cron-patterns" target="_blank">cron job patterns</a>.</div>
+### Cron Patterns
 
 A **cron job pattern** may contain the following:
  
@@ -239,6 +227,8 @@ A **cron job pattern** may contain the following:
 - *numbers* (e.g. `3`), 
 - *ranges* (e.g. `1-6` or `1-3,5`), 
 - and *steps* (e.g. `*/2`).
+
+<div class="note"><strong>Note:</strong> We use a third-party library for code scheduling. See their docs for more details on the supported <a href="https://github.com/kelektiv/node-cron#available-cron-patterns" target="_blank">cron job patterns</a>.</div>
 
 Our cron job patterns adhere to the below structure:
 
@@ -253,6 +243,12 @@ Our cron job patterns adhere to the below structure:
 │    └──────────────────── minute (0 - 59)
 └───────────────────────── second (0 - 59, optional)
 ```
+
+Here are a few examples for patterns and possible use cases:
+
+- `* */10 * * * *`: Perform a healthcheck every 10 minutes.
+- `0 0 20 * * 1-5`: Run a backup every weekday (Monday through Friday), at 8 PM.
+- `0 30 12 * * 1,3,5`: Email statistics to your CTO every Monday, Wednesday and Friday, at 12:30 PM.
 
 
 ## Aborting requests
