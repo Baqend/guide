@@ -159,7 +159,7 @@ exports.onDelete = function(db, obj) {
 All four handlers are `before`-operation handlers. Be aware that they are called after the class level permissions are 
 checked, but before object level permissions were validated. Thus, making changes to other objects inside handlers 
 should be treated with care: these operations could succeed while the original operation might fail due to missing 
-object access rights. An elegant way to simplify such cases is the use of `after`-handlers, one of our [Upcoming Features](../../roadmap).
+object access rights. An elegant way to simplify such cases is the use of `after`-handlers, one of our [Upcoming Features](../roadmap).
 
 
 ## Modules
@@ -333,7 +333,7 @@ exports.get = function(db, req, res) {
 ```
 
 It is important that you send the content back with one of the express `res.send()` helpers. Otherwise the response will 
-not be send back to the client. In addition ensure that you return a [promise](../getting-started#promises) when you make asynchronous calls within 
+not be send back to the client. In addition ensure that you return a [promise](/topics/getting-started#promises) when you make asynchronous calls within 
 your Baqend module, otherwise the request will be aborted with an error!
 
 ## Handling binary data
@@ -342,7 +342,7 @@ As a part of the advanced request handling, it is also possible to upload and do
 
 To send binary data to your Baqend module, you can specify the 'requestType' option.
 With the 'responseType' option you can receive binary data in the specified type from your Baqend module.
-This works similar to the file API and you can use all the listed [file types](../files) as 'requestType' and 'responseType' too.
+This works similar to the file API and you can use all the listed [file types](/topics/files) as 'requestType' and 'responseType' too.
 
 ```js
 const svgBase64 = 'PHN2ZyB4bWxucz0...';
@@ -390,7 +390,7 @@ exports.post = function(db, req, res) {
 
 ## Handling Files
 
-In the Baqend Code you can use the same <a href="#files">File API</a> as from your client. For Baqend Code we, however, support two additional file content formats, namely <code>stream</code> and <code>buffer</code>.
+In the Baqend Code you can use the same <a href="../files/">File API</a> as from your client. For Baqend Code we, however, support two additional file content formats, namely <code>stream</code> and <code>buffer</code>.
 
 With the <code>stream</code> format you can for example stream data through your Baqend Code into the database without buffering it, as the following example shows:
 ```js
@@ -465,6 +465,47 @@ exports.onUpdate = function(db, obj) {
 }; 
 ```
 
+## Example: rate-limiting calls by IP
+
+
+Sometimes you will execute code that should not be invoked too frequently, e.g. because you otherwise run into the limits of a third-party API. To rate-limit users based on their IP address, create a new module `rateLimiter`. Make sure, you have the two npm modules `node-cache` and `limiter` installed. The rate limiter will allow a configurable amount of requests per minute and "refill" available requests at a constant rate (token bucket algorithm):
+
+```js
+const NodeCache = require('node-cache');
+const cache = new NodeCache( { stdTTL: 60*60, checkperiod: 600, useClones : false } );
+const RateLimiter = require('limiter').RateLimiter;
+
+/**
+ * Checks if an IP address is rate-limited.
+ *
+ * @param req the request object containing the IP
+ * @param reqPerMinute allowed requests per minute
+ * @returns {boolean} true if the user is rate limited
+ */
+exports.isRateLimited = (req, reqPerMinute = 10) => {
+    const ip = req.get('X-Forwarded-For');
+    let limiter = cache.get(ip);
+    if(limiter === undefined) {
+        limiter = new RateLimiter(reqPerMinute, 'minute', true);
+        cache.set(ip, limiter);
+    }
+    return !limiter.tryRemoveTokens(1);
+};
+```
+
+The `rateLimiter` module uses a cache of seen IP addresses that discards user information after 60 minutes. To rate-limit a module or a handler, simply import the rate limiter. For example, to limit a module to 50 calls per minute and user, do this:
+
+```js
+const Limiter = require('./rateLimiter');
+exports.call = function (db, data, req) {
+    //Check if IP is rate-limited
+    if(Limiter.isRateLimited(req, 50)) {
+        throw new Abort('Too many requests.');
+    }
+    // do stuff
+}
+```
+
 ## Permissions
 
 Baqend Code is always executed with the permissions of the requesting client. If the requesting user is not logged in, 
@@ -472,12 +513,25 @@ all requests made from Baqend code are anonymous. Both anonymous and authenticat
 role. This predefined role can be used in class and object ACLs to grant Baqend code additional access rights. 
 In addition there are some Baqend API resources which can only be accessed by the admin or the node role. 
 
+A common use cas is to query User objects in baqend code. 
+User objects are protected with object ACLs by default. 
+That means that you can't query User objects directly in baqend code. 
+To modify that behaviour you can grant the node role access in the insert handler of the User.
+
+```js
+//the Baqend handler
+exports.onInsert = function(db, obj) {
+  obj.acl.allowReadAccess('/db/Role/2'); // The Role id 2 represents the node role
+}
+```
+ 
+
 ## Debugging & Logging
 
 You can easily debug any part of your Baqend Code with the powerful Logging API of Baqend. 
 Any uncaught errors and rejected Promises will automatically be logged into the AppLog Table. So keep an eye on it. 
 
-Read more about it in the [Baqend logging chapter](../logging/)
+Read more about it in the [Baqend logging chapter](/topics/logging/)
 
 ## NPM Node Modules
 

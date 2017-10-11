@@ -111,7 +111,7 @@ devices. In addition to the message itself a `PushMessage` can transport additio
 
 ## Sending Push
 
-Push notifications can only be sent within [Baqend code](../baqend-code). To send a push notification to one or more devices, you must
+Push notifications can only be sent within [Baqend code](/topics/baqend-code). To send a push notification to one or more devices, you must
 first obtain the desired device ids. Therefore you can use the additional data stored in the device object to query those, 
 or can save the device reference in another object.
 

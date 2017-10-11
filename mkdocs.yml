@@ -6,9 +6,11 @@ pages:
         - Home: 'index.md'
         - Quickstart: 'gettingstarted/index.md'
         - Roadmap: 'roadmap.md'
+        - Speed Kit: 'topics/speed-kit/index.md'
 
         - 'Getting Started': 'topics/getting-started/index.md'
         - 'CLI': 'topics/cli/index.md'
+        - 'FAQ': 'topics/faq/index.md'
         - 'CRUD': 'topics/crud/index.md'
         - 'Schema and Types': 'topics/schema/index.md'
         - 'Queries': 'topics/queries/index.md'
@@ -23,7 +25,7 @@ pages:
         - 'Caching': 'topics/caching/index.md'
         - 'Logging': 'topics/logging/index.md'
         - 'Backups': 'topics/backups/index.md'
-        #- WordPress Plugin: 'topics/wordpress/index.md'
+        - WordPress Plugin: 'topics/wordpress/index.md'
 
     - Starter Kits:
         - Starter Kits Overview: 'starter-kits/index.md'
@@ -32,6 +34,10 @@ pages:
         - Bootstrap Starter Kit: 'starter-kits/bootstrap.md'
         - Ionic 2 Starter Kit: 'starter-kits/ionic2.md'
         - Ionic Starter Kit: 'starter-kits/ionic.md'
+
+    - hidden:
+        - 'Rest': 'rest.md'
+        - 'Websockets': 'websockets.md'
 docs_dir: src
 site_dir: docs
 theme_dir: theme

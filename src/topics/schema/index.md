@@ -42,7 +42,7 @@ With referencing, dependent data is not embedded, but instead references are fol
 - For many-to-many (n:m) relationships. For example a "friends with" relationship would best be modelled by a list of references to friend profile objects.
 - Deep hierarchies have to be modelled, e.g. the namespace of a file system.
 
-The downside of referencing is that multiple reads and updates are required if connected data is changed. With the `depth`-parameter you can, however, load and save entities with all its references. See [references](/#references).
+The downside of referencing is that multiple reads and updates are required if connected data is changed. With the `depth`-parameter you can, however, load and save entities with all its references. See [references](/topics/schema/#references).
 
 ## Entity Objects
 
@@ -125,7 +125,7 @@ DB.Todo.load('7b2c...', {depth: true}).then(function(firstTodo) {
 });
 ```
 
-For further information on persisting and loading strategies see the [Deep Loading](../deep-loading) chapter.
+For further information on persisting and loading strategies see the [Deep Loading](/topics/deep-loading) chapter.
 
 ## Embedded Objects
 The second type of objects are *embedded objects*. They can be used within an entity or a

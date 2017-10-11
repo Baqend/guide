@@ -14,7 +14,7 @@ DB.Todo.load('Todo1').then(function(todo) {
 
 ## Deep Loading
 
-As described in the [References](../schema#references) chapter, references between entities will be handled differently 
+As described in the [References](/topics/schema#references) chapter, references between entities will be handled differently 
 from embedded objects or collections. The referenced objects will not be loaded with the referencing entity by default.
 ```js
 //while loading the todo, the reference will be resolved to the referenced entity

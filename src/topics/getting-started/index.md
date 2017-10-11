@@ -4,7 +4,7 @@ These are our recommendations for getting things rolling quickly:
 
 - To get a hands-on overview of how Baqend works, take the [interactive tutorial](https://www.baqend.com/tutorial.html)
 - [Start your first Baqend app](https://dashboard.baqend.com/register) and take the Quickstart to build a real application
-- With the [Starter Kits](/starters) you get convenient boilerplate projects that work seamlessly with Baqend
+- With the [Starter Kits](/starter-kits/) you get convenient boilerplate projects that work seamlessly with Baqend
 - This section covers how Baqend and the SDK work
 
 
@@ -25,7 +25,7 @@ To install Baqend, just add our CDN-hosted script in your website (available bot
 For additional setup information visit our [GitHub page](https://github.com/Baqend/js-sdk/blob/master/README.md).
 
 <div class="tip"><strong>Tip:</strong>
-If you use our <a href="../../starters">Starter Kits</a> the Baqend SDK is already included and you can skip this setup.</div>
+If you use our <a href="/starter-kits/">Starter Kits</a> the Baqend SDK is already included and you can skip this setup.</div>
 
 <div class="note"><strong>Note:</strong>
 It is generally a good idea to use the latest SDK version from <code>//www.baqend.com/js-sdk/latest/baqend.min.js</code> in development to always be up-to-date. In production, however, you should use the last exact version you tested with. Be aware that otherwise minor changes in a newly released version may break parts of your production application. See our <a href="https://github.com/Baqend/js-sdk/blob/master/CHANGELOG.md">latest changes</a> to the SDK.</div>
@@ -57,7 +57,7 @@ To see that Baqend is working, paste the following after the Baqend script tag. 
 
 ### Baqend + Node.js
 
-The Baqend SDK is fully compatible with [Node.js](https://nodejs.org/en/). This means you can use the SDK in a Node.js-based application for saving data, logging in users, etc. Additionally [Baqend modules]() and [handlers]() are based on Node.js and run and scaled automatically by Baqend.
+The Baqend SDK is fully compatible with [Node.js](https://nodejs.org/en/). This means you can use the SDK in a Node.js-based application for saving data, logging in users, etc. Additionally [Baqend modules](/topics/baqend-code/#modules) and [handlers](/topics/baqend-code/#handlers) are based on Node.js and run and scaled automatically by Baqend.
 
 To install the SDK for a Node.js project do an `npm install --save baqend` and use `require('baqend')` in your code.
 
@@ -90,7 +90,7 @@ DB.connect('example', function() {
 });
 ```
 
-Behind the scenes Baqend is requested, the metadata of your app is loaded and the [Data Models](../schema) are created and initialized.
+Behind the scenes Baqend is requested, the metadata of your app is loaded and the [Data Models](/topics/schema/) are created and initialized.
 If you want to register the handler afterwards, you can use the ready method to wait on the SDK initialization.
 ```js
 DB.ready(function() { DB... //work with the DB });
@@ -104,7 +104,7 @@ DB.ready().then(function() {
 });
 ```
 
-<div class="tip"><strong>Tip:</strong> Baqend not only gives you APIs for serverless development but also hosts and accelerates your assets, like HTML, CSS, images, etc. See <a href="#hosting">Hosting</a> for more details.</div>
+<div class="tip"><strong>Tip:</strong> Baqend not only gives you APIs for serverless development but also hosts and accelerates your assets, like HTML, CSS, images, etc. See <a href="/../hosting/">Hosting</a> for more details.</div>
 
 ### Accessing Data
 
@@ -201,7 +201,7 @@ Though Baqend does not make any assumptions on the tooling, here a the tools we 
 - **Hybrid app frameworks** for mobile applications with JavaScript: [Ionic](http://ionic.io/), [Framework7](http://framework7.io/) and [Onsen UI](https://onsen.io/) are based on web views, [React Native](https://facebook.github.io/react-native/) is based on native UIs with JavaScript logic
 - **Build tools** for bundling, deployment and development: [Webpack](https://github.com/webpack/webpack), [Gulp](http://gulpjs.com/) and [Grunt](http://gruntjs.com/) all work well with Baqend
 - **IDEs** and **Text Editors** for developing: [WebStorm](https://www.jetbrains.com/webstorm/) and [Netbeans](https://netbeans.org/) are full-fledged IDEs, [Sublime](https://www.sublimetext.com/), [Visual Studio Code](https://code.visualstudio.com) and [Atom](https://atom.io/) are powerful text and code editors
-- [Baqend Starter Kits](../../starters): Boilerplate projects connected to Baqend
+- [Baqend Starter Kits](/starter-kits): Boilerplate projects connected to Baqend
 
 
 ## Architecture
@@ -224,7 +224,7 @@ created your first app, you have in the left navigation bar a quick overview ove
 Here is a quick overview of those:
 
 **Baqend Modules** - can be used to create Baqend code, which can later be called by your app to execute trusted
-business logic. See also [Baqend Modules](../baqend-code#modules). By clicking the *+* you can create new modules, Afterwards a module 
+business logic. See also [Baqend Modules](/topics/baqend-code/#modules). By clicking the *+* you can create new modules, Afterwards a module 
 code template will be opened.
 
 **Tables** - are the part where you can create and extend the data model of Baqend to fit your app requirements.
@@ -234,29 +234,29 @@ On the upper right side you can navigate with the tabs through those categories:
 
   - **Data:** This is the default view of a class and shows the stored instances in a table. You can view, navigate and search 
   in the table. In addition you can add new rows, modify fields and delete existing rows. You can im- and export
-  the entire table content and truncate (drop all rows) of the table. [Read More](../crud)
+  the entire table content and truncate (drop all rows) of the table. [Read More](/topics/crud)
   - **Schema:** Each class is described by its schema. The schema describes which fields a class have and which type 
   those fields have. When you insert data into the table, the data will always be validated against the defined 
   schema and modifications which violate the schema will be rejected. Baqend supports many common types, such as 
-  primitive types, geo points, references, collections, json and embedded types. [Read More](../schema)
+  primitive types, geo points, references, collections, json and embedded types. [Read More](/topics/schema)
   - **ACL (Access Control List):** In many apps you would like to restrict the access who is allowed to read and write 
   the data. Therefore you can restrict the access per operation on class or object level. In this view you can modify 
   the access permission for the selected class. You can add new users and roles to the acl and can specify those access 
-  restrictions. [Read more](../user-management)
+  restrictions. [Read more](/topics/user-management)
   - **Handler:** are Baqend code hooks, which are invoked before an object is modified. Here you can implement custom
   logic that is invoked every time when an object is inserted, updated or deleted. Within the code you can validate the 
-  modification, modify some fields or can completely reject the modifications as your needs. [Read More](../baqend-code)
+  modification, modify some fields or can completely reject the modifications as your needs. [Read More](/topics/baqend-code)
 
 There are three predefined classes which you can also extend with custom fields:
   
   - **User:** are used to represent a user which is logged in into your app. New users can be created by a registration 
-  process or by a login through an [OAuth](../user-management#oauth-login) provider when configured. [Read More](#registration)
+  process or by a login through an [OAuth](/topics/user-management#oauth-login) provider when configured. [Read More](/topics/user-management/#registration)
   - **Role:** Roles can be created to group users and together and use those groups to give them special privileges 
   such as ACLs. There are three predefined roles the admin role, the loggedin role and the node role. Roles contains a predefined users list 
-  field, which contains all the members of the role. [Read More](../user-management#roles)
+  field, which contains all the members of the role. [Read More](/topics/user-management#roles)
   - **Device:** represents registered devices which can later be used to send them push notifications out of Baqend
   code. Devices can be queried like any other table to send a push notification to multiple devices at once. 
-  [Read More](../push)
+  [Read More](/topics/push)
 
 Additionally you can create a new custom classes with a click on the *+* button near the *Data* label. Type a none used 
 name and hit enter. The schema view will appear and you can begin to model your own class schema.
@@ -264,10 +264,10 @@ name and hit enter. The schema view will appear and you can begin to model your 
 **Logs** - Here you can view the logs generated by accessing the api and your application logs.
 
   - **AccessLog:** Each request wich is served by our Baqend servers or the CDN generates a log entry. You can view and 
-  search in the access logs within a period of 30 days. [Read More](../logging#access-logs)
+  search in the access logs within a period of 30 days. [Read More](/topics/logging#access-logs)
   - **AppLog:** While developing and later in production is is really common to log specific actions of your app or 
   Baqend code for debugging and usage analysis. Therefore the SDK provides a simple logging API that you can use to
-  create log entries which are kept for an period of 30 days. [Read More](../logging#app-logging)
+  create log entries which are kept for an period of 30 days. [Read More](/topics/logging#app-logging)
  
 **API Explorer** - The API Explorer provides a GUI to serve the underlying REST API of Baqend. Here you can explore and
 made direct HTTP calls to your Baqend server.

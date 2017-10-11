@@ -64,7 +64,7 @@ This state is indicated by a read only `inactive` field of type `Boolean` in the
 Only the admin is able to set the `inactive` field manually, e.g. to activate or ban users.
 
 ### Email Hooks
-Every time Baqend sends an email to a user, you can hook to that event by [providing a module](../baqend-code/#modules).
+Every time Baqend sends an email to a user, you can hook to that event by [providing a module](/topics/baqend-code/#modules).
 There are two emails sent out:
 
 * the `user.register` hook is called before a registration email is sent,
@@ -72,8 +72,8 @@ There are two emails sent out:
 
 You can manipulate the contents of the email via the following fields:
 
+* `body` - the compiled template containing the variable values. 
 * `template` - the email template you can configure in the settings. 
-* `body` - the compiled template containing the variable values.
 * `link` - the link which can be configured in the settings.
 * `subject` - the email subject.
 * `to` - email of the receiver.
@@ -87,12 +87,26 @@ Here is an example:
 exports.call = function call(db, email, req) {
   var recipient = db.User.me; //Get the recipient's unloaded user object
   
-  email.to = 'Jane Doe <jane.doe@example.com>';
-  email.fromName = 'John Doe';
-  email.template = 'Hey Jane! Follow the link to reset your password: {{link}} – Yours, John';
-  email.subject = 'Forgotten Password';
+  email.fromName = 'John Doe'; // change the senders name
+  email.subject = 'Welcome to your App'; // change the email subject
+  email.body = `Hey Jane! Follow the link to verify your email address: ${email.link} – Yours, John`;
   
   return email;
+}
+```
+
+You can also use additional properties of the created user as well:
+
+```js
+exports.call = function call(db, email, req) {
+  return db.User.me.load().then(recipient => {
+  
+    email.fromName = 'John Doe'; // change the senders name
+    email.subject = 'Forgotten Password'; // change the email subject
+    email.body = `${recipient.username} Follow the link to reset your password: ${email.link} – Yours, John`;
+    
+    return email;
+  });
 }
 ```
 
@@ -192,7 +206,7 @@ DB.ready(function() {
 
 User objects are private by default, i.e. only admins and the user itself can load or update the object. This behaviour is intended to protect sensitive user information. There are two ways to grant access to user objects:
 
-* The first (**not** recommended) way is to grant access to specific users or groups or even to make the user objects publicly accessible. Because user objects are protected by object-level ACLs you need to have a look at Baqend's [permission system](/#permissions) to change the permissions.
+* The first (**not** recommended) way is to grant access to specific users or groups or even to make the user objects publicly accessible. Because user objects are protected by object-level ACLs you need to have a look at Baqend's [permission system](/topics/user-management/#permissions) to change the permissions.
 * The second (recommended) way is to divide your user information into two categories `public` and `private`. Then store the private information in the private `user` object and the public information in a separate `profile` object that is publicly accessible and linked to the `user` object.
 
 ## Roles

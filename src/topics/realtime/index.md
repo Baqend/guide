@@ -7,7 +7,7 @@ Baqend does not only feature powerful queries, but also real-time mechanisms tha
 
 Calling `.eventStream()` or `.resultStream()` on a query object opens a [websocket](https://developer.mozilla.org/de/docs/WebSockets) connection to Baqend, registers a real-time query and returns an [RxJS observable](http://reactivex.io/documentation/observable.html). This observable provides you with an instant update to your query whenever a relevant change occurs.  
 
-The following sections describe both real-time query types in detail.
+The following sections describe both real-time query types in detail. For information on the underlying messaging protocol, see our [Websocket API Docs](../websockets/).
 
 <div class="warning"><strong>Real-Time SDK:</strong> 
 To use real-time features, you have to include the <a href="https://github.com/Baqend/js-sdk/blob/master/README.md#baqend-real-time-sdk" target="_blank"><b>Baqend Real-Time SDK</b></a> (<code>baqend-realtime.js</code> or <code>baqend-realtime.min.js</code>) instead of the standard SDK (<code>baqend.js</code> or <code>baqend.min.js</code>). 
@@ -268,7 +268,7 @@ var stream = DB.Todo.find().eventStream({initial: false, operations: 'insert'});
 
 ### Event Stream Filter Queries
 
-Like regular filter queries, *event stream filter queries* allow you to select entities based on their attribute values by applying [filters](#filters).
+Like regular filter queries, *event stream filter queries* allow you to select entities based on their attribute values by applying [filters](/topics/queries/#filters).
 
 You can, for instance, have the database send you an event for every todo list that is *created* with a name that matches a particular pattern:
 
