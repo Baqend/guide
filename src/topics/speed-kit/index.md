@@ -177,7 +177,7 @@ To trigger a Service Worker refresh you can use [Push-Based](#push-based-refresh
 
 The optimal way to refresh your cached content is to call our REST-API directly from your system when something changed on your website. 
 The REST-Endpoint is `https://<your-app-name>.app.baqend.com/v1/asset/revalidate` and you need a User-Access-Token to be sent with the POST-Request. 
-For now, to get this token, you have to login into you Baqend App on our [dashboard](https://dashboard.baqend.com) and open your browsers developer console. 
+For now, to get this token, you have to login into your Baqend App on our [dashboard](https://dashboard.baqend.com) and open your browser's developer console. 
 Use the developer console to call `DB.token` to receive your token. Now you have to add an authorization header to your request which looks like this:
 
     authorization: BAT <your-token>
@@ -209,7 +209,7 @@ To do so, we provide you with the following options:
 
 <div class="note">
     <strong>Note:</strong>
-    See the MongoDB documentation https://docs.mongodb.com/manual/tutorial/query-documents/ for more information on MongoDB queries.
+    See the <a href="https://docs.mongodb.com/manual/tutorial/query-documents/">MongoDB documentation</a> for more information on MongoDB queries.
 </div>
 
 To wrap it up here are some use cases to provide you with examples for what is described above:
@@ -217,25 +217,25 @@ To wrap it up here are some use cases to provide you with examples for what is d
 - You want to refresh all HTML files:
 
         {
-            contentTypes: ["document"]
+            "contentTypes": ["document"]
         }
 
 - You want to refresh all URLs, which starts with `https://www.example.com/assets`:
 
         {
-            urls: ["https://www.example.com/assets*"]
+            "urls": ["https://www.example.com/assets*"]
         }
         
 - You want to refresh your home page:
         
         {
-            urls: ["https://www.example.com", "https://www.example.com/"]
+            "urls": ["https://www.example.com", "https://www.example.com/"]
         }
         
-- You want to configure your own query to refresh files with a specific media type:
+- You want to configure your own advanced query to refresh files with a specific media type:
         
         {
-            query: {
+            "query": {
                 "mediaType": "text/plain"
             }
         }
@@ -249,9 +249,9 @@ To manually trigger a Service Worker refresh you can create custom refresh filte
 When creating a refresh filter you have several options to specify, which content should be refreshed.
 As default, all content will be refreshed.
 As first you can choose which kind of content should be affected by the appropriate filter.
-Therefore a list of possible content types (Document, Style, Script, etc.) is provided to you.
+Therefore a list of possible content types (HTML, CSS, JavaScript, etc.) is provided to you.
 The second option allows you to specify the URL´s to be handled by the refresh filter.
-These URL's can be entered in a specific way like `https://www.baqend.com` or by using a prefix like `https://www.baqend.com/assets/*` (refresh all files under "/assets/").
+These URL's can be entered in a specific way like `https://www.baqend.com` or by using a prefix like `https://www.baqend.com/assets/*` (refresh all files under `https://www.baqend.com/assets/`).
 
 As an advanced setting, it is also possible writing your own [MongoDB Query](https://docs.mongodb.com/manual/tutorial/query-documents/)
 to address more complex scenarios. In the following, you can see which attributes are addressable within your individual query. 
@@ -265,6 +265,11 @@ to address more complex scenarios. In the following, you can see which attribute
 After you have finished configuring your refresh filter, you can run it.
 A status in the dashboard informs you if the refresh was successful.
 Refresh filters that have already been executed are saved in your history and can be run again at any time.
+
+<div class="note">
+    <strong>Note:</strong>
+    In the next weeks, we will release our CRON-Jobs feature, which allows configuring time-based refreshing.
+</div>
 
 ## Speed Kit API
 
