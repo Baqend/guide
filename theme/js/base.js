@@ -72,6 +72,11 @@ function getSpeedKitAPIDoc() {
     $.get( "https://www.baqend.com/speed-kit/latest/", function( data ) {
       const content = $(data).find('.content');
       content.children().remove('.page-title');
+      content.children().find('a[download]').each(function() {
+        const href = $(this).attr('href');
+        $(this).attr('href', '/speed-kit/latest/' + href);
+      });
+
       $('#speedKitDoc').append(content.children());
     });
 }
