@@ -171,18 +171,87 @@ Further examples can be found in our [Configuration Examples](#Configuration-Exa
 If you have changed any kind of content of your website, you need to trigger a Service Worker refresh. 
 Otherwise, the client continues to see previous website content. 
 For that purpose, Baqend provides you a refresh API that empowers you to specify which specific content needs to be updated. 
-To trigger a Service Worker refresh you can use the [Pull-based Refreshing](#pull-based-refreshing).
+To trigger a Service Worker refresh you can use [Push-Based](#push-based-refreshing) or [Pull-based](#pull-based-refreshing) refreshing.
 
-### Pull-based Refreshing
+### Push-Based Refreshing
 
-To manually trigger a Service Worker refresh you can create custom refresh filters in your [Dashboard´s](https://dashboard.baqend.com)
+The optimal way to refresh your cached content is to call our REST-API directly from your system when something changed on your website. 
+The REST-Endpoint is `https://<your-app-name>.app.baqend.com/v1/asset/revalidate` and you need a User-Access-Token to be sent with the POST-Request. 
+For now, to get this token, you have to login into your Baqend App on our [dashboard](https://dashboard.baqend.com) and open your browser's developer console. 
+Use the developer console to call `DB.token` to receive your token. Now you have to add an authorization header to your request which looks like this:
+
+    authorization: BAT <your-token>
+    
+<div class="note">
+    <strong>Note:</strong>
+    The token is only valid for 24 hours. The process to get a long life User-Access-Token will change shortly and will become way more comfortable. As soon as this update hits we will inform every customer as well as update this section.
+</div>
+
+The refresh API takes a filter object as JSON to configure the refresh process. In case your filter object is an empty JSON object we will just refresh all files on our system. If you are aware of which files have been changed, you can optimize the refresh process by telling us so. 
+To do so, we provide you with the following options:
+
+* `contentTypes: string[]` – takes an array of comma-separated strings. Available types are:
+    - document (HTML files) 
+    - style (CSS files)
+    - script (JavaScript files)
+    - Feed
+    - Audio
+    - Video
+    - Image
+    - Font
+* `urls: string[]` - takes an array of comma-separated URLs or URL-Prefixes. Prefixes must end with an *.
+* `query: {}` - takes a JSON-Object which represents a real MongoDB query. You can configure the following parameters within this object:
+    - url
+    - eTag
+    - lastModified
+    - contentType
+    - mediaType
+
+<div class="note">
+    <strong>Note:</strong>
+    See the <a href="https://docs.mongodb.com/manual/tutorial/query-documents/">MongoDB documentation</a> for more information on MongoDB queries.
+</div>
+
+To wrap it up here are some use cases to provide you with examples for what is described above:
+
+- You want to refresh all HTML files:
+
+        {
+            "contentTypes": ["document"]
+        }
+
+- You want to refresh all URLs, which starts with `https://www.example.com/assets`:
+
+        {
+            "urls": ["https://www.example.com/assets*"]
+        }
+        
+- You want to refresh your home page:
+        
+        {
+            "urls": ["https://www.example.com", "https://www.example.com/"]
+        }
+        
+- You want to configure your own advanced query to refresh files with a specific media type:
+        
+        {
+            "query": {
+                "mediaType": "text/plain"
+            }
+        }
+
+
+
+### Pull-Based Refreshing
+
+To manually trigger a Service Worker refresh you can create custom refresh filters in your [dashboard's](https://dashboard.baqend.com)
 "Refresh Content" section.
 When creating a refresh filter you have several options to specify, which content should be refreshed.
 As default, all content will be refreshed.
 As first you can choose which kind of content should be affected by the appropriate filter.
-Therefore a list of possible content types (HTML, CSS, JavaScript etc.) is provided to you.
+Therefore a list of possible content types (HTML, CSS, JavaScript, etc.) is provided to you.
 The second option allows you to specify the URL´s to be handled by the refresh filter.
-These URL´s can be entered in a specific way like `https://www.baqend.com` or by using a prefix like `https://www.baqend.com/assets/*` (refresh all files under "/assets/").
+These URL's can be entered in a specific way like `https://www.baqend.com` or by using a prefix like `https://www.baqend.com/assets/*` (refresh all files under `https://www.baqend.com/assets/`).
 
 As an advanced setting, it is also possible writing your own [MongoDB Query](https://docs.mongodb.com/manual/tutorial/query-documents/)
 to address more complex scenarios. In the following, you can see which attributes are addressable within your individual query. 
@@ -196,6 +265,11 @@ to address more complex scenarios. In the following, you can see which attribute
 After you have finished configuring your refresh filter, you can run it.
 A status in the dashboard informs you if the refresh was successful.
 Refresh filters that have already been executed are saved in your history and can be run again at any time.
+
+<div class="note">
+    <strong>Note:</strong>
+    In the next weeks, we will release our CRON-Jobs feature, which allows configuring time-based refreshing.
+</div>
 
 ## Speed Kit API
 

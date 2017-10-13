@@ -200,7 +200,7 @@ DB.modules.post('invite', { email: 'peter@example.com', invite: 'My new event' }
 
 Baqend modules are also useful for sending messages like E-mails, Push notifications and SMS.
 
-
+<!--
 ## Scheduled Code Execution
 
 You can schedule any Baqend Module for execution by adding an entry to the `Job.Definition` collection.
@@ -249,7 +249,7 @@ Here are a few examples for patterns and possible use cases:
 - `* */10 * * * *`: Perform a healthcheck every 10 minutes.
 - `0 0 20 * * 1-5`: Run a backup every weekday (Monday through Friday), at 8 PM.
 - `0 30 12 * * 1,3,5`: Email statistics to your CTO every Monday, Wednesday and Friday, at 12:30 PM.
-
+-->
 
 ### Defining a Cron Job
 
