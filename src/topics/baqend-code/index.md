@@ -207,9 +207,9 @@ You can schedule any Baqend Module for execution by adding an entry to the `Job.
  
 Simply enter the dashboard, click on `Jobs` in the menu on the left and then click on `Definition`. You are now looking at all **cron jobs** that are defined for your app. To start a job, click `add` and provide the following parameters: 
 
-- **module**: the name of the *Baqend Code module* to execute. 
-- **startsAt**: the moment of the first execution. 
-- **cronpattern**: a custom scheduling rule that determines when your code will be executed; see [below](#cron-patterns) for details
+- **module**: the name of the *Baqend Code module* to execute. The job will call the `run` method on your module (or `call` as a fallback; see below for [details](#defining-a-cron-job)).
+- **cronpattern**: a custom scheduling rule that determines when your code will be executed; see below for [details](#cron-patterns).
+- **startsAt**: the moment of the first execution; jobs will start immediately by default. 
 - **expiresAt** (optional): the moment at which the job is canceled.
 
 To verify that your job is running all right, check the `Job.Status` collection. Your job will write one of the following status values into the collection whenever it is executed:
@@ -249,6 +249,37 @@ Here are a few examples for patterns and possible use cases:
 - `* */10 * * * *`: Perform a healthcheck every 10 minutes.
 - `0 0 20 * * 1-5`: Run a backup every weekday (Monday through Friday), at 8 PM.
 - `0 30 12 * * 1,3,5`: Email statistics to your CTO every Monday, Wednesday and Friday, at 12:30 PM.
+
+
+### Defining a Cron Job
+
+On execution, a cron job will call the `run` method exported by the referenced Baqend code module. 
+If there is no `run` method, the `call` method will be invoked. 
+The code is executed as an anonymous user with `node` role permissions. 
+If neither of those methods is exported, your job will not execute (status: `ABORTED`).  
+The following example shows how to define and export code for a cron job: 
+
+```js
+exports.run = function(db, jobStatus, jobDefinition) {
+  return new Promise(function(resolve, reject) {
+    // ... just doin' my job!
+  });
+};
+```
+
+In order to execute asynchronous tasks, you can also return a **promise** in your job code: 
+Your job will be in status `EXECUTING`, until the returned promise is either resolved (status: `SUCCESS`) or rejected (`ERROR`). 
+
+There are three function **parameters**:
+
+- `db`: a database reference.
+- `jobStatus`: the status object representing the current job execution. You can extend the schema of the job status collection by custom attributes for enhanced status semantics. 
+- `jobDefinition`: the object representing your job. Having access to this object can be useful, for example to deactivate the job when some condition is met. (To this end, just set *expiresAt* attribute to some point in the past.)
+
+<div class="warning"><strong>Do not save <code>jobStatus</code> or <code>jobDefinition</code>:</strong> 
+Both the job's status and definition will implicitly be saved after job execution. 
+Your job code may modify both, but saving them will interfere with our mechanism for failsafe execution! 
+</div>
 
 
 ## Aborting requests
