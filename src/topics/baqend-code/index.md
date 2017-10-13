@@ -249,7 +249,6 @@ Here are a few examples for patterns and possible use cases:
 - `* */10 * * * *`: Perform a healthcheck every 10 minutes.
 - `0 0 20 * * 1-5`: Run a backup every weekday (Monday through Friday), at 8 PM.
 - `0 30 12 * * 1,3,5`: Email statistics to your CTO every Monday, Wednesday and Friday, at 12:30 PM.
--->
 
 ### Defining a Cron Job
 
@@ -280,6 +279,7 @@ There are three function **parameters**:
 Both the job's status and definition will implicitly be saved after job execution. 
 Your job code may modify both, but saving them will interfere with our mechanism for failsafe execution! 
 </div>
+-->
 
 
 ## Aborting requests
