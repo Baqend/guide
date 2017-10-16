@@ -46,9 +46,9 @@ Simply head over to the *Speed Kit* tab and check *enabled* next to *Speed Kit I
 Now, you have several options to configure Speed Kit for you:
 
 * **Whitelist URLs**
-    - Only the websites given in this list will be handled by Speed Kit. You can also use regular expressions.
+    - Only the websites given in this list will be handled by Speed Kit.
 * **Blacklist URLs**
-    - All websites given in this list will be ignored by Speed Kit. You can also use regular expressions.
+    - All websites given in this list will be ignored by Speed Kit.
 * **Bypass cache on cookie**
     - If a page contains one of the cookies given in this list, Speed Kit will ignore the given page. The cookies are given as prefixes.
 * **Allowed content types**
@@ -62,8 +62,9 @@ Click “Save Settings” once you are ready.
 ## Hosting
 
 The WordPress plugin makes it easy using [Baqend Hosting](/topics/hosting), too.
+Enable Hosting by going into the Account tab and checking “Show Hosting settings”.
 
-Now, you have several options to configure Speed Kit for you:
+Now, when you go to the Hosting tab, you have several options to configure Speed Kit for you:
 
 * **Additional URLs to process**
     - Here you can add additional URLs separated by new lines which will also be checked when collecting your blog contents.
