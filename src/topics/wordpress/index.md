@@ -5,8 +5,8 @@ Baqend has special support for **WordPress** with a custom plugin that allows yo
 
 ## Install the Plugin
 
-Download the official **Baqend plugin** from [the WordPress Plugin Repository](https://wordpress.org/plugins/baqend/) into your WordPress blog.
-You can also look for it in your blog's plugin administration (typically located under *http://your-wordpress.blog/wp-admin/plugin-install.php*) and install it there.
+Download the official **Baqend plugin** from [our website](https://www.baqend.com/wordpress-plugin/latest/baqend.zip) 
+and install it in your blog's plugin administration view (typically located under *http://your-wordpress.blog/wp-admin/plugin-install.php*).
  
 
 ## Prepare Your Baqend App
