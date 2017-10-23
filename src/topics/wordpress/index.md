@@ -28,7 +28,7 @@ Click on “Select App” and your plugin will be configured for Baqend.
 
 If you want to change the Baqend account, head over to the *Account* tab and click on “Log Out”.
 
-Now, you can choose between *Speed Kit* and *Hosting* to use for your WordPress blog:
+Now, you can choose *Speed Kit* to use for your WordPress blog:
 
 - Use [Speed Kit](#speed-kit) if you want to accelerate your existing WordPress blog and handle scalability on your own.
   This is easy to use and you will be set-up and done in seconds!
@@ -45,11 +45,13 @@ Simply head over to the *Speed Kit* tab and check *enabled* next to *Speed Kit I
 
 Now, you have several options to configure Speed Kit for you:
 
-* **Whitelist**
-    - Only the websites given in this list will be handled by Speed Kit. You can also use regular expressions.
-* **Blacklist**
-    - All websites given in this list will be ignored by Speed Kit. You can also use regular expressions.
-* **Content types**
+* **Whitelist URLs**
+    - Only the websites given in this list will be handled by Speed Kit.
+* **Blacklist URLs**
+    - All websites given in this list will be ignored by Speed Kit.
+* **Bypass cache on cookie**
+    - If a page contains one of the cookies given in this list, Speed Kit will ignore the given page. The cookies are given as prefixes.
+* **Allowed content types**
     - Only the given content types will be handled by Speed Kit.
 * **Automatic update interval**
     - Automatically triggers a revalidation of Speed Kit.
@@ -60,8 +62,9 @@ Click “Save Settings” once you are ready.
 ## Hosting
 
 The WordPress plugin makes it easy using [Baqend Hosting](/topics/hosting), too.
+Enable Hosting by going into the Account tab and checking “Show Hosting settings”.
 
-Now, you have several options to configure Speed Kit for you:
+Now, when you go to the Hosting tab, you have several options to configure Speed Kit for you:
 
 * **Additional URLs to process**
     - Here you can add additional URLs separated by new lines which will also be checked when collecting your blog contents.

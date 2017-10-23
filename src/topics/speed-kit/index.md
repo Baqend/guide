@@ -147,11 +147,34 @@ To control which requests shall be intercepted by the Service Worker, the defini
 highly recommended.
 All requests to whitelisted domains are rerouted to Baqend while requests to blacklisted domains are
 ignored by the Service Worker and served normally.
-A common example for a whitelisted domain is a third party domain (e.g. example-cdn.com), which serves static content like images.
-As a rule, these domains offer great potential for optimization with regard to web performance.
-Tracking-Domains or Ad-Domains, on the other hand, are typically hard to cache and should be blacklisted.
+To give you a general understanding which sites are good candidates for either the white or blacklist here's a rule of thumb: Every
+content that you have control of and can tell us when it changes should be whitelisted because we can efficiently cache and revalidate it.
+So lets pretend your site is www.example.com and you serve images, css and scripts from this domain and maybe a subdomain 
+a good whitelist could look like this:
 
-To configure the whitelist and blacklist Baqend provides you [SpeedKitRule](#SpeedKitRule).
+```js
+whitelist: [
+    { url: ['www.example.com', 'www.subdomain.example.com'] }
+]
+```
+
+And the other way around every content that we cannot detect change on should not be whitelisted. So for a typical website
+with analytics, facebook feeds and ads URLs you should never put into your whitelist are:
+
+```js
+'www.google-analytics.com/analytics.js',
+'www.example-ad-service.com',
+'https://staticxx.facebook.com/',
+'http://pixel-a.example.com/',
+.....
+```
+
+However, you do not have to blacklist these URLs. The way our rule system works is that when there is no whitelist nor blacklist
+every request is rerouted. As soon as the whitelist gets more restrictive, like in the example above, only requests that match this filter
+are touched by Speed Kit. So a simple way to put this is that you can decide if you want to tell us implicitly which sites not to touch by defining a
+whitelist or explicitly by defining a blacklist. 
+
+To configure the whitelist and blacklist Baqend provides you with [SpeedKitRule](#SpeedKitRule).
 With this syntax you are able to formulate complex rules for an individual whitelist and blacklist.
 Imagine your website loads some images over the third-party domain `img.example-cdn.com`. 
 In general, you want all resources whose content type is image to be served via Speed Kit.
@@ -159,8 +182,28 @@ For this case a valid whitelist could look like this:
 
 ```js
 whitelist: [
-    // Only apply Speed Kit on URLs whose content type matching "image"
     { contentType: 'image' }
+]
+```
+
+You could extend this case in a way, that you only want static content to be rerouted. For that see the example below: 
+```js
+whitelist: [
+    {
+        // Your Domain and all Subdomains via Regex
+        host: [
+            'www.baqend.com',
+            'baqend.com',
+            /*\.baqend\.com/
+        ],
+        contentType: [
+            'document',
+            'image',
+            'style',
+            'script',
+            'font'
+        ]        
+    }    
 ]
 ```
 
@@ -194,11 +237,11 @@ To do so, we provide you with the following options:
     - document (HTML files) 
     - style (CSS files)
     - script (JavaScript files)
-    - Feed
-    - Audio
-    - Video
-    - Image
-    - Font
+    - feed
+    - audio
+    - video
+    - image
+    - font
 * `urls: string[]` - takes an array of comma-separated URLs or URL-Prefixes. Prefixes must end with an *.
 * `query: {}` - takes a JSON-Object which represents a real MongoDB query. You can configure the following parameters within this object:
     - url
@@ -262,6 +305,13 @@ to address more complex scenarios. In the following, you can see which attribute
     <li>contentType</li>
     <li>mediaType</li>
 </ul>
+
+<div class="note">
+    <strong>Note:</strong> 
+        We distinguish between content type and media type because browsers may define content very different. So with content type you can configure a group like "script" for all types of javascript.
+        In case you have a site which defines this type of content in a very special way you can configure this in a media type. 
+</div>
+
 After you have finished configuring your refresh filter, you can run it.
 A status in the dashboard informs you if the refresh was successful.
 Refresh filters that have already been executed are saved in your history and can be run again at any time.
