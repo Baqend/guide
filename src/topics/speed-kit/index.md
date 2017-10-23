@@ -415,3 +415,10 @@ current version including the Speed Kit. All customization options are available
     font-size: 21px;
 }
 </style>
+
+## Personalize Content
+
+<div class="note">
+    <strong>Note:</strong>
+    We are currently developing support for personalized content with Speed Kit. Support is currently in beta and we will release it in the near future. In the meantime, please contact us if your use case requires it and/or you would like to test it.
+</div>
