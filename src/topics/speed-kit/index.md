@@ -308,8 +308,19 @@ to address more complex scenarios. In the following, you can see which attribute
 
 <div class="note">
     <strong>Note:</strong> 
-        We distinguish between content type and media type because browsers may define content very different. So with content type you can configure a group like "script" for all types of javascript.
-        In case you have a site which defines this type of content in a very special way you can configure this in a media type. 
+        Content type is used to address a general type of content:
+            <ul>
+                <li>document (HTML files) </li>
+                <li>style (CSS files)</li>
+                <li>script (JavaScript files)</li>
+                <li>feed</li>
+                <li>audio</li>
+                <li>video</li>
+                <li>image</li>
+                <li>font</li>
+            </ul>
+        If you want to use a discrete content type instead as specified in <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type/">[ContentType]</a>
+        you can define those under media type. 
 </div>
 
 After you have finished configuring your refresh filter, you can run it.
@@ -422,3 +433,8 @@ current version including the Speed Kit. All customization options are available
     <strong>Note:</strong>
     We are currently developing support for personalized content with Speed Kit. Support is currently in beta and we will release it in the near future. In the meantime, please contact us if your use case requires it and/or you would like to test it.
 </div>
+
+## Deactivate Speed Kit
+
+If you for what ever reason want to deactivate Speed Kit on your site you can go to your dashboard's settings page. Scroll down and you'll find the deactivate section. You can toggle Speed Kits status here. When deactivated Speed Kit will no longer 
+touch and accelerate any requests.
