@@ -429,10 +429,33 @@ current version including the Speed Kit. All customization options are available
 
 ## Personalize Content
 
-<div class="note">
-    <strong>Note:</strong>
-    We are currently developing support for personalized content with Speed Kit. Support is currently in beta and we will release it in the near future. In the meantime, please contact us if your use case requires it and/or you would like to test it.
-</div>
+Speed Kit also works on sides with personalized content. Therefor you can define specific blocks as dynamic blocks which could look like this:
+
+        <div class="speed-kit-dynamic" data-speed-kit-dynamic="1">
+            No dynamic content here
+        </div>
+
+Now you can integrate an additional snippet we provide you with which will scan the side for those blocks. Afterwards it will request your original side to fetch the dynamic content and exchange the shown content asynchronously.
+It is also possible to use script tags as dynamic blocks:
+        
+        <script type="text/template" class="speed-kit-dynamic" data-speed-kit-dynamic="1">
+            fetch('https://www.baqend.com');
+        </script>
+
+By using the type "text/template" you prevent the script from executing before it is exchanged. 
+You can also configure the class and data attributes:
+        
+        <script>
+            window.dynamicBlockConfig = {
+              blockSelector: '.speed-kit-custom-selector',
+              tagAttribute: 'data-speed-kit-custom-selector',
+              statusClass: 'speed-kit-custom-status-class',
+            }
+        </script>  
+        
+Block selector is the classname and tag attribute the data attribute. The status class is used to give information about the exchange process. While in progress we will attach "<status-class>-loading" to the html tag and 
+as soon as the exchange is done it is changed to "<status-class>-loaded". 
+
 
 ## Deactivate Speed Kit
 
