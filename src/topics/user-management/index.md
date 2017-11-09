@@ -185,6 +185,22 @@ DB.User.me.newPassword('oldPassword', 'newPassword').then(...);
 DB.User.newPassword('Username', null, 'newPassword').then(...);
 ```
 
+## Change Username
+
+If Email Validation is enabled, the user can also change his or her user name. For security reasons, the password is also requested so that only authorized users can perform the action.
+
+```js
+//Using the user name
+DB.User.changeUsername('CurrentUsername', 'NewUsername', 'Password').then(() => {
+    // A validation request is send NewUsername
+});
+
+//Using a user object
+DB.User.me.changeUsername('NewUsername', 'Passowrd').then(...);
+```
+The template for the validation email can be customized in the dashboard under Settings.  The section becomes visible as soon as Email Validation is activated.
+Furthermore, it is possible to define redirect URLs for successes and failures.
+
 ## Automatic Login
 
 During initialization the Baqend SDK checks, if the user is already registered and has been logged in before in this session and has not logged out explicitly.
