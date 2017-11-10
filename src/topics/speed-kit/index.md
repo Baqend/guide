@@ -431,14 +431,17 @@ current version including the Speed Kit. All customization options are available
 
 Speed Kit also works on sides with personalized content. Therefor you can define specific blocks as dynamic blocks which could look like this:
 
-        <div class="speed-kit-dynamic" data-speed-kit-dynamic="1">
+        <div class="speed-kit-dynamic" data-speed-kit-id="1">
             No dynamic content here
+        </div>
+        <div class="speed-kit-dynamic" data-speed-kit-id="2">
+            No dynamic content as well
         </div>
 
 Now you can integrate an additional snippet we provide you with which will scan the side for those blocks. Afterwards it will request your original side to fetch the dynamic content and exchange the shown content asynchronously.
 It is also possible to use script tags as dynamic blocks:
         
-        <script type="text/template" class="speed-kit-dynamic" data-speed-kit-dynamic="1">
+        <script type="text/template" class="speed-kit-dynamic" data-speed-kit-id="1">
             fetch('https://www.baqend.com');
         </script>
 
