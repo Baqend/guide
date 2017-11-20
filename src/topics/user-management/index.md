@@ -182,7 +182,7 @@ DB.User.newPassword('Username', 'oldPassword', 'newPassword').then(() => {
 DB.User.me.newPassword('oldPassword', 'newPassword').then(...);
 
 //When logged in as an admin
-DB.User.newPassword('Username', null, 'newPassword').then(...);
+DB.User.newPassword('Username', '', 'newPassword').then(...);
 ```
 
 ## Change Username
