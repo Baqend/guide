@@ -17,6 +17,7 @@ pages:
         - 'Real-Time Queries': 'topics/realtime/index.md'
         - 'User Management': 'topics/user-management/index.md'
         - 'Baqend Code': 'topics/baqend-code/index.md'
+        - 'Cron Jobs': 'topics/cronjobs/index.md'
         - 'Push Notifications': 'topics/push/index.md'
         - 'Partial Updates': 'topics/partial-updates/index.md'
         - 'Deep Loading': 'topics/deep-loading/index.md'

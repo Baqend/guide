@@ -162,6 +162,15 @@
     </a>
   </div>
   <div class="chapter-item-outer">
+    <a class="chapter-item" href="topics/cronjobs/">
+      <span class="chapter-heading">
+        <span class="icon"><img src="icons/cronjobs.png"/></span>
+        <span class="text">Cron Jobs</span>
+      </span>
+      <span class="chapter-info">Schedule your Baqend modules for execution.</span>
+    </a>
+  </div>
+  <div class="chapter-item-outer">
     <a class="chapter-item" href="topics/push/">
       <span class="chapter-heading">
         <span class="icon"><img src="icons/push.png"/></span>
