@@ -9,6 +9,7 @@ Simply enter the dashboard, click on `jobs` in the menu on the left and then cli
 - **cronpattern**: a custom scheduling rule that determines when your code will be executed; see below for [usage details](#cron-patterns).
 - **startsAt**: the moment of the first execution; jobs will start immediately by default. 
 - **expiresAt** (optional): the moment at which the job is stopped.
+- **nextExecution** (read-only): On every execution, this value will automatically be updated; the new value represents the next point in time at which the job will be executed.
 
 To verify that your job is running all right, check the `jobs.Status` collection. Your job will write one of the following status values into the collection whenever it is executed:
 
@@ -74,7 +75,7 @@ exports.run = function(db, jobsStatus, jobsDefinition) {
 ```
 
 In order to execute asynchronous tasks, you can also return a **promise** in your job code: 
-Your job will be in status `EXECUTING`, until the returned promise is either resolved (status: `SUCCESS`) or rejected (`ERROR`). On every execution, the `nextExecution` of your job definition will automatically be updated; the new value represents the next point in time at which the job will be executed.
+Your job will be in status `EXECUTING`, until the returned promise is either resolved (status: `SUCCESS`) or rejected (`ERROR`).
 
 There are three function **parameters**:
 
