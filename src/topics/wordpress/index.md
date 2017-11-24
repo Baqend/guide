@@ -5,7 +5,19 @@ Baqend has special support for **WordPress** with a custom plugin that allows yo
 
 ## Install the Plugin
 
-Download the official **Baqend plugin** from [our website](https://www.baqend.com/wordpress-plugin/latest/baqend.zip) 
+Installing the Baqend WordPress Plugin is as easy as doing the following steps. 
+
+### From the WordPress Plugin Directory
+
+1. In your WordPress's admin, hover over “Plugins” in the left menu and hit “Add New”.
+2. There, enter “Baqend” in the plugin search box.
+3. You will see a list of search results which should include the Baqend plugin. Click on the “Install Now” button to install the plugin.
+4. After installing the plugin you will be prompted to activate it. Click on the “Activate Plugin” link.
+5. The Baqend plugin is now installed and can be found on the left menu.
+
+### Upload Manually
+
+Download the official **Baqend plugin** from [the WordPress plugin directory](https://wordpress.org/plugins/baqend/) or from [our website](https://www.baqend.com/wordpress-plugin/latest/baqend.zip) 
 and install it in your blog's plugin administration view (typically located under *http://your-wordpress.blog/wp-admin/plugin-install.php*).
  
 
