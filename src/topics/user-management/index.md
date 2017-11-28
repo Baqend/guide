@@ -192,7 +192,7 @@ If email address validation is enabled, the user can also change his or her user
 ```js
 // Using the user name
 DB.User.changeUsername('CurrentUsername@example.com', 'NewUsername@example.com', 'Password').then(() => {
-    // A validation request is send NewUsername
+    // A email validation request is send to NewUsername@example.com
 });
 
 // Using a user object
