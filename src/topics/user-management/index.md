@@ -185,20 +185,20 @@ DB.User.me.newPassword('oldPassword', 'newPassword').then(...);
 DB.User.newPassword('Username', '', 'newPassword').then(...);
 ```
 
-## Change Username
+## Change Username (email)
 
-If Email Validation is enabled, the user can also change his or her user name. For security reasons, the password is also requested so that only authorized users can perform the action.
+If email address validation is enabled, the user can also change his or her user name (email address). For security reasons, the password is also requested so that only authorized users can perform the action.
 
 ```js
-//Using the user name
-DB.User.changeUsername('CurrentUsername', 'NewUsername', 'Password').then(() => {
+// Using the user name
+DB.User.changeUsername('CurrentUsername@example.com', 'NewUsername@example.com', 'Password').then(() => {
     // A validation request is send NewUsername
 });
 
-//Using a user object
-DB.User.me.changeUsername('NewUsername', 'Passowrd').then(...);
+// Using a user object
+DB.User.me.changeUsername('NewUsername@example.com', 'Passowrd').then(...);
 ```
-The template for the validation email can be customized in the dashboard under Settings.  The section becomes visible as soon as Email Validation is activated.
+The template for the validation email can be customized in the dashboard under Settings.  The section becomes visible as soon as email address validation is activated.
 Furthermore, it is possible to define redirect URLs for successes and failures.
 
 ## Automatic Login
