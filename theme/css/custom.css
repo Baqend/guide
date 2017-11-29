@@ -342,3 +342,6 @@ pre {
 .getting-started-list {
   padding-left: 24px;
 }
+.gitter-chat-embed {
+  z-index: 9999;
+}
