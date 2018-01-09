@@ -440,25 +440,25 @@ With this approach, the website can fetch linked assets much faster and start re
 ### How To Use It
 First, you identify which parts of your site contain personalized content and mark them as dynamic blocks. You can use a CSS class to mark your blocks. In addition to the mark, you need to assign a unique ID to your dynamic blocks. This is needed to match the dynamic blocks when substituting generic with personalized content. You can use a data attribute for the ID. In summary, your dynamic blocks should look like this:
 
-        <div class="speed-kit-dynamic" data-speed-kit-id="1">
-            Some personalized section...
-        </div>
-        <div class="speed-kit-dynamic" data-speed-kit-id="2">
-            Another personalized section...
-        </div>
+    <div class="speed-kit-dynamic" data-speed-kit-id="1">
+        Some personalized section...
+    </div>
+    <div class="speed-kit-dynamic" data-speed-kit-id="2">
+        Another personalized section...
+    </div>
 
 Second, you need to enable the replacement of dynamic blocks. Therefore you include another snippet into HTML right after the Speed Kit snippet. You can download the snippet here: [Dynamic Fetcher Snippet](https://www.baqend.com/speed-kit/latest/dynamic-fetcher.js)
 
-This snippet can also be configured via the 'dynamicBlockConfig' variable. Amongst other settings, you can define the query selector used to find your marked dynamic blocks as well the tag attribute the get the unique block id from. Here are the default values for this config:
+This snippet can also be configured via the `dynamicBlockConfig` variable. Amongst other settings, you can define the query selector used to find your marked dynamic blocks as well the tag attribute the get the unique block id from. Here are the default values for this config:
         
-        <script>
-            window.dynamicBlockConfig = {
-              blockSelector: '.speed-kit-dynamic',
-              tagAttribute: 'data-speed-kit-id',
-              statusClass: 'speed-kit-dynamic',
-              forceFetch: true,
-            }
-        </script>  
+    <script>
+        window.dynamicBlockConfig = {
+          blockSelector: '.speed-kit-dynamic',
+          tagAttribute: 'data-speed-kit-id',
+          statusClass: 'speed-kit-dynamic',
+          forceFetch: true,
+        }
+    </script>  
 
 If you want to see all this in action, take a look at a minimal example website that uses dynamic blocks: [Dynamic Block Demo](https://dynamic-demo.app.baqend.com/)
 
@@ -468,15 +468,15 @@ Before replacement the `<html>` element has the class `speed-kit-dynamic-loading
 
 You can, for example, use the status class to hide generic content in the dynamic blocks like this:
 
-        .speed-kit-loading .speed-kit-dynamic { visibility: hidden; }
-        .speed-kit-loading .speed-kit-dynamic { visibility: visible; }
+    .speed-kit-loading .speed-kit-dynamic { visibility: hidden; }
+    .speed-kit-loading .speed-kit-dynamic { visibility: visible; }
 
 ### Dynamic Scripts
 It is also possible to use script tags as dynamic blocks:
         
-        <script type="text/template" class="speed-kit-dynamic" data-speed-kit-id="1">
-            fetch('https://www.baqend.com');
-        </script>
+    <script type="text/template" class="speed-kit-dynamic" data-speed-kit-id="1">
+        fetch('https://www.baqend.com');
+    </script>
 
 By using the type `"text/template"` you prevent the script from executing before it is replaced. Speed Kit will make sure that the new script is executed upon replacement.
 
@@ -490,11 +490,11 @@ touch and accelerate any requests.
 
 For a single browser session you can deactivate Speed Kit for testing purposes with the following line in the developer console:
     
-        navigator.serviceWorker.controller.postMessage({type: "disconnect"});
+    navigator.serviceWorker.controller.postMessage({type: "disconnect"});
     
 To activate again use:
 
-        navigator.serviceWorker.controller.postMessage({type: "connect"});
+    navigator.serviceWorker.controller.postMessage({type: "connect"});
 
 ## Baqend Data Privacy
 
