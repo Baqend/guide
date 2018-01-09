@@ -429,41 +429,72 @@ current version including the Speed Kit. All customization options are available
 
 ## Personalize Content
 
-Speed Kit also works on sides with personalized content. Therefor you can define specific blocks as dynamic blocks which could look like this:
+Some pages generate personalized or segmentized content into their HTML pages, for example, a shopping cart, custom ads, or a personal user greeting.
+Normally, there is no point in caching those HTML pages, since there is a more or less unique version for every user. With Speed Kit, there is a way to do that. The concept is called Dynamic Blocks.
+
+### General Idea
+The general idea is, that you mark personalized content as Dynamic Blocks. Speed Kit first loads a fast generic/anonymous version of the page and requests the original in the background. Then Speed Kit replaces the generic blocks with the original personalized content.
+
+With this approach, the website can fetch linked assets much faster and start rendering even though the personalized content is not there yet.
+
+### How To Use It
+First, you identify which parts of your site contain personalized content and mark them as dynamic blocks. You can use a CSS class to mark your blocks. In addition to the mark, you need to assign a unique ID to your dynamic blocks. This is needed to match the dynamic blocks when substituting generic with personalized content. You can use a data attribute for the ID. In summary, your dynamic blocks should look like this:
 
         <div class="speed-kit-dynamic" data-speed-kit-id="1">
-            No dynamic content here
+            Some personalized section...
         </div>
         <div class="speed-kit-dynamic" data-speed-kit-id="2">
-            No dynamic content as well
+            Another personalized section...
         </div>
 
-Now you can integrate an additional snippet we provide you with which will scan the side for those blocks. Afterwards it will request your original side to fetch the dynamic content and exchange the shown content asynchronously.
+Second, you need to enable the replacement of dynamic blocks. Therefore you include another snippet into HTML right after the Speed Kit snippet. You can download the snippet here: [Dynamic Fetcher Snippet](https://www.baqend.com/speed-kit/latest/dynamic-fetcher.js)
+
+This snippet can also be configured via the 'dynamicBlockConfig' variable. Amongst other settings, you can define the query selector used to find your marked dynamic blocks as well the tag attribute the get the unique block id from. Here are the default values for this config:
+        
+        <script>
+            window.dynamicBlockConfig = {
+              blockSelector: '.speed-kit-dynamic',
+              tagAttribute: 'data-speed-kit-id',
+              statusClass: 'speed-kit-dynamic',
+              forceFetch: true,
+            }
+        </script>  
+
+If you want to see all this in action, take a look at a minimal example website that uses dynamic blocks: [Dynamic Block Demo](https://dynamic-demo.app.baqend.com/)
+
+### Hiding Generic Content
+Sometimes it is a good idea to hide generic content in dynamic blocks until it is replaced by the personalized content. To this end, Speed Kit attaches a status class to the main `<html>` element.
+Before replacement the `<html>` element has the class `speed-kit-dynamic-loading`, after replacement it has the class `speed-kit-dynamic-loaded`. Instead of `"speed-kit-dynamic"`, you can define a custom class prefix in the config.
+
+You can, for example, use the status class to hide generic content in the dynamic blocks like this:
+
+        .speed-kit-loading .speed-kit-dynamic { visibility: hidden; }
+        .speed-kit-loading .speed-kit-dynamic { visibility: visible; }
+
+### Dynamic Scripts
 It is also possible to use script tags as dynamic blocks:
         
         <script type="text/template" class="speed-kit-dynamic" data-speed-kit-id="1">
             fetch('https://www.baqend.com');
         </script>
 
-By using the type "text/template" you prevent the script from executing before it is exchanged. 
-You can also configure the class and data attributes:
-        
-        <script>
-            window.dynamicBlockConfig = {
-              blockSelector: '.speed-kit-custom-selector',
-              tagAttribute: 'data-speed-kit-custom-selector',
-              statusClass: 'speed-kit-custom-status-class',
-            }
-        </script>  
-        
-Block selector is the classname and tag attribute the data attribute. The status class is used to give information about the exchange process. While in progress we will attach "<status-class>-loading" to the html tag and 
-as soon as the exchange is done it is changed to "<status-class>-loaded". 
+By using the type `"text/template"` you prevent the script from executing before it is replaced. Speed Kit will make sure that the new script is executed upon replacement.
 
+### DOM Diffing
+If you have large dynamic blocks where only some parts of the content change when personalizing, you might want to use our DOM diffing extension, to prevent the browser from rerendering the entire dynamic block. Just drop us a line and we will send you the extension: [support@baqend.com](mailto:support@baqend.com)
 
 ## Deactivate Speed Kit
 
 If you for what ever reason want to deactivate Speed Kit on your site you can go to your dashboard's settings page. Scroll down and you'll find the deactivate section. You can toggle Speed Kits status here. When deactivated Speed Kit will no longer 
 touch and accelerate any requests.
+
+For a single browser session you can deactivate Speed Kit for testing purposes with the following line in the developer console:
+    
+        navigator.serviceWorker.controller.postMessage({type: "disconnect"});
+    
+To activate again use:
+
+        navigator.serviceWorker.controller.postMessage({type: "connect"});
 
 ## Baqend Data Privacy
 
