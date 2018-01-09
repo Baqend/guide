@@ -1,9 +1,19 @@
 
 ## Cron Jobs: Scheduled Code Execution
 
-You can schedule any Baqend Module for execution by adding an entry to the `jobs.Definition` collection.
- 
-Simply enter the dashboard, click on `jobs` in the menu on the left and then click on `Definition`. You are now looking at all **cron jobs** that are defined for your app. To start a job, click `add` and provide the following parameters:
+You can schedule any Baqend Module for execution by adding an entry to the `jobs.Definition` collection. 
+This can be done in two ways:
+
+- **code**: Save and you Cron job object:
+```js
+job = new DB['jobs.Definition']();
+job.save();
+```
+- **dashboard**: Simply enter the dashboard, click on `jobs` in the menu on the left and then click on `Definition`. You are now looking at all **cron jobs** that are defined for your app. To start a job, click `add` and provide the job parameters.
+
+### Scheduling Parameters
+
+The following parameters are permitted:
 
 - **module**: the name of the *Baqend Code module* to execute. The job will call the `run` method on your module (or `call` as a fallback; see below for [details](#defining-a-cron-job)).
 - **cronpattern**: a custom scheduling rule that determines when your code will be executed; see below for [usage details](#cron-patterns).
@@ -58,7 +68,7 @@ Be cautious when using <code>*</code> in your patterns, because it translates to
 </ul>
 </div>
 
-### Defining a Cron Job
+### Defining Behavior
 
 On execution, a cron job will call the `run` method exported by the referenced Baqend code module. 
 If there is no `run` method, the `call` method will be invoked.
