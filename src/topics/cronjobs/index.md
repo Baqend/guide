@@ -5,10 +5,11 @@ You can schedule any Baqend Module for execution by adding an entry to the `jobs
 This can be done in two ways:
 
 - **code**: Save and you Cron job object:
-
-        job = new DB['jobs.Definition']();
-        job.save();
-    
+```js
+job = new DB['jobs.Definition']();
+job.save();
+```
+            
 - **dashboard**: Simply enter the dashboard, click on `jobs` in the menu on the left and then click on `Definition`. You are now looking at all **cron jobs** that are defined for your app. To start a job, click `add` and provide the job parameters.
 
 ### Scheduling Parameters
@@ -80,6 +81,20 @@ The following example shows how to define and export code for a cron job:
 exports.run = function(db, jobsStatus, jobsDefinition) {
   return new Promise(function(resolve, reject) {
     // ... just doin' my job!
+  });
+};
+```
+
+You can also **abort job execution** when an error occurs. 
+Your code will still be executed on the next regular occasion, but the current execution will be interrupted and an error message will be logged in the corresponding status object:
+
+```js
+exports.run = function(db, jobsStatus, jobsDefinition) {
+  return new Promise(function(resolve, reject) {
+      // ... do something useful
+    if (thereIsAProblem) {
+      throw new Abort('There was a problem!');
+    }
   });
 };
 ```
