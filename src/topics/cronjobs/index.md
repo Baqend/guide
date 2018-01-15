@@ -85,6 +85,20 @@ exports.run = function(db, jobsStatus, jobsDefinition) {
 };
 ```
 
+You can also **abort job execution** when an error occurs. 
+Your code will still be executed on the next regular occasion, but the current execution will be interrupted and an error message will be logged in the corresponding status object:
+
+```js
+exports.run = function(db, jobsStatus, jobsDefinition) {
+  return new Promise(function(resolve, reject) {
+      // ... do something useful
+    if (thereIsAProblem) {
+      throw new Abort('There was a problem!');
+    }
+  });
+};
+```
+
 In order to execute asynchronous tasks, you can also return a **promise** in your job code: 
 Your job will be in status `EXECUTING`, until the returned promise is either resolved (status: `SUCCESS`) or rejected (`ERROR`).
 
