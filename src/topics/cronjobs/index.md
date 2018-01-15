@@ -5,10 +5,11 @@ You can schedule any Baqend Module for execution by adding an entry to the `jobs
 This can be done in two ways:
 
 - **code**: Save and you Cron job object:
-
-        job = new DB['jobs.Definition']();
-        job.save();
-    
+```js
+job = new DB['jobs.Definition']();
+job.save();
+```
+            
 - **dashboard**: Simply enter the dashboard, click on `jobs` in the menu on the left and then click on `Definition`. You are now looking at all **cron jobs** that are defined for your app. To start a job, click `add` and provide the job parameters.
 
 ### Scheduling Parameters
