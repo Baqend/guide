@@ -27,6 +27,7 @@ pages:
         - 'Logging': 'topics/logging/index.md'
         - 'Backups': 'topics/backups/index.md'
         - WordPress Plugin: 'topics/wordpress/index.md'
+        - REST API: 'topics/rest-api/index.md'
 
     - Starter Kits:
         - Starter Kits Overview: 'starter-kits/index.md'

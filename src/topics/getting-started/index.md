@@ -146,8 +146,8 @@ value or should be rejected with an error.
 var promise = new Promise(function(resolve, reject) {
   var delay = Math.random() * 2000 + 1000;
   window.setTimeout(function() {
-  //We fulfill the promise after the randomized delay
-  resolve(delay);
+  // We fulfill the promise after the randomized delay
+    resolve(delay);
   }, Math.random() * 2000 + 1000);
 });
 ```
