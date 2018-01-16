@@ -84,15 +84,15 @@
       <span class="chapter-info">How you set up and get running your first app.</span>
     </a>
   </div>
-<div class="chapter-item-outer">
-  <a class="chapter-item" href="topics/faq/">
-    <span class="chapter-heading">
-      <span class="icon"><img src="icons/faq.png"/></span>
-      <span class="text">FAQ</span>
-    </span>
-    <span class="chapter-info">Frequently Asked Questions on working with Baqend.</span>
-  </a>
-</div>
+  <div class="chapter-item-outer">
+    <a class="chapter-item" href="topics/faq/">
+      <span class="chapter-heading">
+        <span class="icon"><img src="icons/faq.png"/></span>
+        <span class="text">FAQ</span>
+      </span>
+      <span class="chapter-info">Frequently Asked Questions on working with Baqend.</span>
+    </a>
+  </div>
   <div class="chapter-item-outer">
     <a class="chapter-item" href="topics/cli/">
       <span class="chapter-heading">
@@ -258,6 +258,15 @@
         <span class="text">Starter Kits</span>
       </span>
       <span class="chapter-info">Some starter kits for popular frameworks integrating Baqend.</span>
+    </a>
+  </div>
+  <div class="chapter-item-outer">
+    <a class="chapter-item" href=topics/rest-api/">
+      <span class="chapter-heading">
+        <span class="icon"><img src="icons/starter_kits.png"/></span>
+        <span class="text">REST-API</span>
+      </span>
+      <span class="chapter-info">Learn how to use our lowlevel REST-API without any SDK.</span>
     </a>
   </div>
 </div>
