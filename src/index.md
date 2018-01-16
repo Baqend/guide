@@ -261,9 +261,9 @@
     </a>
   </div>
   <div class="chapter-item-outer">
-    <a class="chapter-item" href=topics/rest-api/">
+    <a class="chapter-item" href="topics/rest-api/">
       <span class="chapter-heading">
-        <span class="icon"><img src="icons/starter_kits.png"/></span>
+        <span class="icon"><img src="icons/rest-api.png"/></span>
         <span class="text">REST-API</span>
       </span>
       <span class="chapter-info">Learn how to use our lowlevel REST-API without any SDK.</span>
