@@ -2,14 +2,13 @@
 
 We recommend using one of Baqend's SDKs to develop an application, but you can also directly access the underlying communication protocols: 
 This document describes Baqend's HTTP REST API which is used for request-response interaction between client and server. 
-For a comprehensive list of all endpoints, have a look at [the swagger documentation](https://dashboard.baqend.com/swagger-ui/?url=https%3A%2F%2Fapp-starter.app.baqend.com%2Fv1%2Fspec#/crud).
 (For information on the messaging protocol that enables real-time communication between client and server, see our [Websocket API Docs](../../websockets/).)
 
 
 ## Overview
 
-To ensure backward compatibility, all endpoints start with an API version number. The current version is **v1**: `https://<app-name>.app.baqend.com/v1`. 
-The REST API is split up into eleven different categories. For most cases, however, it's sufficient to have a more in-depth look at the following three groups:
+The REST API is split up into eleven different categories (see our [Swagger documentation](https://dashboard.baqend.com/swagger-ui/?url=https%3A%2F%2Fapp-starter.app.baqend.com%2Fv1%2Fspec#/crud)). 
+In this section, however, we focus on the most typical use cases:
 
 * [CRUD](https://dashboard.baqend.com/swagger-ui/?url=https%3A%2F%2Fapp-starter.app.baqend.com%2Fv1%2Fspec#/crud) (**C**reate, **R**ead, **U**pdate, **D**elete): The CRUD API offers the ability to save, load, update, and delete objects in the database. 
   Each class defined in the schema has a separate endpoint: `https://<app-name>.app.baqend.com/v1/db/<class-name>`
@@ -19,6 +18,9 @@ The response will contain the query result.
 * [user](https://dashboard.baqend.com/swagger-ui/?url=https%3A%2F%2Fapp-starter.app.baqend.com%2Fv1%2Fspec#/user): 
   The user API enables authentication and authorization. It offers the ability to register and login users, change passwords, and usernames.
   
+<div class="note"><strong>Note:</strong> 
+To ensure backward compatibility, all endpoints start with an <strong>API version number</strong>. The current version is <strong>v1</strong>: <code>https://<app-name>.app.baqend.com/v1</code>. 
+</div> 
 
 ## CRUD
 
