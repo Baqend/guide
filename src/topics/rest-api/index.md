@@ -1,16 +1,14 @@
 # REST API
 
-
-It's recommended to use one of Baqend's SDKs to develop your application, but for advanced use cases it also possible to 
-directly send requests against the [HTTP REST API](https://dashboard.baqend.com/swagger-ui/?url=https%3A%2F%2Fapp-starter.app.baqend.com%2Fv1%2Fspec#/crud).
-
-This section contains high-level instructions on how to use our REST API. 
+We recommend using one of Baqend's SDKs to develop an application, but you can also directly access the underlying communication protocols: 
+This document describes Baqend's HTTP REST API which is used for request-response interaction between client and server. 
 For a comprehensive list of all endpoints, have a look at [the swagger documentation](https://dashboard.baqend.com/swagger-ui/?url=https%3A%2F%2Fapp-starter.app.baqend.com%2Fv1%2Fspec#/crud).
+(For information on the messaging protocol that enables real-time communication between client and server, see our [Websocket API Docs](../../websockets/).)
 
-To ensure backward compatibility, all endpoints start with an API version number. The current version is **v1**: `https://<app-name>.app.baqend.com/v1` 
 
-## Sections
+## Overview
 
+To ensure backward compatibility, all endpoints start with an API version number. The current version is **v1**: `https://<app-name>.app.baqend.com/v1`. 
 The REST API is split up into eleven different categories. For most cases, however, it's sufficient to have a more in-depth look at the following three groups:
 
 * [CRUD](https://dashboard.baqend.com/swagger-ui/?url=https%3A%2F%2Fapp-starter.app.baqend.com%2Fv1%2Fspec#/crud) (**C**reate, **R**ead, **U**pdate, **D**elete): The CRUD API offers the ability to save, load, update, and delete objects in the database. 
