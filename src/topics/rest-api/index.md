@@ -73,7 +73,7 @@ cURL: `curl -X POST "https://<app-name>.app.baqend.com/v1/db/Message" -H "accept
 
 ### Read
 
-To load a particular object, send a GET request to `https://<app-name>.app.baqend.com/v1/<class-name>/<id>`. 
+To load a particular object, send a GET request to `https://<app-name>.app.baqend.com/v1<id>`. 
 Here, the `<id>` value corresponds to the `id` value in the JSON representation of an object (e.g. as returned after creating an object).
 
 Request method: `GET`
@@ -102,7 +102,7 @@ cURL: `curl -X GET "https://<app-name>.app.baqend.com/v1/db/Message/0d2c40a1-54f
 
 ### Update
 
-To update the object with ID `<id>`, send a PUT request with the updated JSON to `https://<app-name>.app.baqend.com/v1/<class-name>/<id>`. 
+To update the object with ID `<id>`, send a PUT request with the updated JSON to `https://<app-name>.app.baqend.com/v1<id>`. 
 If you set the `if-match` header to your current version of the object, the update will only be executed if this version is still up-to-date. 
 Thus, you can prevent accidentally overwriting changes made by others. 
 
