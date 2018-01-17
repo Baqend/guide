@@ -2,25 +2,24 @@
 
 
 It's recommended to use one of Baqend's SDKs to develop your application, but for advanced use cases it also possible to 
-directly request the [HTTP REST API](https://dashboard.baqend.com/swagger-ui/?url=https%3A%2F%2Fapp-starter.app.baqend.com%2Fv1%2Fspec#/crud).
+directly send requests against the [HTTP REST API](https://dashboard.baqend.com/swagger-ui/?url=https%3A%2F%2Fapp-starter.app.baqend.com%2Fv1%2Fspec#/crud).
 
-This section describes roughly how to use our API. 
-To see all endpoints have a look at [the swagger documentation](https://dashboard.baqend.com/swagger-ui/?url=https%3A%2F%2Fapp-starter.app.baqend.com%2Fv1%2Fspec#/crud).
+This section contains high-level instructions on how to use our REST API. 
+For a comprehensive list of all endpoints, have a look at [the swagger documentation](https://dashboard.baqend.com/swagger-ui/?url=https%3A%2F%2Fapp-starter.app.baqend.com%2Fv1%2Fspec#/crud).
 
 To ensure backward compatibility, all endpoints start with an API version number. The current version is **v1**: `https://<app-name>.app.baqend.com/v1` 
 
 ## Sections
 
-The REST API is split up into eleven different categories. In most cases, it's sufficient to have a more in-depth 
-look at the following three groups: *CRUD (**C**reate, **R**ead, **U**pdate, **D**elete)*, *query* and *user*.
+The REST API is split up into eleven different categories. For most cases, however, it's sufficient to have a more in-depth look at the following three groups:
 
-* [CRUD](https://dashboard.baqend.com/swagger-ui/?url=https%3A%2F%2Fapp-starter.app.baqend.com%2Fv1%2Fspec#/crud): The CRUD API offers the ability to save, load, update and delete objects in the database. 
-  Each in the schema defined class has a separate endpoint: `https://<app-name>.app.baqend.com/v1/db/<class-name>`
-* [query](https://dashboard.baqend.com/swagger-ui/?url=https%3A%2F%2Fapp-starter.app.baqend.com%2Fv1%2Fspec#/query): To load multiple objects of one class, you can write a [MongoDB query](https://docs.mongodb.com/manual/tutorial/query-documents/) and
-  can be executed by sending a GET-request with URI component encoded GET-parameters to `https://<app-name>.app.baqend.com/v1/db/<class-name>/query`.
+* [CRUD](https://dashboard.baqend.com/swagger-ui/?url=https%3A%2F%2Fapp-starter.app.baqend.com%2Fv1%2Fspec#/crud) (**C**reate, **R**ead, **U**pdate, **D**elete): The CRUD API offers the ability to save, load, update, and delete objects in the database. 
+  Each class defined in the schema has a separate endpoint: `https://<app-name>.app.baqend.com/v1/db/<class-name>`
+* [query](https://dashboard.baqend.com/swagger-ui/?url=https%3A%2F%2Fapp-starter.app.baqend.com%2Fv1%2Fspec#/query): To load multiple objects of one particular class, you can execute a [MongoDB query](https://docs.mongodb.com/manual/tutorial/query-documents/) by sending a GET request with URI component encoded GET parameters to `https://<app-name>.app.baqend.com/v1/db/<class-name>/query`. 
+The response will contain the query result. 
   The available parameters are: `q` (MongoDB query), `count` (integer), `sort` ([MongoDB sort](https://docs.mongodb.com/manual/reference/method/cursor.sort/)), `start` (integer)
-* [user](https://dashboard.baqend.com/swagger-ui/?url=https%3A%2F%2Fapp-starter.app.baqend.com%2Fv1%2Fspec#/query): 
-  The user API enables the use of authentication and authorization. It offers the ability to register and login users, change passwords and usernames.
+* [user](https://dashboard.baqend.com/swagger-ui/?url=https%3A%2F%2Fapp-starter.app.baqend.com%2Fv1%2Fspec#/user): 
+  The user API enables authentication and authorization. It offers the ability to register and login users, change passwords, and usernames.
   
 
 ## CRUD
@@ -29,36 +28,35 @@ look at the following three groups: *CRUD (**C**reate, **R**ead, **U**pdate, **D
 
 Baqend uses a token-based authentication mechanism. [Register and login requests](#user-management) 
 return the header `baqend-authorization-token`. The value of this header is the authorization token, which must be 
-attached as the `authorization` header to [permission protected](topics/user-management/#permissions) 
+attached as the `authorization` header to [permission-protected](topics/user-management/#permissions) 
 CRUD requests: `authorization: BAT <token>`
 
-CRUD requests may return a renewed token in the `baqend-authorization-token` header. This token must be used for 
-further requests.
+CRUD requests may return a renewed token in the `baqend-authorization-token` header. If this happens, the renewed token must be used for all subsequent requests.
 
 ### Create
 
-A POST-request with a JSON to `https://<app-name>.app.baqend.com/v1/db/<class-name>` creates a new object of the type
-`class-name` and returns the created object with additional fields like *updatedAt*, *createdAt*, and *id*.
+A POST request with a JSON payload sent to `https://<app-name>.app.baqend.com/v1/db/<class-name>` will create a new object of type
+`class-name`; it will return the created object with additional metadata fields like *updatedAt*, *createdAt*, and *id*.
 The following example creates an object for the class *Message* with the string attribute *text*.
 
-Request Type: `POST`
+Request type: `POST`
 
 Request URL: `https://<app-name>.app.baqend.com/v1/db/Message`
 
-Request Headers:
+Request headers:
 ```` 
 accept: application/json
 content-type: application/json
 ````
 
-Request Body:  
+Request body:  
 ````js
 {
   "text":"Test Message"
 }
 ````
 
-Response Body: 
+Response body: 
 ````js
 {
 	"id": "/db/Message/0d2c40a1-54f4-4838-9f3e-48bbe6d82eb9",
@@ -75,19 +73,19 @@ cURL: `curl -X POST "https://<app-name>.app.baqend.com/v1/db/Message" -H "accept
 
 ### Read
 
-To load an object, execute a GET-request to `https://<app-name>.app.baqend.com/v1<id>`
-The `id` is the field `id` in the JSON which will be returned after creating an object.
+To load a particular object, send a GET request to `https://<app-name>.app.baqend.com/v1/<class-name>/<id>`. 
+Here, the `<id>` value corresponds to the `id` value in the JSON representation of an object (e.g. as returned after creating an object).
 
-Request Method: `GET`
+Request method: `GET`
 
 Request URL: `https://<app-name>.app.baqend.com/v1/db/Message/0d2c40a1-54f4-4838-9f3e-48bbe6d82eb9`
 
-Request Headers:
+Request headers:
 ```` 
 accept: application/json
 ````
 
-Respone Body:
+Respone body:
 ````
 {
 	"id": "/db/Message/0d2c40a1-54f4-4838-9f3e-48bbe6d82eb9",
@@ -104,22 +102,22 @@ cURL: `curl -X GET "https://<app-name>.app.baqend.com/v1/db/Message/0d2c40a1-54f
 
 ### Update
 
-To update a Object execute a PUT-request with the updated JSON to `https://<app-name>.app.baqend.com/v1<id>`. 
-The `id` is the field `id` in the JSON which will be returned after creating an object. If you only want to update
-the object, when the version on the server has not been changed, set the `if-match` header to your current version.
+To update the object with ID `<id>`, send a PUT request with the updated JSON to `https://<app-name>.app.baqend.com/v1/<class-name>/<id>`. 
+If you set the `if-match` header to your current version of the object, the update will only be executed if this version is still up-to-date. 
+Thus, you can prevent accidentally overwriting changes made by others. 
 
-Request Method: `PUT`
+Request method: `PUT`
 
 Request URL: `https://<app-name>.app.baqend.com/v1/db/Message/0d2c40a1-54f4-4838-9f3e-48bbe6d82eb9`
 
-Request Headers:
+Request headers:
 ```` 
 accept: application/json
 content-type: application/json
 if-match: 1
 ````
 
-Request Body:
+Request body:
 ````js
 {
   "text": "New Message", 
@@ -127,7 +125,7 @@ Request Body:
 }
 ````
 
-Respone Body:
+Response body:
 ````
 {
 	"id": "/db/Message/0d2c40a1-54f4-4838-9f3e-48bbe6d82eb9",
@@ -144,14 +142,15 @@ cURL: `curl -X PUT "https://<app-name>.app.baqend.com/v1/db/Message/0d2c40a1-54f
 
 ### Delete
 
-Execute a DELETE-request to `https://<app-name>.app.baqend.com/v1<id>` to delete the object with id `<id>`.
-If you only want to delete the object, when the version on the server has not been changed, set the `if-match` header to your current version.
+To delete the object with ID `<id>`, send a DELETE request to `https://<app-name>.app.baqend.com/v1<id>`.
+As with updates, you can also prevent accidentally deleting changes made by others: 
+To this end, set the `if-match` request header to your current version of the object; thus, the object will only be deleted if your object version is still up-to-date. 
 
-Request Method: `DELETE`
+Request method: `DELETE`
 
 Request URL: `https://<app-name>.app.baqend.com/v1/db/Message/0d2c40a1-54f4-4838-9f3e-48bbe6d82eb9`
 
-Request Headers:
+Request headers:
 
 ````
 if-match: 1
@@ -161,29 +160,29 @@ cURL: `curl -X DELETE "https://<app-name>.app.baqend.com/v1/db/Message/0d2c40a1-
 
 ## User Management
 
-To use Baqend's [user management system](/topics/user-management/) you have to use the user API. It offers the ability
+To use Baqend's [user management system](/topics/user-management/), you have to use the user API. It offers the ability
 to register and login users.
 
 Baqend uses a token-based authentication mechanism. Register and login requests return the header `baqend-authorization-token`.
-The value of this header is the authorization token, which must be attached as the `authorization` header to ACL protected CRUD requests:
+The value of this header is the authorization token, which must be attached as the `authorization` header to ACL-protected CRUD requests:
 `authorization: BAT <token>`
 
 ### Register
 
-To register a user execute a POST-request to `https://<app-name>.app.baqend.com/v1/db/User/register`. If you've
+To register a user, send a POST request to `https://<app-name>.app.baqend.com/v1/db/User/register`. If you've
 defined more fields in the user schema, you can pass additional data to the user object in the request body.
 
-Request Method: `POST`
+Request method: `POST`
 
 Request URL: `https://<app-name>.app.baqend.com/v1/db/User/register`
 
-Request Headers:
+Request headers:
 ```` 
 accept: application/json
 content-type: application/json
 ````
 
-Request Body:
+Request body:
 ````
 {
   "password": "secret",
@@ -194,12 +193,12 @@ Request Body:
 }
 ````
 
-Response Headers: 
+Response headers: 
 ````
 baqend-authorization-token: <token>
 ````
 
-Response Body:
+Response body:
 ````
 {
   "id": "/db/User/30",
@@ -222,22 +221,22 @@ Response Body:
 
 cURL: `curl -X POST "https://<app-name>.app.baqend.com/v1/db/User/register" -H "accept: application/json" -H "Content-Type: application/json" -d "{ \"password\": \"secret\", \"login\": true, \"user\": { \"username\": \"name\" }}"`
 
-### Log-In
+### Login
 
-To log in a previously registered user, you must POST the username and password to `https://<app-name>.app.baqend.com/v1/db/User/login`.
-Die response will contain the corresponding user object.
+To login a registered user, send a POST request with the username and password to `https://<app-name>.app.baqend.com/v1/db/User/login`.
+The response will contain the corresponding user object.
 
-Request Method: `POST`
+Request method: `POST`
 
 Request URL: `https://<app-name>.app.baqend.com/v1/db/User/login`
 
-Request Headers:
+Request headers:
 ```` 
 accept: application/json
 content-type: application/json
 ````
 
-Request Body: 
+Request body: 
 ````
 { 
   "username": "name", 
@@ -245,12 +244,12 @@ Request Body:
 }
 ````
 
-Response Headers:
+Response headers:
 ````
 baqend-authorization-token: <token>
 ````
 
-Response Body:
+Response body:
 ````
 {
 	"id": "/db/User/30",
@@ -276,30 +275,30 @@ cURL: `curl -X POST "https://<app-name>.app.baqend.com/v1/db/User/login" -H "acc
 
 ## Query
 
-To query the data of one class you can write a [MongoDB query](https://docs.mongodb.com/manual/tutorial/query-documents/), 
-which can be executed by sending a GET-request with 
-[URI component encoded](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent) 
-GET-parameters to `https://<app-name>.app.baqend.com/v1/db/<class-name>/query`.
+To query the data of one class, you can write a [MongoDB query](https://docs.mongodb.com/manual/tutorial/query-documents/) via  
+GET request to `https://<app-name>.app.baqend.com/v1/db/<class-name>/query`. 
+You will receive the query result in the response body. 
+Note that GET parameters have to be [URI component encoded](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent). 
 
 The available parameters are:
 
 * `q`: [MongoDB query](https://docs.mongodb.com/manual/tutorial/query-documents/) URI component encoded
-* `count` (integer): Defines how many objects will be returned. The default and maximum are 500.
+* `count` (integer): Defines how many objects will be returned at most. The default and maximum are 500.
 * `sort`: ([MongoDB sort](https://docs.mongodb.com/manual/reference/method/cursor.sort/)) URI component encoded
-* `start` (integer): You can skip objects at the beginning of query result by setting this to a number > 0
+* `start` (integer): You can skip objects at the beginning of query result by setting this to a number > 0. The default is 0.
 
-The following example uses the MongoDB query `{ "text": "New Message" }` and sorts the result by the createdAt field `{ "createdAt": -1 }`
+The following example request will return all Message objects with text equal to `"New Message"` (query: `{ "text": "New Message" }`), newest first (sort: `{ "createdAt": -1 }`).
 
-Request Method: `GET`
+Request method: `GET`
 
 Request URL: `https://<app-name>.app.baqend.com/v1/db/Message/query?q=%7B%22text%22%3A%22New%20Message2%22%7D&sort=%7B%22createdAt%22%3A-1%7D`
 
-Request Headers:
+Request headers:
 ```` 
 accept: application/json
 ````
 
-Response Body: 
+Response body: 
 ````
 [{
 	"id": "/db/Message/93a8c50d-a9d7-476f-af16-338487f9a3d2",
