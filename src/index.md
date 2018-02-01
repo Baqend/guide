@@ -11,8 +11,26 @@
     </div>
   </div>
 </div>
-### Popular
+### Intro
 <div class="chapter-container">
+  <div class="chapter-item-outer">
+    <a class="chapter-item" href="gettingstarted/">
+      <span class="chapter-heading">
+        <span class="icon"><img src="icons/quickstart.png"/></span>
+        <span class="text">Platform</span>
+      </span>
+      <span class="chapter-info">How to embed Baqend in your JavaScript app to get started quickly.</span>
+    </a>
+  </div>
+  <div class="chapter-item-outer">
+    <a class="chapter-item" href="topics/speed-kit/intro">
+      <span class="chapter-heading">
+        <span class="icon"><img src="icons/speedkit.png"/></span>
+        <span class="text">Speed Kit</span>
+      </span>
+      <span class="chapter-info">An introduction to Speed Kit, what it does, and why you should care.</span>
+    </a>
+  </div>
   <div class="chapter-item-outer">
     <a class="chapter-item" href="starter-kits/">
       <span class="chapter-heading">
@@ -22,35 +40,26 @@
       <span class="chapter-info">Some starter kits for popular frameworks integrating Baqend.</span>
     </a>
   </div>
-  <div class="chapter-item-outer">
-    <a class="chapter-item" href="gettingstarted/">
-      <span class="chapter-heading">
-        <span class="icon"><img src="icons/quickstart.png"/></span>
-        <span class="text">Quickstart</span>
-      </span>
-      <span class="chapter-info">How to embed Baqend in your JavaScript app to get started quickly.</span>
-    </a>
-  </div>
-  <div class="chapter-item-outer">
-    <a class="chapter-item" href="topics/speed-kit/">
-      <span class="chapter-heading">
-        <span class="icon"><img src="icons/speedkit.png"/></span>
-        <span class="text">Speed Kit</span>
-      </span>
-      <span class="chapter-info">How to boost web performance on your current technology stack.</span>
-    </a>
-  </div>
 </div>
 
-### Baqend Speed Kit
+### Speed Kit
 <div class="chapter-container">
   <div class="chapter-item-outer">
     <a class="chapter-item" href="topics/speed-kit/">
       <span class="chapter-heading">
         <span class="icon"><img src="icons/speedkit.png"/></span>
-        <span class="text">Speed Kit</span>
+        <span class="text">Getting Started</span>
       </span>
-      <span class="chapter-info">How to boost web performance on your current technology stack.</span>
+      <span class="chapter-info">An overview over Speed Kit and a short guide how to accelerate your website with it.</span>
+    </a>
+  </div>
+  <div class="chapter-item-outer">
+    <a class="chapter-item" href="topics/speed-kit/analyzer">
+      <span class="chapter-heading">
+        <span class="icon"><img src="icons/speed-kit-analyzer.png"/></span>
+        <span class="text">Page Speed Analyzer</span>
+      </span>
+      <span class="chapter-info">How to measure the impact of Speed Kit acceleration on your website.</span>
     </a>
   </div>
   <div class="chapter-item-outer">
@@ -62,9 +71,85 @@
       <span class="chapter-info">How to integrate Speed Kit into your WordPress site.</span>
     </a>
   </div>
+  <div class="chapter-item-outer">
+    <a class="chapter-item" href="topics/speed-kit/whiteblacklisting">
+      <span class="chapter-heading">
+        <span class="icon"><img src="icons/speed-kit-whiteblacklisting.png"/></span>
+        <span class="text">Speedup Policies</span>
+      </span>
+      <span class="chapter-info">How to define the requests to accelerate using blacklists and whitelists.</span>
+    </a>
+  </div>
+  <div class="chapter-item-outer">
+    <a class="chapter-item" href="topics/speed-kit/refreshing">
+      <span class="chapter-heading">
+        <span class="icon"><img src="icons/speed-kit-deactivation.png"/></span>
+        <span class="text">Refresh Policies</span>
+      </span>
+      <span class="chapter-info">How to refresh content on-demand or regularly.</span>
+    </a>
+  </div>
+<!-- 
+  <div class="chapter-item-outer">
+    <a class="chapter-item" href="topics/speed-kit/why">
+      <span class="chapter-heading">
+        <span class="icon"><img src="icons/speed-kit-why.png"/></span>
+        <span class="text">Why Speed Kit</span>
+      </span>
+      <span class="chapter-info">Why page load time matters and how Speed Kit increases user satisfaction.</span>
+    </a>
+  </div>
+-->
+  <div class="chapter-item-outer">
+    <a class="chapter-item" href="topics/speed-kit/api">
+      <span class="chapter-heading">
+        <span class="icon"><img src="icons/speed-kit-api.png"/></span>
+        <span class="text">Advanced Config Parameters</span>
+      </span>
+      <span class="chapter-info">Detailed descriptions of Speed Kit config parameters.</span>
+    </a>
+  </div>
+  <div class="chapter-item-outer">
+    <a class="chapter-item" href="topics/speed-kit/personalized">
+      <span class="chapter-heading">
+        <span class="icon"><img src="icons/speed-kit-personalized.png"/></span>
+        <span class="text">Accelerating Personalized Content</span>
+      </span>
+      <span class="chapter-info">How to configure Speed Kit for websites with customized dynamic content.</span>
+    </a>
+  </div>
+  <div class="chapter-item-outer">
+    <a class="chapter-item" href="topics/speed-kit/deactivation">
+      <span class="chapter-heading">
+        <span class="icon"><img src="icons/speed-kit-deactivation.png"/></span>
+        <span class="text">Speed Kit Deactivation</span>
+      </span>
+      <span class="chapter-info">You can always opt-out; here's how.</span>
+    </a>
+  </div>
+<!--
+  <div class="chapter-item-outer">
+    <a class="chapter-item" href="topics/speed-kit/how-it-works">
+      <span class="chapter-heading">
+        <span class="icon"><img src="icons/speed-kit-how-it-works.png"/></span>
+        <span class="text">How Speed Kit Works</span>
+      </span>
+      <span class="chapter-info">What Speed Kit does and how it accelerates your web content using Service Workers.</span>
+    </a>
+  </div>
+-->
+  <div class="chapter-item-outer">
+    <a class="chapter-item" href="topics/speed-kit/privacy">
+      <span class="chapter-heading">
+        <span class="icon"><img src="icons/speed-kit-privacy.png"/></span>
+        <span class="text">Data Privacy</span>
+      </span>
+      <span class="chapter-info">On our policies for data processing and retention.</span>
+    </a>
+  </div>
 </div>
 
-### Baqend Platform
+### Platform
 <div class="chapter-container">
   <div class="chapter-item-outer">
     <a class="chapter-item" href="https://www.baqend.com/tutorial.html">

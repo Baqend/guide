@@ -1,531 +1,68 @@
-# Speed Kit
+# Speed Kit: Getting Started
 
-**Baqend Speed Kit** accelerates your existing website by rerouting the requests through Baqend´s caching infrastructure.
-Using the configuration described in this document, it works for any website and achieves a performance boost of typically 50-300%.
+Baqend Speed Kit is a **plug-in solution** to accelerate your website.  
+By rerouting your web traffic through Baqend´s caching infrastructure, Speed Kit achieves a performance boost of typically **50-300%**. 
 
-### In a nutshell
-You can add Speed Kit to your site at any time and remove it within seconds, should you ever want to. 
-Using Speed Kit involves these simple steps described in this guide:
+On this page, we explain what Speed Kit does and how you can use it. 
+For a more high-level introduction to what Speed Kit is and why you should care, see our [Speed Kit intro](./speed-kit/intro).
 
-1. **Tell Speed Kit the domain to make fast**<br>
-   In your Baqend account simply configure which domains and URLs Baqend should accelerate.
-2. **Include the code snippet**<br>
-   The snippet provides a Service Worker script that reroutes your existing website's requests through Baqend's caching infrastructure.
-3. **Define Refresh Patterns**<br>
-   Define how your content is updated either by simple rules (e.g., refreshed every minute) or by calling the Baqend API from your backend.
-4. **Speed Kit in Action**<br>
-   Your website will be roughly 50-300% faster as Baqend automatically applies network optimizations and sophisticated caching.
+## In a nutshell
 
-### Using WordPress?
-Are you using WordPress? Check out our [WordPress guide](/topics/wordpress/).
-Baqend has special support for WordPress with a custom plugin that allows you to run your WordPress blog blazingly fast on Baqend with a simple setup.
+Before we go into the details, here are four reasons to try Speed Kit:
 
-## Why Speed Kit?
+- **Free trial**: Trying out Speed Kit is associated with no cost at all – just use a [free account](https://dashboard.baqend.com/register). 
+- **Verifiable speedup**: With our [Page Speed Analyzer](#page-speed-analyzer), you can measure how much faster Speed Kit makes your website.
+- **No vendor lock-in**: Speed Kit is an opt-in solution, i.e. you can remove it any time with one single click. 
+- **Easy to use**: If you can copy and paste, you can install Speed Kit. It's even easier for [WordPress](../topics/wordpress/) sites!
 
-Page load time is money.
-This is not only true for companies like Amazon that loses more than 1.3B USD in revenue per year, if their website is a 10th of a second slower.
-It is also true for publishers, whose business model depends on a user experience that facilitates consumption of as much content as possible. 
-However, many brands, publishers, and e-commerce businesses have heterogeneous and complex technology stacks that make it extremely hard to tackle performance, scalability, and page load time.
-Novel browser technologies now offer a means of making web performance as simple as including a script.
-
-<img src="major-advantages.png" style="width:80%;">
-
-Baqend has developed **Speed Kit** that directly hooks into an existing website and makes it **50-300% faster**.
-Therefore, Speed Kit uses [Service Workers](https://developers.google.com/web/fundamentals/getting-started/primers/service-workers)
-which come with a **browser support of > 75%** and automatically enable an **offline mode** for users of your website.
-Because it **works for any website**, it is the perfect solution for Publishers, Landing Pages, E-Commerce, Brands, and Agencies.
-
-<div class="tip">
-    <strong>Tip:</strong>
-    Test your site with the <a href="#page-speed-analyzer">Page Speed Analyzer</a> to learn whether your website can
-    benefit from using Speed Kit.
+<!--  
+<div class="tip"><strong>You stay in control:</strong> 
+Speed Kit only makes your website faster and won't break anything. 
+But don't take our word for it, you can <a href="./speed-kit/deactivation"><strong>opt out any time</strong></a>: 
+To disable Speed Kit instantaneously, just click the status toggle in your dashboard. 
 </div>
+-->
 
-#### Learn More
-For further information on Speed Kit check out these two resources:
+### Setup Instructions
 
-- [Speed Kit Pitch deck (PDF)](speed-kit.pdf)
-- [Two-Pager (PDF)](2-pager.pdf)
+To activate Speed Kit for your website, you only have to follow these steps:
 
-## Integrating Speed Kit
-Follow these 5 steps to set up Baqend Speed Kit and speed up your website.
+1. **Register a Speed Kit app**  
+Create a [Baqend account](https://dashboard.baqend.com/register) and choose app type *Speed Kit*.
+2. **Follow the instructions**  
+You will be guided through the installation process by our step-by-step guide. In essence, you will do the following:
+    1. *Define the domain* to accelerate.
+    2. *Include a code snippet* into your website – we will generate it for you!
+    3. *Define refresh policies* to make sure our caching infrastructure is always synchronized with your original content.
 
- <ol class="getting-started-list">
-<li>
-###Configure Speed Kit
-In your account simply enter **your site's URL** as well as all **whitelisted and blacklisted domains**, respectively.
-All requests to whitelisted domains are rerouted to Baqend while requests to blacklisted domains will not be speeded up.
-A common example of blacklisted domains are those of tracking or ad services.
+#### Even Simpler on WordPress!
+To make your WordPress blog run blazingly fast, use the Speed Kit [**WordPress plug-in**](https://wordpress.org/plugins/baqend/).
+Our [WordPress guide](../topics/wordpress/) contains all the details on how to use it.
 
-<img src="configure-speed-kit.png" style="width:60%;">
-</li>
-<li>
-###Integrate code snippet
-Insert the **generated code snipped** into the header of your **index.html**.
-This snipped registers the service worker that will speed up your requests.
+## Integration: Overview
 
-<img src="integrate-speed-kit.png" style="width:100%;">
-</li>
-<li>
-###Download Service Worker
-[Download](https://www.baqend.com/speed-kit/latest/) the latest Service Worker script from baqend.
-</li>
-<li>
-###Host Service Worker
-In order to provide the Service Worker with its full functionality, it needs to have the [root
-scope](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API/Using_Service_Workers).
-Thus, the Service Worker should be hosted in your root directory.
-If you are able to do so, the default case is yours. 
-If for whatever reason this is not possible, we provide
-you some implementation options here:
-####WordPress
-Use our <a href="../wordpress/">WordPress Plugin</a>.
-####Apache
-Option 1: Rewrite the request url for the service worker to the actual location:
-```sh
-# Add the following lines to your httpd.conf file
-# replace <location> with the actual location of the service worker
-RewriteEngine On
-RewriteRule ^/sw.js$ <location>
-```
-Option 2: Customize the service workers registration path by still giving it root scope
-```sh
-# Add the following lines to your httpd.conf file
-<Files "sw.js">
-Header Set Service-Worker-allowed "/"
-</Files>
-# Find this line in your code snipped: "navigator.serviceWorker.register('sw.js')"
-# and change it like this:
-navigator.serviceWorker.register(<enter your service worker path>, {scope: '/'})
-```
-####Nginx
-Option 1: Rewrite the request url for the service worker to the actual location:
-```sh
-# Add the following lines to the suitable server or location block in your nginx.conf file
-# replace <location> with your actual service worker location
-rewrite ^(/sw.js)$ <location> last;
-```
-Option 2: Customize the service workers registration path by still giving it root scope
-```sh
-# Add the following lines to your httpd.conf file
-# and replace <location> with your service worker location
-location  = /<location> {
-add_header 'service-worker-allowed' '/';
-}
-# Find this line in your code snipped: "navigator.serviceWorker.register('sw.js')"
-# and change it like this:
-navigator.serviceWorker.register(<enter your service worker path>, {scope: '/'})
-```
-</li>
-<li>
-###Enjoy Performance
-Speed Kit will automatically make your website faster.
-</li>
-</ol>
+When you install Speed Kit, we store a copy of your website on our globally distributed caching infrastructure: 
+Speed Kit then makes your website fast by intercepting browser requests and serving them from the fast Baqend caches. 
+As a result, your users see your content faster and your Web server is on the last pressure. 
+Since we are serving a *copy of your content*, though, you have to specify two aspects of Speed Kit's behavior:
 
-## How Speed Kit works
+1. [**Speedup Policies**](./speed-kit/whiteblacklisting): *Which requests should Speed Kit accelerate and which should not?*  
+Many resources are easily cacheable through Speed Kit (e.g. images, stylesheets, etc.), while some are not (e.g. ads). 
+You can define regex expressions as well as domain whitelists and blacklists to tell Speed Kit exactly which request belongs to which category.
+2. [**Refresh Policies**](./speed-kit/refreshing): *When should Speed Kit synchronize the Baqend caches with your original content?*  
+There are two different ways to make sure that Speed Kit stays in-synch with your website: 
+    1. *Cron job*: Speed Kit synchronizes itself in regular intervals.
+    2. *Real-time push*: You proactively trigger synchronization, either manually or programmatically through API hooks in your tech stack. 
 
-Speed Kit hooks into existing websites and reroutes the requests to Baqend for a faster content delivery.
-For a deeper understanding of how the Speed Kit works, the following graphic illustrates an overview of the underlying Speed Kit architecture. 
+While Speed Kit works best with static content, it is also compatible with highly customized dynamic content; see our  guide section on [personalized content](./speed-kit/personalized) for more information. 
+For details on the Speed Kit config parameters, see our docs on the [Speed Kit API](./speed-kit/api).
 
-<img src="speed-kit-architecture.png" style="width:100%;">
 
-The left side of the graphic shows your website with the [latest Service Worker script](https://www.baqend.com/speed-kit/latest/)
-installed.
-As soon as the Service Worker is active, all HTTP requests matching your configuration (whitelist, blacklist etc.) are rerouted to Baqend. 
-If the request has been rerouted to Baqend for the first time, the corresponding resources (Media, Text etc.) are pulled from your legacy system.
-Otherwise, the resources are served directly by the server.
- 
-On the way to the client, resources are routed through the distributed Baqend caching infrastructure and get cached. 
-Therefor requests rerouted by the Service Worker can be served with very low latency.
-Whenever content changes, you call the [Baqend refresh content API](#refresh-content), so Baqend immediately fetches changed content. 
-Baqend´s caching algorithms automatically update all caches in real-time (including users' browser caches).
 
-## Defining what to Cache: Whitelisting and Blacklisting
+## Where Next?
+To learn more about Speed Kit, check out the following resources:  
 
-To control which requests shall be intercepted by the Service Worker, the definition of a white- and blacklist is
-highly recommended.
-All requests to whitelisted domains are rerouted to Baqend while requests to blacklisted domains are
-ignored by the Service Worker and served normally.
-To give you a general understanding which sites are good candidates for either the white or blacklist here's a rule of thumb: Every
-content that you have control of and can tell us when it changes should be whitelisted because we can efficiently cache and revalidate it.
-So lets pretend your site is www.example.com and you serve images, css and scripts from this domain and maybe a subdomain 
-a good whitelist could look like this:
-
-```js
-whitelist: [
-    { url: ['www.example.com', 'www.subdomain.example.com'] }
-]
-```
-
-And the other way around every content that we cannot detect change on should not be whitelisted. So for a typical website
-with analytics, facebook feeds and ads URLs you should never put into your whitelist are:
-
-```js
-'www.google-analytics.com/analytics.js',
-'www.example-ad-service.com',
-'https://staticxx.facebook.com/',
-'http://pixel-a.example.com/',
-.....
-```
-
-However, you do not have to blacklist these URLs. The way our rule system works is that when there is no whitelist nor blacklist
-every request is rerouted. As soon as the whitelist gets more restrictive, like in the example above, only requests that match this filter
-are touched by Speed Kit. So a simple way to put this is that you can decide if you want to tell us implicitly which sites not to touch by defining a
-whitelist or explicitly by defining a blacklist. 
-
-To configure the whitelist and blacklist Baqend provides you with [SpeedKitRule](#SpeedKitRule).
-With this syntax you are able to formulate complex rules for an individual whitelist and blacklist.
-Imagine your website loads some images over the third-party domain `img.example-cdn.com`. 
-In general, you want all resources whose content type is image to be served via Speed Kit.
-For this case a valid whitelist could look like this:
-
-```js
-whitelist: [
-    { contentType: 'image' }
-]
-```
-
-You could extend this case in a way, that you only want static content to be rerouted. For that see the example below: 
-```js
-whitelist: [
-    {
-        // Your Domain and all Subdomains via Regex
-        host: [
-            'www.baqend.com',
-            'baqend.com',
-            /*\.baqend\.com/
-        ],
-        contentType: [
-            'document',
-            'image',
-            'style',
-            'script',
-            'font'
-        ]        
-    }    
-]
-```
-
-Further examples can be found in our [Configuration Examples](#Configuration-Examples).
-
-## Refreshing Content
-
-If you have changed any kind of content of your website, you need to trigger a Service Worker refresh. 
-Otherwise, the client continues to see previous website content. 
-For that purpose, Baqend provides you a refresh API that empowers you to specify which specific content needs to be updated. 
-To trigger a Service Worker refresh you can use [Push-Based](#push-based-refreshing) or [Pull-based](#pull-based-refreshing) refreshing.
-
-### Push-Based Refreshing
-
-The optimal way to refresh your cached content is to call our REST-API directly from your system when something changed on your website. 
-The REST-Endpoint is `https://<your-app-name>.app.baqend.com/v1/asset/revalidate` and you need a User-Access-Token to be sent with the POST-Request. 
-For now, to get this token, you have to login into your Baqend App on our [dashboard](https://dashboard.baqend.com) and open your browser's developer console. 
-Use the developer console to call `DB.token` to receive your token. Now you have to add an authorization header to your request which looks like this:
-
-    authorization: BAT <your-token>
-    
-<div class="note">
-    <strong>Note:</strong>
-    The token is only valid for 24 hours. The process to get a long life User-Access-Token will change shortly and will become way more comfortable. As soon as this update hits we will inform every customer as well as update this section.
-</div>
-
-The refresh API takes a filter object as JSON to configure the refresh process. In case your filter object is an empty JSON object we will just refresh all files on our system. If you are aware of which files have been changed, you can optimize the refresh process by telling us so. 
-To do so, we provide you with the following options:
-
-* `contentTypes: string[]` – takes an array of comma-separated strings. Available types are:
-    - document (HTML files) 
-    - style (CSS files)
-    - script (JavaScript files)
-    - feed
-    - audio
-    - video
-    - image
-    - font
-* `urls: string[]` - takes an array of comma-separated URLs or URL-Prefixes. Prefixes must end with an *.
-* `query: {}` - takes a JSON-Object which represents a real MongoDB query. You can configure the following parameters within this object:
-    - url
-    - eTag
-    - lastModified
-    - contentType
-    - mediaType
-
-<div class="note">
-    <strong>Note:</strong>
-    See the <a href="https://docs.mongodb.com/manual/tutorial/query-documents/">MongoDB documentation</a> for more information on MongoDB queries.
-</div>
-
-To wrap it up here are some use cases to provide you with examples for what is described above:
-
-- You want to refresh all HTML files:
-
-        {
-            "contentTypes": ["document"]
-        }
-
-- You want to refresh all URLs, which starts with `https://www.example.com/assets`:
-
-        {
-            "urls": ["https://www.example.com/assets*"]
-        }
-        
-- You want to refresh your home page:
-        
-        {
-            "urls": ["https://www.example.com", "https://www.example.com/"]
-        }
-        
-- You want to configure your own advanced query to refresh files with a specific media type:
-        
-        {
-            "query": {
-                "mediaType": "text/plain"
-            }
-        }
-
-
-
-### Pull-Based Refreshing
-
-To manually trigger a Service Worker refresh you can create custom refresh filters in your [dashboard's](https://dashboard.baqend.com)
-"Refresh Content" section.
-When creating a refresh filter you have several options to specify, which content should be refreshed.
-As default, all content will be refreshed.
-As first you can choose which kind of content should be affected by the appropriate filter.
-Therefore a list of possible content types (HTML, CSS, JavaScript, etc.) is provided to you.
-The second option allows you to specify the URL´s to be handled by the refresh filter.
-These URL's can be entered in a specific way like `https://www.baqend.com` or by using a prefix like `https://www.baqend.com/assets/*` (refresh all files under `https://www.baqend.com/assets/`).
-
-As an advanced setting, it is also possible writing your own [MongoDB Query](https://docs.mongodb.com/manual/tutorial/query-documents/)
-to address more complex scenarios. In the following, you can see which attributes are addressable within your individual query. 
-<ul>
-    <li>url</li>
-    <li>eTag</li>
-    <li>lastModified</li>
-    <li>contentType</li>
-    <li>mediaType</li>
-</ul>
-
-<div class="note">
-    <strong>Note:</strong> 
-        Content type is used to address a general type of content:
-            <ul>
-                <li>document (HTML files) </li>
-                <li>style (CSS files)</li>
-                <li>script (JavaScript files)</li>
-                <li>feed</li>
-                <li>audio</li>
-                <li>video</li>
-                <li>image</li>
-                <li>font</li>
-            </ul>
-        If you want to use a discrete content type instead as specified in <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type/">[ContentType]</a>
-        you can define those under media type. 
-</div>
-
-After you have finished configuring your refresh filter, you can run it.
-A status in the dashboard informs you if the refresh was successful.
-Refresh filters that have already been executed are saved in your history and can be run again at any time.
-
-<div class="note">
-    <strong>Note:</strong>
-    In the next weeks, we will release our CRON-Jobs feature, which allows configuring time-based refreshing.
-</div>
-
-## Speed Kit API
-
-<div id="speedKitDoc"></div>
-
-## Page Speed Analyzer
-
-The [Page Speed Analyzer](http://makefast.app.baqend.com/) is a testing tool that gives you an impression of
-how **Baqend Speed Kit** influences the performance of your website.
-To this end, the analyzer runs a series of tests against your website and reports how your current backend stack
-delivers your website compared to a version using Speed Kit.
-To test the performance improvement after the Speed Kit was integrated into your website, use the
-[before and after Speed Kit](#before-and-after-speed-kit) functionality.
-
-<img src="page-speed-analyzer.png" style="width:100%;">
-
-For comparison, the analyzer collects the following metrics by using [Google's PageSpeed Insights API](https://developers.google.com/speed/docs/insights/v1/getting_started)
-and private instances of [WebPagetest](https://sites.google.com/a/webpagetest.org/docs/private-instances):
-
-- **Domains:** Number of unique hosts referenced by the page.
-- **Resources:** Number of HTTP resources loaded by the page.
-- **Response Size:** Number of uncompressed response bytes for resources on the page.
-- **Speed Index:** Represents how quickly the page rendered the user-visible content.
-- **Time To First Byte:** Measures the amount of time between creating a connection to the server and downloading the contents.
-- **DOMContentLoaded:** Represents the time when the initial HTML document has been completely loaded and parsed, without waiting for external resources.
-- **FullyLoaded:** Measures the time from the start of the initial navigation until there was 2 seconds of no network activity after Document Complete.
-- **Last Visual Change:** Represents the last point in the test when something visually changed on the screen.
-
-
-Additionally, the tool collects a **performance video** of both website versions to give a visual impression.
-
-<div class="tip">
-    <strong>Tip:</strong>
-    Customize the analyzer to your desired test situation by switching the location of the client or choosing whether
-    to cache or not. You can also provide a comma-separated list of domain patterns to tell Speed Kit which requests it
-    should handle.
-</div>
-
-###Before and after Speed Kit
-
-Do you already use Speed Kit and want to measure the achieved performance advantage?
-The [Page Speed Analyzer](http://makefast.app.baqend.com/) can also be used to perform a before and after Speed Kit test.
-No special configuration is required for this.
-The analyzer automatically detects that your website is using the Speed Kit and performs the test accordingly.
-As a result, you will see the performance metrics of your website without the integrated Speed Kit compared to the 
-current version including the Speed Kit. All customization options are available as usual.
-
-<style>
-.getting-started-list {
-    list-style: none;
-    counter-reset: cnt;
-    margin-left: 0;
-    margin-top: 40px;
-}
-
-.getting-started-list ul li{
-    padding: 10px 0;
-}
-
-.getting-started-list h3 {
-    padding-top: 45px;
-    position: relative;
-    z-index: 1;
-}
-
-.getting-started-list>li {
-    position: relative;
-    border-left: 2px solid #1967CC;
-    padding: 0 0 30px 50px;
-    /* disable collapsed margin */
-    display: inline-block;
-    width: 100%;
-}
-
-.getting-started-list>li:last-child {
-    border: none;
-}
-
-.getting-started-list>li:before {
-    counter-increment: cnt;
-    content: counter(cnt);
-    position: absolute;
-    left: -18px;
-    border-radius: 50%;
-    background-color: #FFFFFF;
-    display: block;
-    width: 35px;
-    height: 35px;
-    line-height: 31px;
-    color: #1967CC;
-    border: 2px solid #1967CC;
-    text-align: center;
-    font-size: 21px;
-}
-</style>
-
-## Personalize Content
-
-Some pages generate personalized or segmentized content into their HTML pages, for example, a shopping cart, custom ads, or a personal user greeting.
-Normally, there is no point in caching those HTML pages, since there is a more or less unique version for every user. With Speed Kit, there is a way to do that. The concept is called Dynamic Blocks.
-
-### General Idea
-The general idea is, that you mark personalized content as Dynamic Blocks. Speed Kit first loads a fast generic/anonymous version of the page and requests the original in the background. Then Speed Kit replaces the generic blocks with the original personalized content.
-
-With this approach, the website can fetch linked assets much faster and start rendering even though the personalized content is not there yet.
-
-### How To Use It
-First, you identify which parts of your site contain personalized content and mark them as dynamic blocks. You can use a CSS class to mark your blocks. In addition to the mark, you need to assign a unique ID to your dynamic blocks. This is needed to match the dynamic blocks when substituting generic with personalized content. You can use a data attribute for the ID. In summary, your dynamic blocks should look like this:
-
-    <div class="speed-kit-dynamic" data-speed-kit-id="1">
-        Some personalized section...
-    </div>
-    <div class="speed-kit-dynamic" data-speed-kit-id="2">
-        Another personalized section...
-    </div>
-
-Second, you need to enable the replacement of dynamic blocks. Therefore you include another snippet into HTML right after the Speed Kit snippet. You can download the snippet here: [Dynamic Fetcher Snippet](https://www.baqend.com/speed-kit/latest/dynamic-fetcher.js)
-
-This snippet can also be configured via the `dynamicBlockConfig` variable. Amongst other settings, you can define the query selector used to find your marked dynamic blocks as well the tag attribute the get the unique block id from. Here are the default values for this config:
-        
-    <script>
-        window.dynamicBlockConfig = {
-          blockSelector: '.speed-kit-dynamic',
-          tagAttribute: 'data-speed-kit-id',
-          statusClass: 'speed-kit-dynamic',
-          forceFetch: true,
-        }
-    </script>  
-
-If you want to see all this in action, take a look at a minimal example website that uses dynamic blocks: [Dynamic Block Demo](https://dynamic-demo.app.baqend.com/)
-
-### Hiding Generic Content
-Sometimes it is a good idea to hide generic content in dynamic blocks until it is replaced by the personalized content. To this end, Speed Kit attaches a status class to the main `<html>` element.
-Before replacement the `<html>` element has the class `speed-kit-dynamic-loading`, after replacement it has the class `speed-kit-dynamic-loaded`. Instead of `"speed-kit-dynamic"`, you can define a custom class prefix in the config.
-
-You can, for example, use the status class to hide generic content in the dynamic blocks like this:
-
-    .speed-kit-loading .speed-kit-dynamic { visibility: hidden; }
-    .speed-kit-loading .speed-kit-dynamic { visibility: visible; }
-
-### Dynamic Scripts
-It is also possible to use script tags as dynamic blocks:
-        
-    <script type="text/template" class="speed-kit-dynamic" data-speed-kit-id="1">
-        fetch('https://www.baqend.com');
-    </script>
-
-By using the type `"text/template"` you prevent the script from executing before it is replaced. Speed Kit will make sure that the new script is executed upon replacement.
-
-### DOM Diffing
-If you have large dynamic blocks where only some parts of the content change when personalizing, you might want to use our DOM diffing extension, to prevent the browser from rerendering the entire dynamic block. Just drop us a line and we will send you the extension: [support@baqend.com](mailto:support@baqend.com)
-
-## Deactivate Speed Kit
-
-If you for what ever reason want to deactivate Speed Kit on your site you can go to your dashboard's settings page. Scroll down and you'll find the deactivate section. You can toggle Speed Kits status here. When deactivated Speed Kit will no longer 
-touch and accelerate any requests.
-
-For a single browser session you can deactivate Speed Kit for testing purposes with the following line in the developer console:
-    
-    navigator.serviceWorker.controller.postMessage({type: "disconnect"});
-    
-To activate again use:
-
-    navigator.serviceWorker.controller.postMessage({type: "connect"});
-
-## Baqend Data Privacy
-
-###Speed Kit 
-<strong>Sensitive User Information</strong><br>
-By default, Speed Kit will not process any cookies, credentials or other personally identifiable information from the
-accelerated site and therefore never see any sensitive user information. No cookies or credentials from users are stored
-on Baqend’s servers.
-
-This behavior is furthermore guaranteed by standard browser security as Speed Kit employs its own domain by default and 
-is therefore not allowed access to cookies of other domains, including also the domain of the accelerated site. 
-
-If a website sends sensitive information through URL parameters or HTTP headers, these resources can and should be 
-blacklisted in Speed Kit in order not to process or store these metadata.
-
-<strong>What Data is handled by Speed Kit?</strong><br>
-Speed Kit handles all website requests that are explicitly whitelisted for it. It is recommended to whitelist only
-public sections of the page and to exclude private ones like login or payment areas because as outlined above Speed Kit
-will not handle user authentication, credentials or cookies.
-
-The blacklist feature makes it very easy to exclude private areas of the site from Speed Kit. Speed Kit does not process
-or store user-generated content, as POST, PUT, and DELETE requests are always processed by the original site.
-
-###General
-<strong>Server Location</strong><br>
-Baqend stores data exclusively on the AWS data center located in Frankfurt, Germany.
-
-<strong>EU Data Security</strong><br>
-Baqend has a valid Data Processing Addendum with Amazon Web Services and can therefore also close data processing 
-agreements with customers. IP addresses of requests are stored for 10 days. Storing of IP addresses can be deactivated 
-on request.
-
-<strong>Further Information</strong><br>
-[More details on Baqend's infrastructure](https://medium.baqend.com/how-to-develop-a-backend-as-a-service-from-scratch-lessons-learned-a9fac618c2ce)
+- [WordPress integration guide](../topics/wordpress/): how to use Speed Kit for your WordPress site.
+- [Page Speed Analyzer](./speed-kit/analyzer): measure how much of an edge Speed Kit gives you over your existing website!
+- [How Speed Kit works](./speed-kit/how-it-works): a more in-depth description of how Speed Kit works.
+- [Data Privacy](./speed-kit/privacy): our policies for handling your data.

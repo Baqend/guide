@@ -4,11 +4,10 @@ repo_url: 'https://github.com/Baqend/guide'
 pages:
     - Guide:
         - Home: 'index.md'
-        - Quickstart: 'gettingstarted/index.md'
         - Roadmap: 'roadmap.md'
-        - Speed Kit: 'topics/speed-kit/index.md'
-
-        - 'Getting Started': 'topics/getting-started/index.md'
+        - 'Speed Kit': 'topics/speed-kit/intro.md'
+        - 'Platform': 'topics/getting-started/index.md'
+        - Quickstart: 'gettingstarted/index.md'
         - 'CLI': 'topics/cli/index.md'
         - 'FAQ': 'topics/faq/index.md'
         - 'CRUD': 'topics/crud/index.md'
@@ -40,6 +39,16 @@ pages:
     - hidden:
         - 'Rest': 'rest.md'
         - 'Websockets': 'websockets.md'
+        - Why Speed Kit: 'topics/speed-kit/why.md'
+        - Speed Kit Data Privacy: 'topics/speed-kit/privacy.md'
+        - Page Speed Analyzer: 'topics/speed-kit/analyzer.md'
+        - Speed Kit API: 'topics/speed-kit/api.md'
+        - Speed Kit Deactivation: 'topics/speed-kit/deactivation.md'
+        - Speed Kit Dynamic Blocks: 'topics/speed-kit/personalized.md'
+        - Speed Kit Refreshing Content: 'topics/speed-kit/refreshing.md'
+        - Speed Kit Whitelisting &amp; Blacklisting: 'topics/speed-kit/whiteblacklisting.md'
+        - 'Speed Kit: Getting Started': 'topics/speed-kit/index.md'
+        - How Speed Kit Works: 'topics/speed-kit/how-it-works.md'
 docs_dir: src
 site_dir: docs
 theme_dir: theme

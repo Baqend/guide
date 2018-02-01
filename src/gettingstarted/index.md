@@ -1,10 +1,16 @@
 ## Quickstart
 Follow this 5 minute quickstart, to setup a new web project with Baqend. We will build a simple message wall.
 
+
  <ol class="getting-started-list">
 <li>
 ###Create a Baqend Account
 To build a new application, first [create a Baqend account](http://dashboard.baqend.com/). Type in a name for your new application and a dedicated server instance will be deployed and hooked up to our global caching infrastructure (typically in 20 seconds).
+
+Watch our starter video as an introduction or proceed with the next step.
+<p align="center">
+<iframe src="https://www.youtube-nocookie.com/embed/Ba2Dv6e8rKs?rel=0&amp;showinfo=0" allowfullscreen="" width="560" height="315" frameborder="0"></iframe>
+</p>
 </li>
 <li>
 ###Download Boilerplate Web Project
