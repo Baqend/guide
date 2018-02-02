@@ -103,7 +103,7 @@ The <code>404.html</code> is returned whenever no hosted file is found for a URL
 
 ### SSL Hosting
 
-All data accessed over the Baqend SDK is SSL-secured by enforcing encryption at [connect](/topics/getting-started#connect-your-app-to-baqend). 
+All data accessed over the Baqend SDK [can be SSL-secured](/topics/getting-started#connect-your-app-to-baqend) by enforcing encryption at connect. 
 To enable SSL encryption for your hosted assets as well, generate and activate an SSL certificate for your custom domain.  
 To this end, navigate to the "Hosting" section in the dashboard *settings*.  
 Here, do the following:
