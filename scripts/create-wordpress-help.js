@@ -5,12 +5,12 @@ const copy = require('copy');
 
 
 function replaceNextTag(string, tag) {
-  const regex = new RegExp(`<${tag}[^<]*>((.|\\n)(?!</${tag}>))*.</${tag}>`);
+  const regex = new RegExp(`<${tag}[^<]*>((.|\\n)(?!</${tag}>))*(.|\\n)</${tag}>`);
   return string.replace(regex, '');
 }
 
 function insertCode(string, tag, code) {
-  const regex = new RegExp(`<${tag}[^<]*>(((.|\\n)(?!</${tag}>)(?!<${tag}>))*.)</${tag}>`, 'g');
+  const regex = new RegExp(`<${tag}([^<]*)>(((.|\\n)(?!</${tag}>)(?!<${tag}>))*.)</${tag}>`, 'g');
   return string.replace(regex, code);
 }
 
@@ -42,11 +42,16 @@ fs.readFile(sourceFilePath, { encoding: 'utf8' }, (err, html) => {
   // Remove Installation instructions
   result = replaceNextTag(result, 'h2');
   result = replaceNextTag(result, 'p');
+  result = replaceNextTag(result, 'h3');
+  result = replaceNextTag(result, 'ol');
+  result = replaceNextTag(result, 'h3');
+  result = replaceNextTag(result, 'p');
+  // result = replaceNextTag(result, 'ol');
 
-  result = insertCode(result, 'h2', "<h2><?php _e('$1', 'baqend') ?></h2>");
-  result = insertCode(result, 'p', "<p><?php _e('$1', 'baqend') ?></p>");
-  result = insertCode(result, 'li', "<li><?php _e('$1', 'baqend') ?></li>");
-  result = insertCode(result, 'strong', "<strong><?php _e('$1', 'baqend') ?></strong>");
+  result = insertCode(result, 'h2', "<h2$1><?php _e('$2', 'baqend') ?></h2>");
+  result = insertCode(result, 'p', "<p><?php _e('$2', 'baqend') ?></p>");
+  result = insertCode(result, 'li', "<li$1><?php _e('$2', 'baqend') ?></li>");
+  result = insertCode(result, 'strong', "<strong><?php _e('$2', 'baqend') ?></strong>");
 
   result = replaceImgSrc(result);
 
