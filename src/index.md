@@ -14,21 +14,21 @@
 ### Intro
 <div class="chapter-container">
   <div class="chapter-item-outer">
-    <a class="chapter-item" href="gettingstarted/">
-      <span class="chapter-heading">
-        <span class="icon"><img src="icons/quickstart.png"/></span>
-        <span class="text">Platform</span>
-      </span>
-      <span class="chapter-info">How to embed Baqend in your JavaScript app to get started quickly.</span>
-    </a>
-  </div>
-  <div class="chapter-item-outer">
     <a class="chapter-item" href="topics/speed-kit/intro">
       <span class="chapter-heading">
         <span class="icon"><img src="icons/speedkit.png"/></span>
         <span class="text">Speed Kit</span>
       </span>
       <span class="chapter-info">An introduction to Speed Kit, what it does, and why you should care.</span>
+    </a>
+  </div>
+  <div class="chapter-item-outer">
+    <a class="chapter-item" href="gettingstarted/">
+      <span class="chapter-heading">
+        <span class="icon"><img src="icons/quickstart.png"/></span>
+        <span class="text">Platform</span>
+      </span>
+      <span class="chapter-info">How to embed Baqend in your JavaScript app to get started quickly.</span>
     </a>
   </div>
   <div class="chapter-item-outer">
@@ -50,7 +50,7 @@
         <span class="icon"><img src="icons/speedkit.png"/></span>
         <span class="text">Getting Started</span>
       </span>
-      <span class="chapter-info">An overview over Speed Kit and a short guide how to accelerate your website with it.</span>
+      <span class="chapter-info">An overview of Speed Kit and a short guide how to accelerate your website with it.</span>
     </a>
   </div>
   <div class="chapter-item-outer">
@@ -83,10 +83,19 @@
   <div class="chapter-item-outer">
     <a class="chapter-item" href="topics/speed-kit/refreshing">
       <span class="chapter-heading">
-        <span class="icon"><img src="icons/speed-kit-deactivation.png"/></span>
+        <span class="icon"><img src="icons/speed-kit-refreshing.png"/></span>
         <span class="text">Refresh Policies</span>
       </span>
       <span class="chapter-info">How to refresh content on-demand or regularly.</span>
+    </a>
+  </div>
+  <div class="chapter-item-outer">
+    <a class="chapter-item" href="topics/speed-kit/how-it-works">
+      <span class="chapter-heading">
+        <span class="icon"><img src="icons/speed-kit-how-it-works.png"/></span>
+        <span class="text">How It Works</span>
+      </span>
+      <span class="chapter-info">Technical details on how Speed Kit works under the hood.</span>
     </a>
   </div>
 <!-- 

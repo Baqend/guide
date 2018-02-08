@@ -4,12 +4,36 @@ repo_url: 'https://github.com/Baqend/guide'
 pages:
     - Guide:
         - Home: 'index.md'
-        - Roadmap: 'roadmap.md'
         - 'Speed Kit': 'topics/speed-kit/intro.md'
         - 'Platform': 'topics/getting-started/index.md'
-        - Quickstart: 'gettingstarted/index.md'
-        - 'CLI': 'topics/cli/index.md'
+        - Roadmap: 'roadmap.md'
         - 'FAQ': 'topics/faq/index.md'
+
+    - Starter Kits:
+        - Starter Kits Overview: 'starter-kits/index.md'
+        - Angular 2 Starter Kit: 'starter-kits/angular2.md'
+        - React and React Native Starter: 'starter-kits/react.md'
+        - Bootstrap Starter Kit: 'starter-kits/bootstrap.md'
+        - Ionic 2 Starter Kit: 'starter-kits/ionic2.md'
+        - Ionic Starter Kit: 'starter-kits/ionic.md'
+
+    - hidden:
+        - 'Rest': 'rest.md'
+        - 'Websockets': 'websockets.md'
+        - Why Speed Kit: 'topics/speed-kit/why.md'
+        - 'Speed Kit: Getting Started': 'topics/speed-kit/index.md'
+        - Page Speed Analyzer: 'topics/speed-kit/analyzer.md'
+        - WordPress Plugin: 'topics/wordpress/index.md'
+        - Speed Kit Speedup Policies: 'topics/speed-kit/whiteblacklisting.md'
+        - Speed Kit Refresh Policies: 'topics/speed-kit/refreshing.md'
+        - How Speed Kit Works: 'topics/speed-kit/how-it-works.md'
+        - Speed Kit API: 'topics/speed-kit/api.md'
+        - 'Speed Kit: Accelerating Personalized Content': 'topics/speed-kit/personalized.md'
+        - Speed Kit Deactivation: 'topics/speed-kit/deactivation.md'
+        - Speed Kit Data Privacy: 'topics/speed-kit/privacy.md'
+
+        - 'CLI': 'topics/cli/index.md'
+        - Quickstart: 'gettingstarted/index.md'
         - 'CRUD': 'topics/crud/index.md'
         - 'Schema and Types': 'topics/schema/index.md'
         - 'Queries': 'topics/queries/index.md'
@@ -25,30 +49,7 @@ pages:
         - 'Caching': 'topics/caching/index.md'
         - 'Logging': 'topics/logging/index.md'
         - 'Backups': 'topics/backups/index.md'
-        - WordPress Plugin: 'topics/wordpress/index.md'
         - REST API: 'topics/rest-api/index.md'
-
-    - Starter Kits:
-        - Starter Kits Overview: 'starter-kits/index.md'
-        - Angular 2 Starter Kit: 'starter-kits/angular2.md'
-        - React and React Native Starter: 'starter-kits/react.md'
-        - Bootstrap Starter Kit: 'starter-kits/bootstrap.md'
-        - Ionic 2 Starter Kit: 'starter-kits/ionic2.md'
-        - Ionic Starter Kit: 'starter-kits/ionic.md'
-
-    - hidden:
-        - 'Rest': 'rest.md'
-        - 'Websockets': 'websockets.md'
-        - Why Speed Kit: 'topics/speed-kit/why.md'
-        - Speed Kit Data Privacy: 'topics/speed-kit/privacy.md'
-        - Page Speed Analyzer: 'topics/speed-kit/analyzer.md'
-        - Speed Kit API: 'topics/speed-kit/api.md'
-        - Speed Kit Deactivation: 'topics/speed-kit/deactivation.md'
-        - Speed Kit Dynamic Blocks: 'topics/speed-kit/personalized.md'
-        - Speed Kit Refreshing Content: 'topics/speed-kit/refreshing.md'
-        - Speed Kit Whitelisting &amp; Blacklisting: 'topics/speed-kit/whiteblacklisting.md'
-        - 'Speed Kit: Getting Started': 'topics/speed-kit/index.md'
-        - How Speed Kit Works: 'topics/speed-kit/how-it-works.md'
 docs_dir: src
 site_dir: docs
 theme_dir: theme
