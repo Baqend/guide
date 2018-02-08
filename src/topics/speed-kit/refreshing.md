@@ -69,7 +69,7 @@ In the following, we provide some use cases and the corresponding filters:
         }
 
 
-
+<!--  
 
 ## Real-Time Refreshing
 
@@ -103,3 +103,4 @@ A status in the dashboard informs you if the refresh was successful.
 Refresh filters that have already been executed are saved in your history and can be run again at any time.
 
 Our
+-->
