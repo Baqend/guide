@@ -19,7 +19,7 @@ The response will contain the query result.
   The user API enables authentication and authorization. It offers the ability to register and login users, change passwords, and usernames.
   
 <div class="note"><strong>Note:</strong> 
-To ensure backward compatibility, all endpoints start with an <strong>API version number</strong>. The current version is <strong>v1</strong>: <code>https://<app-name>.app.baqend.com/v1</code>. 
+To ensure backward compatibility, all endpoints start with an <strong>API version number</strong>. The current version is <strong>v1</strong>: <code>https://&lt;app-name&gt;.app.baqend.com/v1</code>. 
 </div> 
 
 ## CRUD

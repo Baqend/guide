@@ -40,11 +40,11 @@ All assets stored in the **www** root folder can be accessed under your app doma
 
 ### Deployment
 
-To deploy your assets you can either use the file explorer in the Baqend dashboard (e.g. drag-and-drop files and folders) or for an easy, automated deployment user the [**Baqend CLI**](/topics/cli/).
+To deploy your assets, you can either use the file explorer in the Baqend dashboard (e.g. drag and drop files and folders) or the [**Baqend CLI**](/topics/cli/) for an easy, automated deployment.
 
 ### Custom Domains
 
-To serve your website under your own domain you have to create a dns entry and register the custom domain in your Baqend dashboard:
+To serve your website under your own domain, you have to create a DNS entry and register the custom domain in your Baqend dashboard:
 
 1. Log into the account at your domain provider and add a CNAME rule like the following to your DNS entries:
 
@@ -61,7 +61,7 @@ If you cannot find your provider's CNAME configuration instructions, Google main
 
 
 
-<div class="note"><strong>Note:</strong> The registration of your domain as well as your dns-entry can take a few minutes until they are accessable. If you have trouble configuring your CNAME records, contact us at <a href="maito:support@baqend.com">support@baqend.com.</a></div>
+<div class="note"><strong>Note:</strong> The registration of your domain as well as your DNS entry can take a few minutes until they are accessible. If you have trouble configuring your CNAME records, contact us at <a href="maito:support@baqend.com">support@baqend.com.</a></div>
  <div class="note"><strong>Note:</strong> If you can't use a subdomain and want to directly use an <b>apex/naked-domain</b> (such as <code>exmaple.com</code>, without <code>www</code>) 
 you should create four <b>A records</b> which point to our Anycast IP addresses:
 
@@ -103,6 +103,25 @@ The <code>404.html</code> is returned whenever no hosted file is found for a URL
 
 ### SSL Hosting
 
-All data accessed over the Baqend SDK is SSL encrypted by enforcing encryption at [connect](/topics/getting-started#connect-your-app-to-baqend). 
-If you need SSL encryption for your hosted assets too please contact us ([support@baqend.com](mailto:support@baqend.com?subject=SSL%20Hosting)),
-as this feature is not automated yet.
+All data accessed over the Baqend SDK [can be SSL-secured](/topics/getting-started#connect-your-app-to-baqend) by enforcing encryption at connect. 
+To enable SSL encryption for your hosted assets as well, generate and activate an SSL certificate for your custom domain.  
+To this end, navigate to the "Hosting" section in the dashboard *settings*.  
+Here, do the following:
+
+1. Click on **"Request SSL certificate"**:  
+This will queue your request for later activation. 
+If you plan to request more than one SSL certificate, request all of them first and then activate them in one batch (see next step). 
+2. Click on **"Activate SSL certificates"**:  
+You may activate several certificates at once, *but you may only start 2 activation processes per day*. 
+3. **Confirm**:  
+By confirming the activation dialog, your SSL certificate will be activated. Your custom domain is now reachable via `https://yourdomain.com`.
+
+Behind the curtains, we are using [Let's Encrypt](https://letsencrypt.org/) to automate the entire process. 
+
+#### Your Advantages
+
+Here are your advantages at a glance:
+
+- The certificates are *deployed directly at the CDN* which makes the initial handshake **superfast**.
+- Once activated, your SSL certificates will be **renewed automatically**, so you don't have to maintain them yourself. 
+- **HTTP/2** is activated by default to make your website as fast as possible.
