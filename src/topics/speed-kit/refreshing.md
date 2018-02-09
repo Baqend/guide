@@ -5,11 +5,74 @@ To prevent users from seeing outdated content, Speed Kit therefore needs to refr
 
 This section describes how to configure the two main aspects of refreshing content:
 
-- **What to refresh?**  
-You have various options to [specify the content](#content-specification) to be refreshed.
 - **When to refresh?**  
 You can trigger a [real-time refresh](#real-time-refreshing) to update Speed Kit caches *immediately*.  
-You can [schedule refreshes](#scheduled-refreshing) to update Speed Kit caches periodically. 
+You can also [schedule refreshes](#scheduled-refreshing) in the dashboard to update Speed Kit caches periodically or trigger them by hand. 
+- **What to refresh?**  
+You have various options to [specify the content](#content-specification) to be refreshed.
+
+
+
+## Real-Time Refreshing By API Call
+
+The ideal way to refresh your cached content is to call our REST API directly from your system whenever there is a change on your website. 
+The REST endpoint is `https://<your-app-name>.app.baqend.com/v1/asset/revalidate` and you need a [user access token](../rest-api/#authentication) to be sent with the POST request.  
+Simply add an authorization header to your request. It looks like this:
+
+    authorization: BAT <your-token>
+    
+### Obtaining & Revoking the User Token
+
+To get the user token required for the API call described above, do the following:
+
+1. **Login**: log into your dashboard as root user
+2. **Open console**: open the console of your browser 
+3. **Request the token**:
+
+        DB.User.me.requestAPIToken(console.log)
+        
+<div class="note">
+    <strong>Note:</strong>
+    The token will <strong>never expire</strong>, i.e. it is valid forever! You should revoke it, when it is no longer used.
+</div>
+    
+### Revoking the User Token
+
+In order to revoke it, log into your dashboard and open your console as [described above](#obtaining-revoking-the-user-token). Then, call the following:
+
+        DB.User.revokeTokens(DB.User.me)
+
+
+
+
+## Scheduled Refreshing Via Dashboard
+
+To schedule a periodic refresh of your web content, visit the *Refresh Content* section in your [dashboard](https://dashboard.baqend.com) and click on *Create new Job*. 
+Here you have the following options in the dashboard:
+
+1. **Content**:  
+By default, all content is refreshed. 
+However, you can also define custom [content filters](#content-specification) to make your refresh routine more efficient. 
+2. **URLs**:  
+By default, your entire website will be refreshed. 
+However, you can also make a more fine-great choice by specifying individual URLs (e.g. `https://www.baqend.com/guide/`) or URL prefixes (e.g. `https://www.baqend.com/guide/topics/*`).
+
+3. **Schedule**:  
+By default, your job is executed *once every hour*, but you can choose another interval if you like. 
+You can also provide a cron pattern to specify *arbitrary* schedules. 
+
+To view the details of your refresh task, click on the **<i class="fa fa-pencil"></i> button** on the right. 
+
+### Scheduled Execution
+
+After you have finished configuring your refresh job, it will be run according to the interval you specified (e.g. every hour or once a day). 
+For every job, you can see when the last execution was and when the next execution will be performed. 
+
+
+### Manual Execution
+You can also manually trigger a refresh by clicking the **<i class="fa fa-play"></i> button** on a particular row in the table or by clicking the **Refresh Everything NOW!** button at the top of the page. 
+A status message will inform you when the refresh has been completed. 
+
 
 ## Content Specification
 
@@ -67,40 +130,3 @@ In the following, we provide some use cases and the corresponding filters:
                 "mediaType": "text/plain"
             }
         }
-
-
-<!--  
-
-## Real-Time Refreshing
-
-The ideal way to refresh your cached content is to call our REST API directly from your system whenever there is a change on your website. 
-The REST endpoint is `https://<your-app-name>.app.baqend.com/v1/asset/revalidate` and you need a [user access token](../rest-api/#authentication) to be sent with the POST request. 
-For now, to get this token, you have to log into your Baqend App on our [dashboard](https://dashboard.baqend.com) and open your browser's developer console. 
-Use the developer console to call `DB.token` to receive your token. Now you have to add an authorization header to your request which looks like this:
-
-    authorization: BAT <your-token>
-    
-<div class="note">
-    <strong>Note:</strong>
-    The token is only valid for 24 hours. The process to get a long-life user access token will change soon and thus become significantly more comfortable. As soon as this update is implemented, we will inform every customer and update this section.
-</div>
-
-
-## Scheduled Refreshing
-
-In order to manually trigger a Speed Kit refresh, you have to create a custom refresh job first. 
-To this end, visit the "Refresh Content" section in your [dashboard's](https://dashboard.baqend.com) and click on "Create new Job". 
-When creating a refresh job, you have the following options in the dashboard:
-
-1. By default, all content will be refreshed.
-As first you can choose which kind of content should be affected by the appropriate filter.
-Therefore a list of possible content types (HTML, CSS, JavaScript, etc.) is provided to you.
-The second option allows you to specify the URL´s to be handled by the refresh filter.
-These URL's can be entered in a specific way like `https://www.baqend.com` or by using a prefix like `https://www.baqend.com/assets/*` (refresh all files under `https://www.baqend.com/assets/`).
-
-After you have finished configuring your refresh job, you can run it.
-A status in the dashboard informs you if the refresh was successful.
-Refresh filters that have already been executed are saved in your history and can be run again at any time.
-
-Our
--->

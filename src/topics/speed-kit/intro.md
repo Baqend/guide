@@ -1,6 +1,13 @@
 # Speed Kit: Intro
 In this section, we describe how to speed up your website with Baqend Speed Kit with 5 easy steps. For a more high-level introduction, see our [overview section](../speed-kit).
 
+
+Watch this short video to learn how Speed Kit can help you make fast page loads your competitive advantage:
+
+<p align="center">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/lPGSFpiKBpg?rel=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+</p>
+
  <ol class="getting-started-list">
 <li>
 ###Configure Speed Kit

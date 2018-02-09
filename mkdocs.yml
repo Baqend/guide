@@ -33,7 +33,6 @@ pages:
         - Speed Kit Data Privacy: 'topics/speed-kit/privacy.md'
 
         - 'CLI': 'topics/cli/index.md'
-        - Quickstart: 'gettingstarted/index.md'
         - 'CRUD': 'topics/crud/index.md'
         - 'Schema and Types': 'topics/schema/index.md'
         - 'Queries': 'topics/queries/index.md'
@@ -49,6 +48,7 @@ pages:
         - 'Caching': 'topics/caching/index.md'
         - 'Logging': 'topics/logging/index.md'
         - 'Backups': 'topics/backups/index.md'
+        - Quickstart: 'gettingstarted/index.md'
         - REST API: 'topics/rest-api/index.md'
 docs_dir: src
 site_dir: docs
