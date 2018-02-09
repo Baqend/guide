@@ -6,8 +6,8 @@ To prevent users from seeing outdated content, Speed Kit therefore needs to refr
 This section describes how to configure the two main aspects of refreshing content:
 
 - **When to refresh?**  
-You can trigger a [real-time refresh](#real-time-refreshing) to update Speed Kit caches *immediately*.  
-You can also [schedule refreshes](#scheduled-refreshing) in the dashboard to update Speed Kit caches periodically or trigger them by hand. 
+You can trigger a [real-time refresh](#real-time-refreshing-by-api-call) to update Speed Kit caches *immediately*.  
+You can also [schedule refreshes](#scheduled-refreshing-via-dashboard) in the dashboard to update Speed Kit caches periodically or trigger them by hand. 
 - **What to refresh?**  
 You have various options to [specify the content](#content-specification) to be refreshed.
 

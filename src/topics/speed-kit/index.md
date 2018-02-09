@@ -4,7 +4,7 @@ Baqend Speed Kit is a **plug-in solution** to accelerate your website.
 By rerouting your web traffic through Baqend´s caching infrastructure, Speed Kit achieves a performance boost of typically **50-300%**. 
 
 On this page, we explain what Speed Kit does and how you can use it. 
-For a more high-level introduction to what Speed Kit is and why you should care, see our [Speed Kit intro](./intro).
+For a more high-level introduction to what Speed Kit is and why you should care, see our [Speed Kit intro](./intro/).
 
 ## In a nutshell
 
