@@ -5,7 +5,7 @@ how **Baqend Speed Kit** influences the performance of your website:
 It always compares baseline performance without Speed Kit (left) against the same website accelerated by Speed Kit (right). 
 To this end, the analyzer runs a series of tests against your website and an accelerated version; finally, it reports how much of an edge Speed Kit would give you over your current tech stack. 
 
-<img src="../page-speed-analyzer.png" style="width:100%;">
+<img src="../page-speed-analyzer.png" style="width:85%;">
 
 <div class="tip">
     <strong>Tip:</strong>
