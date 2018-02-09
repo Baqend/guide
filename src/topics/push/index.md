@@ -1,7 +1,7 @@
 # Push Notifications
 
-Baqend provides the ability to send push notifications to end users devices. Before you can send a push notification you 
-must first register the Device of the User. Registered devices can then later be used in Baqend Code to send push
+Baqend provides the ability to send push notifications to end users' devices. Before you can send a push notification, you 
+must first register the device of the user. Registered devices can then later be used in Baqend Code to send push
 notifications to. 
 
 <div class="note"><strong>Note:</strong> Currently Baqend supports IOS and Android devices, support for more platforms are planed. </div>
@@ -10,38 +10,35 @@ notifications to.
 
 ### Apple Push Notifcation Service (APNS)
 
-To enable push notifications for iOS devices you have to upload your production or sandbox certificate in the
-Baqend settings view of your app. Please upload your certificate as a *p12*-file without any password protection. Otherwise it's
+To enable push notifications for iOS devices, you have to upload your production or sandbox certificate to Baqend first. 
+To this end, go to the *Push Notifications* section in the dashboard settings. 
+Please upload your certificate as a *p12*-file without any password protection. Otherwise, it's
 not possible for Baqend to use it.
 
-The sandbox certificate is needed, when testing the app directly from Xcode. If the app has been published to the app
+The sandbox certificate is needed when testing the app directly from Xcode. If the app has been published to the app
 store or should be tested in *TestFlight*, you must upload your production certificate. It's currently not possible
 to use both certificate types at the same time.
 
 [This tutorial](http://help.apple.com/xcode/mac/current/#/dev11b059073)
-show hows to enabled push notification in your app and how to export your certificate as a *p12*-file.
+shows how to enable push notification in your app and how to export your certificate as a *p12*-file.
 
 ### Google Cloud Messaging (GCM)
 
-To enabled push notifications for Android devices Baqend needs your GCM API key. The key can be saved in the Baqend settings
-view of your app.
+To enable push notifications for Android devices, you need to upload your GCM API key to Baqend. 
+To this end, go to the *Push Notifications* section in the dashboard settings and enter your API key. 
 
-To get your API key browse to the [Firebase Console](https://console.firebase.google.com/), open your project and 
-click on the settings icon on the left and open your project settings. On the *Cloud Messaging* tab are your project 
-credentials with keys. The *legacy server key* is the key which will be stored in the Baqend settings.
+To get your API key, browse to the [Firebase Console](https://console.firebase.google.com/), open your project and 
+click on the settings icon on the left and open your project settings. You can find your project credentials with keys in the *Cloud Messaging* tab. The *legacy server key* is the one that will be stored in the Baqend settings.
 
-To set up a Firebase Cloud Messaging Client App in your Android app please follow 
+To set up a Firebase Cloud Messaging Client App in your Android app, please follow 
 [this tutorial](https://firebase.google.com/docs/cloud-messaging/android/client).
 
 ## Device Registration
 
-A registered device is represented in Baqend by the Device class. The Device class contains the `deviceOs` field which
-contains the platform name of the registered device, currently `Android` or `IOS`. To register a new device you must 
-first obtain a device token with your used mobile framework. With the token you can register the device on Baqend.
+A registered device is represented in Baqend by the Device class. The Device class contains the `deviceOs` field with the platform name of the registered device, currently `Android` or `IOS`. To register a new device, you must 
+first obtain a device token with your used mobile framework. With the token, you can then register the device on Baqend.
 
-It is not required to register a Device every time your App initialize. The SDK provides you a flag, that indicates if 
-the Device is already registered. Therefore you must only request a device token if the device is currently not 
-registered:
+You don't have to register a device every time your app initializes: Use the `Device.isRegistered` flag to check whether it is really necessary. As illustrated below, you thus only have to request a device token if the device is currently not registered:
 
 ```js
 DB.ready().then(function() {
@@ -56,9 +53,9 @@ DB.ready().then(function() {
 
 The device class can be extended with custom fields like any other class in Baqend. This allows you to save additional
 data with your device, which you can later use to query the devices that should receive a push notification. To persist 
-additional data with your device while registering it, you can pass a Device object to the registration method.
+additional data with your device while registering it, you can pass a `Device` object to the registration method.
 
-A common use case is to save the user with a device, that allows you to send a push notification to the users device 
+A common use case is to save the user with a device, that allows you to send a push notification to the user's device 
 later on.
 
 ```js
@@ -72,7 +69,7 @@ DB.Device.register('IOS', deviceToken, device);
 ## `PushMessage` Class
 
 To send a push notification, the SDK provides a `PushMessage` class which can be used to send a message to one or more 
-devices. In addition to the message itself a `PushMessage` can transport additional information to the end users device.
+devices. A push message can transport additional information to the end user's device.
  
  <div class="table-wrapper"><table class="table">
   <tr>
@@ -110,13 +107,13 @@ devices. In addition to the message itself a `PushMessage` can transport additio
 ## Sending Push
 
 Push notifications can only be sent within [Baqend code](/topics/baqend-code). To send a push notification to one or more devices, you must
-first obtain the desired device ids. Therefore you can use the additional data stored in the device object to query those, 
-or can save the device reference in another object.
+first obtain the desired device IDs. Therefore, you can use the additional data stored in the `Device` object to query those, 
+or you can save the device reference in another object.
 
 ```js
 /**
  * The Baqend code sends a push notification to the given list of users.
- * Therefore the extended device class contains a user field.
+ * Therefore, the extended device class contains a user field.
  * @param {Array<String>} data.users A list of user ids
  * @param {String} data.message The message to push
  */

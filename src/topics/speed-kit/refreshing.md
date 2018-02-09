@@ -1,6 +1,6 @@
 # Refreshing Content
 
-Speed Kit serves a copy of your web content. 
+Speed Kit accelerates your website by serving a cached copy of your web content. 
 To prevent users from seeing outdated content, Speed Kit therefore needs to refresh after any change on your website. 
 
 This section describes how to configure the two main aspects of refreshing content:
