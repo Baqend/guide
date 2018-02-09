@@ -4,7 +4,7 @@ To accelerate content delivery, Speed Kit intercepts requests made by the browse
 Instead of loading content from the original source, the browser fetches data from Baqend's fast infrastructure.  
 The following schematic illustrates how Speed Kit works. 
 
-<img src="../speed-kit/how-it-works.png" style="width:85%; display: block; margin-left: auto; margin-right: auto;">
+<img src="../how-it-works.PNG" style="width:85%; display: block; margin-left: auto; margin-right: auto;">
 
 To activate Speed Kit, you simply include a code snippet into your website which we generate for you. 
 Whenever a user is visiting your website, the snippet then launches the Speed Kit [**Service Worker**](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API), a process running concurrently to the main thread of execution in your browser. 
