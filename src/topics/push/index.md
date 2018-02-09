@@ -18,7 +18,7 @@ The sandbox certificate is needed, when testing the app directly from Xcode. If 
 store or should be tested in *TestFlight*, you must upload your production certificate. It's currently not possible
 to use both certificate types at the same time.
 
-[This tutorial](https://developer.apple.com/library/ios/documentation/IDEs/Conceptual/AppDistributionGuide/AddingCapabilities/AddingCapabilities.html#//apple_ref/doc/uid/TP40012582-CH26-SW6)
+[This tutorial](http://help.apple.com/xcode/mac/current/#/dev11b059073)
 show hows to enabled push notification in your app and how to export your certificate as a *p12*-file.
 
 ### Google Cloud Messaging (GCM)
@@ -26,14 +26,12 @@ show hows to enabled push notification in your app and how to export your certif
 To enabled push notifications for Android devices Baqend needs your GCM API key. The key can be saved in the Baqend settings
 view of your app.
 
-To get your API key browse to the [Google Developers Console](https://console.developers.google.com/), open
-*Enable and manage APIs*, create or chose your app, click on *Credentials* on the left side. If you already created
-an server key, copy it from the list and save it at the Baqend settings view of your app, otherwise click on
-*Create credentials* -> *API key* -> *Server key* to create a new api key. It's important, that the field
-*Accept requests from these server IP addresses* is empty.
+To get your API key browse to the [Firebase Console](https://console.firebase.google.com/), open your project and 
+click on the settings icon on the left and open your project settings. On the *Cloud Messaging* tab are your project 
+credentials with keys. The *legacy server key* is the key which will be stored in the Baqend settings.
 
-In your app itself you have to use the *sender ID* and not the server API key. The *sender ID* is called *project number*
-in the Google Developers Console.
+To set up a Firebase Cloud Messaging Client App in your Android app please follow 
+[this tutorial](https://firebase.google.com/docs/cloud-messaging/android/client).
 
 ## Device Registration
 
