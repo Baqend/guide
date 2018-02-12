@@ -77,7 +77,7 @@ whitelist: [
         host: [
             'www.baqend.com',
             'baqend.com',
-            /*\.baqend\.com/
+            /.*\.baqend\.com/
         ],
         contentType: [
             'document',
