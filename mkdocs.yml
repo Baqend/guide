@@ -46,6 +46,7 @@ pages:
         - 'Hosting': 'topics/hosting/index.md'
         - 'Files': 'topics/files/index.md'
         - 'Caching': 'topics/caching/index.md'
+        - 'JavaScript SDK': 'topics/getting-started/index.md'
         - 'Logging': 'topics/logging/index.md'
         - 'Backups': 'topics/backups/index.md'
         - Quickstart: 'gettingstarted/index.md'
