@@ -173,9 +173,9 @@
     <a class="chapter-item" href="topics/getting-started/">
       <span class="chapter-heading">
         <span class="icon"><img src="icons/getting_started.png"/></span>
-        <span class="text">Getting Started</span>
+        <span class="text">JavaScript SDK</span>
       </span>
-      <span class="chapter-info">How you set up and get running your first app.</span>
+      <span class="chapter-info">How to get your first app running with the JavaScript SDK.</span>
     </a>
   </div>
   <div class="chapter-item-outer">

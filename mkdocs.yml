@@ -4,8 +4,8 @@ repo_url: 'https://github.com/Baqend/guide'
 pages:
     - Guide:
         - Home: 'index.md'
-        - 'Speed Kit': 'topics/speed-kit/intro.md'
-        - 'Platform': 'topics/getting-started/index.md'
+        - 'Speed Kit': 'index.md'
+        - 'Platform': 'index.md'
         - Roadmap: 'roadmap.md'
         - 'FAQ': 'topics/faq/index.md'
 
