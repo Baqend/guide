@@ -18,6 +18,7 @@ pages:
         - Ionic Starter Kit: 'starter-kits/ionic.md'
 
     - hidden:
+        - Why Speed Kit: 'topics/speed-kit/intro.md'
         - 'Rest': 'rest.md'
         - 'Websockets': 'websockets.md'
         - Why Speed Kit: 'topics/speed-kit/why.md'
