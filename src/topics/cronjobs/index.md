@@ -35,6 +35,7 @@ A **cron job pattern** may contain the following:
  
 - *asterisks* (`*`; executes *every* second, *every* minute etc.),
 - *numbers* (e.g. `3`), 
+- *hash* (i.e. `H` to use any valid value from the corresponding value range), 
 - *ranges* (e.g. `1-6` or `1-3,5`), 
 - and *steps* (e.g. `*/2`).
 
@@ -56,15 +57,19 @@ Our cron job patterns adhere to the below structure:
 
 Here are a few examples for patterns and possible use cases:
 
-- `0 */10 * * * *`: Perform a healthcheck every 10 minutes.
+- `H */10 * * * *`: Perform a healthcheck every 10 minutes.
+- `0 */10 * * * *`: Perform a healthcheck every 10 minutes, at the beginning of the minute *sharp*.
 - `* */10 * * * *`: Perform a healthcheck on each second during every 10th minute.
 - `0 0 20 * * 1-5`: Run a backup every weekday (Monday through Friday), at 8 PM.
 - `0 30 12 * * 1,3,5`: Email statistics to your CTO every Monday, Wednesday and Friday, at 12:30 PM.
 
-<div class="warning"><strong>Asterisk (<code>*</code>) semantics:</strong>
-Be cautious when using <code>*</code> in your patterns, because it translates to execution on <em>every</em> tick. For illustration, consider the following two patterns:
+<div class="warning"><strong>Asterisk (<code>*</code>) and hash (<code>H</code>) semantics:</strong>
+Be cautious when using <code>*</code> in your patterns, because it translates to execution on <em>every</em> tick. 
+If you don't care about the concrete value (e.g. the specific second second), use the value <code>H</code>; it will be replaced with a random value. 
+For illustration, consider the following two patterns:
 <ul>
 	<li><code><u>0</u> */10 * * * *</code>: Perform a task on the <u>1st second</u> of every 10th minute.</li>
+	<li><code><u>H</u> */10 * * * *</code>: Perform a task on <u>any second</u> of every 10th minute.</li>
 	<li><code><u>*</u> */10 * * * *</code>: Perform a task on the <u>every second</u> of every 10th minute.</li>
 </ul>
 </div>
