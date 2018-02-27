@@ -65,8 +65,8 @@ Here are a few examples for patterns and possible use cases:
 
 <div class="warning"><strong>Asterisk (<code>*</code>) and hash (<code>H</code>) semantics:</strong>
 Be cautious when using <code>*</code> in your patterns, because it translates to execution on <em>every</em> tick. 
-If you don't care about the concrete value (e.g. the specific second second), use the value <code>H</code>; it will be replaced with a random value. 
-For illustration, consider the following two patterns:
+If you don't care about the concrete value (e.g. the specific second), use <code>H</code>; it will be replaced with a random value. 
+For illustration, consider the following patterns:
 <ul>
 	<li><code><u>0</u> */10 * * * *</code>: Perform a task on the <u>1st second</u> of every 10th minute.</li>
 	<li><code><u>H</u> */10 * * * *</code>: Perform a task on <u>any second</u> of every 10th minute.</li>
