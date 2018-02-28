@@ -43,7 +43,7 @@ Our [WordPress guide](../wordpress/) contains all the details on how to use it.
 
 When you install Speed Kit, we store a copy of your website on our globally distributed caching infrastructure: 
 Speed Kit then makes your website fast by intercepting browser requests and serving them from the fast Baqend caches. 
-As a result, your users see your content faster and your Web server is on the last pressure. 
+As a result, your users see your content faster and your Web server is under less pressure. 
 Since we are serving a *copy of your content*, though, you have to specify two aspects of Speed Kit's behavior:
 
 1. [**Speedup Policies**](./whiteblacklisting): *Which requests should Speed Kit accelerate and which should not?*  
