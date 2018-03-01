@@ -66,3 +66,5 @@ To learn more about Speed Kit, check out the following resources:
 - [Page Speed Analyzer](./analyzer): measure how much of an edge Speed Kit gives you over your existing website!
 - [How Speed Kit works](./how-it-works): a more in-depth description of how Speed Kit works.
 - [Data Privacy](./privacy): our policies for handling your data.
+- [Speed Kit Pitch deck (PDF)](../speed-kit/speed-kit.pdf)
+- [Two-Pager (PDF)](../speed-kit/2-pager.pdf)
