@@ -59,7 +59,7 @@ However, you can also make a more fine-great choice by specifying individual URL
 
 3. **Schedule**:  
 By default, your job is executed *once every hour*, but you can choose another interval if you like. 
-You can also provide a cron pattern to specify *arbitrary* schedules. 
+You can also provide a [cron pattern](../cronjobs/#cron-patterns) to specify *arbitrary* schedules. 
 
 To view the details of your refresh task, click on the **<i class="fa fa-pencil"></i> button** on the right. 
 
