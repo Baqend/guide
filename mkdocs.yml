@@ -52,6 +52,9 @@ pages:
         - 'Backups': 'topics/backups/index.md'
         - Quickstart: 'gettingstarted/index.md'
         - REST API: 'topics/rest-api/index.md'
+
+        - Plesk Docs: 'topics/plesk/docsBundle.md'
+        - Plesk FAQ: 'topics/plesk/faqBundle.md'
 docs_dir: src
 site_dir: docs
 theme_dir: theme
