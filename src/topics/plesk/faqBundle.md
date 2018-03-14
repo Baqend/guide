@@ -47,7 +47,7 @@ you have to specify [white- and blacklists](#what-are-whitelist-and-blacklist-fo
 ## How does installation work and how long does it take?
 
 For a **WordPress** website, Speed Kit can be installed with a single click of a button. For **custom websites**, setup
-usually takes only a few minutes. For details, check out our [installation guide](./speed-kit).
+usually takes only a few minutes. For details, check out our **installation guide**.
 
 ## What is the difference between Speed Kit and traditional content delivery networks (CDNs)?
 

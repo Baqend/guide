@@ -1,6 +1,7 @@
 #  How It Works
 
 On this page, we explain how Speed Kit makes your website faster. In more detail, you can learn
+
 1. *what* [Speed Kit](#speed-kit) does to accelerate your website,
 2. *how* you can [install & configure](#installation-configuration) does to accelerate your website,
 3. *which* metrics are measured by the the [Page Speed Analyzer](#page-speed-analyzer), and
@@ -12,7 +13,7 @@ To accelerate content delivery, Speed Kit intercepts requests made by the browse
 Instead of loading content from your original Plesk website, the browser fetches data from Speed Kit's superfast 
 caching infrastructure. The following schematic illustrates this procedure.
 
-<img src="../speedkit_plesk.png" style="width:85%; display: block; margin-left: auto; margin-right: auto;">
+![speek kit with plesk](speedkit_plesk.png)
 
 Whenever a user is visiting a your website, Speed Kit launches a **Service Worker**, a process running concurrently to the
 main thread of execution in your browser. This Service Worker intercepts and reroutes browser requests according to
@@ -56,7 +57,7 @@ performance of your website: It always compares baseline performance without Spe
 accelerated by Speed Kit (right). To this end, the analyzer runs a series of tests against your website and against an
 accelerated version; finally, it reports how much of an edge Speed Kit would give you over your current tech stack.
 
-<img src="../page-speed-analyzer.png" style="width:85%; display: block; margin-left: auto; margin-right: auto;">
+![page speed analyzer](page-speed-analyzer.png)
 
 ## Quantifiable Metrics
 
@@ -89,3 +90,7 @@ Thus, you can use the analyzer to **validate** Speed Kit's worth. But you can al
 algorithms to minimize loading times of websites. Publishers, shops, startups, and SMEs all face the challenge of
 competing with giants such as Amazon, Facebook, and Google. Baqend provides them with a technical platform to not only
 catch up with the market leaders, but to turn page speed into their competitive advantage. Baqend is based in Hamburg, Germany.
+
+<style>
+    img {width:85%; display: block; margin-left: auto !important; margin-right: auto !important;}
+</style>
