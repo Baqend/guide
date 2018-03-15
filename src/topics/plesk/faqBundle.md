@@ -1,3 +1,4 @@
+<!-- Plesk Start -->
 # FAQ – Frequently Asked Questions
 
 In the following, you can find questions that other customers had in the past.
@@ -75,3 +76,5 @@ There are three different mechanisms to keep Speed Kit's caches up-to-date:
 - **WordPress auto-refresh**: The Speed Kit WordPress plugin automatically detects changes to your content and updates caches accordingly and in realtime. However, this does not work in combination with some WordPress plugins (and also not for non-WordPress websites). As fallback for these cases, Speed Kit features two additional refresh mechanisms (see below).
 - **Periodic refresh**: By default, Speed Kit refreshes HTML files every 30 minutes and all other resources twice a day. However, you can customize periodical content refreshes by updating the existing policies or specifying new ones.
 - **Manual refresh**: You can always trigger a refresh for all your content manually; it will be executed immediately, so that no stale data will be left whatsoever.
+
+<!-- Plesk End -->

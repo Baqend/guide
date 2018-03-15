@@ -1,3 +1,4 @@
+<!-- Plesk Start -->
 #  How It Works
 
 On this page, we explain how Speed Kit makes your website faster. In more detail, you can learn
@@ -13,7 +14,7 @@ To accelerate content delivery, Speed Kit intercepts requests made by the browse
 Instead of loading content from your original Plesk website, the browser fetches data from Speed Kit's superfast 
 caching infrastructure. The following schematic illustrates this procedure.
 
-![speek kit with plesk](speedkit_plesk.png)
+<img src="../speedkit_plesk.png" style="width:85%; display: block; margin-left: auto; margin-right: auto;">
 
 Whenever a user is visiting a your website, Speed Kit launches a **Service Worker**, a process running concurrently to the
 main thread of execution in your browser. This Service Worker intercepts and reroutes browser requests according to
@@ -45,7 +46,7 @@ clicking on the "Configure Speed Kit" button.
 ## Custom Websites
 
 If you have a non-WordPress website, you need to click on the "Configure Speed Kit" button once again to enter the
-<b>Speed Kit Dashboard</b>. Here, you will be guided through the process of setting Speed Kit up for your website.
+**Speed Kit Dashboard**. Here, you will be guided through the process of setting Speed Kit up for your website.
 In more detail, you will be asked to do the following:
 1. Include a **code snippet** into your website (the Speed Kit Service Worker).
 2. Define **speed up policies** to tell Speed Kit which requests to accelerate and which requests to leave alone.
@@ -57,7 +58,7 @@ performance of your website: It always compares baseline performance without Spe
 accelerated by Speed Kit (right). To this end, the analyzer runs a series of tests against your website and against an
 accelerated version; finally, it reports how much of an edge Speed Kit would give you over your current tech stack.
 
-![page speed analyzer](page-speed-analyzer.png)
+<img src="../page-speed-analyzer.png" style="width:85%; display: block; margin-left: auto; margin-right: auto;">
 
 ## Quantifiable Metrics
 
@@ -91,6 +92,4 @@ algorithms to minimize loading times of websites. Publishers, shops, startups, a
 competing with giants such as Amazon, Facebook, and Google. Baqend provides them with a technical platform to not only
 catch up with the market leaders, but to turn page speed into their competitive advantage. Baqend is based in Hamburg, Germany.
 
-<style>
-    img {width:85%; display: block; margin-left: auto !important; margin-right: auto !important;}
-</style>
+<!-- Plesk End -->
