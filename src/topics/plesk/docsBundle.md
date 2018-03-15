@@ -62,7 +62,8 @@ accelerated version; finally, it reports how much of an edge Speed Kit would giv
 
 ## Quantifiable Metrics
 
-To compare both website versions, the analyzer uses Google's PageSpeed Insights API and private instances of WebPagetest.
+To compare both website versions, the analyzer uses [Google's PageSpeed Insights API](https://developers.google.com/speed/docs/insights/v1/getting_started)
+and private instances of [WebPagetest](https://sites.google.com/a/webpagetest.org/docs/private-instances).
 It collects the following metrics:
 
 - **Domains:** Number of unique hosts referenced by the page.
