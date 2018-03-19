@@ -21,7 +21,7 @@ function replaceImgSrc(string) {
 
 const wordPressPath = path.resolve(__dirname, '../../baqend-wordpress/baqend');
 const sourceFilePath = path.resolve(__dirname, '../docs/topics/wordpress/index.html');
-const destViewsPath = path.resolve(wordPressPath, './views/help.phtml');
+const destViewsPath = path.resolve(wordPressPath, './views/help.php');
 const destImgPath = path.resolve(wordPressPath, './img');
 
 console.info(`Parsing data from ${sourceFilePath}\nand writing it to ${destViewsPath}`);
@@ -55,7 +55,7 @@ fs.readFile(sourceFilePath, { encoding: 'utf8' }, (err, html) => {
 
   result = replaceImgSrc(result);
 
-  result = `<?php /*\n\nGenerated from Guide – Do not change manually!\n\n*/ ?><div class="wrap baqend-help"><h1><?php _e('Baqend &rsaquo; Help', 'baqend') ?></h1>\n<?php include 'tabs.phtml'; ?>${result}</div>\n`;
+  result = `<?php /*\n\nGenerated from Guide – Do not change manually!\n\n*/ ?><div class="wrap baqend-help"><h1><?php _e('Baqend &rsaquo; Help', 'baqend') ?></h1>\n<?php include 'tabs.php'; ?>${result}</div>\n`;
 
   fs.writeFile(destViewsPath, result, { encoding: 'utf8' }, (err) => {
     if (err) throw new Error(err);
