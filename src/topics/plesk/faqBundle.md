@@ -11,6 +11,7 @@ In the following, you can find questions that other customers had in the past.
 - [What is the difference between Speed Kit and traditional content delivery networks (CDNs)?](#what-is-the-difference-between-speed-kit-and-traditional-content-delivery-networks-cdns)
 - [How is Speed Kit different from other performance plug-ins?](#how-is-speed-kit-different-from-other-performance-plug-ins)
 - [I have outdated content on my website – what now?](#i-have-outdated-content-on-my-website-what-now)
+- [Speed Kit has not accelerated my website according to my favorite speed testing tool – why is that?](#speed-kit-has-not-accelerated-my-website-according-to-my-favorite-speed-testing-tool-why-is-that)
 
 ## What are whitelist and blacklist for?
 
@@ -76,5 +77,21 @@ There are three different mechanisms to keep Speed Kit's caches up-to-date:
 - **WordPress auto-refresh**: The Speed Kit WordPress plugin automatically detects changes to your content and updates caches accordingly and in realtime. However, this does not work in combination with some WordPress plugins (and also not for non-WordPress websites). As fallback for these cases, Speed Kit features two additional refresh mechanisms (see below).
 - **Periodic refresh**: By default, Speed Kit refreshes HTML files every 30 minutes and all other resources twice a day. However, you can customize periodical content refreshes by updating the existing policies or specifying new ones.
 - **Manual refresh**: You can always trigger a refresh for all your content manually; it will be executed immediately, so that no stale data will be left whatsoever.
+
+## Speed Kit has not accelerated my website according to my favorite speed testing tool – why is that?
+
+Speed Kit is built on a new web technology: **Service Workers**. 
+A service worker is activated when a user visits your website for the first time. 
+Therefore, Speed Kit reaches its full potential *after* the first load -- when the service worker is already ... well ... working. 
+
+Most state-of-the-art speed tests (e.g. Pingdom and PageSpeed Insights), however, *do not support Service Workers* at all. 
+In consequence, they measure your website with a deactivated Speed Kit. 
+Those few frameworks that do support Service Workers only measure page speed on first visit; this is what *WebPagetest* does, for example. 
+Since Speed Kit's service worker is being activated during first load, though, this measurement distorts the acceleration effect: 
+Every page load *after* the first load will be much faster.  
+
+To get a realistic impression of how Speed Kit accelerates your website, use the built-in **Page Speed Analyzer**. 
+It uses WebPagetest under the hood, but measures performance after the service worker has been activated. 
+Thus, it shows you how fast your website is for a regular user. 
 
 <!-- Plesk End -->
