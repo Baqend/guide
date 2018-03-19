@@ -82,7 +82,7 @@ There are three different mechanisms to keep Speed Kit's caches up-to-date:
 
 Speed Kit is built on a new web technology: **Service Workers**. 
 Speed Kit's service worker is activated when a user visits your website for the first time. 
-Therefore, Speed Kit reaches its full potential *after* the first load -- when the service worker is already ... well ... working. 
+Therefore, Speed Kit reaches its full potential *after* the first load &ndash; when the service worker is already ... well ... working. 
 
 Most state-of-the-art speed tests (e.g. Pingdom and PageSpeed Insights), however, *do not support Service Workers*. 
 In consequence, they measure your website with a deactivated Speed Kit. 
