@@ -81,17 +81,17 @@ There are three different mechanisms to keep Speed Kit's caches up-to-date:
 ## Speed Kit has not accelerated my website according to my favorite speed testing tool – why is that?
 
 Speed Kit is built on a new web technology: **Service Workers**. 
-A service worker is activated when a user visits your website for the first time. 
+Speed Kit's service worker is activated when a user visits your website for the first time. 
 Therefore, Speed Kit reaches its full potential *after* the first load -- when the service worker is already ... well ... working. 
 
-Most state-of-the-art speed tests (e.g. Pingdom and PageSpeed Insights), however, *do not support Service Workers* at all. 
+Most state-of-the-art speed tests (e.g. Pingdom and PageSpeed Insights), however, *do not support Service Workers*. 
 In consequence, they measure your website with a deactivated Speed Kit. 
 Those few frameworks that do support Service Workers only measure page speed on first visit; this is what *WebPagetest* does, for example. 
 Since Speed Kit's service worker is being activated during first load, though, this measurement distorts the acceleration effect: 
-Every page load *after* the first load will be much faster.  
+Every page load *after* the first load will be much faster. 
 
-To get a realistic impression of how Speed Kit accelerates your website, use the built-in **Page Speed Analyzer**. 
-It uses WebPagetest under the hood, but measures performance after the service worker has been activated. 
-Thus, it shows you how fast your website is for a regular user. 
+To get a realistic impression of how fast Speed Kit makes your website, use the built-in **Page Speed Analyzer**. 
+It uses WebPagetest under the hood, but measures performance *after* the service worker has been activated. 
+Thus, this test result reflects the page load time experienced by a regular user. 
 
 <!-- Plesk End -->
