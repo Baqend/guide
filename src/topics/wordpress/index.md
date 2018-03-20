@@ -47,7 +47,7 @@ This is easy to use and you will be set-up and done in seconds!
 
 ## Speed Kit
 
-The WordPress plugin makes using [Baqend Speed Kit](/topics/speed-kit) a breeze.
+The WordPress plugin makes using [Baqend Speed Kit](https://www.baqend.com/guide/topics/speed-kit/) a breeze.
 Simply head over to the *Speed Kit* tab and check *enabled* next to *Speed Kit Integration*.
 
 ![Enable Speed Kit](speed-kit-enable.png)
