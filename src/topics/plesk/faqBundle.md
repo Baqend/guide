@@ -12,6 +12,7 @@ In the following, you can find questions that other customers had in the past.
 - [How is Speed Kit different from other performance plug-ins?](#how-is-speed-kit-different-from-other-performance-plug-ins)
 - [I have outdated content on my website – what now?](#i-have-outdated-content-on-my-website-what-now)
 - [Speed Kit has not accelerated my website according to my favorite speed testing tool – why is that?](#speed-kit-has-not-accelerated-my-website-according-to-my-favorite-speed-testing-tool-why-is-that)
+- [Why do I need SSL for Speed Kit?](#why-do-i-need-ssl-for-speed-kit?)
 
 ## What are whitelist and blacklist for?
 
@@ -93,5 +94,15 @@ Every page load *after* the first load will be much faster.
 To get a realistic impression of how fast Speed Kit makes your website, use the built-in **Page Speed Analyzer**. 
 It uses WebPagetest under the hood, but measures performance *after* the service worker has been activated. 
 Thus, this test result reflects the page load time experienced by a regular user. 
+
+## Why do I need SSL for Speed Kit?
+
+Speed Kit is built on Service Workers, a new technology that is currently entering all major web browsers. 
+Since Service Workers can only be enabled on SSL-secured websites, Speed Kit is also only available when SSL is turned on.
+
+*Okay, but why are Service Workers only available on SSL-secured websites then?*  
+SSL-encrypted web communication (HTTPS) is considered preferable over non-encrypted communication (HTTP), because it protects sensitive information exchanged between client and server.  
+In an effort to accelerate the adoption of HTTPS throughout the web, new browser features are often only made available for SSL-secured websites. 
+Like HTTP/2 and many other features, Service Workers can therefore only be used when SSL is enabled for your website. 
 
 <!-- Plesk End -->
