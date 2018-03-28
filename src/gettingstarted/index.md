@@ -170,7 +170,7 @@ You can use the app you just created as a baseline for a real app. To explore Ba
 <ul>
     <li>Take the [Interactive Tutorial](https://www.baqend.com/tutorial.html)</li>
     <li>Read the [Developer Guide](/), to learn about server-side code &amp; validations, push notifications, logging, etc.</li>
-    <li>Read the [JavaScript API Docs](http://www.baqend.com/js-sdk/latest/baqend.html)</li>
+    <li>Read the [JavaScript API Docs](https://www.baqend.com/js-sdk/latest/baqend.html)</li>
     <li>Play with the Interative REST API: [Open Your App](https://dashboard.baqend.com) and go to *API Explorer*</li>
     <li>If you're starting from scratch, have a look at frontend bootstraping tools: [Initializr](http://www.initializr.com/) (used here), [HTML5 Boilerplate](https://html5boilerplate.com/), [Bootstrap](http://getbootstrap.com/), [Yeoman](http://yeoman.io/) and popular frontend frameworks: [Ionic](http://ionic.io/), [AngularJS](https://angularjs.org/), [React](https://facebook.github.io/react/), [Ember](http://emberjs.com/)</li>
 </ul>

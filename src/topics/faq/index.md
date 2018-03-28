@@ -117,7 +117,7 @@ If you need to change the above rate limiting settings, contact support@baqend.c
 
 ### Can I restore accidentally deleted data?
 
-Yes, the procedure to recover data from your automatically created apps is described here: [Restoring Data from a Backup](http://www.baqend.com/guide/topics/backups/#restoring-data-from-a-backup)
+Yes, the procedure to recover data from your automatically created apps is described here: [Restoring Data from a Backup](https://www.baqend.com/guide/topics/backups/#restoring-data-from-a-backup)
 
 
 
