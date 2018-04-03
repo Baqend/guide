@@ -14,6 +14,13 @@ The types that Baqend supports can be classified in five categories.
 
 ## Data Modelling
 
+This section introduces the two basic ways to create your domain model with Baqend:
+
+* Using the [dashboard](#data-modeling-with-the-dashboard), you can define attributes and specify relationships between different entities using a visual interface.
+* Alternatively, you can also define and update your model [programmatically](#programmatic-data-modeling), for example as part of automated tests. 
+
+### Data Modeling With The Dashboard
+
 Here is an example for creating the data model of Todo objects in the dashboard:
 
 ![Schema Tutorial](tutorial-schema-cropped.gif)
@@ -22,6 +29,46 @@ Under the hood, Baqend stores data in MongoDB. However, in contrast to data mode
 
 
 <div class="tip"><strong>Tip:</strong> Best practices for <a href="http://martinfowler.com/articles/schemaless">schemaless</a> and <a href="https://en.wikipedia.org/wiki/Relational_model">schema-rich</a> data modelling can both be applied in Baqend by mixing data types with JSON.</div>
+
+
+
+### Programmatic Data Modeling
+
+To manipulate your domain model through application code, you first have to connect to your app and authenticate yourself as superuser like so:
+
+```javascript
+// Create entity manager factor object:
+let emf = new DB.EntityManagerFactory({ host: 'your-app-name' });
+// Create a db instance that shares its authentication token with the meta model (see below)
+let db = emf.createEntityManager(true);
+// Wait for the db initialization
+await db.ready();
+// Login with a user who has admin permissions
+await db.User.login("admin", "password");
+```
+
+Then, you have to retrieve the meta model (i.e. the *schema*) of your app:
+```javascript
+// Get your app's metamodel
+let metamodel = emf.metamodel;
+```
+
+Using the `metamodel`, you can now update your schema in various ways. 
+For example, you can create a new entity type (`Person`) and add a string attribute to it (`name`):
+```javascript
+// You can now add new types to this metamodel
+const personType = new DB.metamodel.EntityType('Person', metamodel.entity(Object));
+metamodel.addType(personType);
+//  And lastly you can add attributes to your generated types
+personType.addAtttribute(new DB.metamodel.SingularAttribute('name', metamodel.baseType(String)));
+```
+
+When you have specified all desired changes, you have to save your changes to apply them to your Baqend instance:
+```javascript
+await metamodel.save();
+```
+
+
 
 ### Embedding vs Referencing
 
