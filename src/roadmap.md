@@ -1,4 +1,16 @@
-## Roadmap
+<!-- Roadmap -->
+<div class="stars">
+  <div class="container">
+    <h1>Roadmap</h1>
+    Check out what we are currently working on!
+    <div class="shooting-star">
+      <img src="/guide/img/shooting-star.png" />
+    </div>
+    <div class="shooting-star-right">
+      <img src="/guide/img/shooting-star.png" />
+    </div>
+  </div>
+</div>
 
 **In this roadmap you will find what we're thinking about, what we're working on now, and what we've done recently.**
 
