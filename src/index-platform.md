@@ -199,7 +199,7 @@
     </a>
   </div>
   <div class="chapter-item-outer">
-    <a class="chapter-item" href="../../starter-kits/">
+    <a class="chapter-item" href="../starter-kits/">
       <span class="chapter-heading">
         <span class="icon"><img src="../icons/starter_kits.png"/></span>
         <span class="text">Starter Kits</span>
