@@ -1,4 +1,4 @@
-{% if '/topics/speed-kit' in page.canonical_url %}
+{% if '/topics/speed-kit' in page.canonical_url or '/topics/wordpress' in page.canonical_url %}
 {% set section = 'Speed Kit' %}
 {% elif ('/topics' in page.canonical_url or '/gettingstarted' in page.canonical_url or '/starter-kits' in page.canonical_url) %}
 {% set section = 'Platform' %}
