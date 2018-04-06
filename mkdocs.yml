@@ -4,26 +4,24 @@ repo_url: 'https://github.com/Baqend/guide'
 pages:
     - Overview:
         - Home: 'index.md'
-        - 'Speed Kit': 'index.md'
-        - 'Platform': 'index.md'
+        - 'Speed Kit': 'index-speed-kit.md'
+        - 'Platform': 'index-platform.md'
         - Roadmap: 'roadmap.md'
         - 'FAQ': 'topics/faq/index.md'
 
     - Speed Kit:
-        - Why Speed Kit: 'topics/speed-kit/intro.md'
-        - 'Rest': 'rest.md'
-        - 'Websockets': 'websockets.md'
+        - 'Intro': 'topics/speed-kit/intro.md'
         - 'Why Speed Kit': 'topics/speed-kit/why.md'
-        - 'Speed Kit: Getting Started': 'topics/speed-kit/index.md'
+        - 'Getting Started': 'topics/speed-kit/index.md'
         - Page Speed Analyzer: 'topics/speed-kit/analyzer.md'
         - WordPress Plugin: 'topics/wordpress/index.md'
-        - Speed Kit Speedup Policies: 'topics/speed-kit/whiteblacklisting.md'
-        - Speed Kit Refresh Policies: 'topics/speed-kit/refreshing.md'
+        - Speedup Policies: 'topics/speed-kit/whiteblacklisting.md'
+        - Refresh Policies: 'topics/speed-kit/refreshing.md'
         - How Speed Kit Works: 'topics/speed-kit/how-it-works.md'
         - Speed Kit API: 'topics/speed-kit/api.md'
-        - 'Speed Kit: Accelerating Personalized Content': 'topics/speed-kit/personalized.md'
-        - Speed Kit Deactivation: 'topics/speed-kit/deactivation.md'
-        - Speed Kit Data Privacy: 'topics/speed-kit/privacy.md'
+        - 'Dynamic Blocks: Accelerating Personalized Content': 'topics/speed-kit/personalized.md'
+        - Deactivation: 'topics/speed-kit/deactivation.md'
+        - Data Privacy: 'topics/speed-kit/privacy.md'
 
     - Platform:
         - 'JavaScript SDK': 'topics/getting-started/index.md'
@@ -47,6 +45,7 @@ pages:
         - 'Quickstart': 'gettingstarted/index.md'
         - 'Starter Kits': 'starter-kits/index.md'
         - 'REST API': 'topics/rest-api/index.md'
+        - 'JavaScript API': 'topics/jsapi/index.md'
 
     - Starter Kits:
         - Starter Kits Overview: 'starter-kits/index.md'
@@ -57,6 +56,8 @@ pages:
         - Ionic Starter Kit: 'starter-kits/ionic.md'
 
     - hidden:
+        - 'Rest': 'rest.md'
+        - 'Websockets': 'websockets.md'
         - Plesk Docs: 'topics/plesk/docsBundle.md'
         - Plesk FAQ: 'topics/plesk/faqBundle.md'
 

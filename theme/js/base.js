@@ -13,6 +13,10 @@ $(document).ready(function () {
   if($('body').has($('#speedKitDoc')).length > 0) {
       getSpeedKitAPIDoc();
   }
+
+  if($('body').has($('#JSAPIDoc')).length > 0) {
+    getJSAPIDoc();
+  }
 });
 
 $('body').scrollspy({
@@ -79,6 +83,19 @@ function getSpeedKitAPIDoc() {
 
       $('#speedKitDoc').append(content.children());
     });
+}
+
+function getJSAPIDoc() {
+  $.get( "https://www.baqend.com/js-sdk/latest/baqend.html", function( data ) {
+    const content = $(data).find('.content');
+    content.children().remove('.page-title');
+    content.children().find('a[download]').each(function() {
+      const href = $(this).attr('href');
+      $(this).attr('href', '/js-sdk/latest/' + href);
+    });
+
+    $('#JSAPIDoc').append(content.children());
+  });
 }
 
 window.addEventListener('beforeprint', onBeforePrint);

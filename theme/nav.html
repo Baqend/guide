@@ -1,11 +1,3 @@
-{% if '/topics/speed-kit' in page.canonical_url %}
-{% set section = 'Speed Kit' %}
-  {% elif '/topics' in page.canonical_url or '/gettingstarted' in page.canonical_url or '/starter-kits' in page.canonical_url %}
-{% set section = 'Platform' %}
-  {% else %}
-{% set section = 'Index' %}
-{% endif %}
-
 <div class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="navbar-inner container">
 
@@ -39,14 +31,14 @@
             <!-- Main navigation -->
             <ul class="nav navbar-nav">
             {% for nav_item in nav %}
-                {% if nav_item.title != "hidden" and (section == "Speed Kit" and (nav_item.title == "Overview" or nav_item.title == "Speed Kit" ) or section == 'Platform' and (nav_item.title != "Speed Kit" ) or section == 'Index' and (nav_item.title == "Overview" or nav_item.title == "Speed Kit" or nav_item.title == "Platform" ) ) %}
+                {% if nav_item.title != "hidden" and (section == "Speed Kit" and (nav_item.title == "Overview" or nav_item.title == "Speed Kit" ) or section == 'Platform' and (nav_item.title == "Overview" or nav_item.title == "Platform" or nav_item.title == "Starter Kits" or nav_item.title == "Tutorial" ) or section == 'Index' and (nav_item.title == "Speed Kit" or nav_item.title == "Platform" ) ) %}
                     {% if nav_item.children %}
                         <li class="dropdown{% if nav_item.active %} active{% endif %}">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ nav_item.title }} <b class="caret"></b></a>
                             <ul class="dropdown-menu">
                             {% for nav_item in nav_item.children %}
                                 <li {% if nav_item.active %}class="active"{% endif %}>
-                                    <a href="{{ nav_item.url }}{% if nav_item.title=='Speed Kit' %}#speed-kit{% endif %}{% if nav_item.title=='Platform' %}#platform{% endif %}">{{ nav_item.title }}</a>
+                                    <a href={{ nav_item.url }}>{{ nav_item.title }}</a>
                                 </li>
                             {% endfor %}
                             </ul>
@@ -60,11 +52,15 @@
             {% endfor %}
             {% if section != 'Speed Kit' and section != 'Index' %}
                 <li>
-                    <a href="https://www.baqend.com/js-sdk/latest/baqend.html"><span class="hidden-sm hidden-xs">JS</span> API</a>
-                </li>
-                <li>
                     <a href="https://www.baqend.com/tutorial.html">Tutorial</a>
                 </li>
+              {% elif section == 'Index' %}
+              <li>
+                <a href="topics/faq">FAQ</a>
+              </li>
+              <li>
+                <a href="roadmap">Roadmap</a>
+              </li>
             {% endif %}
             </ul>
         </div>

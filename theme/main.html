@@ -1,3 +1,11 @@
+{% if '/topics/speed-kit' in page.canonical_url %}
+{% set section = 'Speed Kit' %}
+{% elif ('/topics' in page.canonical_url or '/gettingstarted' in page.canonical_url or '/starter-kits' in page.canonical_url) %}
+{% set section = 'Platform' %}
+{% else %}
+{% set section = 'Index' %}
+{% endif %}
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -31,8 +39,8 @@
 
         {% include "nav.html" %}
 
-        {% if page.is_homepage or page.title == 'Starter Kits Overview' %}
-        <div class="box gray pt-24 pb-64" style="padding-top: 218px;">
+        {% if section == 'Index' or page.title == 'Starter Kits Overview' %}
+        <div class="box gray pt-24 pb-64" style="padding-top: 248px;">
           <div class="container" role="main">
               {% include "content.html" %}
           </div>
