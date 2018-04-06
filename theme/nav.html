@@ -58,7 +58,7 @@
                     {% endif %}
                 {% endif %}
             {% endfor %}
-            {% if section == 'Speed Kit' or section == 'Index' %}
+            {% if section != 'Speed Kit' and section != 'Index' %}
                 <li>
                     <a href="https://www.baqend.com/js-sdk/latest/baqend.html"><span class="hidden-sm hidden-xs">JS</span> API</a>
                 </li>
