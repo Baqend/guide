@@ -2,26 +2,18 @@ site_name: 'Baqend Guide'
 site_url: 'https://www.baqend.com/guide'
 repo_url: 'https://github.com/Baqend/guide'
 pages:
-    - Guide:
+    - Overview:
         - Home: 'index.md'
         - 'Speed Kit': 'index.md'
         - 'Platform': 'index.md'
         - Roadmap: 'roadmap.md'
         - 'FAQ': 'topics/faq/index.md'
 
-    - Starter Kits:
-        - Starter Kits Overview: 'starter-kits/index.md'
-        - Angular 2 Starter Kit: 'starter-kits/angular2.md'
-        - React and React Native Starter: 'starter-kits/react.md'
-        - Bootstrap Starter Kit: 'starter-kits/bootstrap.md'
-        - Ionic 2 Starter Kit: 'starter-kits/ionic2.md'
-        - Ionic Starter Kit: 'starter-kits/ionic.md'
-
-    - hidden:
+    - Speed Kit:
         - Why Speed Kit: 'topics/speed-kit/intro.md'
         - 'Rest': 'rest.md'
         - 'Websockets': 'websockets.md'
-        - Why Speed Kit: 'topics/speed-kit/why.md'
+        - 'Why Speed Kit': 'topics/speed-kit/why.md'
         - 'Speed Kit: Getting Started': 'topics/speed-kit/index.md'
         - Page Speed Analyzer: 'topics/speed-kit/analyzer.md'
         - WordPress Plugin: 'topics/wordpress/index.md'
@@ -33,6 +25,9 @@ pages:
         - Speed Kit Deactivation: 'topics/speed-kit/deactivation.md'
         - Speed Kit Data Privacy: 'topics/speed-kit/privacy.md'
 
+    - Platform:
+        - 'JavaScript SDK': 'topics/getting-started/index.md'
+        - 'FAQ': 'topics/faq/index.md'
         - 'CLI': 'topics/cli/index.md'
         - 'CRUD': 'topics/crud/index.md'
         - 'Schema and Types': 'topics/schema/index.md'
@@ -47,14 +42,24 @@ pages:
         - 'Hosting': 'topics/hosting/index.md'
         - 'Files': 'topics/files/index.md'
         - 'Caching': 'topics/caching/index.md'
-        - 'JavaScript SDK': 'topics/getting-started/index.md'
         - 'Logging': 'topics/logging/index.md'
         - 'Backups': 'topics/backups/index.md'
-        - Quickstart: 'gettingstarted/index.md'
-        - REST API: 'topics/rest-api/index.md'
+        - 'Quickstart': 'gettingstarted/index.md'
+        - 'Starter Kits': 'starter-kits/index.md'
+        - 'REST API': 'topics/rest-api/index.md'
 
+    - Starter Kits:
+        - Starter Kits Overview: 'starter-kits/index.md'
+        - Angular 2 Starter Kit: 'starter-kits/angular2.md'
+        - React and React Native Starter: 'starter-kits/react.md'
+        - Bootstrap Starter Kit: 'starter-kits/bootstrap.md'
+        - Ionic 2 Starter Kit: 'starter-kits/ionic2.md'
+        - Ionic Starter Kit: 'starter-kits/ionic.md'
+
+    - hidden:
         - Plesk Docs: 'topics/plesk/docsBundle.md'
         - Plesk FAQ: 'topics/plesk/faqBundle.md'
+
 docs_dir: src
 site_dir: docs
 theme_dir: theme
