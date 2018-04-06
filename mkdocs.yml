@@ -21,6 +21,7 @@ pages:
         - Speed Kit API: 'topics/speed-kit/api.md'
         - 'Dynamic Blocks: Accelerating Personalized Content': 'topics/speed-kit/personalized.md'
         - Deactivation: 'topics/speed-kit/deactivation.md'
+        - Quickstart: 'topics/speed-kit/intro.md'
         - Data Privacy: 'topics/speed-kit/privacy.md'
 
     - Platform:
