@@ -8,7 +8,7 @@ It is also true for publishers, whose business model depends on a user experienc
 However, many brands, publishers, and e-commerce businesses have heterogeneous and complex technology stacks that make it extremely hard to tackle performance, scalability, and page load time.
 Novel browser technologies now offer a means of making web performance as simple as including a script.
 
-<img src="major-advantages.png" style="width:80%;">
+<img src="../major-advantages.png" style="width:80%;">
 
 Baqend has developed **Speed Kit** that directly hooks into an existing website and makes it **50-300% faster**.
 Therefore, Speed Kit uses [Service Workers](https://developers.google.com/web/fundamentals/getting-started/primers/service-workers)
