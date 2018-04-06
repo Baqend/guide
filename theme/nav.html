@@ -1,3 +1,11 @@
+{% if '/topics/speed-kit' in page.canonical_url %}
+{% set section = 'Speed Kit' %}
+  {% elif '/topics' in page.canonical_url or '/gettingstarted' in page.canonical_url or '/starter-kits' in page.canonical_url %}
+{% set section = 'Platform' %}
+  {% else %}
+{% set section = 'Index' %}
+{% endif %}
+
 <div class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="navbar-inner container">
 
@@ -28,15 +36,10 @@
                 </div>
             </form>
 
-          <script>
-            console.log('base_url: {{base_url}}');
-            console.log('page.canonical_url: {{page.canonical_url}}');
-          </script>
-
             <!-- Main navigation -->
             <ul class="nav navbar-nav">
             {% for nav_item in nav %}
-                {% if nav_item.title != "hidden" and (('/topics/speed-kit' in page.canonical_url and nav_item.title != "Starter Kits" and nav_item.title != "Platform" ) or ('/topics/speed-kit' not in page.canonical_url and nav_item.title != "Speed Kit" ) or ('/topics/' not in page.canonical_url and nav_item.title == "Speed Kit" )) %}
+                {% if nav_item.title != "hidden" and (section == "Speed Kit" and (nav_item.title == "Overview" or nav_item.title == "Speed Kit" ) or section == 'Platform' and (nav_item.title != "Speed Kit" ) or section == 'Index' and (nav_item.title == "Overview" or nav_item.title == "Speed Kit" or nav_item.title == "Platform" ) ) %}
                     {% if nav_item.children %}
                         <li class="dropdown{% if nav_item.active %} active{% endif %}">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ nav_item.title }} <b class="caret"></b></a>
@@ -55,7 +58,7 @@
                     {% endif %}
                 {% endif %}
             {% endfor %}
-            {% if '/topics/speed-kit' not in page.canonical_url %}
+            {% if section not in ['Speed Kit', 'Index'] %}
                 <li>
                     <a href="https://www.baqend.com/js-sdk/latest/baqend.html"><span class="hidden-sm hidden-xs">JS</span> API</a>
                 </li>
