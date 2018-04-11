@@ -1,7 +1,7 @@
 # Why Speed Kit?
 
 With Speed Kit, your website becomes a fully-fledged Progressive Web App (PWA): 
-Users will experience **faster page loads** through Speed Kit's request acceleration and less downtime through the built in offline mode. 
+Users will experience **faster page loads** through Speed Kit's request acceleration and less downtime through the built-in offline mode. 
 
 ## Page load time is money 
 Did you know that Amazon would lose more than 1.3B USD in revenue per year, if their website became a 10th of a second slower.
