@@ -335,7 +335,7 @@ var resultsPerPage = 30;
 DB.Todo.find()
   .matches('name', /^My Todo/)
   .greaterThan('id', pageId)
-  .ascending('id', pageId)
+  .ascending('id')
   .limit(resultsPerPage)
   .resultList(function(result) {
     pageId = result[result.length - 1];  
