@@ -10,7 +10,7 @@ pages:
         - 'FAQ': 'topics/faq/index.md'
 
     - Speed Kit:
-        - 'Intro': 'topics/speed-kit/intro.md'
+        - Quickstart: 'topics/speed-kit/intro.md'
         - 'Why Speed Kit': 'topics/speed-kit/why.md'
         - 'Getting Started': 'topics/speed-kit/index.md'
         - Page Speed Analyzer: 'topics/speed-kit/analyzer.md'
@@ -21,7 +21,6 @@ pages:
         - Speed Kit API: 'topics/speed-kit/api.md'
         - 'Dynamic Blocks: Accelerating Personalized Content': 'topics/speed-kit/personalized.md'
         - Deactivation: 'topics/speed-kit/deactivation.md'
-        - Quickstart: 'topics/speed-kit/intro.md'
         - Data Privacy: 'topics/speed-kit/privacy.md'
 
     - Platform:
