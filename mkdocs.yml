@@ -14,10 +14,11 @@ pages:
         - 'Why Speed Kit': 'topics/speed-kit/why.md'
         - 'Getting Started': 'topics/speed-kit/index.md'
         - Page Speed Analyzer: 'topics/speed-kit/analyzer.md'
-        - WordPress Plugin: 'topics/wordpress/index.md'
+        - How Speed Kit Works: 'topics/speed-kit/how-it-works.md'
         - Speedup Policies: 'topics/speed-kit/whiteblacklisting.md'
         - Refresh Policies: 'topics/speed-kit/refreshing.md'
-        - How Speed Kit Works: 'topics/speed-kit/how-it-works.md'
+        - 'Image Optimization': 'topics/speed-kit/image-optimization.md'
+        - WordPress Plugin: 'topics/wordpress/index.md'
         - Speed Kit API: 'topics/speed-kit/api.md'
         - 'Dynamic Blocks: Accelerating Personalized Content': 'topics/speed-kit/personalized.md'
         - Deactivation: 'topics/speed-kit/deactivation.md'
@@ -38,6 +39,7 @@ pages:
         - 'Partial Updates': 'topics/partial-updates/index.md'
         - 'Deep Loading': 'topics/deep-loading/index.md'
         - 'Hosting': 'topics/hosting/index.md'
+        - 'Image Optimization': 'topics/image-optimization/index.md'
         - 'Files': 'topics/files/index.md'
         - 'Caching': 'topics/caching/index.md'
         - 'Logging': 'topics/logging/index.md'
@@ -60,7 +62,6 @@ pages:
         - 'Websockets': 'websockets.md'
         - Plesk Docs: 'topics/plesk/docsBundle.md'
         - Plesk FAQ: 'topics/plesk/faqBundle.md'
-        - 'Image Optimization': 'topics/image-optimization/index.md'
 
 docs_dir: src
 site_dir: docs

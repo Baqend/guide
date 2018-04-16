@@ -154,6 +154,15 @@
     </a>
   </div>
   <div class="chapter-item-outer">
+    <a class="chapter-item" href="../topics/image-optimization/">
+      <span class="chapter-heading">
+        <span class="icon"><img src="../icons/image-optimization.png"/></span>
+        <span class="text">Image Optimization</span>
+      </span>
+      <span class="chapter-info">How to recompress, crop, or transcode images on-the-fly while requesting them.</span>
+    </a>
+  </div>
+  <div class="chapter-item-outer">
     <a class="chapter-item" href="../topics/files/">
       <span class="chapter-heading">
         <span class="icon"><img src="../icons/files.png"/></span>

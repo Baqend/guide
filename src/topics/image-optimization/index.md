@@ -1,6 +1,6 @@
 # Automatic Image Optimization
 
-In this section, we describe how automatic image optimization can be used for Baqend Platform. For details on the corresponding feature in Speed Kit, read the [Speed Kit docs on image optimization](../speed-kit/api/#automatic-image-optimization).
+In this section, we describe how automatic image optimization can be used for Baqend Platform. For details on the corresponding feature in Speed Kit, read the [Speed Kit docs on image optimization](../speed-kit/image-optimization/).
 
 
 ## What does it do?
@@ -21,14 +21,16 @@ It is controlled by simply providing **query parameters** when loading an image,
 https://www.example.com/test.jpg
 
 // re-sized image:
-https://www.example.com/test.jpg?width=640
+https://www.example.com/test.jpg?bqoptimize=1;width=640
 
 // re-compressed image:
-https://www.example.com/test.jpg?quality=90
+https://www.example.com/test.jpg?bqoptimize=1;quality=90
 
 // both re-sized and re-compressed image:
-https://www.example.com/test.jpg?width=640&quality=90
+https://www.example.com/test.jpg?bqoptimize=1;width=640;quality=90
 ```
+
+The ``  
 
 ### Parameters
 

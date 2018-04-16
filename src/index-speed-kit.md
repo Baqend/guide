@@ -32,12 +32,12 @@
     </a>
   </div>
   <div class="chapter-item-outer">
-    <a class="chapter-item" href="../topics/wordpress/">
+    <a class="chapter-item" href="../topics/speed-kit/how-it-works">
       <span class="chapter-heading">
-        <span class="icon"><img src="../icons/wordpress.png"/></span>
-        <span class="text">WordPress Plugin</span>
+        <span class="icon"><img src="../icons/speed-kit-how-it-works.png"/></span>
+        <span class="text">How It Works</span>
       </span>
-      <span class="chapter-info">How to integrate Speed Kit into your WordPress site.</span>
+      <span class="chapter-info">Technical details on how Speed Kit works under the hood.</span>
     </a>
   </div>
   <div class="chapter-item-outer">
@@ -58,15 +58,6 @@
       <span class="chapter-info">How to refresh content on-demand or regularly.</span>
     </a>
   </div>
-  <div class="chapter-item-outer">
-    <a class="chapter-item" href="../topics/speed-kit/how-it-works">
-      <span class="chapter-heading">
-        <span class="icon"><img src="../icons/speed-kit-how-it-works.png"/></span>
-        <span class="text">How It Works</span>
-      </span>
-      <span class="chapter-info">Technical details on how Speed Kit works under the hood.</span>
-    </a>
-  </div>
 <!-- 
   <div class="chapter-item-outer">
     <a class="chapter-item" href="../topics/speed-kit/why">
@@ -78,6 +69,24 @@
     </a>
   </div>
 -->
+  <div class="chapter-item-outer">
+    <a class="chapter-item" href="../topics/speed-kit/image-optimization/">
+      <span class="chapter-heading">
+        <span class="icon"><img src="../icons/speed-kit-image-optimization.png"/></span>
+        <span class="text">Image Optimization</span>
+      </span>
+      <span class="chapter-info">How to make Speed Kit recompress or transcode images for increased efficiency.</span>
+    </a>
+  </div>
+  <div class="chapter-item-outer">
+    <a class="chapter-item" href="../topics/wordpress/">
+      <span class="chapter-heading">
+        <span class="icon"><img src="../icons/wordpress.png"/></span>
+        <span class="text">WordPress Plugin</span>
+      </span>
+      <span class="chapter-info">How to integrate Speed Kit into your WordPress site.</span>
+    </a>
+  </div>
   <div class="chapter-item-outer">
     <a class="chapter-item" href="../topics/speed-kit/api">
       <span class="chapter-heading">
