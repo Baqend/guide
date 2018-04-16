@@ -60,6 +60,7 @@ pages:
         - 'Websockets': 'websockets.md'
         - Plesk Docs: 'topics/plesk/docsBundle.md'
         - Plesk FAQ: 'topics/plesk/faqBundle.md'
+        - 'Image Optimization': 'topics/image-optimization/index.md'
 
 docs_dir: src
 site_dir: docs
