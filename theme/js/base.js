@@ -11,7 +11,7 @@ $(document).ready(function () {
   });
 
   if($('body').has($('#speedKitDoc')).length > 0) {
-      getSpeedKitAPIDoc();
+    getSpeedKitAPIDoc();
   }
 
   if($('body').has($('#JSAPIDoc')).length > 0) {
@@ -31,7 +31,7 @@ $('a').click(function (e) {
 
 $('#main h1[id], #main h2[id], #main h3[id], #main h4[id], #main h5[id], #main h6[id]').each(function (e) {
   $(this).append($(`<a href="#${$(this).attr('id')}" class="anchor fa fa-link"></a>`))
-})
+});
 
 /* Prevent disabled links from causing a page reload */
 $("li.disabled a").click(function () {
@@ -73,28 +73,43 @@ function onAfterPrint(){
 }
 
 function getSpeedKitAPIDoc() {
-    $.get( "https://www.baqend.com/speed-kit/latest/", function( data ) {
-      const content = $(data).find('.content');
-      content.children().remove('.page-title');
-      content.children().find('a[download]').each(function() {
-        const href = $(this).attr('href');
-        $(this).attr('href', '/speed-kit/latest/' + href);
-      });
+  $.get( "https://www.baqend.com/speed-kit/latest/", function( data ) {
+    const content = $(data).find('.content');
+    const navContent = $(data).find('.bs-sidenav');
 
-      $('#speedKitDoc').append(content.children());
+    content.children().remove('.page-title');
+    content.children().find('a[download]').each(function() {
+      const href = $(this).attr('href');
+      $(this).attr('href', '/speed-kit/latest/' + href);
     });
+    navContent.children().find('a').each(function () {
+      const href = $(this).attr('href');
+      $(this).attr('href', '/speed-kit/api/' + href);
+    });
+
+    $('#speedKitDoc').append(content.children());
+    $('.bs-sidenav').append(navContent.children());
+  });
 }
 
 function getJSAPIDoc() {
   $.get( "https://www.baqend.com/js-sdk/latest/baqend.html", function( data ) {
     const content = $(data).find('.content');
+    const navContent = $(data).find('.bs-sidenav');
+
     content.children().remove('.page-title');
-    content.children().find('a[download]').each(function() {
+    content.children().find('a').each(function() {
       const href = $(this).attr('href');
-      $(this).attr('href', '/js-sdk/latest/' + href);
+      // $(this).attr('href', '/js-sdk/latest/' + href);
+      $(this).attr('href', 'https://www.baqend.com/js-sdk/latest/' + href);
+    });
+    navContent.children().find('a').each(function () {
+      const href = $(this).attr('href');
+      $(this).attr('href', 'https://www.baqend.com/js-sdk/latest/' + href);
     });
 
     $('#JSAPIDoc').append(content.children());
+    $('.bs-sidenav').append(navContent.children());
   });
 }
 
