@@ -84,7 +84,7 @@ function getSpeedKitAPIDoc() {
     });
     navContent.children().find('a').each(function () {
       const href = $(this).attr('href');
-      $(this).attr('href', '/speed-kit/api/' + href);
+      $(this).attr('href', href);
     });
 
     $('#speedKitDoc').append(content.children());

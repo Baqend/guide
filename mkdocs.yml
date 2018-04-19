@@ -47,7 +47,6 @@ pages:
         - 'Quickstart': 'gettingstarted/index.md'
         - 'Starter Kits': 'starter-kits/index.md'
         - 'REST API': 'topics/rest-api/index.md'
-        - 'JavaScript API': 'topics/jsapi/index.md'
 
     - Starter Kits:
         - Starter Kits Overview: 'starter-kits/index.md'
