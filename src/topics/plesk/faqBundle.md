@@ -12,7 +12,8 @@ In the following, you can find questions that other customers had in the past.
 - [How is Speed Kit different from other performance plug-ins?](#how-is-speed-kit-different-from-other-performance-plug-ins)
 - [I have outdated content on my website – what now?](#i-have-outdated-content-on-my-website-what-now)
 - [Speed Kit has not accelerated my website according to my favorite speed testing tool – why is that?](#speed-kit-has-not-accelerated-my-website-according-to-my-favorite-speed-testing-tool-why-is-that)
-- [Why do I need SSL for Speed Kit?](#why-do-i-need-ssl-for-speed-kit?)
+- [Why do I need SSL for Speed Kit?](#why-do-i-need-ssl-for-speed-kit)
+- [Where can I learn more about Speed Kit?](#where-can-i-learn-more-about-speed-kit)
 
 ## What are whitelist and blacklist for?
 
@@ -104,5 +105,9 @@ Since Service Workers can only be enabled on SSL-secured websites, Speed Kit is 
 SSL-encrypted web communication (HTTPS) is considered preferable over non-encrypted communication (HTTP), because it protects sensitive information exchanged between client and server.  
 In an effort to accelerate the adoption of HTTPS throughout the web, new browser features are often only made available for SSL-secured websites. 
 Like HTTP/2 and many other features, Service Workers can therefore only be used when SSL is enabled for your website. 
+
+## Where can I learn more about Speed Kit?
+
+For all the details on Speed Kit and the technology it is built on, see our [in-depth technical survey](https://medium.baqend.com/the-technology-behind-fast-websites-2638196fa60a). 
 
 <!-- Plesk End -->

@@ -8,6 +8,8 @@ On this page, we explain how Speed Kit makes your website faster. In more detail
 3. *which* metrics are measured by the the [Page Speed Analyzer](#page-speed-analyzer), and
 4. *who* [the people behind Speed Kit](#who-we-are) are.
 
+See our [in-depth technical survey](https://medium.baqend.com/the-technology-behind-fast-websites-2638196fa60a) for details on Speed Kit and the technology it is built on.
+
 ## Speed Kit
 
 To accelerate content delivery, Speed Kit intercepts requests made by the browser and reroutes them: 
