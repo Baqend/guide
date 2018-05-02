@@ -13,7 +13,7 @@ Here are a few resources additional resources to get help:
 
 To get a deeper understanding of Baqend, here are some deep dives [from our blog](https://medium.baqend.com/):
 
-- [The Technology Behind Fast Websites: 30 Man-Years of Research in a 30-Minute Read](https://medium.baqend.com/the-technology-behind-fast-websites-2638196fa60a)
+- [Rethinking Web Performance with Service Workers: 30 Man-Years of Research in a 30-Minute Read](https://medium.baqend.com/the-technology-behind-fast-websites-2638196fa60a)
 - [A Real-Time Database Survey: The Architecture of Meteor, RethinkDB, Parse & Firebase](https://medium.baqend.com/real-time-databases-explained-why-meteor-rethinkdb-parse-and-firebase-dont-scale-822ff87d2f87?source=rss----1438a8fccd85---4)
 - [Going Real-Time Has Just Become Easy: Baqend Real-Time Queries Hit Public Beta](https://medium.baqend.com/going-real-time-has-just-become-easy-baqend-real-time-queries-hit-public-beta-3a44a13fde86?source=rss----1438a8fccd85---4)
 - [Building Static Sites in 2017: Cloud-Hosted, CMS-Backed, and API-Driven](https://medium.baqend.com/building-static-sites-in-2017-cloud-hosted-cms-backed-and-api-driven-f68b5debc396?source=rss----1438a8fccd85---4)
