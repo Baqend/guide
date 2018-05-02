@@ -14,8 +14,7 @@ While imperceptible for the user, these optimizations lead to **significant load
 
 ## How does it work?
 
-Baqend's image optimization feature is built on a service provided by our CDN provider **Fastly**. 
-It is controlled by simply providing **query parameters** when loading an image, for example `width=640` to re-scale or `quality=90` to re-compress your image on-the-fly: 
+Baqend's image optimization feature is controlled by simply providing **query parameters** when loading an image, for example `width=640` to re-scale or `quality=90` to re-compress your image on-the-fly: 
 ```javascript
 // original image:
 https://www.example.com/test.jpg
@@ -30,13 +29,13 @@ https://www.example.com/test.jpg?bqoptimize=1;quality=90
 https://www.example.com/test.jpg?bqoptimize=1;width=640;quality=90
 ```
 
+<!-- 
 The ``  
 
 ### Parameters
 
 For an extensive list of all the available parameters, please checkout the [**Fastly docs**](https://docs.fastly.com/api/imageopto/). 
 
-<!-- 
 If you want to play around with this feature a bit, check out Fastly's image optimization [**sandbox**](https://www.fastly.com/io)!
 In the following, you can find an overview of some commonly used parameters:
 
