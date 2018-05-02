@@ -108,6 +108,6 @@ Like HTTP/2 and many other features, Service Workers can therefore only be used 
 
 ## Where can I learn more about Speed Kit?
 
-For all the details on Speed Kit and the technology it is built on, see our [in-depth technical survey](https://medium.baqend.com/the-technology-behind-fast-websites-2638196fa60a). 
+For all the details on Speed Kit and the technology it is built on, see our [in-depth technical survey](https://medium.baqend.com/the-technology-behind-fast-websites-2638196fa60a#d876). 
 
 <!-- Plesk End -->
