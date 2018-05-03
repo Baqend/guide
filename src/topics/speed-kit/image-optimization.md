@@ -6,7 +6,7 @@ For the corresponding feature in Baqend Platform, see the [Platform docs on imag
 
 ## What does it do?
 
-Speed Kit's automatic image optimization is able to **transcode** accelerated images to the most efficient formats and even **rescale** them to just fit the requesting client’s screen: 
+Speed Kit's automatic image optimization is able to **transcode** accelerated images to the most efficient formats and even **rescale** them to just fit the requesting client’s screen and device pixel ratio (dpr): 
 
 ![Baqend optimizes your images automatically and on-the-fly.](image-optimization-speed-kit.png)
 
@@ -28,8 +28,8 @@ Unless specified otherwise, Speed Kit assumes the following default configuratio
 var speedKit = {
   // ... other options ...
   image: {
-    quality: 85, // change default quality two 85% 
-    downscale: true, // scale images to fit user's screen size
+    quality: 85, // change default quality to 85% 
+    downscale: true, // scale images to fit user's screen size and device pixel ratio (dpr)
     webp: true, // convert images to the WebP format automatically
     pjpeg: true, // convert JPEG images to progressive JPEG images automatically
     crop: false // crop images to a specific size
