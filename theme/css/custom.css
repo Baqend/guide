@@ -368,15 +368,18 @@ pre {
 }
 
 .image-optimization-image-container {
-    min-height: 500px;
-    min-width: 500px;
-    max-height: 500px;
-    max-width: 500px;
-    overflow:hidden;
+    height: 500px;
+    width: 500px;
+    position: relative;
+    overflow: auto;
+}
+
+.image-optimization-image-container-inner {
+    display: block;
+    position: absolute;
 }
 
 .image-optimization-image {
-    display: block;
 }
 
 @media (min-width: 992px) {
