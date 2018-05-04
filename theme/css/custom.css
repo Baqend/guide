@@ -345,3 +345,46 @@ pre {
 .gitter-chat-embed {
   z-index: 9999;
 }
+
+.image-optimization-url-panel {
+  background-color: #FFFFFF;
+  text-align: left;
+  font-size: 15px;
+  box-shadow: 0 0 1px 0 rgba(50, 50, 50, 0.3);
+}
+
+.image-optimization-button-panel {
+  padding: 16px;
+}
+
+.image-optimization-url-input {
+  color: black;
+  border: none;
+  outline: none;
+  font-size: 15px;
+  height: 38px;
+  width: 80%;
+  padding-left: 8px;
+}
+
+.image-optimization-image-container {
+    min-height: 500px;
+    min-width: 500px;
+    max-height: 500px;
+    max-width: 500px;
+    overflow:hidden;
+}
+
+.image-optimization-image {
+    display: block;
+}
+
+@media (min-width: 992px) {
+
+  .image-optimization-url-panel {
+    margin-top: 5px;
+    border-radius: 3px 3px 3px 3px;
+    box-shadow: 0 1px 3px 1px rgba(50, 50, 50, 0.3);
+  }
+}
+

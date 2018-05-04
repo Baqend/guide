@@ -5,7 +5,7 @@ In this section, we describe how automatic image optimization can be used for Ba
 
 ## What does it do?
 
-Baqend's automatic image optimization can **transcode** hosted images to the most efficient formats and even **rescale** them to just fit the requesting client’s screen: 
+Baqend's automatic image optimization can **transcode** hosted images to the most efficient formats and even **rescale** them to just fit the requesting client’s screen and device pixel ratio (dpr): 
 
 ![Baqend optimizes your images automatically and on-the-fly.](image-optimization.png)
 
@@ -28,6 +28,65 @@ https://www.example.com/test.jpg?bqoptimize=1;quality=90
 // both re-sized and re-compressed image:
 https://www.example.com/test.jpg?bqoptimize=1;width=640;quality=90
 ```
+
+## Sandbox
+
+Feel free to play around with our optimization feature below!
+
+<div class="image-optimization-container">
+  <div class="row">
+    <div class="image-optimization-url-panel">
+      <input class="image-optimization-url-input" type="text" placeholder="image optimization parameters" onkeyup="refreshOptimizedImageDelayed()" id="options" >
+    </div>
+  </div>
+  <div class="row h-100 image-optimization-button-panel">
+   <button class="btn btn-primary" onclick="refreshOptimizedImage('')">reset</button> 
+   <button class="btn btn-light" onclick="refreshOptimizedImage('?bqoptimize=1;downscale=false')">no downscale</button> 
+   <button class="btn btn-light" onclick="refreshOptimizedImage('?bqoptimize=1;width=120')">width 120px</button> 
+   <button class="btn btn-light" onclick="refreshOptimizedImage('?bqoptimize=1;width=1200;downscale=false')">width 1200px</button> 
+   <button class="btn btn-light" onclick="refreshOptimizedImage('?bqoptimize=1;quality=1')">low-quality</button> 
+   <button class="btn btn-light" onclick="refreshOptimizedImage('?bqoptimize=1;quality=100')">high-quality</button> 
+   <button class="btn btn-light" onclick="refreshOptimizedImage('?bqoptimize=1;crop=100,200')">crop</button>
+   <button class="btn btn-light" onclick="refreshOptimizedImage('?bqoptimize=1;crop=100,200,300,400')">crop with offset</button>
+   <button class="btn btn-light" onclick="refreshOptimizedImage('?bqoptimize=1;crop=5:4')">crop to 5:4</button>
+
+  </div>
+  <div class="image-optimization-image-container">
+   <img class="image-optimization-image" src="" alt="An image optimized by Baqend." id="image" > 
+  </div>
+</div>
+
+<script>
+var imageURL = "https://ksm.app.baqend.com/v1/file/www/%2Bimg/flyingq-hd-opt.png";
+var options;
+
+function refreshOptimizedImage(providedOptions) {
+options = providedOptions || "";
+    document.getElementById("options").value=options;
+    document.getElementById("image").src = imageURL + options;
+};
+
+function refreshOptimizedImageDelayed() {
+    debounce(refreshOptimizedImage, 100)();
+};
+
+function debounce(func, wait, immediate) {
+  var timeout;
+  return function() {
+    var context = this, args = arguments;
+    var later = function() {
+      timeout = null;
+      if (!immediate) func.apply(context, args);
+    };
+    var callNow = immediate && !timeout;
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+    if (callNow) func.apply(context, args);
+  };
+}
+
+refreshOptimizedImage('?bqoptimize=1');
+</script>
 
 <!-- 
 The ``  
