@@ -113,7 +113,7 @@ function debounce(func, wait, immediate) {
   };
 }
 
-refreshOptimizedImage('?bqoptimize=1');
+refreshOptimizedImage('?bqoptimize=1;width=800');
 </script>
 
 <!-- 
