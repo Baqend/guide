@@ -357,6 +357,10 @@ pre {
   padding: 16px;
 }
 
+.image-optimization-button {
+    text-align: left;
+}
+
 .image-optimization-url-input {
   color: black;
   border: none;
@@ -369,17 +373,16 @@ pre {
 
 .image-optimization-image-container {
     height: 500px;
-    width: 500px;
-    position: relative;
+    width: 800px;
     overflow: auto;
 }
 
 .image-optimization-image-container-inner {
     display: block;
-    position: absolute;
 }
 
-.image-optimization-image {
+img.image-optimization-image {
+    max-width : none;
 }
 
 @media (min-width: 992px) {
