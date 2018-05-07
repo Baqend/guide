@@ -25,9 +25,11 @@ function refreshOptimizedImage(providedOptions) {
         }
       }
     }
+  } else if (typeof providedOptions === "string") {
+    options = providedOptions;
   }
 
-  if (!providedOptions || options === emptyOptions) {
+  if (options === emptyOptions) {
     options = "";
   }
 
