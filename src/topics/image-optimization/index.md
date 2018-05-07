@@ -93,7 +93,7 @@ Feel free to play around with our optimization feature below!
         </ul>
     </div>
     <div class="btn-group">
-        <button type="button" data-toggle="dropdown" class="btn btn-light dropdown-toggle">auto WebP<span class="caret"></span></button>
+        <button type="button" data-toggle="dropdown" class="btn btn-light dropdown-toggle">auto-WebP<span class="caret"></span></button>
         <ul class="dropdown-menu">
            <li><a type="button" class="btn btn-light dropdown-item image-optimization-button" onclick="refreshOptimizedImage({'auto':undefined})">off</a></li>
            <li><a type="button" class="btn btn-light dropdown-item image-optimization-button" onclick="refreshOptimizedImage({'auto':'webp'})">on</a></li>
