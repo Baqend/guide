@@ -346,28 +346,47 @@ pre {
   z-index: 9999;
 }
 
-.image-optimization-url-panel {
+.image-optimization-warning {
+  opacity: 0;
+  visibility: hidden;
+  -webkit-transition: opacity 500ms, visibility 500ms, ease-in-out;
+  transition: opacity 500ms, visibility 500ms, 500ms ease-in-out;
+  display: none;
+}
+
+.image-optimization-warning-visible {
+  visibility: visible;
+  opacity: 1;
+  display: block;
+}
+
+.image-optimization-input-panel {
   background-color: #FFFFFF;
   text-align: left;
   font-size: 15px;
   box-shadow: 0 0 1px 0 rgba(50, 50, 50, 0.3);
+  width: 100%;
+}
+
+.image-optimization-button-panel-top {
+  padding-top: 16px;
 }
 
 .image-optimization-button-panel {
-  padding: 16px;
+  padding-bottom: 4px;
 }
 
 .image-optimization-button {
     text-align: left;
 }
 
-.image-optimization-url-input {
+.image-optimization-input {
   color: black;
   border: none;
   outline: none;
   font-size: 15px;
   height: 38px;
-  width: 80%;
+  width: 100%;
   padding-left: 8px;
 }
 
@@ -386,7 +405,7 @@ img.image-optimization-image {
 
 @media (min-width: 992px) {
 
-  .image-optimization-url-panel {
+  .image-optimization-input-panel {
     margin-top: 5px;
     border-radius: 3px 3px 3px 3px;
     box-shadow: 0 1px 3px 1px rgba(50, 50, 50, 0.3);
