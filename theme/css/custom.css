@@ -393,6 +393,10 @@ pre {
   padding-left: 8px;
 }
 
+.image-optimization-input-label {
+  padding-top: 8px;
+}
+
 .image-optimization-image-container {
     height: 500px;
     overflow: auto;
@@ -404,5 +408,10 @@ pre {
 
 img.image-optimization-image {
     max-width : none;
+}
+@media(max-width: 992px) {
+  .image-optimization-input-label {
+    display: none;
+  }
 }
 

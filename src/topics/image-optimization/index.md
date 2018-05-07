@@ -34,9 +34,11 @@ https://www.example.com/test.jpg?bqoptimize=1;width=640;quality=90
 Feel free to play around with our optimization feature below!
 
 <div class="image-optimization-container">
+    <label class="image-optimization-input-label" for="url">URL:</label>
     <div class="image-optimization-input-panel">
       <input class="image-optimization-input" type="text" placeholder="image URL" onkeyup="refreshOptimizedImageDelayed()" id="url" >
     </div>
+    <label class="image-optimization-input-label" for="options">Options:</label>
     <div class="image-optimization-input-panel">
       <input class="image-optimization-input" type="text" placeholder="image optimization parameters" onkeyup="refreshOptimizedImageDelayed()" id="options" >
     </div>
@@ -48,10 +50,10 @@ Feel free to play around with our optimization feature below!
         <button type="button" data-toggle="dropdown" class="btn image-optimization-button dropdown-toggle">width &amp; height <span class="caret"></span></button>
         <ul class="dropdown-menu">
            <li><a type="button" class="btn dropdown-item image-optimization-button" onclick="refreshOptimizedImage({'width':undefined,'height':undefined})">none</a></li>
-           <li><a type="button" class="btn dropdown-item image-optimization-button" onclick="refreshOptimizedImage({'width':50,'height':undefined})">width 50px</a></li>
-           <li><a type="button" class="btn dropdown-item image-optimization-button" onclick="refreshOptimizedImage({'width':500,'height':undefined})">width 500px</a></li>
-           <li><a type="button" class="btn dropdown-item image-optimization-button" onclick="refreshOptimizedImage({'width':undefined,'height':50})">height 50px</a></li>
-           <li><a type="button" class="btn dropdown-item image-optimization-button" onclick="refreshOptimizedImage({'width':undefined,'height':500})">height 500px</a></li>
+           <li><a type="button" class="btn dropdown-item image-optimization-button" onclick="refreshOptimizedImage({'width':150,'height':undefined})">width 150px</a></li>
+           <li><a type="button" class="btn dropdown-item image-optimization-button" onclick="refreshOptimizedImage({'width':0.5,'height':undefined})">width 50%</a></li>
+           <li><a type="button" class="btn dropdown-item image-optimization-button" onclick="refreshOptimizedImage({'width':undefined,'height':150})">height 150px</a></li>
+           <li><a type="button" class="btn dropdown-item image-optimization-button" onclick="refreshOptimizedImage({'width':undefined,'height':0.5})">height 50%</a></li>
            <li><a type="button" class="btn dropdown-item image-optimization-button" onclick="refreshOptimizedImage({'width':500,'height':500})">width 500px, height 500px</a></li>
         </ul>
     </div>
@@ -122,17 +124,55 @@ Feel free to play around with our optimization feature below!
 
 <script src="../../js/sandbox.js"></script>
 
-<!-- 
-The ``  
 
-### Parameters
+## Option List
 
-For an extensive list of all the available parameters, please checkout the [**Fastly docs**](https://docs.fastly.com/api/imageopto/). 
+In this section, we list the available optimization parameters and explain what they can be used for.
 
-If you want to play around with this feature a bit, check out Fastly's image optimization [**sandbox**](https://www.fastly.com/io)!
-In the following, you can find an overview of some commonly used parameters:
+### `width` & `height`: Downscaling
 
-- **width**: Resizes the image to the specified width in pixels (e.g. `width=640`) or relatively to the original width (e.g. `width=0.3`)
-- **height**: Resizes the image to the specified height in pixels (e.g. `height=320`) or relatively to the original height (e.g. `height=0.3`)
-- **quality**: Re-compresses the image; accepts values between `1` (low quality) and `100` (high quality)
- -->
+With `width` and `height`, you can resize an image. If only one dimension is provided, the other one will be scaled proportionally. 
+
+#### Examples
+
+- `width=150` (see in <a type="button" href="#sandbox" onclick="refreshOptimizedImage('?bqoptimize=1;width=150;')">sandbox</a>): scale image to 50px in width, scaling height proportionally
+- `width=0.5` (see in <a type="button" href="#sandbox" onclick="refreshOptimizedImage('?bqoptimize=1;width=0.5;')">sandbox</a>): scale image to 50% of the original width, scaling height proportionally
+
+### `quality`: Lossy Compression
+
+By specifying `quality`, you can recompress an image to save bandwidth for your losers. 
+
+<div class="note"><strong>Note:</strong> 
+Quality can be adjusted for <b>lossy formats only</b>. 
+</div> 
+
+#### Examples
+
+- `quality=100` (see in <a type="button" href="#sandbox" onclick="refreshOptimizedImage('?bqoptimize=1;quality=100;That')">sandbox</a>): best-possible quality
+- `quality=80` (see in <a type="button" href="#sandbox" onclick="refreshOptimizedImage('?bqoptimize=1;quality=80;format=jpg;')">sandbox</a>): pretty good quality
+- `quality=40` (see in <a type="button" href="#sandbox" onclick="refreshOptimizedImage('?bqoptimize=1;quality=40;format=jpg;')">sandbox</a>): pretty poor quality
+- `quality=1` (see in <a type="button" href="#sandbox" onclick="refreshOptimizedImage('?bqoptimize=1;quality=1;format=jpg;')">sandbox</a>): worst-possible quality
+
+### `crop`: Trimming
+
+
+
+### `format`: Specify File Type
+
+
+
+### `auto`: Enable WebP Where Available
+
+
+
+### `fit`: Fill a Given Bounding Box
+
+
+
+
+
+
+
+
+
+
