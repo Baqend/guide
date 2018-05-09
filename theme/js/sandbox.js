@@ -12,17 +12,18 @@ function refreshOptimizedImage(providedOptions) {
     for (var option in providedOptions) {
       if (providedOptions.hasOwnProperty(option)) {
         var value = providedOptions[option];
-        var stringEncodedOption = value ? option + "=" + value + ";" : "";
+        var stringEncodedOption = value ? ";" + option + "=" + value + ";" : "";
 
         var idxStart = options.indexOf(option);
         if (idxStart > -1) {
-          var idxUntil = options.substring(idxStart).indexOf(";")+1;
-          idxUntil = idxUntil > 0 ? idxUntil : options.substring(idxStart).indexOf("&")+1;
-          idxUntil = idxUntil > 0 ? idxStart + idxUntil: options.length;
+          var idxUntil = options.substring(idxStart).indexOf(";") + 1;
+          idxUntil = idxUntil > 0 ? idxUntil : options.substring(idxStart).indexOf("&") + 1;
+          idxUntil = idxUntil > 0 ? idxStart + idxUntil : options.length;
           options = options.substring(0, idxStart) + stringEncodedOption + options.substring(idxUntil, options.length)
         } else {
           options = options + stringEncodedOption;
         }
+        options = options.replace(";;", ";");
       }
     }
   } else if (typeof providedOptions === "string") {
@@ -36,7 +37,7 @@ function refreshOptimizedImage(providedOptions) {
   document.getElementById("options").value = options;
   document.getElementById("image").src = url + options;
 
-  if (url && url.toLowerCase().indexOf('app.baqend.com')<0) {
+  if (url && url.toLowerCase().indexOf('app.baqend.com') < 0) {
     document.getElementById("warning").classList.add("image-optimization-warning-visible");
   } else {
     document.getElementById("warning").classList.remove("image-optimization-warning-visible");
@@ -64,4 +65,4 @@ function debounce(func, wait, immediate) {
 
 
 document.getElementById("url").value = "https://ksm.app.baqend.com/v1/file/www/%2Bimg/flyingq-hd-opt.png";
-refreshOptimizedImage({"width":800,"height":undefined});
+refreshOptimizedImage({"width": 800, "height": undefined});
