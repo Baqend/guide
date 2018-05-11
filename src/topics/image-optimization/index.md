@@ -85,14 +85,14 @@ Feel free to play around with our optimization feature below!
         <button type="button" data-toggle="dropdown" class="btn image-optimization-button dropdown-toggle">format <span class="caret"></span></button>
         <ul class="dropdown-menu">
            <li><a type="button" class="btn dropdown-item image-optimization-button" onclick="refreshOptimizedImage({'format':undefined})">original</a></li>
-           <li><a type="button" class="btn dropdown-item image-optimization-button" onclick="refreshOptimizedImage({'format':'gif'})">gif</a></li>
-           <li><a type="button" class="btn dropdown-item image-optimization-button" onclick="refreshOptimizedImage({'format':'png'})">png</a></li>
-           <li><a type="button" class="btn dropdown-item image-optimization-button" onclick="refreshOptimizedImage({'format':'png8'})">png8</a></li>
-           <li><a type="button" class="btn dropdown-item image-optimization-button" onclick="refreshOptimizedImage({'format':'jpg'})">jpg</a></li>
-           <li><a type="button" class="btn dropdown-item image-optimization-button" onclick="refreshOptimizedImage({'format':'pjpg'})">pjpg</a></li>
-           <li><a type="button" class="btn dropdown-item image-optimization-button" onclick="refreshOptimizedImage({'format':'webp'})">webp</a></li>
-           <li><a type="button" class="btn dropdown-item image-optimization-button" onclick="refreshOptimizedImage({'format':'webpll'})">webpll</a></li>
-           <li><a type="button" class="btn dropdown-item image-optimization-button" onclick="refreshOptimizedImage({'format':'webply'})">webply</a></li>
+           <li><a type="button" class="btn dropdown-item image-optimization-button" onclick="refreshOptimizedImage({'format':'gif'})">GIF (Graphics Interchange Format)</a></li>
+           <li><a type="button" class="btn dropdown-item image-optimization-button" onclick="refreshOptimizedImage({'format':'png'})">PNG (Portable Network Graphics)</a></li>
+           <li><a type="button" class="btn dropdown-item image-optimization-button" onclick="refreshOptimizedImage({'format':'png8'})">PNG8 (PNG with 8-bit transparency and 256 colors)</a></li>
+           <li><a type="button" class="btn dropdown-item image-optimization-button" onclick="refreshOptimizedImage({'format':'jpg'})">JPEG</a></li>
+           <li><a type="button" class="btn dropdown-item image-optimization-button" onclick="refreshOptimizedImage({'format':'pjpg'})">Progressive JPEG</a></li>
+           <li><a type="button" class="btn dropdown-item image-optimization-button" onclick="refreshOptimizedImage({'format':'webp'})">WebP</a></li>
+           <li><a type="button" class="btn dropdown-item image-optimization-button" onclick="refreshOptimizedImage({'format':'webpll'})">WebP (Lossless)</a></li>
+           <li><a type="button" class="btn dropdown-item image-optimization-button" onclick="refreshOptimizedImage({'format':'webply'})">WebP (Lossy)</a></li>
         </ul>
     </div>
     <div class="btn-group image-optimization-button-container">
