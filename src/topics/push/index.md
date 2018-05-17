@@ -78,6 +78,28 @@ When registering a new device you need to retrieve the Push Subscription JSON fr
 
 As already mentioned above you need to have a registered Service Worker.
 
+Before registering a device, the user needs to grant permission for receiving notifications from the browser. The following
+code is needed to ask the user for prompting the user:
+
+```js
+if (!("Notification" in window)) {
+    console.error("Notification isn't enabled");
+} else if (Notification.permission === "granted") {
+    console.log("Notification is enabled");
+} else if (Notification.permission !== "denied") {
+    Notification.requestPermission(function (permission) {
+        // If the user accepts, let's subscribe it
+        if (permission === "granted") {
+            subscribe();
+        }
+    });
+}
+```
+
+For further information when and how to ask the user for permission read the following best practice guide from
+[Google](https://developers.google.com/web/ilt/pwa/introduction-to-push-notifications#best_practices).
+
+
 First, you need to get the subscribe options with the generated public key from your dashboard settings:
 ```js
 function getSubscribeOptions() {
@@ -88,7 +110,7 @@ function getSubscribeOptions() {
   };
 }
 
-function urlBase64ToUint8Array(base64String: String) {
+function urlBase64ToUint8Array(base64String) {
   const padding = '='.repeat((4 - base64String.length % 4) % 4);
   const base64 = (base64String + padding)
     .replace(/\-/g, '+')
@@ -178,5 +200,20 @@ exports.call = function(db, data) {
       var pushMessage = db.Device.PushMessage(devices, message, subject, options);
       return db.Device.push(pushMessage);
     });
+}
+```
+
+## Receiving Push Events
+For Web devices the Service Worker of the web application needs to receive the push message from the server and send it to the device of the user.
+The following minimum code in the service worker file is needed to handle push events:
+
+```js
+self.addEventListener('push', function(event) {
+  var payload = event.data ? event.data.json() : 'no payload';
+  var title = payload.title;
+  
+  event.waitUntil(
+      self.registration.showNotification(title, payload)
+  );
 }
 ```
