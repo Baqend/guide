@@ -93,6 +93,7 @@
   font-family: FontAwesome;
   padding-right: 5px;
   font-size: 19px;
+  display: inline-block;
 }
 
 @media (min-width: 1200px) {
@@ -329,9 +330,6 @@ pre {
 }
 .note strong, .tip strong, .warning strong {
   font-size: 17px;
-}
-.note strong::before, .tip strong::before, .warning strong::before {
-  display: none;
 }
 .note {
   background-color: #e8f4fa;

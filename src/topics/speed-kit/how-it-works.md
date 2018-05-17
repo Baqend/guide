@@ -15,3 +15,4 @@ To avoid stale data, Speed Kit's caches have to be updated whenever your content
 For this purpose, we provide a convenient the [refresh API](../speed-kit/refreshing.md) that allows you to update all caches (including the browser caches which is located on the user's device). 
 This can be done both in *realtime* and in *scheduled* fashion. 
 
+For additional details on Speed Kit and the technology it is built on, see our [in-depth technical survey](https://medium.baqend.com/the-technology-behind-fast-websites-2638196fa60a#d876). 
