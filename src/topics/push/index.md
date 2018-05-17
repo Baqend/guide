@@ -105,7 +105,7 @@ function urlBase64ToUint8Array(base64String: String) {
 ```
 
 Second, you need to pass the `subscribeOptions` object everytime you register a new device to the subscribe method of the `Push Manager`.
-You'll get a `pushSubscription` JSON you need to pass on to the `Device.register()` method.
+You'll get a `pushSubscription` JSON, which you need to pass on to the `Device.register()` method.
 
 Example code is shown below:
 ```js
