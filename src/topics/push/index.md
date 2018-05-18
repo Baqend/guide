@@ -4,9 +4,11 @@ Baqend provides the ability to send push notifications to end users' devices. Be
 must first register the device of the user. Registered devices can then later be used in Baqend Code to send push
 notifications to. 
 
-<div class="note"><strong>Note:</strong> Currently, Baqend supports IOS, Android devices and Web devices (e.g. Firefox, Chrome), support for more platforms are planed. </div>
+<div class="note"><strong>Note:</strong> Currently, Baqend supports push on iOS devices, Android devices, and Web devices (e.g. Firefox, Chrome). </div>
 
-## Setup Push
+## Setup
+
+Setup for push notifications varies depending on your target platform. 
 
 ### Web Push
 To enable push notifications for Web devices (e.g. Firefox, Chrome), you need to generate a VAPID public key in your settings.
@@ -14,7 +16,7 @@ To do this, go to the *Push Notifications* section in the dashboard settings and
 
 If you want to use the Web Push technology, your application needs a Service Worker. With [Speed Kit](http://www.baqend.com/speedkit.html) a Service Worker is already given and you don't need to configure anything.
 
-### Apple Push Notifcation Service (APNS)
+### iOS (Apple Push Notifcation Service, APNS)
 
 To enable push notifications for iOS devices, you have to upload your production or sandbox certificate to Baqend first. 
 To this end, go to the *Push Notifications* section in the dashboard settings. 
@@ -28,7 +30,7 @@ to use both certificate types at the same time.
 [This tutorial](http://help.apple.com/xcode/mac/current/#/dev11b059073)
 shows how to enable push notification in your app and how to export your certificate as a *p12*-file.
 
-### Google Cloud Messaging (GCM)
+### Android (Google Cloud Messaging, GCM)
 
 To enable push notifications for Android devices, you need to upload your GCM API key to Baqend. 
 To this end, go to the *Push Notifications* section in the dashboard settings and enter your API key. 
