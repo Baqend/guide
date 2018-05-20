@@ -23,7 +23,7 @@ and install it in your blog's plugin administration view (typically located unde
 
 ## Prepare Your Baqend App
 
-Your Baqend up will be created automatically, but you can login and logout in the *Account* tab.
+Your Baqend app will be created automatically, but you can log in and out in the *Account* tab.
 
 
 ## Configure Your WordPress Plugin
