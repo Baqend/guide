@@ -44,7 +44,9 @@ To set up a Firebase Cloud Messaging Client App in your Android app, please foll
 
 ## Device Registration
 
-A registered device is represented in Baqend by the Device class. The Device class contains the `deviceOs` field with the platform name of the registered device, currently `Android` or `IOS`. For `Web Push` see instructions [below](#web-push-registration). To register a new device, you must 
+### General Information about Device Class
+
+A registered device is represented in Baqend by the Device class. The Device class contains the `deviceOs` field with the platform name of the registered device, currently `Android`, `IOS` and `Web Push`. To register a new device, you must 
 first obtain a device token with your used mobile framework. With the token, you can then register the device on Baqend.
 
 You don't have to register a device every time your app initializes: Use the `Device.isRegistered` flag to check whether it is really necessary. As illustrated below, you thus only have to request a device token if the device is currently not registered:
@@ -52,10 +54,7 @@ You don't have to register a device every time your app initializes: Use the `De
 ```js
 DB.ready().then(function() {
     if (!DB.Device.isRegistered) {
-        //helper method which fetch a new device token, using your favor framework 
-        var deviceToken = requestDeviceToken();
-    
-        DB.Device.register('IOS', deviceToken);
+      // code to register the device
     }
 });
 ```
@@ -75,13 +74,30 @@ var device = new DB.Device({
 DB.Device.register('IOS', deviceToken, device);
 ```
 
+### iOS and Android Device Registration
+<div class="note"><strong>Note:</strong> Currently, Baqend is developing on an iOS and Android SDK for easier implementation, but is not available yet.</div>
+
+To register an IOS or Android device, you need to retreive the token from the used device. It depends on the used framework how to get the token. After successfully getting it, pass the token to the `DB.Device.register` method as shown below:
+
+```js
+DB.ready().then(function() {
+    if (!DB.Device.isRegistered) {
+        //helper method which fetch a new device token, using your favor framework 
+        var deviceToken = requestDeviceToken();
+    
+        DB.Device.register('IOS', deviceToken);
+    }
+});
+```
+
 ### Web Push Registration
+
 When registering a new device you need to retrieve the Push Subscription JSON from the browser's Push Service, respectively.
 
 As already mentioned above you need to have a registered Service Worker.
 
 Before registering a device, the user needs to grant permission for receiving notifications from the browser. The following
-code is needed to ask the user for prompting the user:
+code is needed to ask the user for notification prompting:
 
 ```js
 if (!("Notification" in window)) {
@@ -128,8 +144,8 @@ function urlBase64ToUint8Array(base64String) {
 }
 ```
 
-Second, you need to pass the `subscribeOptions` object everytime you register a new device to the subscribe method of the `Push Manager`.
-You'll get a `pushSubscription` JSON, which you need to pass on to the `Device.register()` method.
+Second, you need to pass the `subscribeOptions` object when registering a new device to the subscribe method of the `Push Manager`.
+You'll get a `pushSubscription` JSON, which you need to pass on to the `DB.Device.register()` method.
 
 Example code is shown below:
 ```js
@@ -142,12 +158,11 @@ return navigator.serviceWorker.ready.then((registration) => {
     'devicetype': 'WebPush'
   };
   
-  DB.device.register('WebPush', deviceRegistration);
+  DB.Device.register('WebPush', deviceRegistration);
 })
 ```
 
 ## `PushMessage` Class
-
 To send a push notification, the SDK provides a `PushMessage` class which can be used to send a message to one or more 
 devices. A push message can transport additional information to the end user's device.
  
