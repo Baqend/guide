@@ -23,9 +23,7 @@ and install it in your blog's plugin administration view (typically located unde
 
 ## Prepare Your Baqend App
 
-If you have not already, [register at Baqend](https://dashboard.baqend.com/register) and create your app with a name of your choice.
-When your app is ready, go to “Settings” in the navigation and find the “Custom Domain” settings in the “Hosting” section.
-Add your domain and follow the DNS setup instructions.
+Your Baqend app will be created automatically, but you can log in and out in the *Account* tab.
 
 
 ## Configure Your WordPress Plugin
