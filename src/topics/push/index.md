@@ -44,10 +44,10 @@ To set up a Firebase Cloud Messaging Client App in your Android app, please foll
 
 ## Device Registration
 
-### General Information about Device Class
+### General Information about the Device Class
 
-A registered device is represented in Baqend by the Device class. The Device class contains the `deviceOs` field with the platform name of the registered device, currently `Android`, `IOS` and `Web Push`. To register a new device, you must 
-first obtain a device token with your used mobile framework. With the token, you can then register the device on Baqend.
+A registered device is represented in Baqend by the Device class. The Device class contains the `deviceOs` field with the platform name of the registered device, currently `Android`, `IOS` and `WebPush`. To register a new device, you must 
+first obtain a device token with your used mobile framework. With that token, you can then register the device on Baqend.
 
 You don't have to register a device every time your app initializes: Use the `Device.isRegistered` flag to check whether it is really necessary. As illustrated below, you thus only have to request a device token if the device is currently not registered:
 
@@ -74,7 +74,7 @@ var device = new DB.Device({
 DB.Device.register('IOS', deviceToken, device);
 ```
 
-### iOS and Android Device Registration
+### IOS and Android Registration
 <div class="note"><strong>Note:</strong> Currently, Baqend is developing on an iOS and Android SDK for easier implementation, but is not available yet.</div>
 
 To register an IOS or Android device, you need to retreive the token from the used device. It depends on the used framework how to get the token. After successfully getting it, pass the token to the `DB.Device.register` method as shown below:
@@ -97,7 +97,7 @@ When registering a new device you need to retrieve the Push Subscription JSON fr
 As already mentioned above you need to have a registered Service Worker.
 
 Before registering a device, the user needs to grant permission for receiving notifications from the browser. The following
-code is needed to ask the user for notification prompting:
+code can be used to ask the user for enabling notifications:
 
 ```js
 if (!("Notification" in window)) {
@@ -113,19 +113,20 @@ if (!("Notification" in window)) {
     });
 }
 ```
-
 For further information when and how to ask the user for permission read the following best practice guide from
 [Google](https://developers.google.com/web/ilt/pwa/introduction-to-push-notifications#best_practices).
 
 
-First, you need to get the subscribe options with the generated public key from your dashboard settings:
+After successfully enabling the notification, you need to get the subscribe options with the generated public key from your dashboard settings:
 ```js
 function getSubscribeOptions() {
-  const applicationServerKey = 'BDkqbc_OV7ARWxaRf9kKI_dkmIyhJRjOFxIcZ9DJa9_4QBKJOZj-zIsn3s3SU_zEVpvK3mR2hzjBIAKqRxHSitE='
-  return {
-    userVisibleOnly: true,
-    applicationServerKey: urlBase64ToUint8Array(applicationServerKey)
-  };
+  const msg = new DB.message.VAPIDPublicKey();
+  DB.send(msg).then((vapidPublicKey) => {
+    return {
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(vapidPublicKey)
+      };
+  })
 }
 
 function urlBase64ToUint8Array(base64String) {
@@ -144,7 +145,7 @@ function urlBase64ToUint8Array(base64String) {
 }
 ```
 
-Second, you need to pass the `subscribeOptions` object when registering a new device to the subscribe method of the `Push Manager`.
+Then, you need to pass the `subscribeOptions` object when registering a new device to the subscribe method of the `Push Manager`.
 You'll get a `pushSubscription` JSON, which you need to pass on to the `DB.Device.register()` method.
 
 Example code is shown below:
@@ -189,7 +190,7 @@ devices. A push message can transport additional information to the end user's d
   </tr>
 </table></div>    
 
-For further information about the `options` Object and what to pass on, see the [PushMessage Class]() in the SDK documentation.
+For further information about the `options` Object and what to pass on, see the [PushMessage Class](https://www.baqend.com/js-sdk/latest/util.PushMessage.html) in the SDK documentation.
 
 ## Sending Push
 
@@ -232,5 +233,5 @@ self.addEventListener('push', function(event) {
   event.waitUntil(
       self.registration.showNotification(title, payload)
   );
-}
+});
 ```
