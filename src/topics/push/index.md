@@ -172,6 +172,9 @@ async function registerDevice() {
 
 With this, you are able to register the user's device and save it in your device schema.
 
+If you want a customized welcome notification for the user, you can use the `onInsert` Handler from the device schema
+ and send a push message as the Node user. For more information see [Handlers](../baqend-code/#handlers).
+
 ### iOS and Android Registration
 <div class="note"><strong>Note:</strong> Currently, Baqend is developing on an iOS and Android SDK for easier implementation, but is not available yet.</div>
 
