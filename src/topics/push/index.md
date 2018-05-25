@@ -130,14 +130,14 @@ For further information when and how to ask the user for permission read the fol
 
 After successfully enabling the notification, you need to get the subscribe options with the generated public key from your dashboard settings:
 ```js
-function getSubscribeOptions() {
+async function getSubscribeOptions() {
   const msg = new DB.message.VAPIDPublicKey();
-  DB.send(msg).then((vapidPublicKey) => {
-    return {
-        userVisibleOnly: true,
-        applicationServerKey: urlBase64ToUint8Array(vapidPublicKey)
-      };
-  })
+  const vapidPublicKey = await DB.send(msg);
+
+  return {
+    userVisibleOnly: true,
+    applicationServerKey: urlBase64ToUint8Array(vapidPublicKey.entity)
+  }
 }
 
 function urlBase64ToUint8Array(base64String) {
@@ -159,14 +159,15 @@ function urlBase64ToUint8Array(base64String) {
 Then, you need to pass the `subscribeOptions` object when registering a new device to the subscribe method of the `Push Manager`.
 You'll get a `pushSubscription` JSON, which you need to pass on to the `DB.Device.register` method.
 
-Example code is shown below:
+Example code is shown below for registering a new device:
 ```js
-return navigator.serviceWorker.ready.then((registration) => {
-  const subscribeOptions = getSubscribeOptions();
-  return registration.pushManager.subscribe(subscribeOptions);
-}).then((pushSubscription) => {
+async function registerDevice() {
+  const registration = await navigator.serviceWorker.ready;
+  const subscribeOptions = await getSubscribeOptions();
+
+  const pushSubscription = await registration.pushManager.subscribe(subscribeOptions);
   DB.Device.register('WebPush', pushSubscription);
-})
+}
 ```
 
 With this, you are able to register the user's device and save it in your device schema.
