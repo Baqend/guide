@@ -82,7 +82,7 @@ device is currently not registered:
 ```js
 DB.ready().then(function() {
     if (!DB.Device.isRegistered) {
-      // code to register the device
+      registerDevice();
     }
 });
 ```
