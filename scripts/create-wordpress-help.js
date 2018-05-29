@@ -52,7 +52,7 @@ fs.readFile(sourceFilePath, { encoding: 'utf8' }, (err, html) => {
 
   result = replaceImgSrc(result);
 
-  result = `<?php /*\n\nGenerated from Guide – Do not change manually!\n\n*/ ?><div class="wrap baqend-help"><h1><?php _e('Baqend &rsaquo; Help', 'baqend'); ?></h1>\n<?php include 'tabs.php'; ?>${result}</div>\n`;
+  result = `<?php /*\n\nGenerated from Guide – Do not change manually!\n\n*/ ?><div class="wrap baqend-help"><h1><?php _e( 'Speed Kit', 'baqend' ); ?> &rsaquo; <?php _e( 'Help', 'baqend' ); ?></h1>\n<?php include 'tabs.php'; ?>${result}</div>\n`;
 
   fs.writeFile(destViewsPath, result, { encoding: 'utf8' }, (err) => {
     if (err) throw new Error(err);
