@@ -25,6 +25,9 @@ There are various metrics that are commonly used to measure page Speed (see [bel
 Here is a video that shows how we can measure *DOMContentLoaded* and *FullyLoaded* (a.k.a. *Load*):
 
 <img src="../performance-measurement-browser.gif" alt="The Speed Index and the First Meaningful Paint (FMP) are metrics that capture how slow or fast a website feels." style="width:80%; display: block; margin-left: auto; margin-right: auto;">
+<!--  -->
+<iframe width="560" height="315" src="https://www.youtube.com/embed/-fapDN45qkg" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
 
 To take measurements with your own browser, just do the following:
 
@@ -33,7 +36,10 @@ To take measurements with your own browser, just do the following:
 3. Navigate to the **Network Tab** to see all resources that are transferred on page load
 4. **Look** at the numbers: At the bottom of the browser window, you can read how long it took until *DOMContentLoaded* and *Load*, respectively. 
 
-## Measuring Speed Kit: side-by-side comparison
+## Measuring Speed Kit's Effect
+
+
+<img src="../comparison_a-b_optimized.gif" alt="The direct comparison shows that Speed Kit brings a significant performance boost for your website." style="width:80%; display: block; margin-left: auto; margin-right: auto;">
 
 
 
