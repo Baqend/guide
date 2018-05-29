@@ -7,19 +7,12 @@ Baqend has special support for **WordPress** with a custom plugin that allows yo
 
 Installing the Baqend WordPress Plugin is as easy as doing the following steps. 
 
-### From the WordPress Plugin Directory
-
 1. In your WordPress's admin, hover over “Plugins” in the left menu and hit “Add New”.
 2. There, enter “Baqend” in the plugin search box.
 3. You will see a list of search results which should include the Baqend plugin. Click on the “Install Now” button to install the plugin.
 4. After installing the plugin you will be prompted to activate it. Click on the “Activate Plugin” link.
 5. The Baqend plugin is now installed and can be found on the left menu.
 
-### Upload Manually
-
-Download the official **Baqend plugin** from [the WordPress plugin directory](https://wordpress.org/plugins/baqend/) or from [our website](https://www.baqend.com/wordpress-plugin/latest/baqend.zip) 
-and install it in your blog's plugin administration view (typically located under *http://your-wordpress.blog/wp-admin/plugin-install.php*).
- 
 
 ## Prepare Your Baqend App
 
@@ -28,7 +21,7 @@ Your Baqend app will be created automatically, but you can log in and out in the
 
 ## Configure Your WordPress Plugin
 
-Once your Baqend app is prepared, go to the admin page of your WordPress blog and head over to the Baqend settings (located under *http://your-wordpress.blog/wp-admin/admin.php?page=baqend_settings*).
+Once your Baqend app is prepared, go to the admin page of your WordPress blog and head over to the Baqend settings (located under *http://your-wordpress.blog/wp-admin/admin.php?page=baqend_speed_kit*).
 There, enter the credentials you use to login with Baqend.
 
 ![Select an app](select-app.png)
@@ -46,7 +39,7 @@ This is easy to use and you will be set-up and done in seconds!
 ## Speed Kit
 
 The WordPress plugin makes using [Baqend Speed Kit](https://www.baqend.com/guide/topics/speed-kit/) a breeze.
-Simply head over to the *Speed Kit* tab and check *enabled* next to *Speed Kit Integration*.
+Simply head over to the *Settings* tab and check *enabled* next to *Speed Kit Integration*.
 
 ![Enable Speed Kit](speed-kit-enable.png)
 
