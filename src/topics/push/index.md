@@ -1,28 +1,24 @@
 # Push Notifications
 
-Baqend provides the ability to send push notifications to end user's devices. With push notifications, the 
-application can reach out to users to send messages and allow the user to interact with it. Baqend allows you to send
- notifications from the admin panel to registered devices. Those notifications can vary from short sentences to rich 
- and interactive messages to involve the user's opinion.
+Baqend provides the ability to send push notifications to end users' devices. 
+In this section, we explain how you can [set up](#setup) your Baqend app for push notifications, how to [register](#device-registration) a user device for receiving push notifications, and how to actually [send](#sending-push) push notifications using a Baqend code module or directly from the dashboard.
 
-<div class="note"><strong>Note:</strong> Currently, Baqend supports push on Web devices (e.g. Firefox, Chrome) as well
- as iOS and Android devices for hybrid apps only.</div>
+<div class="note"><strong>Note:</strong> Currently, Baqend supports push for Web browsers (e.g. Firefox, Chrome) as well
+ as iOS and Android devices for hybrid apps. SDKs for iOS and Android SDK are currently in development.</div>
  
-Before you can send a  push notification, you must first register the device of the user. Registered devices 
-can then later be used in Baqend Code to send push notifications to as well as from the dashboard.
 
 ## Setup
 
 Setup for push notifications varies depending on your target platform.
 
 ### Web Push
-To enable push notifications for Web devices (e.g. Firefox, Chrome), you need to generate a VAPID key pair in your 
+To enable push notifications in your app for Web devices (e.g. Firefox, Chrome), you need to generate a VAPID key pair in your 
 settings. To do this, go to the *Push Notifications* section in the dashboard settings and press the *Generate VAPID 
 Keys* button.
 
-If you want to use the Web Push technology, your application needs a Service Worker. With [Speed Kit](http://www
-.baqend.com/speedkit.html) a Service Worker is already given and you don't need to handle registering a user's device
- and handle receiving push events from the server.
+If you want to use the Web Push technology, your app needs a [**Service Worker**](https://developers.google.com/web/fundamentals/primers/service-workers/). 
+If you are already using Baqend's [Speed Kit](http://www.baqend.com/speedkit.html), a Service Worker is already given and you don't need to handle registering a user's device
+ and handle receiving push events from the server. 
  
 #### Receiving Push Events
 For Web devices the Service Worker of the web application needs to receive the push message from the server and send 
@@ -45,35 +41,49 @@ content as a notification to the user's device.
 ### iOS (Apple Push Notifcation Service, APNS)
 
 To enable push notifications for iOS devices, you have to upload your production or sandbox certificate to Baqend first. 
-To this end, go to the *Push Notifications* section in the dashboard settings. Please upload your certificate as a *p12*-file without any password protection. Otherwise, it's
+[This tutorial](https://help.apple.com/xcode/mac/current/#/dev154b28f09) shows how to enable push notification in your app and how to export your certificate as a *p12*-file.
+To upload your certificate to Baqend, go to the *Push Notifications* section in the dashboard settings. Please upload your certificate as a *p12*-file without any password protection. Otherwise, it's
 not possible for Baqend to use it.
 
 The sandbox certificate is needed when testing the app directly from Xcode. If the app has been published to the app
 store or should be tested in *TestFlight*, you must upload your production certificate. It's currently not possible
 to use both certificate types at the same time.
 
-[This tutorial](https://help.apple.com/xcode/mac/current/#/dev154b28f09)
-shows how to enable push notification in your app and how to export your certificate as a *p12*-file.
 
 ### Android (Google Cloud Messaging, GCM)
 
 To enable push notifications for Android devices, you need to upload your GCM API key to Baqend. 
-To this end, go to the *Push Notifications* section in the dashboard settings and enter your API key. 
+To set up a Firebase Cloud Messaging Client App in your Android app, please follow [this tutorial](https://firebase.google.com/docs/cloud-messaging/android/client).
+To upload your certificate to Baqend, go to the *Push Notifications* section in the dashboard settings and enter your API key. 
 
 To get your API key, browse to the [Firebase Console](https://console.firebase.google.com/), open your project and 
 click on the settings icon on the left and open your project settings. You can find your project credentials with keys in the *Cloud Messaging* tab. The *legacy server key* is the one that will be stored in the Baqend settings.
 
-To set up a Firebase Cloud Messaging Client App in your Android app, please follow 
-[this tutorial](https://firebase.google.com/docs/cloud-messaging/android/client).
 
 
 ## Device Registration
 
-### General Information about the Device Class
-
 A registered device is represented in Baqend by the device class. The device class contains the `deviceOs` field with
  the platform name of the registered device, currently `Android`, `IOS` and `WebPush`. To register a new device, you must 
 first obtain a device token with your used mobile framework. With that token, you can then register the device on Baqend.
+
+
+### Hybrid Apps
+
+To register an iOS or Android device, you need to retrieve the token from the used device. It depends on the used 
+framework how to get that token. After successfully getting it, pass the token to the `DB.Device.register` method as 
+shown below:
+
+```js
+DB.ready().then(function() {
+    if (!DB.Device.isRegistered) {
+        //helper method which fetch a new device token, using your favor framework 
+        var deviceToken = requestDeviceToken();
+    
+        DB.Device.register('IOS', deviceToken);
+    }
+});
+```
 
 You don't have to register a device every time your app initializes: Use the `Device.isRegistered` flag in your app 
 to check whether it is really necessary. As illustrated below, you thus only have to request a device token if the 
@@ -102,10 +112,9 @@ var device = new DB.Device({
 DB.Device.register('IOS', deviceToken, device);
 ```
 
-### Web Push Registration
-When registering a new device you need to retrieve the Push Subscription JSON from the browser's Push Service, respectively.
-
-As already mentioned above you need to have a registered Service Worker and the VAPID public key from your settings.
+### Web Push
+When registering a new device you need to retrieve the Push Subscription JSON from the browser's Push Service.
+As already mentioned [above](#web-push), you need to have a registered Service Worker and the VAPID public key from your settings.
 
 Before registering a device, the user needs to grant permission for receiving notifications from the browser. The following
 code in your app can be used to ask the user for enabling notifications:
@@ -124,8 +133,8 @@ if (!("Notification" in window)) {
     });
 }
 ```
-For further information when and how to ask the user for permission read the following best practice guide from
-[Google](https://developers.google.com/web/ilt/pwa/introduction-to-push-notifications#best_practices).
+For further information when and how to ask the user for permission read the following [best practice](https://developers.google.com/web/ilt/pwa/introduction-to-push-notifications#best_practices) from
+Google.
 
 
 After successfully enabling the notification, you need to get the subscribe options with the generated public key, 
@@ -171,24 +180,6 @@ Now you are able to register the user's device and save it in your device schema
 If you want a customized welcome notification for the user, you can use the `onInsert` Handler from the device schema
  and send a push message as the Node user. For more information see [Handlers](../baqend-code/#handlers).
 
-### iOS and Android Registration
-<div class="note"><strong>Note:</strong> Currently, Baqend is developing on an iOS and Android SDK for easier implementation, but is not available yet.</div>
-
-To register an iOS or Android device, you need to retreive the token from the used device. It depends on the used 
-framework how to get that token. After successfully getting it, pass the token to the `DB.Device.register` method as 
-shown below:
-
-```js
-DB.ready().then(function() {
-    if (!DB.Device.isRegistered) {
-        //helper method which fetch a new device token, using your favor framework 
-        var deviceToken = requestDeviceToken();
-    
-        DB.Device.register('IOS', deviceToken);
-    }
-});
-```
-
 ## `PushMessage` Class
 To send a push notification, the SDK provides a `PushMessage` class which can be used to send a message to one or more 
 devices. A push message can transport additional information to the end user's device.
@@ -220,6 +211,10 @@ For further information about the `options` Object and what to pass on, see the 
 
 ## Sending Push
 
+Push notifications can be sent programmatically from within a Baqend code module or manually through your app dashboard.
+
+### Sending Push Notifications from Baqend Code
+
 Push notifications can be sent from the dashboard or within [Baqend code](/topics/baqend-code). To send a push notification to one or more devices, you must
 first obtain the desired device IDs. Therefore, you can use the additional data stored in the `Device` object to query those, 
 or you can save the device reference in another object.
@@ -247,3 +242,9 @@ exports.call = function(db, data) {
 }
 ```
 
+
+### Sending Push Notifications from the Dashboard
+
+Using the Baqend dashboard, you can send push notifications to your users in realtime, ranging from short sentences to interactive messages asking for the user's opinion.
+ 
+To send a push notification from within the dashboard of your app, blah blah blah
