@@ -1,6 +1,6 @@
 # Push Notifications
 
-Baqend provides the ability to send push notifications to end users' devices. With push notifications, the 
+Baqend provides the ability to send push notifications to end user's devices. With push notifications, the 
 application can reach out to users to send messages and allow the user to interact with it. Baqend allows you to send
  notifications from the admin panel to registered devices. Those notifications can vary from short sentences to rich 
  and interactive messages to involve the user's opinion.
@@ -16,7 +16,7 @@ can then later be used in Baqend Code to send push notifications to as well as f
 Setup for push notifications varies depending on your target platform.
 
 ### Web Push
-To enable push notifications for Web devices (e.g. Firefox, Chrome), you need to generate a VAPID public key in your 
+To enable push notifications for Web devices (e.g. Firefox, Chrome), you need to generate a VAPID key pair in your 
 settings. To do this, go to the *Push Notifications* section in the dashboard settings and press the *Generate VAPID 
 Keys* button.
 
@@ -105,7 +105,7 @@ DB.Device.register('IOS', deviceToken, device);
 ### Web Push Registration
 When registering a new device you need to retrieve the Push Subscription JSON from the browser's Push Service, respectively.
 
-As already mentioned above you need to have a registered Service Worker.
+As already mentioned above you need to have a registered Service Worker and the VAPID public key from your settings.
 
 Before registering a device, the user needs to grant permission for receiving notifications from the browser. The following
 code in your app can be used to ask the user for enabling notifications:
@@ -128,49 +128,45 @@ For further information when and how to ask the user for permission read the fol
 [Google](https://developers.google.com/web/ilt/pwa/introduction-to-push-notifications#best_practices).
 
 
-After successfully enabling the notification, you need to get the subscribe options with the generated public key from your dashboard settings:
+After successfully enabling the notification, you need to get the subscribe options with the generated public key, 
+which you can access via `DB.Device.loadWebPushKey()`:
 ```js
 async function getSubscribeOptions() {
-  const msg = new DB.message.VAPIDPublicKey();
-  const vapidPublicKey = await DB.send(msg);
-
   return {
     userVisibleOnly: true,
-    applicationServerKey: urlBase64ToUint8Array(vapidPublicKey.entity)
+    applicationServerKey: await DB.Device.loadWebPushKey()
   }
-}
-
-function urlBase64ToUint8Array(base64String) {
-  const padding = '='.repeat((4 - base64String.length % 4) % 4);
-  const base64 = (base64String + padding)
-    .replace(/\-/g, '+')
-    .replace(/_/g, '/');
-
-  const rawData = window.atob(base64);
-  const outputArray = new Uint8Array(rawData.length);
-
-  for (let i = 0; i < rawData.length; ++i) {
-    outputArray[i] = rawData.charCodeAt(i);
-  }
-  return outputArray;
 }
 ```
 
 Then, you need to pass the `subscribeOptions` object when registering a new device to the subscribe method of the `Push Manager`.
-You'll get a `pushSubscription` JSON, which you need to pass on to the `DB.Device.register` method.
+You'll get a `pushSubscription` JSON, which you need to pass on to the `DB.Device.register` method. 
 
 Example code is shown below for registering a new device:
 ```js
-async function registerDevice() {
-  const registration = await navigator.serviceWorker.ready;
-  const subscribeOptions = await getSubscribeOptions();
+async function subscribe() {
+  if (DB.Device.isRegistered) {
+    return;
+  }
 
-  const pushSubscription = await registration.pushManager.subscribe(subscribeOptions);
-  DB.Device.register('WebPush', pushSubscription);
+  await this.requestPermission();
+  const registration = await navigator.serviceWorker.ready;
+
+  const activeSubscription = await registration.pushManager.getSubscription();
+  if (activeSubscription != null) {
+    await activeSubscription.unsubscribe();
+  }
+
+  const pushSubscription = await registration.pushManager.subscribe(await getSubscribeOptions());
+  return await DB.Device.register('WebPush', pushSubscription);
 }
 ```
 
-With this, you are able to register the user's device and save it in your device schema.
+With this, handling the use case that a device is not registered in Baqend but has an active subscription in the Push
+ Manager, is covered, too. Every time this use case occurs, you need to unsubscribe to active subscription from the 
+ Push Manager, otherwise a new subscription can not be made.
+
+Now you are able to register the user's device and save it in your device schema.
 
 If you want a customized welcome notification for the user, you can use the `onInsert` Handler from the device schema
  and send a push message as the Node user. For more information see [Handlers](../baqend-code/#handlers).
