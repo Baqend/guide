@@ -67,12 +67,39 @@ A registered device is represented in Baqend by the device class. The device cla
  the platform name of the registered device, currently `Android`, `IOS` and `WebPush`. To register a new device, you must 
 first obtain a device token with your used mobile framework. With that token, you can then register the device on Baqend.
 
+You don't have to register a device every time your app initializes: Use the `Device.isRegistered` flag in your app 
+to check whether it is really necessary. As illustrated below, you thus only have to request a device token if the 
+device is currently not registered.
+
+```js
+DB.ready().then(function() {
+    if (!DB.Device.isRegistered) {
+       // register the device
+    }
+});
+```
+
+The device class can also be extended with custom fields like any other class in Baqend. This allows you to save 
+additional data with your device, which you can later use to query the devices that should receive a push 
+notification. To persist additional data with your device while registering it, you can pass a `Device` object to 
+the registration method.
+
+A common use case is to save the user with a device, that allows you to send a push notification to the user's device 
+later on.
+
+```js
+var device = new DB.Device({
+    "user": DB.User.me
+});
+
+DB.Device.register('IOS', deviceToken, device);
+```
 
 ### Hybrid Apps
 
 To register an iOS or Android device, you need to retrieve the token from the used device. It depends on the used 
-framework how to get that token. After successfully getting it, pass the token to the `DB.Device.register` method as 
-shown below:
+framework how to get that token. In this example, we use the `requestDeviceToken()` method to fetch that token. After 
+successfully getting it, pass the token to the `DB.Device.register` method as shown below:
 
 ```js
 DB.ready().then(function() {
@@ -85,32 +112,9 @@ DB.ready().then(function() {
 });
 ```
 
-You don't have to register a device every time your app initializes: Use the `Device.isRegistered` flag in your app 
-to check whether it is really necessary. As illustrated below, you thus only have to request a device token if the 
-device is currently not registered:
+For example, when using the Ionic Framework the Firebase plugin is needed as explained [here](https://ionicframework
+.com/docs/native/firebase/) to retreive the token for the `requestDeviceToken()` method.
 
-```js
-DB.ready().then(function() {
-    if (!DB.Device.isRegistered) {
-      registerDevice();
-    }
-});
-```
-
-The device class can be extended with custom fields like any other class in Baqend. This allows you to save additional
-data with your device, which you can later use to query the devices that should receive a push notification. To persist 
-additional data with your device while registering it, you can pass a `Device` object to the registration method.
-
-A common use case is to save the user with a device, that allows you to send a push notification to the user's device 
-later on.
-
-```js
-var device = new DB.Device({
-    "user": DB.User.me
-});
-
-DB.Device.register('IOS', deviceToken, device);
-```
 
 ### Web Push
 When registering a new device you need to retrieve the Push Subscription JSON from the browser's Push Service.
@@ -133,7 +137,8 @@ if (!("Notification" in window)) {
     });
 }
 ```
-For further information when and how to ask the user for permission read the following [best practice](https://developers.google.com/web/ilt/pwa/introduction-to-push-notifications#best_practices) from
+For further information when and how to ask the user for permission read the following [best practice guide]
+(https://developers.google.com/web/ilt/pwa/introduction-to-push-notifications#best_practices) from
 Google.
 
 
@@ -172,7 +177,7 @@ async function subscribe() {
 ```
 
 With this, handling the use case that a device is not registered in Baqend but has an active subscription in the Push
- Manager, is covered, too. Every time this use case occurs, you need to unsubscribe to active subscription from the 
+ Manager, is covered, too. Every time this use case occurs, you need to unsubscribe the active subscription from the 
  Push Manager, otherwise a new subscription can not be made.
 
 Now you are able to register the user's device and save it in your device schema.
@@ -247,4 +252,5 @@ exports.call = function(db, data) {
 
 Using the Baqend dashboard, you can send push notifications to your users in realtime, ranging from short sentences to interactive messages asking for the user's opinion.
  
-To send a push notification from within the dashboard of your app, blah blah blah
+To send a push notification from within the dashboard of your app, just open the `Send Push` page of the side bar, 
+accessable through the `Progressive Web App` menu entry.
