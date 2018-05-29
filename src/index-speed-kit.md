@@ -25,8 +25,8 @@
   <div class="chapter-item-outer">
     <a class="chapter-item" href="../topics/speed-kit/analyzer">
       <span class="chapter-heading">
-        <span class="icon"><img src="../icons/speed-kit-analyzer.png"/></span>
-        <span class="text">Page Speed Analyzer</span>
+        <span class="icon"><img src="../icons/speed-kit-measurement.png"/></span>
+        <span class="text">Measuring Page Speed</span>
       </span>
       <span class="chapter-info">How to measure the impact of Speed Kit acceleration on your website.</span>
     </a>
