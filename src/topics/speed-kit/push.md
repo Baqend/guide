@@ -16,9 +16,7 @@ key pair in your settings. To do this, go to the *Push Notifications* section in
  
 ## Default Configuration
 
-Usually, the push technology of Baqend can be used immediately with Speed Kit after configurating the setup for the 
-different target platforms. Please note, that Android and iOS devices can only be registered by hybrid apps (e.g. 
-Ionic Framework).
+Usually, the push technology of Baqend can be used immediately with Speed Kit after configurating the setup.
 
 ### Web Push Prompts
 
