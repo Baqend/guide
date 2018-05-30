@@ -3,10 +3,16 @@
 Speed Kit accelerates your website – but by how much?  
 In this section, we answer common questions regarding Speed Kit and web performance:
 
-1. How to [measure the actual speedup](#enabled-vs-disabled-verify-speed-kits-impact) that Speed Kit has on your site? (Speed Kit already active)
-2. [How much faster will it make your website?](#page-speed-analyzer) (Speed Kit *not* active)
+1. **Actual Speedup** (Speed Kit already active): How much faster is Speed Kit making my website?  
+*TL;DR*: You can measure page load time with [your own browser](#measuring-in-the-browser) or with the [Page Speed Analyzer](#the-page-speed-analyzer).
 
-If you want to read more on web performance in general, check out our <a href="https://medium.baqend.com/the-technology-behind-fast-websites-2638196fa60a#7990" target="_blank">in-depth web performance survey</a>. 
+2. **Possible Speedup** (Speed Kit *not* active): How much faster will Speed Kit make my website?  
+*TL;DR*: Have the Page Speed Analyzer generate a [performance report](#how-to-generate-a-performance-report) for your website to find out!
+
+3. **Measuring the Uplift**: Why does Pingdom not capture Speed Kit's performance uplift?  
+*TL;DR*: Common testing tools do not fully support [Service Workers](#measuring-speed-kits-performance-uplift), the technology underneath Speed Kit. 
+
+If you want to read more on web performance in general, check out our <a href="https://medium.baqend.com/the-technology-behind-fast-websites-2638196fa60a" target="_blank">in-depth web performance survey</a>. 
 
 
 ## When is a Website Fast?
@@ -24,9 +30,9 @@ The FMP is typically measured as the moment at which the viewport experiences th
 The **Speed Index (SI)** represents the average time until a visible element appears on-screen. It corresponds to the area above the dashed line in the illustration above  —  a small SI corresponds to a fast website.
 
 
-## Measure it Yourself!
+## Measuring in the Browser
 
-The Speed Index or the First Meaningful Paint are hard to measure yourself. However, there are various other metrics that you can easily measure yourself, with nothing but your web browser.  
+The Speed Index or the First Meaningful Paint are hard to measure without specialized tooling. However, there are various other metrics that you can easily measure yourself, with nothing but your web browser.  
 Here is a video that shows how you can measure *DOMContentLoaded* and *FullyLoaded* (a.k.a. *Load*, see [below](#quantifiable-metrics)):
 
 <img src="../performance-measurement-browser.gif" alt="The Speed Index and the First Meaningful Paint (FMP) are metrics that capture how slow or fast a website feels." style="width:85%; display: block; margin-left: auto; margin-right: auto;">
@@ -38,7 +44,7 @@ To take measurements with your own browser, just do the following:
 3. Navigate to the **Network Tab** to see all resources that are transferred on page load
 4. **Look** at the numbers: At the bottom of the browser window, you can read how long it took until *DOMContentLoaded* (192 ms) and *Load* (873 ms), respectively. 
 
-## Enabled vs. Disabled: Verify Speed Kit's Impact
+## Speed Kit: On vs. Off
 
 If your website already uses Speed Kit, you can easily verify that it is making things faster. 
 In the following, we describe how to make a quick **side-by-side comparison** of your website with and without Speed Kit.
@@ -56,37 +62,34 @@ To disable Speed Kit (left video), you simply have to do the following:
 4. **Disable Speed Kit** by checking the "Bypass for network" box; this makes sure that the Speed Kit service worker is not used.
 
 
-## Page Speed Analyzer
+## The Page Speed Analyzer
 
 The [**Page Speed Analyzer**](https://test.speed-kit.com/) also does a side-by-side comparison of your website with and without Speed Kit. However, it does more than what you can do with your browser:
 
-* The analyzer gives you a detailed **performance report** with waterfall diagrams for your page load and **optimization hints**, i.e. suggestions on how to improve your website's performance.
-* The analyzer delivers **objective measurements** of metrics you can collect using your browser, but also of complex metrics like the *Speed Index* and the *First Meaningful Paint* (see [above](#when-is-a-website-fast)). 
-* The analyzer gives you a **what-if analysis**: You do not have to activate Speed Kit for your website in order to find out what it can do for you.
+1. **Performance Report**: The analyzer gives you various metrics and even waterfall diagrams for your page load.
+2. **Optimization Hints**: The analyzer provides suggestions on how to improve web performance for your website.
+3. **User-Centric**: The analyzer measures the *Speed Index* and the *First Meaningful Paint* (see [above](#when-is-a-website-fast)). 
+4. **Possible Speedup**: The analyzer tells you how much faster your website will be, if you activate Speed Kit.
 
-## How Does the Analyzer Measure?
+### Measurement Setup
 
 In principle, the analyzer loads your website multiple times to **contrast performance with and without Speed Kit**: 
 
-<img src="../analyzer-measurement.png" alt="Baqend's page speed test setup simulates a real user visit." style="width:85%; display: block; margin-left: auto; margin-right: auto;">
+<img src="../analyzer-measurement.png" alt="Baqend's page speed test setup simulates a real user visit." style="width:60%; display: block; margin-left: auto; margin-right: auto;">
 
 Once you enter your website's URL, the analyzer starts two different Chrome browsers to load your website: One loads the version *with Speed Kit* and the other loads your website *without Speed Kit*. We did not implement the measurements ourselves, though. Instead, we use the **open-source** testing framework [**WebPagetest**](https://www.webpagetest.org/). 
 
-### Realistic Performance Measurements
+### Measuring Speed Kit's performance uplift
+<!-- 
+Speed Kit is activated when a user loads the accelerated page for the very first time and it stays active indefinitely. Since activation takes some time, though, the very first load is only partially accelerated. 
+ -->
+**Common performance tools** like Pingdom typically do not install Service Workers before taking a performance measurement – or they do not even support Service Workers at all. Since Speed Kit is built on Service Workers, though, these tools cannot measure any acceleration for good reason: **Without its Service Worker, Speed Kit is not active**. 
 
-To simulate page load time for a **regular user**, the analyzer *loads the page twice*: Thus, our results reflect load times as they will be experienced by a user who has already visited your site before, for example. 
-Other performance testing tools (e.g. Pingdom), in contrast, only measure the first load — which does not say anything about performance for regular visitors. 
+The **Page Speed Analyzer**, in contrast, makes sure that Service Workers are installed before measurement. Thus, the measurement reflects performance for a user who has already been on your website once before (e.g. visited a specific product page in your shop once last year), but has never visited the page under test. It is important to note, however, that the analyzer is using **cold caches** for the performance test. 
 
-### No Service Worker, No Speed Kit
+### How to Generate a Performance Report
 
-Since Speed Kit is built on Service Workers, disabling Service Workers means disabling Speed Kit. Therefore, tests that do not use Service Workers are unable to measure Speed Kit's performance edge. 
-
-<div class="tip">
-    <strong>Tip:</strong>
-    Customize the analyzer to your desired test situation by switching the location of the client or choosing whether
-    to cache or not. You can also provide a comma-separated list of domain patterns to tell Speed Kit which requests it
-    should handle.
-</div>
+To find out how you can improve your website's page load times, provide the analyzer with your URL and hit *enter*. It will then execute a performance test against your website and generate both *optimization hint* and a *performance report*.
 
 <img src="../page-speed-analyzer.png" style="width:85%; display: block; margin-left: auto; margin-right: auto;">
 
@@ -107,6 +110,13 @@ It collects the following metrics:
 * **DOMContentLoaded**: Represents the time after which the initial HTML document has been completely loaded and parsed, without waiting for external resources.
 * **FullyLoaded** (a.k.a. *Load*): Represents the time until all resources are loaded, including activity triggered by JavaScript. (Measures the time until which there was 2 seconds of no network activity after Document Complete.)
 * **Last Visual Change**: Represents the time after which the final website is visible (no change thereafter).
+
+<div class="tip">
+    <strong>Tip:</strong>
+    Customize the analyzer to your desired test situation by switching the location of the client or choosing whether
+    to cache or not. You can also provide a comma-separated list of domain patterns to tell Speed Kit which requests it
+    should handle.
+</div>
 
 ### Video Proof
 
