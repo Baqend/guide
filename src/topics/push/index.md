@@ -23,15 +23,59 @@ If you are already using Baqend's [Speed Kit](http://www.baqend.com/speedkit.htm
 #### Receiving Push Events
 For Web devices the Service Worker of the web application needs to receive the push message from the server and send 
 it to the device of the user. The following minimum code in the service worker file is needed to handle push events:
- 
+
+On Every Page you must install the ServiceWorker
+
+index.html
+```html
+<script type="text/javascript">
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js');
+}
+</script>
+```
+
+/sw.js 
 ```js
-self.addEventListener('push', function(event) {
-  var payload = event.data ? event.data.json() : 'no payload';
-  var title = payload.title;
-  
+/**
+ * This handler process the inital installation event of the service worker
+ * It allows the service worker become active as fast as possible
+ */
+self.addEventListener('install', (event) => {
+  console.log('Installed dashboard SW');
+  event.waitUntil(self.skipWaiting());
+});
+
+/**
+ * This handler process the incoming push message and shows the push notification
+ */
+self.addEventListener('push', (event) => {
+  if (event.data === null) {
+    return;
+  }
+
+  console.log('[Service Worker] Push Received', event);
+
+  const payload = event.data.json();
+  const title = payload.title;
+
   event.waitUntil(
       self.registration.showNotification(title, payload)
   );
+});
+
+/**
+ * This handler process the click event, if the user interacts with the push notification
+ */
+self.addEventListener('notificationclick', (event) => {
+  console.log('[Service Worker] Notification click Received.', event);
+  event.notification.close();
+
+  const launchUrl = event.action || event.notification.data.launchUrl;
+
+  if (launchUrl) {
+    event.waitUntil(clients.openWindow(launchUrl));
+  }
 });
 ```
 
@@ -137,8 +181,8 @@ if (!("Notification" in window)) {
     });
 }
 ```
-For further information when and how to ask the user for permission read the following [best practice guide]
-(https://developers.google.com/web/ilt/pwa/introduction-to-push-notifications#best_practices) from
+For further information when and how to ask the user for permission read the following 
+[best practice guide](https://developers.google.com/web/ilt/pwa/introduction-to-push-notifications#best_practices) from
 Google.
 
 
