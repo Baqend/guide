@@ -1,7 +1,7 @@
 # Push Notifications
 
 In this section, we describe how Push Notifications works for Speed Kit. Baqend provides the ability to send push 
-notifications to end users' devices. For the corresponding feature in Baqend 
+notifications to end users devices. For the corresponding feature in Baqend 
 Platform, see the [Platform docs on push notifications](../push/).
 
 ## Setup
