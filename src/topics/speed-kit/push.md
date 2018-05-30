@@ -4,11 +4,9 @@ In this section, we describe how Push Notifications works for Speed Kit. Baqend 
 notifications to end users devices. For the corresponding feature in Baqend 
 Platform, see the [Platform docs on push notifications](../push/).
 
-## Setup
+## Web Push Setup
 
 Currently, push notifications in Speed Kit are only available for Web Push.
-
-### Web Push
 
 To enable push notifications for your website for Web devices (e.g. Firefox, Chrome), you need to generate a VAPID 
 key pair in your settings. To do this, go to the *Push Notifications* section in the dashboard settings and press the
@@ -16,7 +14,8 @@ key pair in your settings. To do this, go to the *Push Notifications* section in
  
 ## Default Configuration
 
-Usually, the push technology of Baqend can be used immediately with Speed Kit after configurating the setup.
+With the default configuration, push notifications are available in Speed Kit from the start. 
+As described below, however, you need to request a user's permissions first in order to subscribe to push notifications. 
 
 ### Web Push Prompts
 

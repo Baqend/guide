@@ -26,9 +26,9 @@ If you are already using Baqend's [Speed Kit](http://www.baqend.com/speedkit.htm
 For Web devices the Service Worker of the web application needs to receive the push message from the server and send 
 it to the device of the user. The following minimum code in the service worker file is needed to handle push events:
 
-On Every Page you must install the ServiceWorker
+On Every Page you must install the Service Worker
 
-index.html
+In your `index.html`, you can include the service worker like so:
 ```html
 <script type="text/javascript">
 if ('serviceWorker' in navigator) {
@@ -37,7 +37,7 @@ if ('serviceWorker' in navigator) {
 </script>
 ```
 
-/sw.js 
+A Service Worker file (`/sw.js`) could look like this:
 ```js
 /**
  * This handler process the inital installation event of the service worker

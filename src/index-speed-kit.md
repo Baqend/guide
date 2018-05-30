@@ -85,7 +85,7 @@
         <span class="icon"><img src="../icons/speed-kit-push.png"/></span>
         <span class="text">Push Notifications</span>
       </span>
-      <span class="chapter-info">How to handle the Speed Kit push technology to re-engage users.</span>
+      <span class="chapter-info">How to (re-)engage users through Web Push.</span>
     </a>
   </div>
   <div class="chapter-item-outer">
