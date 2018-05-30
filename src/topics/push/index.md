@@ -294,10 +294,12 @@ exports.call = function(db, data) {
 }
 ```
 
-
 ### Sending Push Notifications from the Dashboard
 
 Using the Baqend dashboard, you can send push notifications to your users in realtime, ranging from short sentences to interactive messages asking for the user's opinion.
  
 To send a push notification from within the dashboard of your app, just open the `Send Push` page of the side bar, 
-accessable through the `Progressive Web App` menu entry.
+accessable through the `Progressive Web App` menu entry. On the `Send Push` page, you can set a title, a message 
+and further options for your notification. Clicking on the `Send to all devices` button will then trigger the 
+notification. You'll be asked to confirm the action to avoid accidently sending notifications. It is also possible to 
+send the notification to your dashboard to see a preview by clicking the `Preview` button.
