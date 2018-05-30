@@ -1,0 +1,50 @@
+# Push Notifications
+
+In this section, we describe how Push Notifications works for Speed Kit. Baqend provides the ability to send push 
+notifications to end users' devices. For the corresponding feature in Baqend 
+Platform, see the [Platform docs on push notifications](../push/).
+
+## Setup
+
+Currently, push notifications in Speed Kit are only available for Web Push.
+
+### Web Push
+
+To enable push notifications for your website for Web devices (e.g. Firefox, Chrome), you need to generate a VAPID 
+key pair in your settings. To do this, go to the *Push Notifications* section in the dashboard settings and press the
+ *Generate VAPID keys* button.
+ 
+## Default Configuration
+
+Usually, the push technology of Baqend can be used immediately with Speed Kit after configurating the setup for the 
+different target platforms. Please note, that Android and iOS devices can only be registered by hybrid apps (e.g. 
+Ionic Framework).
+
+### Web Push Prompts
+
+Before subscribing the user's device to your push notifications, the user needs to grant permission for receiving 
+them from the browser. The following code can be used on your website to ask for enabling notifications:
+
+```js
+if ("Notification" in window && Notification.permission !== "denied") {
+  Notification.requestPermission().then((permission) => {
+    if (permission === "granted") {
+      SpeedKit.subscribe();
+    }
+  })
+}
+```
+
+The [best practice guide](https://developers.google.com/web/ilt/pwa/introduction-to-push-notifications#best_practices) from Google might help 
+you here.
+
+### Web Push Registration
+The [Speed Kit snippet](intro/#integrate-code-snippet) provides a method to subscribe the user to push notifications.
+ By this, the exact point when to register the device is freely available for you.
+ 
+```js
+SpeedKit.subscribe();
+```
+
+The `SpeedKit.subscribe()` method returns a `Promise`. For further information about promises read the [Promise 
+guide](../getting-started/#promises).

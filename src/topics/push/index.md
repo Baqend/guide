@@ -3,6 +3,8 @@
 Baqend provides the ability to send push notifications to end users' devices. 
 In this section, we explain how you can [set up](#setup) your Baqend app for push notifications, how to [register](#device-registration) a user device for receiving push notifications, and how to actually [send](#sending-push) push notifications using a Baqend code module or directly from the dashboard.
 
+For the corresponding feature in Speed Kit, please read the [Speed Kit docs on Push Notifications](../speed-kit/push/).
+
 <div class="note"><strong>Note:</strong> Currently, Baqend supports push for Web browsers (e.g. Firefox, Chrome) as well
  as iOS and Android devices for hybrid apps. SDKs for iOS and Android SDK are currently in development.</div>
  
@@ -86,11 +88,12 @@ content as a notification to the user's device.
 
 To enable push notifications for iOS devices, you have to upload your production or sandbox certificate to Baqend first. 
 [This tutorial](https://help.apple.com/xcode/mac/current/#/dev154b28f09) shows how to enable push notification in your app and how to export your certificate as a *p12*-file.
-To upload your certificate to Baqend, go to the *Push Notifications* section in the dashboard settings. Please upload your certificate as a *p12*-file without any password protection. Otherwise, it's
+To upload your certificate to Baqend, go to the *Push Notifications* section in the dashboard settings. Please upload
+ your certificate as a *p12*-file without any password protection. Otherwise, it is
 not possible for Baqend to use it.
 
 The sandbox certificate is needed when testing the app directly from Xcode. If the app has been published to the app
-store or should be tested in *TestFlight*, you must upload your production certificate. It's currently not possible
+store or should be tested in *TestFlight*, you must upload your production certificate. It is currently not possible
 to use both certificate types at the same time.
 
 

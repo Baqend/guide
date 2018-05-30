@@ -78,6 +78,16 @@
       <span class="chapter-info">How to make Speed Kit recompress or transcode images for increased efficiency.</span>
     </a>
   </div>
+ 
+  <div class="chapter-item-outer">
+    <a class="chapter-item" href="../topics/speed-kit/push/">
+      <span class="chapter-heading">
+        <span class="icon"><img src="" /></span>
+        <span class="text">Push Notifications</span>
+      </span>
+      <span class="chapter-info">How to handle the Speed Kit push technology to re-engage users.</span>
+    </a>
+  </div>
   <div class="chapter-item-outer">
     <a class="chapter-item" href="../topics/wordpress/">
       <span class="chapter-heading">
