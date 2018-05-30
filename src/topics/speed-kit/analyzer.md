@@ -1,9 +1,12 @@
 # Measuring Page Speed
 
-In this section, you can learn how page speed is perceived by users and how you can measure it using just your browser. 
-We also explain how Baqend's Page Speed Analyzer works and how you can use it to generate a detailed performance analysis of your website. 
+Speed Kit accelerates your website – but by how much?  
+In this section, we answer common questions regarding Speed Kit and web performance:
 
-If you want to read more on web performance, check out our <a href="https://medium.baqend.com/the-technology-behind-fast-websites-2638196fa60a#7990" target="_blank">in-depth web performance survey</a> for additional information. 
+1. How to [measure the actual speedup](#enabled-vs-disabled-verify-speed-kits-impact) that Speed Kit has on your site? (Speed Kit already active)
+2. [How much faster will it make your website?](#page-speed-analyzer) (Speed Kit *not* active)
+
+If you want to read more on web performance in general, check out our <a href="https://medium.baqend.com/the-technology-behind-fast-websites-2638196fa60a#7990" target="_blank">in-depth web performance survey</a>. 
 
 
 ## When is a Website Fast?
@@ -55,11 +58,28 @@ To disable Speed Kit (left video), you simply have to do the following:
 
 ## Page Speed Analyzer
 
-The [**Page Speed Analyzer**](https://test.speed-kit.com/) also does a side-by-side comparison of your website with and without Speed Kit as you can do with your browser (see [above](#enabled-vs-disabled-verify-speed-kits-impact)). However, it does more than what you can do with your browser:
+The [**Page Speed Analyzer**](https://test.speed-kit.com/) also does a side-by-side comparison of your website with and without Speed Kit. However, it does more than what you can do with your browser:
 
 * The analyzer gives you a detailed **performance report** with waterfall diagrams for your page load and **optimization hints**, i.e. suggestions on how to improve your website's performance.
 * The analyzer delivers **objective measurements** of metrics you can collect using your browser, but also of complex metrics like the *Speed Index* and the *First Meaningful Paint* (see [above](#when-is-a-website-fast)). 
 * The analyzer gives you a **what-if analysis**: You do not have to activate Speed Kit for your website in order to find out what it can do for you.
+
+## How Does the Analyzer Measure?
+
+In principle, the analyzer loads your website multiple times to **contrast performance with and without Speed Kit**: 
+
+<img src="../analyzer-measurement.png" alt="Baqend's page speed test setup simulates a real user visit." style="width:85%; display: block; margin-left: auto; margin-right: auto;">
+
+Once you enter your website's URL, the analyzer starts two different Chrome browsers to load your website: One loads the version *with Speed Kit* and the other loads your website *without Speed Kit*. We did not implement the measurements ourselves, though. Instead, we use the **open-source** testing framework [**WebPagetest**](https://www.webpagetest.org/). 
+
+### Realistic Performance Measurements
+
+To simulate page load time for a **regular user**, the analyzer *loads the page twice*: Thus, our results reflect load times as they will be experienced by a user who has already visited your site before, for example. 
+Other performance testing tools (e.g. Pingdom), in contrast, only measure the first load — which does not say anything about performance for regular visitors. 
+
+### No Service Worker, No Speed Kit
+
+Since Speed Kit is built on Service Workers, disabling Service Workers means disabling Speed Kit. Therefore, tests that do not use Service Workers are unable to measure Speed Kit's performance edge. 
 
 <div class="tip">
     <strong>Tip:</strong>
@@ -98,21 +118,3 @@ Through this side-by-side comparison, you can literally **see the effect** that 
 If you are using Speed Kit already, the analyzer shows you what Speed Kit is currently doing for your performance: 
 On the left, you see how your website would perform after removing Speed Kit; on the right, you see a test of your current website. 
 Thus, you can use the analyzer to **validate** Speed Kit's worth. But you can also try out new configurations to **improve** your existing Speed Kit configuration!
-
-
-## How Does the Analyzer Measure?
-
-In principle, the analyzer performs a **side-by-side comparison** of your page **with and without Speed Kit**: 
-
-<img src="../analyzer-measurement.png" alt="Baqend's page speed test setup simulates a real user visit." style="width:85%; display: block; margin-left: auto; margin-right: auto;">
-
-Once you enter your website's URL, the analyzer starts two different Chrome browsers to load your website: One loads the version *with Speed Kit* and the other loads your website *without Speed Kit*. We did not implement the measurements ourselves, though. Instead, we use the **open-source** testing framework [**WebPagetest**](https://www.webpagetest.org/). 
-
-### The Most Realistic Performance Tool Yet
-
-To simulate page load time for a **regular user**, the analyzer *loads the page twice* and measures the **second load**: Thus, our results reflect **every-day load time** as it will be experienced by a user who has already visited your site before. 
-Other performance testing tools (e.g. Pingdom), in contrast, only measure the first load — which does not say anything about performance for regular visitors. 
-
-### No Service Worker, No Speed Kit
-
-Since Speed Kit is built on Service Workers, disabling Service Workers means disabling Speed Kit. Therefore, tests that do not use Service Workers are unable to measure Speed Kit's performance edge. 
