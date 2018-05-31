@@ -52,7 +52,9 @@ In the following, we describe how to make a quick **side-by-side comparison** of
 In principle, you simply have to navigate through your website with Speed Kit **enabled** — and then repeat the same navigation sequence with Speed Kit **disabled**.
 Here is an example from one of our customers, showing website performance with disabled (left) and enabled (right) Speed Kit:
 
-<img src="../comparison_a-b_optimized.gif" alt="The direct comparison shows that Speed Kit brings a significant performance boost for your website." style="width:80%; display: block; margin-left: auto; margin-right: auto;">
+<video autoplay="autoplay" loop="loop" alt="The direct comparison shows that Speed Kit brings a significant performance boost for your website." style="width:80%; display: block; margin-left: auto; margin-right: auto;">
+  <source src="../comparison_a-b.mp4" type="video/mp4" />
+</video>
 
 To disable Speed Kit (left video), you simply have to do the following:
 
