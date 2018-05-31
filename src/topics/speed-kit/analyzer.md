@@ -35,7 +35,10 @@ The **Speed Index (SI)** represents the average time until a visible element app
 The Speed Index or the First Meaningful Paint are hard to measure without specialized tooling. However, there are various other metrics that you can easily measure yourself, with nothing but your web browser.  
 Here is a video that shows how you can measure *DOMContentLoaded* and *FullyLoaded* (a.k.a. *Load*, see [below](#quantifiable-metrics)):
 
-<img src="../performance-measurement-browser.gif" alt="The Speed Index and the First Meaningful Paint (FMP) are metrics that capture how slow or fast a website feels." style="width:85%; display: block; margin-left: auto; margin-right: auto;">
+<video autoplay="autoplay" loop="loop" alt="The Speed Index and the First Meaningful Paint (FMP) are metrics that capture how slow or fast a website feels." style="width:80%; display: block; margin-left: auto; margin-right: auto;">
+  <source src="../performance-measurement-browser.mp4" type="video/mp4" />
+</video>
+
 
 To take measurements with your own browser, just do the following:
 
