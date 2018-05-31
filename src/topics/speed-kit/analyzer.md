@@ -72,6 +72,12 @@ The [**Page Speed Analyzer**](https://test.speed-kit.com/) also does a side-by-s
 4. **Possible Speedup**: The analyzer tells you how much faster your website will be, if you activate Speed Kit.
 5. **Video Comparison**: The analyzer captures the page load, so that you can literally see the effect that Speed Kit has.
 
+### Compares Performance With and Without Speed Kit
+
+If **Speed Kit is active** on your website already, the analyzer deactivates Speed Kit for one of the two tests. 
+If **Speed Kit is not active** on your website, the analyzer injects Speed Kit into your websites for one of the tests. 
+Thus, you always get to know what Speed Kit currently does or could do for your web performance. 
+
 ### Measurement Setup
 
 In principle, the analyzer loads your website multiple times to **contrast performance with and without Speed Kit**: 
@@ -82,7 +88,7 @@ Once you enter your website's URL, the analyzer starts two different Chrome brow
 
 ### Measuring Speed Kit's performance uplift
 
-**Common performance tools** like Pingdom typically do not install Service Workers before taking a performance measurement – or they do not even support them to begin with. Since Speed Kit is built on Service Workers, though, these tools cannot measure any acceleration for good reason: **Without its Service Worker, Speed Kit is not active**. 
+**Common performance tools** like Pingdom or GTmetrix typically do not install Service Workers before taking a performance measurement – or they do not even support them to begin with. Since Speed Kit is built on Service Workers, though, these tools cannot measure any acceleration for good reason: **Without its Service Worker, Speed Kit is not active**. 
 
 The **Page Speed Analyzer**, in contrast, makes sure that Service Workers are installed before the test. Thus, the measurement reflects performance for a user who has already been on your website once before (e.g. visited a specific product page in your shop once last year), but has never visited the page under test. It is important to note, that the analyzer is using **cold caches** for the performance test. 
 
@@ -94,6 +100,26 @@ To find out how you can improve your website's page load times, provide the anal
 
 The analyzer always compares baseline performance without Speed Kit (left) against the same website accelerated by Speed Kit (right). 
 To this end, the analyzer runs a series of tests against your website without Speed Kit and an accelerated version with Speed Kit (as explained above); finally, the analyzer reports how much of an edge Speed Kit would give you over your current tech stack. 
+
+
+### Optimization Hints
+
+Below the video comparison, the analyzer gives you a list of **performance best-practices** that your website already follows (checkmark) or that are currently not implemented (cross). 
+You also get brief explanations on how the individual optimizations affect page performance and by how much Speed Kit will lift your performance with each of them (for example, see *request latency*): 
+
+<img src="../optimization-hints.png" style="width:85%; display: block; margin-left: auto; margin-right: auto;">
+
+Speed Kit will immediately solve all these issues for you: your website is **guaranteed to be state of the art**.
+
+### Advanced Usage
+
+By default, the analyzer simulates a desktop user located in Germany. However, you can change the default behavior through several parameters:
+
+* **Mobile**: Whether or not the website should be loaded from a mobile browser (`true`) or a desktop browser (`false`, default).
+* **Run from US**: Whether or not the website should be loaded from the United States (`true`) or from Germany (`false`, default).
+* **Activity Timeout**: The time after the last network activity before a test is considered complete (see [WebPagetest docs](https://sites.google.com/a/webpagetest.org/docs/using-webpagetest/scripting#TOC-setActivityTimeout)). 
+* **Speed Kit Config**: The detailed Config parameters for Speed Kit to allow you performance fine-tuning (see [Speed Kit API docs](../api). 
+
 
 ### Quantifiable Metrics
 
@@ -109,16 +135,3 @@ It collects the following metrics:
 * **DOMContentLoaded**: Represents the time after which the initial HTML document has been completely loaded and parsed, without waiting for external resources.
 * **FullyLoaded** (a.k.a. *Load*): Represents the time until all resources are loaded, including activity triggered by JavaScript. (Measures the time until which there was 2 seconds of no network activity after Document Complete.)
 * **Last Visual Change**: Represents the time after which the final website is visible (no change thereafter).
-
-### Advanced Usage
-
-If you are using Speed Kit already, the analyzer shows you what Speed Kit is currently doing for your performance: 
-On the left, you see how your website would perform after removing Speed Kit; on the right, you see a test of your current website. 
-Thus, you can use the analyzer to **validate** Speed Kit's worth. But you can also try out new configurations to **improve** your existing Speed Kit configuration!
-
-<div class="tip">
-    <strong>Tip:</strong>
-    Customize the analyzer to your desired test situation by switching the location of the client or choosing whether
-    to cache or not. You can also provide a comma-separated list of domain patterns to tell Speed Kit which requests it
-    should handle.
-</div>
