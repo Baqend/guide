@@ -81,6 +81,70 @@
     </div>
   </footer>
 </div>
+
+
+<form id="contact_form">
+  <div class="modal fade" id="contact" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content" style="border-radius: 3px;">
+        <div class="modal-header flex" style="justify-content: space-between;">
+          <h3 class="modal-title" id="myModalLabel">Contact Us</h3>
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="color: #444;">&times;</button>
+        </div>
+        <div class="modal-body">
+          <p>We’ll contact you shortly to set up a convenient time to chat.</p>
+          <div class="form-group">
+            <label for="c_name">Name </label>
+            <input class="form-control span-6" required type="text" id="c_name" name="name" placeholder="Your Name">
+          </div>
+
+          <div class="form-group">
+            <label for="c_email">Email</label>
+            <input class="form-control span-6" pattern=".+\@.+\..+" required type="text" id="c_email" name="email"
+                   placeholder="example@example.com">
+          </div>
+
+          <!-- <div class="form-group">
+            <label for="c_company">Company</label>
+            <input class="form-control span-6" required type="text" id="c_company" name="company"
+                   placeholder="Company Name">
+          </div> -->
+
+          <div class="form-group">
+            <label for="c_phone">Phone <small>(optional)</small></label>
+            <input class="form-control span-6" type="text" id="c_phone" name="phone"
+                   placeholder="Phone Number">
+          </div>
+
+          <div class="form-group">
+            <label for="c_message">Tell us a bit about your needs. <small>(optional)</small></label>
+            <textarea placeholder="German or English are both fine." class="form-control span-6" rows="3" id="c_message" name="message"></textarea>
+          </div>
+
+        </div>
+        <div class="modal-footer text-center">
+          <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
+          <button type="submit" class="c_submit btn btn-blue btn-ghost">Contact Baqend</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<script>
+//Contact us
+$('#contact_form').on('submit', function(e) {
+  e.preventDefault();
+  $.post('https://bbq-bq.global.ssl.fastly.net/v1/code/mailUs',
+      $('#contact_form').serialize() + "&location=" + window.location.href,
+      function(data, status, xhr) {
+        var form = $('#contact_form');
+        form.find('.modal-body').text("Thanks. We will get in touch shortly.");
+        form.find('.c_submit').remove();
+      });
+});
+</script>
+
 <script>
   var gaProperty = 'UA-49026518-1';
   var disableStr = 'ga-disable-' + gaProperty;
