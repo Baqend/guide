@@ -8,8 +8,7 @@ Baqend stores data exclusively on the AWS data centers located in Frankfurt, Ger
 
 <strong>EU Data Security</strong><br>
 Baqend has a valid Data Processing Addendum with Amazon Web Services and can therefore also close data processing agreements with customers. 
-IP addresses of our users are anonymized and stored for 10 days. Storing of IP addresses can be deactivated 
-on request.
+IP addresses of our users are anonymized and stored for 10 days: In more detail, the last 8 bit of any IPv4 user IP address is set to to zeros in memory, i.e. before touching disk. IPv6 addresses are not stored at all. Baqend only stores anonymized IP IPv4 addresses, i.e. Baqend will never persist a user's full IP address. Storing of IP addresses can be deactivated on request.
 
 <strong>Further Information</strong><br>
 For additional details on our data processing, we refer to our [overview of Baqend's infrastructure](https://medium.baqend.com/how-to-develop-a-backend-as-a-service-from-scratch-lessons-learned-a9fac618c2ce) and our [privacy policy](https://dashboard.baqend.com/privacy).
@@ -21,7 +20,6 @@ No cookies or credentials from users are stored on Baqend’s servers.
 Therefore, Speed Kit is <u>GDPR-compliant by default</u>. 
 
 This behavior is furthermore guaranteed by standard browser security as Speed Kit employs its own domain by default and is therefore not allowed access to cookies of other domains, including also the domain of the accelerated site. 
-
 If a website sends sensitive information through URL parameters or HTTP headers, these resources can and should be *blacklisted* in the Speed Kit config to make sure that these metadata are neither processed nor stored by Baqend.
 
 <strong>What Data is handled by Speed Kit?</strong><br>
