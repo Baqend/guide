@@ -28,6 +28,6 @@ Therefore, Speed Kit is <u>GDPR-compliant by default</u>.
 Speed Kit *only accelerates GET requests* by caching their responses: POST, PUT, and DELETE requests are always processed by the original site and never processed or stored by Speed Kit or Baqend. 
 
 Speed Kit handles all website requests that are explicitly *whitelisted*, excluding requests that are *blacklisted*. 
-Therefore, it is recommended to whitelist only public sections of the page and to exclude sections that expose private data through GET requests (e.g. login, payment, user profile). 
+Therefore, it is recommended to whitelist only public sections of the page and to exclude sections that expose private data through GET requests (e.g. login, payment, user profile).  
 
 Speed Kit is built on Service Workers which *cannot access third-party credentials or cookies* [by specification](https://fetch.spec.whatwg.org/#forbidden-header-name). 
