@@ -8,7 +8,7 @@ Baqend stores data exclusively on the AWS data centers located in Frankfurt, Ger
 
 <strong>EU Data Security</strong><br>
 Baqend has a valid Data Processing Addendum with Amazon Web Services and can therefore also close data processing agreements with customers. 
-Baqend only stores anonymized IP IPv4 addresses and deletes them after 10 days: 
+Baqend only stores anonymized IPv4 addresses and deletes them after 10 days: 
 In detail, thelast 8 bit of any user IP address is set to to zeros in memory, i.e. before touching disk. 
 IPv6 addresses are not stored at all. 
 Baqend will never persist a user's full IP address. 
