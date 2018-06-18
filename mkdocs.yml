@@ -18,6 +18,7 @@ pages:
         - Speedup Policies: 'topics/speed-kit/whiteblacklisting.md'
         - Refresh Policies: 'topics/speed-kit/refreshing.md'
         - 'Image Optimization': 'topics/speed-kit/image-optimization.md'
+        - Push Notifications: 'topics/speed-kit/push.md'
         - WordPress Plugin: 'topics/wordpress/index.md'
         - Speed Kit API: 'topics/speed-kit/api.md'
         - 'Dynamic Blocks: Accelerating Personalized Content': 'topics/speed-kit/personalized.md'
