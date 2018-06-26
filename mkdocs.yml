@@ -13,7 +13,7 @@ pages:
         - Quickstart: 'topics/speed-kit/intro.md'
         - 'Why Speed Kit': 'topics/speed-kit/why.md'
         - 'Getting Started': 'topics/speed-kit/index.md'
-        - Page Speed Analyzer: 'topics/speed-kit/analyzer.md'
+        - Measuring Page Speed: 'topics/speed-kit/analyzer.md'
         - How Speed Kit Works: 'topics/speed-kit/how-it-works.md'
         - Speedup Policies: 'topics/speed-kit/whiteblacklisting.md'
         - Refresh Policies: 'topics/speed-kit/refreshing.md'

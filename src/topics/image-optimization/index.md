@@ -33,7 +33,13 @@ https://www.example.com/test.jpg?bqoptimize=1;width=640;quality=90
 
 Feel free to play around with our optimization feature below!
 
-<iframe src="https://io-sandbox.baqend.com/index.html" scrolling="no" frameborder="0" width="100%" height="400" name="sandbox" title="Image Optimization Box" style="border: 0; width: 100%; height: 600px;">Baqend's Image Optimization Sandbox</iframe>
+<iframe id="sandbox" src="https://io-sandbox.baqend.com/index.html" scrolling="no" frameborder="0" width="100%" height="400" name="sandbox" title="Image Optimization Box" style="border: 0; width: 100%; height: 600px;">Baqend's Image Optimization Sandbox</iframe>
+
+<script>
+function refreshOptimizedImage(parameters) {
+    sandbox.postMessage(parameters, "*");
+}
+</script>
 
 
 ## Option List
