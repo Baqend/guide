@@ -20,16 +20,18 @@ As described below, however, you need to request a user's permissions first in o
 ### Web Push Prompts
 
 Before subscribing the user's device to your push notifications, the user needs to grant permission for receiving 
-them from the browser. The following code can be used on your website to ask for enabling notifications:
+them from the browser. Best practice would be to ask for permission, when the Service Worker is ready. The following code can be used on your website to ask for enabling notifications:
 
 ```js
-if ("Notification" in window && Notification.permission !== "denied") {
-  Notification.requestPermission().then((permission) => {
-    if (permission === "granted") {
-      SpeedKit.subscribe();
+navigator.serviceWorker.ready.then(() => {
+    if ("Notification" in window && Notification.permission !== "denied") {
+        return Notification.requestPermission();
     }
-  })
-}
+}).then((permission) => {
+    if (permission === "granted") {
+        SpeedKit.subscribe();
+    }
+})
 ```
 
 The [best practice guide](https://developers.google.com/web/ilt/pwa/introduction-to-push-notifications#best_practices) from Google might help 
