@@ -60,7 +60,7 @@ For example, you can create a new entity type (`Person`) and add a string attrib
 const personType = new DB.metamodel.EntityType('Person', metamodel.entity(Object));
 metamodel.addType(personType);
 //  And lastly you can add attributes to your generated types
-personType.addAtttribute(new DB.metamodel.SingularAttribute('name', metamodel.baseType(String)));
+personType.addAttribute(new DB.metamodel.SingularAttribute('name', metamodel.baseType(String)));
 ```
 
 When you have specified all desired changes, you have to save your changes to apply them to your Baqend instance:
