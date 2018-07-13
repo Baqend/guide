@@ -159,7 +159,7 @@ exports.onDelete = function(db, obj) {
 All four handlers are `before`-operation handlers. Be aware that they are called after the class level permissions are 
 checked, but before object level permissions were validated. Thus, making changes to other objects inside handlers 
 should be treated with care: these operations could succeed while the original operation might fail due to missing 
-object access rights. An elegant way to simplify such cases is the use of `after`-handlers, one of our [Upcoming Features](../roadmap).
+object access rights. An elegant way to simplify such cases is the use of `after`-handlers, one of our [Upcoming Features](../../roadmap).
 
 
 ## Modules
