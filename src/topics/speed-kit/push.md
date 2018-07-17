@@ -21,8 +21,8 @@ you here.
 
 ### Web Push Registration
 Before subscribing the user's device to your push notifications, the user needs to grant permission for receiving them from the browser.
-The [Speed Kit snippet](intro/#integrate-code-snippet) provides a method to subscribe the user to push notifications and handles automatically prompting the user for permission.
-By this, the exact point when to register the device is freely available for you.
+The [Speed Kit snippet](intro/#integrate-code-snippet)  provides a method to subscribe the user to push notifications that automatically 
+prompts the user for permission. By calling this method, you can decide when to ask the user for permission.
  
 ```js
 SpeedKit.subscribe();
