@@ -14,38 +14,50 @@ key pair in your settings. To do this, go to the *Push Notifications* section in
  
 ## Default Configuration
 
-With the default configuration, push notifications are available in Speed Kit from the start. 
-As described below, however, you need to request a user's permissions first in order to subscribe to push notifications. 
-
-### Web Push Prompts
-
-Before subscribing the user's device to your push notifications, the user needs to grant permission for receiving 
-them from the browser. The following code can be used on your website to ask for enabling notifications:
-
-```js
-if ("Notification" in window && Notification.permission !== "denied") {
-  Notification.requestPermission().then((permission) => {
-    if (permission === "granted") {
-      SpeedKit.subscribe();
-    }
-  })
-}
-```
+With the default configuration, push notifications are available in Speed Kit from the start.
 
 The [best practice guide](https://developers.google.com/web/ilt/pwa/introduction-to-push-notifications#best_practices) from Google might help 
 you here.
 
 ### Web Push Registration
-The [Speed Kit snippet](intro/#integrate-code-snippet) provides a method to subscribe the user to push notifications.
- By this, the exact point when to register the device is freely available for you.
+Before subscribing the user's device to your push notifications, the user needs to grant permission for receiving them from the browser.
+The [Speed Kit snippet](intro/#integrate-code-snippet)  provides a method to subscribe the user to push notifications that automatically 
+prompts the user for permission. By calling this method, you can decide when to ask the user for permission.
  
 ```js
 SpeedKit.subscribe();
 ```
 
-The `SpeedKit.subscribe()` method returns a `Promise`. For further information about promises read the [Promise 
+The `SpeedKit.subscribe()` method returns a `Promise` which resolves to a String: `WebPushState`. For further information about promises read the [Promise 
 guide](../getting-started/#promises).
 
+One of the following states will be returned:
+ <div class="table-wrapper"><table class="table">
+  <tr>
+    <th>WebPushState</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+      <td>unsupported</td>
+      <td>The device of the user does not support push notifications.</td>
+    </tr>
+  <tr>
+    <td>undecided</td>
+    <td>The user did not decide wether to receive or not receive push notifications, instead, she dismissed the dialog.</td>
+  </tr>
+  <tr>
+    <td>denied</td>
+    <td>The user denied receiving push notifications.</td>
+  </tr>
+  <tr>
+    <td>registered</td>
+    <td>The user is registered for push notifications.</td>
+  </tr>
+  <tr>
+      <td>unregistered</td>
+      <td>The user is accepts receiving push notifications but is not registered in Baqend.</td>
+    </tr>
+</table></div>    
 
 ## Sending Push
 
