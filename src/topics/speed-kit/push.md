@@ -43,7 +43,7 @@ One of the following states will be returned:
     </tr>
   <tr>
     <td>undecided</td>
-    <td>The user did not decide wether to receive or not receive push notifications.</td>
+    <td>The user did not decide wether to receive or not receive push notifications, instead, she dismissed the dialog.</td>
   </tr>
   <tr>
     <td>denied</td>
