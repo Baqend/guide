@@ -20,7 +20,7 @@ caching infrastructure. The following schematic illustrates this procedure.
 
 Whenever a user is visiting a your website, Speed Kit launches a **Service Worker**, a process running concurrently to the
 main thread of execution in your browser. This Service Worker intercepts and reroutes browser requests according to
-**speedup policies**(whitelist, blacklist, etc.) that you can define: Speed Kit thus makes sure that your users get the
+**speedup policies** (whitelist, blacklist, etc.) that you can define: Speed Kit thus makes sure that your users get the
 cached, accelerated copy instead of fetching content from the original slower source.
 
 To avoid stale data, we purge outdated copies of your content in our caches. Behind the curtains, we use **machine
@@ -62,31 +62,21 @@ accelerated version; finally, it reports how much of an edge Speed Kit would giv
 
 <img src="../page-speed-analyzer.png" style="width:85%; display: block; margin-left: auto; margin-right: auto;">
 
-## Quantifiable Metrics
+
+### Quantifiable Metrics
 
 To compare both website versions, the analyzer uses [Google's PageSpeed Insights API](https://developers.google.com/speed/docs/insights/v1/getting_started)
 and private instances of [WebPagetest](https://sites.google.com/a/webpagetest.org/docs/private-instances).
 It collects the following metrics:
 
-- **Domains:** Number of unique hosts referenced by the page.
-- **Resources:** Number of HTTP resources loaded by the page.
-- **Response Size:** Number of uncompressed response bytes for resources on the page.
-- **Speed Index:** Represents how quickly the page rendered the user-visible content.
-- **Time To First Byte:** Measures the amount of time between creating a connection to the server and downloading the contents.
-- **DOMContentLoaded:** Represents the time when the initial HTML document has been completely loaded and parsed, without waiting for external resources.
-- **FullyLoaded:** Measures the time from the start of the initial navigation until there was 2 seconds of no network activity after Document Complete.
-- **Last Visual Change:** Represents the last point in the test when something visually changed on the screen.
-
-## Video Proof
-
-In addition to the metrics listed above, the Page Speed Analyzer takes a **performance video** of both website versions to visualize Speed Kit's performance edge. 
-Through this side-by-side comparison of performance with and without Speed Kit, you don't have to rely on the numbers alone! 
-
-## Continuous Monitoring
-
-If you are using Speed Kit already, the analyzer shows you what Speed Kit is currently doing for your performance: 
-On the left, you see how your website would perform after removing Speed Kit; on the right, you see a test of your current website. 
-Thus, you can use the analyzer to **validate** Speed Kit's worth. But you can also try out new configurations to **improve** your existing Speed Kit configuration!
+* **Speed Index** &amp; **First Meaningful Paint**: Represent <a href="https://medium.baqend.com/the-technology-behind-fast-websites-2638196fa60a#7990" target="_blank">how quickly</a> the page rendered the user-visible content.
+* **Domains**: Number of unique hosts referenced.
+* **Resources**: Number of HTTP resources loaded.
+* **Response Size**: Number of compressed response bytes for resources.
+* **Time To First Byte (TTFB)**: Represents the time between connecting to the server and receiving the first content.
+* **DOMContentLoaded**: Represents the time after which the initial HTML document has been completely loaded and parsed, without waiting for external resources.
+* **FullyLoaded** (a.k.a. *Load*): Represents the time until all resources are loaded, including activity triggered by JavaScript. (Measures the time until which there was 2 seconds of no network activity after Document Complete.)
+* **Last Visual Change**: Represents the time after which the final website is visible (no change thereafter).
 
 # Who We Are
 
