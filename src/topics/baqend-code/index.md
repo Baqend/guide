@@ -510,6 +510,7 @@ If you hit that limit please contact us at <a href="mailto:support@baqend.com">s
 
 Baqend is shipped with some pre installed Node Modules. The following additional libraries can always be required in Baqend code:
 
+- [node-fetch](https://github.com/bitinn/node-fetch) - A light-weight module that brings window.fetch to Node.js
 - [http](https://nodejs.org/api/http.html) - Node.js http core library
 - [https](https://nodejs.org/api/https.html) - Node.js https core library
 - [querystring](https://nodejs.org/api/querystring.html) - Node.js core querystring parsing and serialization library
@@ -519,7 +520,6 @@ Baqend is shipped with some pre installed Node Modules. The following additional
 - [baqend](https://www.baqend.com/js-sdk/latest/baqend.html) - The Baqend SDK
 - [express](http://expressjs.com/4x/api.html) - HTTP server
 - [twilio](http://twilio.github.io/twilio-node/) - APIs for Text Messaging, VoIP & Voice in the Cloud 
-- [lwip](https://github.com/EyalAr/lwip/) - a Light Weight Image Processor for NodeJS
 - [node-mailjet](https://github.com/mailjet/mailjet-apiv3-nodejs) [API v3](https://dev.mailjet.com) Official Mailjet API v3 NodeJS wrapper 
 
 More modules may be added from time to time.
