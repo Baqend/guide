@@ -131,7 +131,7 @@ Access logs will be automatically collected whenever a resource of your app is a
 The following data will be collected by us:
 
 - date - The UTC date of the access
-- ip - The IP address of the user
+- ip - The anonymized IP address of the user (The last octet is replaced with `0`)
 - method - The HTTP Method, one of (HEAD, GET, POST, PUT, DELETE, OPTIONS)
 - server - The server who has generated the log entry, indicates the fastly pop location by default
 - url - The URL of the resource that is requested
@@ -140,3 +140,5 @@ The following data will be collected by us:
 - upload - The amount of data transferred from the client (includes head and body payload)
 - latency - The latency to handle the actual request measured by the fastly server 
 - cacheHit - Indicates if the request was directly served by the fastly server without contacting Baqend (Cache HIT)
+- origin - The Origin domain if the request was a CORS ([Cross-Origin Resource Sharing](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)) request
+- query - a parsed representaion of all query paramaters. (Note that any `.` will be replaced with a `_`)
