@@ -53,9 +53,16 @@ To serve your website under your own domain, you have to create a DNS entry and 
     **Note**: You should not use a top level domain as a CNAME, since many DNS providers do not support it. Instead use a sub domain
 such as **www.**yourdomain.com. In addition you should ensure that no other DNS-entry is set for the used domain.
 
-2. Log into your Baqend dashboard and open your app settings. In the Hosting section simply add your custom domain `www.yourdomain.com` and click the save button. Your domain will now be registered at the CDN. Instead of `<appName>.app.baqend.com` you can now use `www.yourdomain.com`.
+2. Log into your Baqend dashboard and open your app settings. 
+   In the Hosting section, simply add your custom domain `www.yourdomain.com` and click the save button. 
+   Your domain will now be registered at the CDN. Instead of `<appName>.app.baqend.com` you can now use `www.yourdomain.com`.
 
-Consult your DNS provider's instructions to configure the CNAME record for your domain name. The steps to add a CNAME record will vary for each registrar's control panel interface.
+3. Optionally, you can define a custom **Domain root folder** (default: `www`). 
+   This allows you to host multiple pages on the same Baqend app. 
+   Just specify a different file root folder and its content will be served by your custom domain.
+
+Consult your DNS provider's instructions to configure the CNAME record for your domain name. 
+The steps to add a CNAME record will vary for each registrar's control panel interface.
 
 If you cannot find your provider's CNAME configuration instructions, Google maintains instructions for [most major providers](https://support.google.com/a/topic/1615038). 
 
@@ -117,6 +124,31 @@ You may activate several certificates at once, *but you may only start 2 activat
 By confirming the activation dialog, your SSL certificate will be activated. Your custom domain is now reachable via `https://yourdomain.com`.
 
 Behind the curtains, we are using [Let's Encrypt](https://letsencrypt.org/) to automate the entire process. 
+
+### Protect your Website with Basic Authentication
+
+It is quite common to protect QA or staging environments with [Basic Authentication](https://en.wikipedia.org/wiki/Basic_access_authentication),
+also known as `.htaccess` protection.
+If you open the dashboard, navigate to `files`, and click the `Edit Root Folder ACL` button, you can restrict the `load` permission to 
+specific roles and/or users. 
+For example, if you assign the *load permission* to the `loggedIn` role, only logged-in users will be able to access content hosted in the corresponding directory. 
+New Users can be created in the Dashboard **Data &gt; User** table.
+
+<div class="warning"><strong>Root-level permissions:</strong>
+Please note that you can only define permissions per root-level folder, i.e. at the granularity of the top level. Second-level (and below) folders inherit the permissions defined for their parents.
+</div>
+
+![File Bucket ACLs](bucket-acl.png)
+
+When permissions other than `Public`are assigned, any unauthorized access to the hosted website is prevented: 
+When loading a protected site, the accessing user will be asked for login credentials through the browser-native authentication prompt. 
+After successful login, a cookie will be set to keep the user logged in for 30 days per default. 
+(The login period can be changed in the dashboard under **Settings > Authentication > User Session Length**)
+
+  <div class="note"><strong>Note:</strong> 
+If you use the Baqend SDK on the protected page, any authorized user will also be loggedin in after the SDK's `connect` call.
+</div>
+
 
 #### Your Advantages
 
