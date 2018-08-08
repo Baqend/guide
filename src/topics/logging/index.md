@@ -140,5 +140,5 @@ The following data will be collected by us:
 - upload - The amount of data transferred from the client (includes head and body payload)
 - latency - The latency to handle the actual request measured by the fastly server 
 - cacheHit - Indicates if the request was directly served by the fastly server without contacting Baqend (Cache HIT)
-- origin - The Origin domain if the request was a CORS ([Cross-Origin Resource Sharing](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)) request
-- query - a parsed representaion of all query paramaters. (Note that any `.` will be replaced with a `_`)
+- origin - The origin domain if the request was a CORS ([Cross-Origin Resource Sharing](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)) request
+- query - a parsed representaion of all query parameters. (Note that any `.` will be replaced with a `_`)

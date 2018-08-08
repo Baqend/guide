@@ -79,8 +79,8 @@ DB.connect('example');
 DB.connect('example', true);
 ```
 
-If you host your app on Baqend (See [Hsoting](/topics/hosting)) you must not specify any paramater. 
-The SDK will connect directly to the same domain and protocol of the served Page.
+If your app is [hosted on Baqend](/topics/hosting), you do not have to specify any parameters, since the 
+SDK will automatically detect and use the domain and protocol over which the page is served.
 
 ```js
 // No parameters needed if your App is hosted on Baqend

@@ -54,12 +54,12 @@ To serve your website under your own domain, you have to create a DNS entry and 
 such as **www.**yourdomain.com. In addition you should ensure that no other DNS-entry is set for the used domain.
 
 2. Log into your Baqend dashboard and open your app settings. 
-   In the Hosting section simply add your custom domain `www.yourdomain.com` and click the save button. 
+   In the Hosting section, simply add your custom domain `www.yourdomain.com` and click the save button. 
    Your domain will now be registered at the CDN. Instead of `<appName>.app.baqend.com` you can now use `www.yourdomain.com`.
 
-3. You can optionally configure a different **Domain root folder** then `www`. 
-   This allows you to host multiple Pages on the same Baqend App. 
-   Just specify a different file root folder and its content will served by your custom domain.
+3. Optionally, you can define a custom **Domain root folder** (default: `www`). 
+   This allows you to host multiple pages on the same Baqend app. 
+   Just specify a different file root folder and its content will be served by your custom domain.
 
 Consult your DNS provider's instructions to configure the CNAME record for your domain name. 
 The steps to add a CNAME record will vary for each registrar's control panel interface.
@@ -127,23 +127,26 @@ Behind the curtains, we are using [Let's Encrypt](https://letsencrypt.org/) to a
 
 ### Protect your Website with Basic Authentication
 
-It is quite common to protect QA or previews of a page with a [Basic Authentication](https://en.wikipedia.org/wiki/Basic_access_authentication),
+It is quite common to protect QA or staging environments with [Basic Authentication](https://en.wikipedia.org/wiki/Basic_access_authentication),
 also known as `.htaccess` protection.
-If you open the Dashboard navigate to Files and click the `Edit Bucket ACL` you can restrict the `load` permission to a
+If you open the dashboard, navigate to `files`, and click the `Edit Root Folder ACL` button, you can restrict the `load` permission to 
 specific roles and/or users. 
-You can add the `loggedIn` role for an example to restrict the access to the hosted page to only logged in users. 
-New Users can be created in the Dashboard **Data > User** table.
+For example, if you assign the *load permission* to the `loggedIn` role, only logged-in users will be able to access content hosted in the corresponding directory. 
+New Users can be created in the Dashboard **Data &gt; User** table.
+
+<div class="warning"><strong>Root-level permissions:</strong>
+Please note that you can only define permissions per root-level folder, i.e. at the granularity of the top level. Second-level (and below) folders inherit the permissions defined for their parents.
+</div>
 
 ![File Bucket ACLs](bucket-acl.png)
 
-Afterwards any unauthorized access to the hosted Website is prevented and the browser native prompt is shown to enter 
-the login credentials. 
-After the user have entered his correct credentials, he will be logged in and a cookie will be 
-set to keep the user logged in for 30 days per default. 
-(The login period can be changed in the Dashboard **Settings > Authentication > User session length**)
+When permissions other than `Public`are assigned, any unauthorized access to the hosted website is prevented: 
+When loading a protected site, the accessing user will be asked for login credentials through the browser-native authentication prompt. 
+After successful login, a cookie will be set to keep the user logged in for 30 days per default. 
+(The login period can be changed in the dashboard under **Settings > Authentication > User Session Length**)
 
   <div class="note"><strong>Note:</strong> 
-If you use the baqend SDK on the protected Page, any authorized user will also be loggedin in after the SDKs `connect` call.
+If you use the Baqend SDK on the protected page, any authorized user will also be loggedin in after the SDK's `connect` call.
 </div>
 
 
