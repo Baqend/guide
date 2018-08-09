@@ -257,6 +257,14 @@ The following table list all available query filters and the types on which they
   </tbody>
 </table></div>
 
+<div class="note"><strong>Note on Chaining:</strong> When chaining expressions that rely on the same MongoDB operator, only the most recently called expression will take effect. For example, <code>isNotNull</code> and <code>notEqual</code> both rely on MongoDB's <code>$ne</code> operator, so that the following two query builders will produce the exact same query:
+<ol>
+	<li><code>DB.Test.notEqual('test', '')</code></li>
+	<li><code>DB.Test.isNotNull('test').notEqual('test', '')</code></li>
+</ol>
+In the second builder, <code>notEqual</code> overrides the effect of <code>isNotNull</code>, so that the resulting query will match records where the <code>test</code> attribute is <code>null</code>.
+</div>
+
 You can get the current GeoPoint of the User with <code>DB.GeoPoint.current()</code>. This only works with an HTTPS connection.
 
 References can and should be used in filters. Internally references are converted to ids
