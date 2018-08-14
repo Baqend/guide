@@ -4,7 +4,7 @@ Speed Kit accelerates your website – but by how much?
 In this section, we answer common questions regarding Speed Kit and web performance:
 
 1. **Actual Speedup** (Speed Kit already active): How much faster is Speed Kit making my website?  
-*TL;DR*: You can measure page load time with [your own browser](#measuring-in-the-browser) or with the [Page Speed Analyzer](#the-page-speed-analyzer).
+*TL;DR*: You can measure page load time with the [Page Speed Analyzer](#the-page-speed-analyzer) or with external tools like [Google Lighthouse](#measuring-with-google-lighthouse), [WebPagetest](#measuring-with-webpagtest), or [your own browser](#measuring-in-the-browser).
 
 2. **Possible Speedup** (Speed Kit *not* active): How much faster will Speed Kit make my website?  
 *TL;DR*: Have the Page Speed Analyzer generate a [performance report](#how-to-generate-a-performance-report) for your website to find out!
@@ -74,12 +74,6 @@ The **Page Speed Analyzer** (see [below](#the-page-speed-analyzer)), in contrast
 
 To capture Speed Kit's full performance uplift, a testing tool should first navigate to the homepage (to make sure that Speed Kit is installed and active) before navigating to another subsite to take the actual performance measurement.
 
-<div class="note"><strong>Staging Environment:</strong> 
-If you are testing on a staging environment with basic authentication, you can add the authentication as a header like so:  
-</br> 
-<code>--extra-headers "Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ="</code>.
-</div>
-
 ### Measuring with Google Lighthouse
 
 [Lighthouse](https://developers.google.com/web/tools/lighthouse/) is a website auditing tool by Google that also measures page speed. It awards a rating between 1 and 100 to the website under test depending on various performance metrics. In addition to performance measurements, Lighthouse also gives useful tips on how to improve performance.
@@ -109,6 +103,12 @@ lighthouse https://www.baqend.com/ --chrome-flags="--user-data-dir=/tmp" --disab
 # Run lighthouse for sub page to test
 lighthouse https://www.baqend.com/speedkit.html --chrome-flags="--user-data-dir=/tmp" --blocked-url-patterns=/bq-speedkit.app.baqend.com/ --disable-storage-reset --view
 ```
+
+<div class="note"><strong>PBasic Authentication:</strong> 
+If you are testing on a staging environment with basic authentication, you can add the authentication as a header like so:  
+</br> 
+<code>--extra-headers "Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ="</code>.
+</div>
 
 #### Measuring with Speed Kit <u>enabled</u>
 To test the performance with Speed Kit in action, choose the same pages as before and run the following command. Again, replace `www.baqend.com` with your website:
@@ -144,6 +144,12 @@ navigate https://www.baqend.com
 logData 1
 navigate https://www.baqend.com/speedKit.html
 ```
+
+<div class="note"><strong>PBasic Authentication:</strong> 
+If you are testing on a staging environment with basic authentication, you can add the authentication as a header by adding the following line at the start of your script:  
+</br> 
+<code>setHeader Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=</code>.
+</div>
 
 
 #### Measuring with Speed Kit <u>enabled</u>
@@ -181,7 +187,16 @@ In principle, the analyzer loads your website multiple times to **contrast perfo
 
 <img src="../analyzer-measurement.png" alt="Baqend's page speed test setup simulates a real user visit." style="width:60%; display: block; margin-left: auto; margin-right: auto;">
 
-Once you enter your website's URL, the analyzer starts two different Chrome browsers to load your website: One loads the version *with Speed Kit* and the other loads your website *without Speed Kit*. We did not implement the measurements ourselves, though. Instead, we use the **open-source** testing framework [**WebPagetest**](https://www.webpagetest.org/). 
+Once you enter your website's URL, the analyzer starts two different Chrome browsers to load your website: One loads the version *with Speed Kit* and the other loads your website *without Speed Kit*. We did not implement the measurements ourselves, though. Instead, we use the **open-source** testing framework [**WebPagetest**](https://www.webpagetest.org/). You can access the **WebPagetest Waterfalls** by clicking *Show Details* below the video comparison and then clicking one of the links at the bottom of the overview (either *Without Speed Kit* or *With Speed Kit*, depending on the test run you are interested in). 
+
+To make the setup as realistic as possible, we use the following configuration:
+
+* **Server location** depends on the chosen test client location:
+    * *Europe:*  Hetzner data center in Falkenstein/Vogtland
+    * *US:* AWS data center US East (N. Virginia)
+* **Network link** depends on the chosen client device:
+    * *Desktop:* 20 Mbit/s with 0 ms latency
+    * *Mobile:* 12 Mbit/s with 70 ms latency
 
 ### How to Generate a Performance Report
 
