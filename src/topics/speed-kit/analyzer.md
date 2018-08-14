@@ -195,8 +195,8 @@ To make the setup as realistic as possible, we use the following configuration:
     * *Europe:*  Hetzner data center in Falkenstein/Vogtland
     * *US:* AWS data center US East (N. Virginia)
 * **Network link** depends on the chosen client device:
-    * *Desktop:* 20 Mbit/s with 0 ms latency
-    * *Mobile:* 12 Mbit/s with 70 ms latency
+    * *Desktop:* 20 Mbit/s with 0 ms additional latency
+    * *Mobile:* 12 Mbit/s with 70 ms additional latency
 
 ### How to Generate a Performance Report
 
