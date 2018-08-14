@@ -10,7 +10,7 @@ In this section, we answer common questions regarding Speed Kit and web performa
 *TL;DR*: Have the Page Speed Analyzer generate a [performance report](#how-to-generate-a-performance-report) for your website to find out!
 
 3. **Measuring the Uplift**: Why do some performance tests not [capture Speed Kit's uplift](#measuring-speed-kits-performance-uplift)?  
-*TL;DR*: Common testing tools do not fully support Service Workers, the technology underneath Speed Kit. 
+*TL;DR*: Some testing tools do not fully support Service Workers, the technology underneath Speed Kit. Some tools only need proper configuration (e.g. [Google Lighthouse](#measuring-with-google-lighthouse) and [WebPagetest](#measuring-with-webpagtest)). 
 
 If you want to read more on web performance in general, check out our <a href="https://medium.baqend.com/the-technology-behind-fast-websites-2638196fa60a" target="_blank">in-depth web performance survey</a>. 
 
@@ -66,6 +66,98 @@ To disable Speed Kit (left video), you simply have to do the following:
 3. Find the **Service Workers** section
 4. **Disable Speed Kit** by checking the "Bypass for network" box; this makes sure that the Speed Kit service worker is not used.
 
+## Measuring Speed Kit's performance uplift
+
+**Common performance tools** like Pingdom or GTmetrix typically do not install Service Workers before taking a performance measurement – or they do not even support them to begin with. Since Speed Kit is built on Service Workers, though, these tools cannot measure any acceleration for good reason: **Without its Service Worker, Speed Kit is not active**. 
+
+The **Page Speed Analyzer** (see [below](#the-page-speed-analyzer)), in contrast, makes sure that Service Workers are installed before the test. Thus, the measurement reflects performance for a user who has already been on your website once before (e.g. visited a specific product page in your shop once last year), but has never visited the page under test. It is important to note, that the analyzer is using **cold caches** for the performance test. 
+
+To capture Speed Kit's full performance uplift, a testing tool should first navigate to the homepage (to make sure that Speed Kit is installed and active) before navigating to another subsite to take the actual performance measurement.
+
+<div class="note"><strong>Staging Environment:</strong> 
+If you are testing on a staging environment with basic authentication, you can add the authentication as a header like so:  
+</br> 
+<code>--extra-headers "Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ="</code>.
+</div>
+
+### Measuring with Google Lighthouse
+
+[Lighthouse](https://developers.google.com/web/tools/lighthouse/) is a website auditing tool by Google that also measures page speed. It awards a rating between 1 and 100 to the website under test depending on various performance metrics. In addition to performance measurements, Lighthouse also gives useful tips on how to improve performance.
+
+If Speed Kit is already online on your site, you can use Lighthouse to measure Speed Kit's actual performance uplift. In order to do that, you need to install the Lighthouse CLI via `npm`:
+
+```
+npm install -g lighthouse
+```
+
+Since Speed Kit's Service Worker needs to be active in order to achieve and uplift, you 1st need to make sure that Lighthouse has a temporary directory to store browser data, for example a `tmp` folder in your home directory: 
+```
+# Create ~/tmp if not exists
+mkdir ~/tmp
+```
+
+#### Measuring with Speed Kit <u>disabled</u>
+To test baseline performance without Speed Kit, run the following commands and replace `www.baqend.com` with your own website and `bq-speedkit` with your Baqend app's name:
+
+```
+# Clear ~/tmp before test
+rm -rf ~/tmp
+
+# Run lighthouse for homepage, Speed Kit is blocked
+lighthouse https://www.baqend.com/ --chrome-flags="--user-data-dir=/tmp" --disable-storage-reset --blocked-url-patterns=/bq-speedkit.app.baqend.com/
+
+# Run lighthouse for sub page to test
+lighthouse https://www.baqend.com/speedkit.html --chrome-flags="--user-data-dir=/tmp" --blocked-url-patterns=/bq-speedkit.app.baqend.com/ --disable-storage-reset --view
+```
+
+#### Measuring with Speed Kit <u>enabled</u>
+To test the performance with Speed Kit in action, choose the same pages as before and run the following command. Again, replace `www.baqend.com` with your website:
+
+```
+# Clear ~/tmp before test
+rm -rf ~/tmp
+
+# Run lighthouse for homepage to install Speed Kit
+lighthouse https://www.baqend.com/ --chrome-flags="--user-data-dir=/tmp" --disable-storage-reset
+
+# Run lighthouse for sub page to test 
+lighthouse https://www.baqend.com/speedkit.html --chrome-flags="--user-data-dir=/tmp" --disable-storage-reset --view
+```
+
+To see Speed Kit's performance uplift, simply compare measurements of both the runs.
+
+
+### Measuring with WebPagtest
+
+[WebPagetest](https://www.webpagetest.org/) is a well-known open-source tool for performance analysis. It is also the tool that our own performance test is based on (see [below](#the-page-speed-analyzer)). 
+If Speed Kit is already online on your site, you can use WebPagetest to measure the performance uplift as it is experienced by real users.
+
+For the test, go to [https://www.webpagetest.org/](https://www.webpagetest.org/), open `Advanced Settings`, and choose the `Script` tab. Here, you can paste the commands for the individual tests and hit `Start Test` tun run them.
+
+#### Measuring with Speed Kit <u>disabled</u>
+To test baseline performance without Speed Kit, use the following test script and replace `www.baqend.com` with your own website and `bq-speedkit` with your Baqend app's name:
+
+```
+blockDomains bq-speedkit.app.baqend.com
+logData 0
+navigate https://www.baqend.com
+logData 1
+navigate https://www.baqend.com/speedKit.html
+```
+
+
+#### Measuring with Speed Kit <u>enabled</u>
+To test the performance with Speed Kit in action, choose the same pages as before and run the following test script. Again, replace `www.baqend.com` with your website:
+```
+logData 0
+navigate https://www.baqend.com
+logData 1
+navigate https://www.baqend.com/speedKit.html
+```
+
+To see Speed Kit's performance uplift, simply compare measurements of both the runs.
+
+
 
 ## The Page Speed Analyzer
 
@@ -90,12 +182,6 @@ In principle, the analyzer loads your website multiple times to **contrast perfo
 <img src="../analyzer-measurement.png" alt="Baqend's page speed test setup simulates a real user visit." style="width:60%; display: block; margin-left: auto; margin-right: auto;">
 
 Once you enter your website's URL, the analyzer starts two different Chrome browsers to load your website: One loads the version *with Speed Kit* and the other loads your website *without Speed Kit*. We did not implement the measurements ourselves, though. Instead, we use the **open-source** testing framework [**WebPagetest**](https://www.webpagetest.org/). 
-
-### Measuring Speed Kit's performance uplift
-
-**Common performance tools** like Pingdom or GTmetrix typically do not install Service Workers before taking a performance measurement – or they do not even support them to begin with. Since Speed Kit is built on Service Workers, though, these tools cannot measure any acceleration for good reason: **Without its Service Worker, Speed Kit is not active**. 
-
-The **Page Speed Analyzer**, in contrast, makes sure that Service Workers are installed before the test. Thus, the measurement reflects performance for a user who has already been on your website once before (e.g. visited a specific product page in your shop once last year), but has never visited the page under test. It is important to note, that the analyzer is using **cold caches** for the performance test. 
 
 ### How to Generate a Performance Report
 
