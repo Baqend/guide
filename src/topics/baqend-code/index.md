@@ -253,8 +253,10 @@ exports.post = function(db, req, res) {
 };
 ```
 
-With the response object, you can send additional response headers and have a better control over the content which will 
-be send back. You can use the complete express API to handle the actual request.
+With the response object, you can send additional response headers, set and HTTP status, and have an overall better control over the content which will 
+be sent back. You can use the complete [express API](http://expressjs.com/api.html#res) to handle the actual request.
+
+For example, you can *redirect* users depending on whether or not they are logged in:
 
 ```js
 exports.get = function(db, req, res) {
@@ -280,8 +282,48 @@ exports.get = function(db, req, res) {
 ```
 
 It is important that you send the content back with one of the express `res.send()` helpers. Otherwise the response will 
-not be send back to the client. In addition ensure that you return a [promise](/topics/getting-started#promises) when you make asynchronous calls within 
+not be sent back to the client. In addition, ensure that you return a [promise](/topics/getting-started#promises) when you make asynchronous calls within 
 your Baqend module, otherwise the request will be aborted with an error!
+
+## Custom Response Headers
+
+Since the `GET` and `POST` methods give you the response object (`res`) as a parameter, you can set response headers like so:
+
+```js
+exports.get = function(db, req, res) {
+    res.setHeader('x-powered-by', 'coffee'); // custom header
+   res.send({"server-time": new Date()});
+};
+```
+
+If you want to enable CDN or browser caching for your server-generated responses, you can set **HTTP caching headers** before sending the response back to the caller:
+
+* The `Cache-Control` header specifies the behavior all caches between client and server (including the browser cache).  
+* The `Surrogate-Control` header overrides the Cache-Control header for the CDN: It is stripped from the response before reaching the client and therefore does not affect browser caching. 
+
+If you do not use either of these caching headers, your responses will not be cached whatsoever.
+
+### Example: Exploiting CDN & Browser Caches
+
+You can also combine both headers in order to specify different behavior for the browser and the CDN caches, respectively. 
+In the following example, the response will be cached for 10 seconds in the browser cache of the calling client and for 20 seconds in the serving CDN node:
+
+```js
+exports.get = function(db, req, res) {
+    res.setHeader('Cache-Control', 'max-age=10'); // Client caching TTL: 10 seconds
+    res.setHeader('Surrogate-Control', 'max-age=20'); // CDN caching TTL: 20 seconds
+    res.send({"server-time": new Date()});
+};
+```
+
+If a client calls this code module several times, you would expect the following behavior:
+
+| Time | Response | Served From Cache? |
+|---	|---	|---	|
+| first invocation | <code>{"server-time":"2018-08-17T11:57:<u>24.073Z</u>"}</code> | no |
+| after 5 seconds | <code>{"server-time":"2018-08-17T11:57:24.073Z"}</code> | yes (browser cache) |
+| after 15 seconds | <code>{"server-time":"2018-08-17T11:57:24.073Z"}</code> | yes (CDN cache) |
+| after 25 seconds | <code>{"server-time":"2018-08-17T11:57:<u>49.126Z</u>"}</code> | no |
 
 ## Handling binary data
 
