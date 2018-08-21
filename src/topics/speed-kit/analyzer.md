@@ -4,13 +4,13 @@ Speed Kit accelerates your website – but by how much?
 In this section, we answer common questions regarding Speed Kit and web performance:
 
 1. **Actual Speedup** (Speed Kit already active): How much faster is Speed Kit making my website?  
-*TL;DR*: You can measure page load time with the [Page Speed Analyzer](#the-page-speed-analyzer) or with external tools like [Google Lighthouse](#measuring-with-google-lighthouse), [WebPagetest](#measuring-with-webpagtest), or [your own browser](#measuring-in-the-browser).
+*TL;DR*: You can measure page load time with the [Page Speed Analyzer](#the-page-speed-analyzer) or with external tools like <!--[Google Lighthouse](#measuring-with-google-lighthouse),--> [WebPagetest](#measuring-with-webpagtest) or [your own browser](#measuring-in-the-browser).
 
 2. **Possible Speedup** (Speed Kit *not* active): How much faster will Speed Kit make my website?  
 *TL;DR*: Have the Page Speed Analyzer generate a [performance report](#how-to-generate-a-performance-report) for your website to find out!
 
 3. **Measuring the Uplift**: Why do some performance tests not [capture Speed Kit's uplift](#measuring-speed-kits-performance-uplift)?  
-*TL;DR*: Some testing tools do not fully support Service Workers, the technology underneath Speed Kit. Some tools only need proper configuration (e.g. [Google Lighthouse](#measuring-with-google-lighthouse) and [WebPagetest](#measuring-with-webpagtest)). 
+*TL;DR*: Some testing tools do not fully support Service Workers, the technology underneath Speed Kit. Some tools only need proper configuration (e.g. <!--[Google Lighthouse](#measuring-with-google-lighthouse) and--> [WebPagetest](#measuring-with-webpagtest)). 
 
 If you want to read more on web performance in general, check out our <a href="https://medium.baqend.com/the-technology-behind-fast-websites-2638196fa60a" target="_blank">in-depth web performance survey</a>. 
 
@@ -74,6 +74,7 @@ The **Page Speed Analyzer** (see [below](#the-page-speed-analyzer)), in contrast
 
 To capture Speed Kit's full performance uplift, a testing tool should first navigate to the homepage (to make sure that Speed Kit is installed and active) before navigating to another subsite to take the actual performance measurement.
 
+<!-- 
 ### Measuring with Google Lighthouse
 
 [Lighthouse](https://developers.google.com/web/tools/lighthouse/) is a website auditing tool by Google that also measures page speed. It awards a rating between 1 and 100 to the website under test depending on various performance metrics. In addition to performance measurements, Lighthouse also gives useful tips on how to improve performance.
@@ -125,8 +126,7 @@ lighthouse https://www.baqend.com/speedkit.html --chrome-flags="--user-data-dir=
 ```
 
 To see Speed Kit's performance uplift, simply compare measurements of both the runs.
-
-
+-->
 ### Measuring with WebPagtest
 
 [WebPagetest](https://www.webpagetest.org/) is a well-known open-source tool for performance analysis. It is also the tool that our own performance test is based on (see [below](#the-page-speed-analyzer)). 
