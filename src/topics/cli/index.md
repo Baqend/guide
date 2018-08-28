@@ -48,6 +48,16 @@ credentials each time you deploy.
 
 You can logout the Baqend CLI and remove all locally stored credentials by typing `baqend logout`
 
+## Usage With Community Edition
+
+You can also use the CLI in combination with Baqend's [free community edition](https://github.com/Baqend/docker-baqend-ce). For logging into a self-hosted Baqend instance, you simply have to provide the connection URL instead of the app name when using the `baqend login` command.  
+For example, you can connect to a local Baqend instance like so:
+
+```js
+baqend login http://localhost:8080/v1
+```
+
+The trailing `/v1` is required as it specifies the API version used to communicate with the Baqend server.
 
 ## Deployment
 
