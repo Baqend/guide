@@ -57,7 +57,7 @@ For example, you can connect to a local Baqend instance like so:
 baqend login http://localhost:8080/v1
 ```
 
-The trailing `/v1` is required as it specifies the API version used to communicate with the Baqend server.
+The trailing `/v1` is required as it represents the API endpoint of your Baqend server. 
 
 ## Deployment
 
