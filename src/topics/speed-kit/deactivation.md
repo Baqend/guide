@@ -4,7 +4,7 @@ This section describes the different ways to deactivate Speed Kit.
 
 ## Global Deactivation
 
-In order to deactivate Speed Kit for all users, log into the dashboard and  enter the *Status* section (on the left). 
+In order to deactivate Speed Kit for all users, log into the dashboard and enter the *Status* section (on the left). 
 Here, you see a red **Disable Speed Kit** button on the top right – click it, and Speed Kit will immediately deactivate itself. 
 From this moment on, Speed Kit will not handle any traffic for any user, until it is reactivated. 
 
@@ -21,3 +21,10 @@ Speed Kit is now disabled for your current session, but still functional for all
 To activate Speed Kit again, type the following into your console:
 
     navigator.serviceWorker.controller.postMessage({type: "connect"});
+
+## Uninstalling Speed Kit
+If you no longer want to use Speed Kit, use the following Code Snippet to uninstall Speed Kit from your browser:
+
+     navigator['serviceWorker'] && navigator['serviceWorker'].getRegistration().then(
+        reg => reg && reg.unregister();
+     )
