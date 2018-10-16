@@ -109,7 +109,7 @@ There are a few rate limits in Baqend, to prevent abuse:
 - **HTTP/API requests**: within a 5 minute interval 1000 requests are allowed per IP. When the limit is exceeded, the IP is banned for 30 minutes.
 - **Registration and Forgot Password**: throttled to 5 calls per 5 minute without banning.
 
-Any users that have the admin role are not rate limited. If you ran into the rate limit and wan to unblock an IP, go into the dashboard, open the developer console (F12) and use the following command:
+Users are rate-limited, unless they are associated with the *admin or the node role*. If you ran into the rate limit and wan to unblock an IP, go into the dashboard, open the developer console (F12) and use the following command:
 
     DB.send(new DB.message.Unban()) //unban everyone
     DB.send(new DB.message.UnbanIp("192.168.0.1")) //unban a particular IP
