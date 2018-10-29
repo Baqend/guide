@@ -153,6 +153,15 @@
       <span class="chapter-info">On our policies for data processing and retention.</span>
     </a>
   </div>
+  <div class="chapter-item-outer">
+    <a class="chapter-item" href="https://headwayapp.co/speed-kit-release-notes" target="_blank">
+      <span class="chapter-heading">
+        <span class="icon"><img src="../icons/speed-kit-release-notes.png"/></span>
+        <span class="text">Release Notes</span>
+      </span>
+      <span class="chapter-info">Details on new features, updates &amp; bug fixes.</span>
+    </a>
+  </div>
 </div>
 
 
