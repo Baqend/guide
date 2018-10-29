@@ -98,7 +98,7 @@
     </a>
   </div>
   <div class="chapter-item-outer">
-    <a class="chapter-item" href="../topics/speed-kit/api">
+    <a class="chapter-item" href="https://www.baqend.com/speed-kit/latest/">
       <span class="chapter-heading">
         <span class="icon"><img src="../icons/speed-kit-api.png"/></span>
         <span class="text">Advanced Config Parameters</span>
