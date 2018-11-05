@@ -24,6 +24,7 @@ pages:
         - 'Dynamic Blocks: Accelerating Personalized Content': 'topics/speed-kit/personalized.md'
         - Deactivation: 'topics/speed-kit/deactivation.md'
         - Data Privacy: 'topics/speed-kit/privacy.md'
+        - Testing: 'topics/speed-kit/testing.md'
 
     - Platform:
         - 'JavaScript SDK': 'topics/getting-started/index.md'

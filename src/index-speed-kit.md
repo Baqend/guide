@@ -154,6 +154,15 @@
     </a>
   </div>
   <div class="chapter-item-outer">
+    <a class="chapter-item" href="../topics/speed-kit/testing">
+      <span class="chapter-heading">
+        <span class="icon"><img src="../icons/speed-kit-testing.png"/></span>
+        <span class="text">Local Testing</span>
+      </span>
+      <span class="chapter-info">How to try out Speed Kit on your machine without deploying it in production.</span>
+    </a>
+  </div>
+  <div class="chapter-item-outer">
     <a class="chapter-item" href="https://headwayapp.co/speed-kit-release-notes" target="_blank">
       <span class="chapter-heading">
         <span class="icon"><img src="../icons/speed-kit-release-notes.png"/></span>
