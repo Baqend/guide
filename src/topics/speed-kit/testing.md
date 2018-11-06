@@ -10,7 +10,7 @@ Please note that Speed Kit's performance uplift in the local testing/debugging s
 In the following, we will describe how to launch your local browser under Linux in such a way that it uses Speed Kit on the [Baqend Guide](https://www.baqend.com/guide/):
 
 1. **Start Chrome With Special Flags:** First, you have to start an instance of the Chrome browser in such a way (1) that the user data directory is empty, (2) that certificate errors are ignored, (3) and that a special proxy server is used for your website's domain. To this end, type the following into the shell:  
-`google-chrome --user-data-dir="/tmp" --ignore-certificate-errors --disable-web-security --host-rules="MAP baqend.com 18.196.93.254" --no-first-run --disable-infobars`
+`google-chrome --user-data-dir="/tmp/speedkitlocal" --ignore-certificate-errors --disable-web-security --host-rules="MAP www.baqend.com 18.196.93.254" --no-first-run --disable-infobars`
 
 2. **Create a Speed Kit config**: Press F12 to open the developer tools, open the console tab, and type the following into the browser console in order to create a bare bone Speed Kit config for the test website:  
 
@@ -41,12 +41,12 @@ This string is hardly readable for a human, but ideal for encoding the Speed Kit
 4. **Generate Installation Link**: 
 To enable Speed Kit for your fresh Chrome browser, you need to visit a specific link. To generate this link, type the following into your browser's console and press enter:  
 
-        `https://baqend.com/guide/install-speed-kit?config=${encodedConfig}`
+        `https://www.baqend.com/guide/install-speed-kit?config=${encodedConfig}`
 
 5. **Open website**: now open the generated URL in your special Chrome instance in order to install Speed Kit's Service Worker with the config. The installation link should look something like this:  
 
-        https://baqend.com/guide/install-speed-kit?config=%7B%20appName%3A%20%27makefast%27%2C%20userAgentDetection%3A%20false%2C%20whitelist%3A%20%5B%20%7B%20host%3A%20%5B%20%2Fbaqend.com%24%2F%2C%20%27code.jquery.com%27%2C%20%27fonts.googleapis.com%27%2C%20%27fonts.gstatic.com%27%20%5D%20%7D%2C%20%7B%20url%3A%20%27code.jquery.com%2Fjquery-1.12.1.min.js%27%20%7D%20%5D%20%7D
+        https://www.baqend.com/guide/install-speed-kit?config=%7B%20appName%3A%20%27makefast%27%2C%20userAgentDetection%3A%20false%2C%20whitelist%3A%20%5B%20%7B%20host%3A%20%5B%20%2Fbaqend.com%24%2F%2C%20%27code.jquery.com%27%2C%20%27fonts.googleapis.com%27%2C%20%27fonts.gstatic.com%27%20%5D%20%7D%2C%20%7B%20url%3A%20%27code.jquery.com%2Fjquery-1.12.1.min.js%27%20%7D%20%5D%20%7D
 
-6. **Try Different Configs**: You can repeat this procedure with different Speed Kit configurations to try out what works best for your website. Since the Service Worker may behave in unexpected ways once installed, we recommend starting with a fresh Chrome user directory every time. (So just delete the `/tmp` directory before starting from scratch.)
+6. **Try Different Configs**: You can repeat this procedure with different Speed Kit configurations to try out what works best for your website. Since the Service Worker may behave in unexpected ways once installed, we recommend starting with a fresh Chrome user directory every time. (So just delete the `/tmp/speedkitlocal` directory before starting from scratch.)
 
 <div class="warning"><strong>no dynamic Blocks:</strong> Please note that the above-describe procedure does not cover Dynamic Blocks, yet. Please <a href="mailto:support@baqend.com">contact support</a> for additional instructions on how to try out a Speed Kit config with Dynamic Blocks.</div>
