@@ -3,9 +3,10 @@
 Some pages generate personalized or segmented content into their HTML pages. 
 Examples include a shopping carts, custom ads, or personal user greetings. 
 Normally, there is no point in caching those HTML pages, since there is a more or less unique version for every user. 
-With Speed Kit, however, there is a way to just do that. The concept is called **Dynamic Blocks**.
+With Speed Kit, however, there is a way to just do that. The concept is called **Dynamic Blocks** and it is illustrated below.
 
-## General Idea
+<img src="../dynamic-blocks.gif" style="width:85%; display: block; margin-left: auto; margin-right: auto;" alt="Dynamic Blocks make it possible to apply caching acceleration to websites with dynamic content.">
+
 The basic idea behind Dynamic Blocks is to load and display personalized content in two steps:
  
 1. **Load and display a generic placeholder with Speed Kit:**  
