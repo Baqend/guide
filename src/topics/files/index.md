@@ -262,7 +262,7 @@ function toFile(db, url, target, maxRetries = 10) {
 
             //Full response
             if (size) {
-                resolve(file.upload({mimeType, size, type: 'stream', data: res}));
+                resolve(file.upload({mimeType, size: Number(size), type: 'stream', data: res}));
                 return;
             }
 
