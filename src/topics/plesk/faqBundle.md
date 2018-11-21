@@ -50,8 +50,12 @@ you have to specify [white- and blacklists](#what-are-whitelist-and-blacklist-fo
 
 ## How does installation work and how long does it take?
 
-For a **WordPress** website, Speed Kit can be installed with a single click of a button. For **custom websites**, setup
-usually takes only a few minutes. For details, check out our **installation guide**.
+For a **WordPress** website, Speed Kit can be installed with a single click of a button.
+
+For **custom websites** or websites which have a lot of dynamic content (e.g. **shop websites**), setup usually takes longer due to the integration with the [Dynamic Fetcher](https://www.baqend.com/guide/topics/speed-kit/personalized/#how-to-use-it).
+With the help of your professional developer and the Speed Kit documentation a customized config needs to be created.
+
+For details, check out our **installation guide**.
 
 ## What is the difference between Speed Kit and traditional content delivery networks (CDNs)?
 
