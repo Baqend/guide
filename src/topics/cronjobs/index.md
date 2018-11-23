@@ -12,6 +12,8 @@ job.save();
             
 - **dashboard**: Simply enter the dashboard, click on `jobs` in the menu on the left and then click on `Definition`. You are now looking at all **cron jobs** that are defined for your app. To start a job, click `add` and provide the job parameters.
 
+<div class="note"><strong>Delayed scheduling from node server:</strong> Please note that jobs created by a Baqend Code module (i.e. by the <code>node</code> role) will be scheduled with a delay, while jobs inserted by any other user (e.g. through the dashboard) will be scheduled immediately. If there already is an active job, the node-related delay will be up to 10 minutes; for the first job you activate, though, the delay can be up to 24 hours.</div>
+
 ### Scheduling Parameters
 
 The following parameters are permitted:
