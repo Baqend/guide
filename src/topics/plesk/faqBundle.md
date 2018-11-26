@@ -52,8 +52,10 @@ you have to specify [white- and blacklists](#what-are-whitelist-and-blacklist-fo
 
 For a **WordPress** website, Speed Kit can be installed with a single click of a button.
 
-For **custom websites** or websites which have a lot of dynamic content (e.g. **shop websites**), setup usually takes longer due to the integration with the [Dynamic Fetcher](https://www.baqend.com/guide/topics/speed-kit/personalized/#how-to-use-it).
+For **custom websites** or websites which have a lot of dynamic content (e.g. **shop websites**), setup usually takes 
+longer due to the integration with the [Dynamic Fetcher](https://www.baqend.com/guide/topics/speed-kit/personalized/#how-to-use-it).
 With the help of your professional developer and the Speed Kit documentation a customized config needs to be created.
+Configuring Speed Kit for a dynamic website, needs to be done by a professional developer.
 
 For details, check out our **installation guide**.
 
