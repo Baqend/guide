@@ -22,6 +22,7 @@ nav:
         - Push Notifications: 'topics/speed-kit/push.md'
         - WordPress Plugin: 'topics/wordpress/index.md'
         - Speed Kit API: 'topics/speed-kit/api.md'
+        - 'Real User Monitoring (RUM)': 'topics/rum/index.md'
         - 'Dynamic Blocks: Accelerating Personalized Content': 'topics/speed-kit/personalized.md'
         - Deactivation: 'topics/speed-kit/deactivation.md'
         - Data Privacy: 'topics/speed-kit/privacy.md'

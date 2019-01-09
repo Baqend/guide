@@ -88,6 +88,17 @@
       <span class="chapter-info">How to (re-)engage users through Web Push.</span>
     </a>
   </div>
+  
+  <div class="chapter-item-outer">
+    <a class="chapter-item" href="../topics/rum/">
+      <span class="chapter-heading">
+        <span class="icon"><img src="../icons/speed-kit-analyzer.png"/></span>
+        <span class="text">Real User Monitoring</span>
+      </span>
+      <span class="chapter-info">Learn to analyse your user's performance while browsing with Speed Kit.</span>
+    </a>
+  </div>
+    
   <div class="chapter-item-outer">
     <a class="chapter-item" href="../topics/wordpress/">
       <span class="chapter-heading">
