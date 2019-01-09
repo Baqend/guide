@@ -1,6 +1,4 @@
-/* Highlight */
 $(document).ready(function () {
-  hljs.initHighlightingOnLoad();
   $('table').addClass('table table-striped table-hover');
 
   $.getJSON("https://api.github.com/repos/Baqend/js-sdk/tags").done(function (json) {
@@ -36,27 +34,6 @@ $('#main h1[id], #main h2[id], #main h3[id], #main h4[id], #main h5[id], #main h
 /* Prevent disabled links from causing a page reload */
 $("li.disabled a").click(function () {
   event.preventDefault();
-});
-
-function shootingStar(that, dir) {
-  setInterval(function(){
-    var topPos = Math.floor(Math.random() * 80) + 1;
-    var leftPos = Math.floor(Math.random() * 40) + 1;
-    var trans = Math.floor(Math.random() * 300) + 1;
-    that.css({
-      'top': topPos + '%',
-      'dir': leftPos + '%',
-      'transform': 'rotate(' + trans + ')' + 'deg'
-    });
-  }, 2000);
-}
-
-$('.shooting-star').each(function(){
-  shootingStar($(this), 'left');
-});
-
-$('.shooting-star-right').each(function(){
-  shootingStar($(this), 'right');
 });
 
 function getSpeedKitAPIDoc() {

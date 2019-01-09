@@ -92,12 +92,10 @@
 
         {# For Baqend docs – Bootstrap modals and syntax highlighting #}
         <script src="{{ base_url }}/js/lib/bootstrap.min.js" defer></script>
-        <script src="{{ base_url }}/js/lib/highlight.pack.js" defer></script>
 
         <script>var base_url = '{{ base_url }}';</script>
-        <script data-main="{{ base_url }}/js/search.js" src="{{ base_url }}/js/lib/require.min.js"></script>
-        <script src="{{ base_url }}/js/base.js"></script>
-        <script src="{{ base_url }}/js/printing.js"></script>
+        <script data-main="{{ base_url }}/js/main.js" src="{{ base_url }}/js/lib/require.min.js"></script>
+        <script src="{{ base_url }}/js/base.js" defer></script>
         {%- for path in extra_javascript %}
         <script src="{{ path }}"></script>
         {%- endfor %}
