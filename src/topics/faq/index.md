@@ -9,7 +9,7 @@ Here are a few resources additional resources to get help:
 - The rest of the [Baqend guide](https://www.baqend.com/guide/)
 - [Baqend on Github](https://github.com/Baqend)
 - The <a href="javascript:Tawk_API.maximize();">Chat</a> on the bottom of this page
-- Email Support at [support@baqend.com](support@baqend.com)
+- Email Support at [support@baqend.com](mailto:support@baqend.com)
 
 To get a deeper understanding of Baqend, here are some deep dives [from our blog](https://medium.baqend.com/):
 
@@ -114,7 +114,7 @@ Users are rate-limited, unless they are associated with the *admin or the node r
     DB.send(new DB.message.Unban()) //unban everyone
     DB.send(new DB.message.UnbanIp("192.168.0.1")) //unban a particular IP
 
-If you need to change the above rate limiting settings, contact support@baqend.com
+If you need to change the above rate limiting settings, contact [support@baqend.com](mailto:support@baqend.com)
 
 ### Can I restore accidentally deleted data?
 
