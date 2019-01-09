@@ -59,19 +59,6 @@ $('.shooting-star-right').each(function(){
   shootingStar($(this), 'right');
 });
 
-
-/*Printing*/
-function onBeforePrint(){
-  if (window.Tawk_API && window.Tawk_API.hideWidget)
-    window.Tawk_API.hideWidget();
-}
-
-function onAfterPrint(){
-  if (window.Tawk_API && window.Tawk_API.showWidget)
-    window.Tawk_API.showWidget();
-
-}
-
 function getSpeedKitAPIDoc() {
   $.get( "https://www.baqend.com/speed-kit/latest/", function( data ) {
     const content = $(data).find('.content');
@@ -112,7 +99,3 @@ function getJSAPIDoc() {
     $('.bs-sidenav').append(navContent.children());
   });
 }
-
-window.addEventListener('beforeprint', onBeforePrint);
-window.addEventListener('afterprint', onAfterPrint);
-window.matchMedia('print').addListener((mql) => mql.matches? this.onBeforePrint(): this.onAfterPrint() );
