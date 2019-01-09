@@ -1,8 +1,8 @@
 require([
-  base_url + '/mkdocs/js/mustache.min.js',
-  base_url + '/mkdocs/js/lunr.min.js',
-  'text!search-results-template.mustache',
-  'text!../mkdocs/search_index.json',
+  base_url + '/js/lib/mustache.min.js',
+  base_url + '/js/lib/lunr.min.js',
+  'text!templates/search-results-template.mustache',
+  'text!../search/search_index.json',
 ], function (Mustache, lunr, results_template, data) {
   "use strict";
 
@@ -28,7 +28,7 @@ require([
 
   for (var i = 0; i < data.docs.length; i++) {
     var doc = data.docs[i];
-    doc.location = base_url + doc.location;
+    doc.location = base_url + '/' + doc.location;
     index.add(doc);
     documents[doc.location] = doc;
   }

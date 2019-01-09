@@ -1,7 +1,7 @@
 site_name: 'Baqend Guide'
 site_url: 'https://www.baqend.com/guide'
 repo_url: 'https://github.com/Baqend/guide'
-pages:
+nav:
     - Overview:
         - Home: 'index.md'
         - 'Speed Kit': 'index-speed-kit.md'
@@ -64,8 +64,11 @@ pages:
         - Plesk Docs: 'topics/plesk/docsBundle.md'
         - Plesk FAQ: 'topics/plesk/faqBundle.md'
 
+theme:
+    name: "mkdocs"
+    custom_dir: theme
+
 docs_dir: src
 site_dir: docs
-theme_dir: theme
 markdown_extensions: [fenced_code]
 #theme: cosmo
