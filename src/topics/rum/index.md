@@ -8,9 +8,29 @@ transfer data to your favorite tracking software, such as **Google Analytics**,
 **Yandex Metrica** or **mPulse**.
 
 
-## Performance Metrics
+## Metrics for the Current User Navigation
 
-Speed Kit provides you the following timings via the [global `SpeedKit` object][2]:
+Speed Kit provides you with a [global `SpeedKit` object][2] which is bound to
+thw `window` object.
+This object exposes several properties that allow you to monitor the current
+user.
+Thw following table explains the metrics in detail:
+
+| Variable                         | Description                                                                 |
+|:---------------------------------|:----------------------------------------------------------------------------|
+| `SpeedKit.userId`                | A unique ID string for this user viewing your website                       |
+| `SpeedKit.swSupported`           | `true` if this user's browser supports Service Workers                      |
+| `SpeedKit.firstLoad`             | `true` if this is the user's first page load                                |
+| `SpeedKit.lastNavigate.enabled`  | `true` if Speed Kit was enabled for this navigation                         |
+| `SpeedKit.lastNavigate.served`   | `true` if Speed Kit served this navigation (implies `enabled`)              |
+| `SpeedKit.lastNavigate.cacheHit` | `true` if Speed Kit retrieved this navigation from cache (implies `served`) |
+| `SpeedKit.lastNavigate.timings`  | The [performance timings](#performance-timings) (see below)                 |
+
+
+## Performance Timings
+
+Besides the above metrics, you also get [timings with millisecond precision][4].
+Therefore, Speed Kit provides you the following variables via the global `SpeedKit` object:
 
 | Variable                                    | Description                                                         |
 |:--------------------------------------------|:--------------------------------------------------------------------|
@@ -20,6 +40,17 @@ Speed Kit provides you the following timings via the [global `SpeedKit` object][
 | `SpeedKit.lastNavigate.timings.cacheEnd`    | The time at which Speed Kit received data from the cache            |
 | `SpeedKit.lastNavigate.timings.fetchStart`  | The time at which Speed Kit started to fetch the page from the CDN  |
 | `SpeedKit.lastNavigate.timings.fetchEnd`    | The time at which Speed Kit received the page from the CDN          |
+
+You can combine these timings with the [Performance Timing API][5] to get a
+complete set of times when certain events occurred for the user.
+Use for example `Object.assign` to combine the metrics:
+
+```js
+const completeMetrics = Object.assign({}, performance.timing.toJSON(), SpeedKit.lastNavigate.timings);
+
+// e.g., get the complete time until the page needed to be loaded from cache:
+console.log(completeMetrics.cacheEnd - completeMetrics.navigationStart);
+```
 
 
 ## Usage with Google Analytics
@@ -84,3 +115,5 @@ if (SpeedKit.lastNavigate.timings) {
 [1]: https://en.wikipedia.org/wiki/Real_user_monitoring
 [2]: https://www.baqend.com/speed-kit/latest/#SpeedKitGlobal
 [3]: https://support.google.com/analytics/answer/2709828
+[4]: https://www.baqend.com/speed-kit/latest/#ServiceWorkerTimings
+[5]: https://developer.mozilla.org/docs/Web/API/PerformanceTiming
