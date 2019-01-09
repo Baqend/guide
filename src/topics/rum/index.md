@@ -21,19 +21,21 @@ Speed Kit provides you the following timings via the [global `SpeedKit` object][
 | `SpeedKit.lastNavigate.timings.fetchStart`  | The time at which Speed Kit started to fetch the page from the CDN  |
 | `SpeedKit.lastNavigate.timings.fetchEnd`    | The time at which Speed Kit received the page from the CDN          |
 
+
 ## Usage with Google Analytics
-Use the global <code>SpeedKit</code> object to send Service Worker performance
+
+Use the global `SpeedKit` object to send Service Worker performance
 metrics to Google Analytics. When you add
 [custom dimensions and metrics to your Google Analytics][3],
 you can keep track of how Speed Kit handled and improved your user's perceived performance.
 
 ![Custom dimensions for Speed Kit in Google Analytics](ga-dimensions.png)
 
-In this example, we added three custom dimensions: <em>Speed Kit was enabled</em>,
-<em>Speed Kit has served</em> and <em>Speed Kit had a cache hit</em> with the
+In this example, we added three custom dimensions: _Speed Kit was enabled_,
+_Speed Kit has served_ and _Speed Kit had a cache hit_ with the
 scope set to “Hit” to our Google Analytics.
 After adding these custom dimensions, we can now send values for them using
-the <code>ga</code> function. This looks like the following:
+the `ga` function. This looks like the following:
 
 ```js
 (function(i, s, o, g, r, a, m) {
@@ -59,12 +61,12 @@ ga('send', 'pageview');
 ```
 
 You can use these dimensions to compare the performance with Speed Kit
-(`dimension2 === true`) to the performance without (`dimentsion2 === false).
+(`dimension2 === true`) to the performance without (`dimentsion2 === false`).
   
 Additional to the dimension, you can track custom metrics to capture more details.
 In the following example, we added 6 custom metrics to Google Analytics for
 the six performance metrics sent by Speed Kit. We then pass the loaded values
-to the <code>ga</code> function:
+to the `ga` function:
 
 ```js
 // Send Speed Kit performance metrics to Google Analytics
