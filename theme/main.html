@@ -1,10 +1,10 @@
-{% if '/topics/speed-kit' in page.canonical_url or '/topics/wordpress' in page.canonical_url %}
-{% set section = 'Speed Kit' %}
-{% elif ('/topics' in page.canonical_url or '/gettingstarted' in page.canonical_url or '/starter-kits' in page.canonical_url) %}
-{% set section = 'Platform' %}
-{% else %}
-{% set section = 'Index' %}
-{% endif %}
+{%- if page.parent.title == 'Speed Kit' -%}
+  {%- set section = 'Speed Kit' -%}
+{%- elif page.parent.title == 'Platform' -%}
+  {%- set section = 'Platform' -%}
+{%- else -%}
+  {%- set section = 'Index' -%}
+{%- endif -%}
 
 <!DOCTYPE html>
 <html lang="en">
