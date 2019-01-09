@@ -4,10 +4,10 @@
     <h1>Speed Kit Guide</h1>
     Learn how to accelerate your website using Speed Kit.
     <div class="shooting-star">
-      <img src="/guide/img/shooting-star.png" />
+      <img src="https://www.baqend.com/guide/img/shooting-star.png">
     </div>
     <div class="shooting-star-right">
-      <img src="/guide/img/shooting-star.png" />
+      <img src="https://www.baqend.com/guide/img/shooting-star.png">
     </div>
   </div>
 </div>

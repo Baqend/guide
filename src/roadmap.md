@@ -4,10 +4,10 @@
     <h1>Roadmap</h1>
     Check out what we are currently working on!
     <div class="shooting-star">
-      <img src="/guide/img/shooting-star.png" />
+      <img src="https://www.baqend.com/guide/img/shooting-star.png">
     </div>
     <div class="shooting-star-right">
-      <img src="/guide/img/shooting-star.png" />
+      <img src="https://www.baqend.com/guide/img/shooting-star.png">
     </div>
   </div>
 </div>
