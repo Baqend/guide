@@ -90,8 +90,10 @@
 
         {% include "footer.html" %}
 
-        <script src="{{ base_url }}/js/bootstrap.min.js"></script>
-        <script src="{{ base_url }}/js/highlight.pack.js"></script>
+        {# For Baqend docs – Bootstrap modals and syntax highlighting #}
+        <script src="{{ base_url }}/js/lib/bootstrap.min.js" defer></script>
+        <script src="{{ base_url }}/js/lib/highlight.pack.js" defer></script>
+
         <script>var base_url = '{{ base_url }}';</script>
         <script data-main="{{ base_url }}/js/search.js" src="{{ base_url }}/mkdocs/js/require.js"></script>
         <script src="{{ base_url }}/js/base.js"></script>
