@@ -16,15 +16,53 @@ This object exposes several properties that allow you to monitor the current
 user.
 Thw following table explains the metrics in detail:
 
-| Variable                         | Description                                                                 |
-|:---------------------------------|:----------------------------------------------------------------------------|
-| `SpeedKit.userId`                | A unique ID string for this user viewing your website                       |
-| `SpeedKit.swSupported`           | `true` if this user's browser supports Service Workers                      |
-| `SpeedKit.firstLoad`             | `true` if this is the user's first page load                                |
-| `SpeedKit.lastNavigate.enabled`  | `true` if Speed Kit was enabled for this navigation                         |
-| `SpeedKit.lastNavigate.served`   | `true` if Speed Kit served this navigation (implies `enabled`)              |
-| `SpeedKit.lastNavigate.cacheHit` | `true` if Speed Kit retrieved this navigation from cache (implies `served`) |
-| `SpeedKit.lastNavigate.timings`  | The [performance timings](#performance-timings) (see below)                 |
+| Variable                          | Description                                                                 |
+|:----------------------------------|:----------------------------------------------------------------------------|
+| `SpeedKit.userId`                 | A unique ID string for this user viewing your website                       |
+| `SpeedKit.swSupported`            | `true` if this user's browser supports Service Workers                      |
+| `SpeedKit.lastNavigate.firstLoad` | `true` if this is the user's first page load                                |
+| `SpeedKit.lastNavigate.enabled`   | `true` if Speed Kit was enabled for this navigation                         |
+| `SpeedKit.lastNavigate.served`    | `true` if Speed Kit served this navigation (implies `enabled`)              |
+| `SpeedKit.lastNavigate.cacheHit`  | `true` if Speed Kit retrieved this navigation from cache (implies `served`) |
+| `SpeedKit.lastNavigate.timings`   | The [performance timings](#performance-timings) (see below)                 |
+
+
+## A/B Testing
+
+One use case for these variables is that you can perform **A/B tests** with your users.
+Take for example `SpeedKit.lastNavigate.enabled` as a split criterion for your 
+test and find out which performance differences your users experience and how
+this changes the conversion.
+This allows you to keep an eye on how you can use Speed Kit on your website to
+increase user engagement.
+
+In the following example, the target group for our A/B test is determined by
+`SpeedKit.lastNavigate.enabled` and `SpeedKit.lastNavigate.firstLoad`.
+The latter is needed to exclude first-load visitors from the “inactive” tracking
+because they would bias the performance uplift measurements.
+This is due to the fact that Speed Kit's Service Worker cannot speed up the first
+navigate of a user.
+
+```js
+/**
+ * Determines the user's target group in an A/B test.
+ */
+function getTargetGroup() {
+  if (SpeedKit.lastNavigate.enabled) {
+    return 'Speed Kit active';
+  }
+  
+  // Speed Kit cannot serve the first load
+  if (SpeedKit.lastNavigate.firstLoad) {
+    return 'first load';  
+  }
+  
+  return 'Speed Kit inactive';
+}
+
+// e.g., set this as a user's dimension in Google Analytics:
+ga('set', 'dimension1', getTargetGroup());
+```
 
 
 ## Performance Timings
@@ -46,10 +84,12 @@ complete set of times when certain events occurred for the user.
 Use for example `Object.assign` to combine the metrics:
 
 ```js
-const completeMetrics = Object.assign({}, performance.timing.toJSON(), SpeedKit.lastNavigate.timings);
+const browserTimings = performance.timing.toJSON();
+const speedKitTimings = SpeedKit.lastNavigate.timings;
+const timings = Object.assign({}, browserTimings, speedKitTimings);
 
 // e.g., get the complete time until the page needed to be loaded from cache:
-console.log(completeMetrics.cacheEnd - completeMetrics.navigationStart);
+console.log(timings.cacheEnd - timings.navigationStart);
 ```
 
 
