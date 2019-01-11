@@ -6,7 +6,11 @@ import http from 'highlight.js/lib/languages/http'
 
 // Register WebPagetest script language
 hljs.registerLanguage('wptscript', (hljs) => {
-  const KEYWORDS = 'blockDomains logData navigate'
+  const KEYWORDS = {
+    keyword: 'blockDomains logData navigate setHeader',
+
+    built_in: 'authorization',
+  }
 
   const NUMBER = {
     className: 'number',

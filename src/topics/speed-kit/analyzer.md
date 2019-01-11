@@ -160,10 +160,9 @@ logData 1
 navigate https://www.baqend.com/speedKit.html
 ```
 
-<div class="note"><strong>PBasic Authentication:</strong> 
+<div class="note"><strong>Basic Authentication:</strong> 
 If you are testing on a staging environment with basic authentication, you can add the authentication as a header by adding the following line at the start of your script:  
-</br> 
-<code>setHeader Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=</code>.
+<pre><code class="wptscript hljs">setHeader Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=</code></pre>
 </div>
 
 
