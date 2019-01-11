@@ -2,6 +2,7 @@ import hljs from 'highlight.js/lib/highlight'
 import javascript from 'highlight.js/lib/languages/javascript'
 import css from 'highlight.js/lib/languages/css'
 import xml from 'highlight.js/lib/languages/xml'
+import http from 'highlight.js/lib/languages/http'
 
 // Register WebPagetest script language
 hljs.registerLanguage('wptscript', (hljs) => {
@@ -38,6 +39,7 @@ hljs.registerLanguage('wptscript', (hljs) => {
 hljs.registerLanguage('javascript', javascript)
 hljs.registerLanguage('css', css)
 hljs.registerLanguage('xml', xml)
+hljs.registerLanguage('http', http)
 
 // Initialize highlight.js
 hljs.initHighlightingOnLoad()

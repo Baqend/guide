@@ -1,11 +1,13 @@
-# REST API
+REST API
+========
 
 We recommend using one of Baqend's SDKs to develop an application, but you can also directly access the underlying communication protocols: 
 This document describes Baqend's HTTP REST API which is used for request-response interaction between client and server. 
 (For information on the messaging protocol that enables real-time communication between client and server, see our [Websocket API Docs](../../websockets/).)
 
 
-## Overview
+Overview
+--------
 
 The REST API is split up into eleven different categories (see our [Swagger documentation](https://dashboard.baqend.com/swagger-ui/?url=https%3A%2F%2Fapp-starter.app.baqend.com%2Fv1%2Fspec#/crud)). 
 In this section, however, we focus on the most typical use cases:
@@ -22,7 +24,9 @@ The response will contain the query result.
 To ensure backward compatibility, all endpoints start with an <strong>API version number</strong>. The current version is <strong>v1</strong>: <code>https://&lt;app-name&gt;.app.baqend.com/v1</code>. 
 </div> 
 
-## CRUD
+
+CRUD
+----
 
 ### Authentication
 
@@ -39,25 +43,27 @@ A POST request with a JSON payload sent to `https://<app-name>.app.baqend.com/v1
 `class-name`; it will return the created object with additional metadata fields like *updatedAt*, *createdAt*, and *id*.
 The following example creates an object for the class *Message* with the string attribute *text*.
 
-Request type: `POST`
+Request method: `POST`
 
 Request URL: `https://<app-name>.app.baqend.com/v1/db/Message`
 
 Request headers:
-```` 
+```http
+POST /v1/db/Message HTTP/1.1
+host: <app-name>.app.baqend.com
 accept: application/json
 content-type: application/json
-````
+```
 
 Request body:  
-````js
+```json
 {
-  "text":"Test Message"
+  "text": "Test Message"
 }
-````
+```
 
 Response body: 
-````js
+```json
 {
 	"id": "/db/Message/0d2c40a1-54f4-4838-9f3e-48bbe6d82eb9",
 	"version": 1,
@@ -67,7 +73,7 @@ Response body:
 	"updatedAt": "2018-01-12T10:51:52.681Z",
 	"text": "Test Message"
 }
-````
+```
 
 cURL: `curl -X POST "https://<app-name>.app.baqend.com/v1/db/Message" -H "accept: application/json" -H "Content-Type: application/json" -d "{\"text\": \"Test Message\"}"`
 
@@ -81,12 +87,14 @@ Request method: `GET`
 Request URL: `https://<app-name>.app.baqend.com/v1/db/Message/0d2c40a1-54f4-4838-9f3e-48bbe6d82eb9`
 
 Request headers:
-```` 
+```http
+GET /v1/db/Message/0d2c40a1-54f4-4838-9f3e-48bbe6d82eb9 HTTP/1.1
+host: <app-name>.app.baqend.com
 accept: application/json
-````
+```
 
 Respone body:
-````
+```json
 {
 	"id": "/db/Message/0d2c40a1-54f4-4838-9f3e-48bbe6d82eb9",
 	"version": 1,
@@ -96,7 +104,7 @@ Respone body:
 	"updatedAt": "2018-01-12T10:51:52.681Z",
 	"text": "Test Message"
 }
-````
+```
 
 cURL: `curl -X GET "https://<app-name>.app.baqend.com/v1/db/Message/0d2c40a1-54f4-4838-9f3e-48bbe6d82eb9" -H "accept: application/json"`
 
@@ -111,22 +119,24 @@ Request method: `PUT`
 Request URL: `https://<app-name>.app.baqend.com/v1/db/Message/0d2c40a1-54f4-4838-9f3e-48bbe6d82eb9`
 
 Request headers:
-```` 
+```http
+PUT /v1/db/Message/0d2c40a1-54f4-4838-9f3e-48bbe6d82eb9 HTTP/1.1
+host: <app-name>.app.baqend.com
 accept: application/json
 content-type: application/json
 if-match: 1
-````
+```
 
 Request body:
-````js
+```json
 {
   "text": "New Message", 
   "id": "/db/Message/0d2c40a1-54f4-4838-9f3e-48bbe6d82eb9"
 }
-````
+```
 
 Response body:
-````
+```json
 {
 	"id": "/db/Message/0d2c40a1-54f4-4838-9f3e-48bbe6d82eb9",
 	"version": 2,
@@ -136,7 +146,7 @@ Response body:
 	"updatedAt": "2018-01-12T12:50:15.928Z",
 	"text": "New Message"
 }
-````
+```
 
 cURL: `curl -X PUT "https://<app-name>.app.baqend.com/v1/db/Message/0d2c40a1-54f4-4838-9f3e-48bbe6d82eb9" -H "accept: application/json" -H "If-Match: 2" -H "Content-Type: application/json" -d "{\"text\":\"New Message\", \"id\": \"/db/Message/93a8c50d-a9d7-476f-af16-338487f9a3d2\"}"`
 
@@ -152,13 +162,17 @@ Request URL: `https://<app-name>.app.baqend.com/v1/db/Message/0d2c40a1-54f4-4838
 
 Request headers:
 
-````
+```http
+DELETE /v1/db/Message/0d2c40a1-54f4-4838-9f3e-48bbe6d82eb9 HTTP/1.1
+host: <app-name>.app.baqend.com
 if-match: 1
-````
+```
 
 cURL: `curl -X DELETE "https://<app-name>.app.baqend.com/v1/db/Message/0d2c40a1-54f4-4838-9f3e-48bbe6d82eb9" -H "accept: application/json" -H "If-Match: 1"`
 
-## User Management
+
+User Management
+---------------
 
 To use Baqend's [user management system](/topics/user-management/), you have to use the user API. It offers the ability
 to register and login users.
@@ -177,13 +191,15 @@ Request method: `POST`
 Request URL: `https://<app-name>.app.baqend.com/v1/db/User/register`
 
 Request headers:
-```` 
+```http
+POST /v1/db/User/register HTTP/1.1
+host: <app-name>.app.baqend.com
 accept: application/json
 content-type: application/json
-````
+```
 
 Request body:
-````
+```json
 {
   "password": "secret",
   "login": true,
@@ -191,15 +207,16 @@ Request body:
     "username": "name"
   }
 }
-````
+```
 
 Response headers: 
-````
+```http
+HTTP/1.1 200 OK
 baqend-authorization-token: <token>
-````
+```
 
 Response body:
-````
+```json
 {
   "id": "/db/User/30",
   "version": 1,
@@ -217,7 +234,7 @@ Response body:
   "username": "name",
   "inactive": null
 }
-````
+```
 
 cURL: `curl -X POST "https://<app-name>.app.baqend.com/v1/db/User/register" -H "accept: application/json" -H "Content-Type: application/json" -d "{ \"password\": \"secret\", \"login\": true, \"user\": { \"username\": \"name\" }}"`
 
@@ -231,26 +248,29 @@ Request method: `POST`
 Request URL: `https://<app-name>.app.baqend.com/v1/db/User/login`
 
 Request headers:
-```` 
+```http
+POST /v1/db/User/login HTTP/1.1
+host: <app-name>.app.baqend.com
 accept: application/json
 content-type: application/json
-````
+```
 
 Request body: 
-````
+```json
 { 
   "username": "name", 
   "password": "secret" 
 }
-````
+```
 
 Response headers:
-````
+```http
+HTTP/1.1 200 OK
 baqend-authorization-token: <token>
-````
+```
 
 Response body:
-````
+```json
 {
 	"id": "/db/User/30",
 	"version": 1,
@@ -268,12 +288,13 @@ Response body:
 	"username": "name",
 	"inactive": null,
 }
-````
+```
 
 cURL: `curl -X POST "https://<app-name>.app.baqend.com/v1/db/User/login" -H "accept: application/json" -H "Content-Type: application/json" -d "{ \"password\": \"secret\", \"username\": \"name\" }"`
 
 
-## Query
+Query
+-----
 
 To query the data of one class, you can write a [MongoDB query](https://docs.mongodb.com/manual/tutorial/query-documents/) via  
 GET request to `https://<app-name>.app.baqend.com/v1/db/<class-name>/query`. 
@@ -294,12 +315,14 @@ Request method: `GET`
 Request URL: `https://<app-name>.app.baqend.com/v1/db/Message/query?q=%7B%22text%22%3A%22New%20Message2%22%7D&sort=%7B%22createdAt%22%3A-1%7D`
 
 Request headers:
-```` 
+```http
+GET /v1/db/Message/query?q=%7B%22text%22%3A%22New%20Message2%22%7D&sort=%7B%22createdAt%22%3A-1%7D HTTP/1.1
+host: <app-name>.app.baqend.com
 accept: application/json
-````
+```
 
 Response body: 
-````
+```json
 [{
 	"id": "/db/Message/93a8c50d-a9d7-476f-af16-338487f9a3d2",
 	"version": 6,
@@ -317,6 +340,6 @@ Response body:
 	"updatedAt": "2018-01-16T11:34:07.292Z",
 	"text": "New Message"
 }]
-````
+```
 
 cURL: `curl "https://<app-name>.app.baqend.com/v1/db/Message/query?q=%7B%22text%22%3A%22New%20Message%22%7D&sort=%7B%22createdAt%22%3A-1%7D"`
