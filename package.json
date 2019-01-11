@@ -6,6 +6,7 @@
     "build:theme": "webpack --config theme/webpack.config.js --mode production",
     "build:docs": "mkdocs build",
     "build": "npm run build:theme && npm run build:docs",
+    "watch": "webpack --config theme/webpack.config.js --mode development --watch",
     "start": "mkdocs serve",
     "test": "echo \"Error: no test specified\" && exit 1",
     "prewordpress-help": "npm run build",
