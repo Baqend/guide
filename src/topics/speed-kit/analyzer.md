@@ -1,4 +1,5 @@
-# Measuring Page Speed
+Measuring Page Speed
+====================
 
 Speed Kit accelerates your website – but by how much?  
 In this section, we answer common questions regarding Speed Kit and web performance:
@@ -15,14 +16,15 @@ In this section, we answer common questions regarding Speed Kit and web performa
 If you want to read more on web performance in general, check out our <a href="https://medium.baqend.com/the-technology-behind-fast-websites-2638196fa60a" target="_blank">in-depth web performance survey</a>. 
 
 
-## When is a Website Fast?
+When is a Website Fast?
+-----------------------
 
 Users find your website rather slow or fast, depending on when the first relevant content is displayed or when they can start interacting with it, e.g. by clicking buttons or filling data into forms. While these aspects of web performance are easy to grasp intuitively, user-perceived page speed is not as easy to measure objectively. 
 
 However, there are metrics designed to capture how fast a page load *feels* by tracking **visual completeness**. 
 As shown below, these metrics are computed from an actual video analysis of a browser loading the website:
 
-<img src="../user-perceived-speed.gif" alt="The Speed Index and the First Meaningful Paint (FMP) are metrics that capture how slow or fast a website feels." style="width:85%; display: block; margin-left: auto; margin-right: auto;">
+![The Speed Index and the First Meaningful Paint (FMP) are metrics that capture how slow or fast a website feels.](user-perceived-speed.gif#video)
 
 As illustrated above, the **First Meaningful Paint (FMP)** is the moment at which the user gets to see important information for the first time, e.g. headline and text in a blog or search bar and product overview in a webshop. 
 The FMP is typically measured as the moment at which the viewport experiences the *greatest visual change*.  
@@ -30,7 +32,8 @@ The FMP is typically measured as the moment at which the viewport experiences th
 The **Speed Index (SI)** represents the average time until a visible element appears on-screen. It corresponds to the area above the dashed line in the illustration above  —  a small SI corresponds to a fast website.
 
 
-## Measuring in the Browser
+Measuring in the Browser
+------------------------
 
 The Speed Index or the First Meaningful Paint are hard to measure without specialized tooling. However, there are various other metrics that you can easily measure yourself, with nothing but your web browser.  
 Here is a video that shows how you can measure *DOMContentLoaded* and *FullyLoaded* (a.k.a. *Load*, see [below](#quantifiable-metrics)):
@@ -47,7 +50,9 @@ To take measurements with your own browser, just do the following:
 3. Navigate to the **Network Tab** to see all resources that are transferred on page load
 4. **Look** at the numbers: At the bottom of the browser window, you can read how long it took until *DOMContentLoaded* (192 ms) and *Load* (873 ms), respectively. 
 
-## Speed Kit: On vs. Off
+
+Speed Kit: On vs. Off
+---------------------
 
 If your website already uses Speed Kit, you can easily verify that it is making things faster. 
 In the following, we describe how to make a quick **side-by-side comparison** of your website with and without Speed Kit.
@@ -66,7 +71,9 @@ To disable Speed Kit (left video), you simply have to do the following:
 3. Find the **Service Workers** section
 4. **Disable Speed Kit** by checking the "Bypass for network" box; this makes sure that the Speed Kit service worker is not used.
 
-## Measuring Speed Kit's performance uplift
+
+Measuring Speed Kit's Performance Uplift
+----------------------------------------
 
 **Common performance tools** like Pingdom or GTmetrix typically do not install Service Workers before taking a performance measurement – or they do not even support them to begin with. Since Speed Kit is built on Service Workers, though, these tools cannot measure any acceleration for good reason: **Without its Service Worker, Speed Kit is not active**. 
 
@@ -81,12 +88,12 @@ To capture Speed Kit's full performance uplift, a testing tool should first navi
 
 If Speed Kit is already online on your site, you can use Lighthouse to measure Speed Kit's actual performance uplift. In order to do that, you need to install the Lighthouse CLI via `npm`:
 
-```
+```sh
 npm install -g lighthouse
 ```
 
 Since Speed Kit's Service Worker needs to be active in order to achieve and uplift, you 1st need to make sure that Lighthouse has a temporary directory to store browser data, for example a `tmp` folder in your home directory: 
-```
+```sh
 # Create ~/tmp if not exists
 mkdir ~/tmp
 ```
@@ -94,7 +101,7 @@ mkdir ~/tmp
 #### Measuring with Speed Kit <u>disabled</u>
 To test baseline performance without Speed Kit, run the following commands and replace `www.baqend.com` with your own website and `bq-speedkit` with your Baqend app's name:
 
-```
+```sh
 # Clear ~/tmp before test
 rm -rf ~/tmp
 
@@ -114,7 +121,7 @@ If you are testing on a staging environment with basic authentication, you can a
 #### Measuring with Speed Kit <u>enabled</u>
 To test the performance with Speed Kit in action, choose the same pages as before and run the following command. Again, replace `www.baqend.com` with your website:
 
-```
+```sh
 # Clear ~/tmp before test
 rm -rf ~/tmp
 
@@ -127,20 +134,28 @@ lighthouse https://www.baqend.com/speedkit.html --chrome-flags="--user-data-dir=
 
 To see Speed Kit's performance uplift, simply compare measurements of both the runs.
 -->
-### Measuring with WebPagtest
 
-[WebPagetest](https://www.webpagetest.org/) is a well-known open-source tool for performance analysis. It is also the tool that our own performance test is based on (see [below](#the-page-speed-analyzer)). 
+### Measuring with WebPagetest
+
+[WebPagetest][1] is a well-known open-source tool for performance analysis. It is also the tool that our own performance test is based on (see [below](#the-page-speed-analyzer)). 
 If Speed Kit is already online on your site, you can use WebPagetest to measure the performance uplift as it is experienced by real users.
 
-For the test, go to [https://www.webpagetest.org/](https://www.webpagetest.org/), open `Advanced Settings`, and choose the `Script` tab. Here, you can paste the commands for the individual tests and hit `Start Test` tun run them.
+For the test, go to [https://www.webpagetest.org/][1], open `Advanced Settings`, and choose the `Script` tab.
+Here, you can enter an [advanced test script][2] and hit `Start Test` tun run them.
+For our purposes, you can paste the following commands for the individual tests.
 
 #### Measuring with Speed Kit <u>disabled</u>
 To test baseline performance without Speed Kit, use the following test script and replace `www.baqend.com` with your own website and `bq-speedkit` with your Baqend app's name:
 
-```
+```wptscript
+// Block the testing browser to access Speed Kit's CDN
 blockDomains bq-speedkit.app.baqend.com
+
+// Navigate to your website without logging to install the Service Worker
 logData 0
 navigate https://www.baqend.com
+
+// Navigate to a page with logging and installed Service Worker
 logData 1
 navigate https://www.baqend.com/speedKit.html
 ```
@@ -154,9 +169,13 @@ If you are testing on a staging environment with basic authentication, you can a
 
 #### Measuring with Speed Kit <u>enabled</u>
 To test the performance with Speed Kit in action, choose the same pages as before and run the following test script. Again, replace `www.baqend.com` with your website:
-```
+
+```wptscript
+// Navigate to your website without logging to install the Service Worker
 logData 0
 navigate https://www.baqend.com
+
+// Navigate to a page with logging and installed Service Worker
 logData 1
 navigate https://www.baqend.com/speedKit.html
 ```
@@ -164,8 +183,8 @@ navigate https://www.baqend.com/speedKit.html
 To see Speed Kit's performance uplift, simply compare measurements of both the runs.
 
 
-
-## The Page Speed Analyzer
+The Page Speed Analyzer
+-----------------------
 
 The [**Page Speed Analyzer**](https://test.speed-kit.com/) also does a side-by-side comparison of your website with and without Speed Kit. However, it does more than what you can do with your browser:
 
@@ -187,7 +206,7 @@ In principle, the analyzer loads your website multiple times to **contrast perfo
 
 <img src="../analyzer-measurement.png" alt="Baqend's page speed test setup simulates a real user visit." style="width:60%; display: block; margin-left: auto; margin-right: auto;">
 
-Once you enter your website's URL, the analyzer starts two different Chrome browsers to load your website: One loads the version *with Speed Kit* and the other loads your website *without Speed Kit*. We did not implement the measurements ourselves, though. Instead, we use the **open-source** testing framework [**WebPagetest**](https://www.webpagetest.org/). You can access the **WebPagetest Waterfalls** by clicking *Show Details* below the video comparison and then clicking one of the links at the bottom of the overview (either *Without Speed Kit* or *With Speed Kit*, depending on the test run you are interested in). 
+Once you enter your website's URL, the analyzer starts two different Chrome browsers to load your website: One loads the version *with Speed Kit* and the other loads your website *without Speed Kit*. We did not implement the measurements ourselves, though. Instead, we use the **open-source** testing framework [**WebPagetest**][1]. You can access the **WebPagetest Waterfalls** by clicking *Show Details* below the video comparison and then clicking one of the links at the bottom of the overview (either *Without Speed Kit* or *With Speed Kit*, depending on the test run you are interested in). 
 
 To make the setup as realistic as possible, we use the following configuration:
 
@@ -241,3 +260,7 @@ It collects the following metrics:
 * **DOMContentLoaded**: Represents the time after which the initial HTML document has been completely loaded and parsed, without waiting for external resources.
 * **FullyLoaded** (a.k.a. *Load*): Represents the time until all resources are loaded, including activity triggered by JavaScript. (Measures the time until which there was 2 seconds of no network activity after Document Complete.)
 * **Last Visual Change**: Represents the time after which the final website is visible (no change thereafter).
+
+
+[1]: https://www.webpagetest.org/
+[2]: https://sites.google.com/a/webpagetest.org/docs/using-webpagetest/scripting

@@ -343,3 +343,9 @@ pre {
 .gitter-chat-embed {
   z-index: 9999;
 }
+
+img[src*="#video"] {
+  width: 85%;
+  display: block;
+  margin: 0 auto;
+}
