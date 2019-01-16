@@ -37,14 +37,32 @@ this changes the conversion.
 This allows you to keep an eye on how you can use Speed Kit on your website to
 increase user engagement.
 
+To create a target group with a given probability, you can use the [split property][6]
+of the Speed Kit configuration.
+If you specify e.g. a value of `0.95`, only 95 % all users will be part of
+_Group A_ who will receive Speed Kit while all others are part of _Group B_ who 
+will not.
+
 In the following example, the target group for our A/B test is determined by
 `SpeedKit.lastNavigate.enabled` and `SpeedKit.lastNavigate.firstLoad`.
 The latter is needed to exclude first-load visitors from the “inactive” tracking
 because they would bias the performance uplift measurements.
 This is due to the fact that Speed Kit's Service Worker cannot speed up the first
 navigate of a user.
+Furthermore, we set the control group to a size of 15% (so 85% will have Speed
+Kit enabled).
+We use jQuery to await the window to be loaded and report to Google Analytics:
 
 ```js
+// Specify a config
+var speedKit = {
+  appName: 'hello-world-123',
+  split: 0.85 // 85 % of users will have Speed Kit enabled. 
+};
+
+// Speed Kit Snippet
+!function(e,n,t,r,i,o){"use strict";/* ... */}
+
 /**
  * Determines the user's target group in an A/B test.
  */
@@ -61,33 +79,10 @@ function getTargetGroup() {
   return 'SPEED_KIT_INACTIVE';
 }
 
-// e.g., set this as a user's dimension in Google Analytics:
-ga('set', 'dimension1', getTargetGroup());
-```
-
-To create a target group with a given probability, you can use the [split property][6]
-of the Speed Kit configuration.
-If you specify e.g. a value of `0.95`, only 95 % all users will be part of
-_Group A_ who will receive Speed Kit while all others are part of _Group B_ who 
-will not.
-The group is also bound to the [`SpeedKit` object][2] so you can read out the
-value and send it also to your analytics tool.
-Here is an example how to use it with jQuery and Google Analytics:
-
-```js
-// Specify a config
-var speedKit = {
-  appName: 'hello-world-123',
-  split: 0.85 // 85 % of users will have Speed Kit enabled. 
-};
-
-// Speed Kit Snippet
-!function(e,n,t,r,i,o){"use strict";/* ... */}
-
 // Evaluation using the group
 $(function() {
   var timing = performance.timing;
-  ga('set', 'dimension1', SpeedKit.group);
+  ga('set', 'dimension1', getTargetGroup());
   ga('set', 'metric1', timing.loadEventEnd - timing.navigationStart);
 });
 ```
