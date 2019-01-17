@@ -34,8 +34,8 @@ One use case for these variables is that you can perform **A/B tests** with your
 Take for example `SpeedKit.lastNavigate.enabled` as a split criterion for your 
 test and find out which performance differences your users experience and how
 this changes the conversion.
-This allows you to keep an eye on how you can use Speed Kit on your website to
-increase user engagement.
+This allows you to keep an eye on how much Speed Kit increases user engagement
+and performance on your website.
 
 To create a target group with a given probability, you can use the [split property][6]
 of the Speed Kit configuration.
