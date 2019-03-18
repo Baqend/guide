@@ -16,7 +16,7 @@ You have various options to [specify the content](#content-specification) to be 
 ## Real-Time Refreshing By API Call
 
 The ideal way to refresh your cached content is to call our REST API directly from your system whenever there is a change on your website. 
-The REST endpoint is `https://<your-app-name>.app.baqend.com/v1/asset/revalidate` and you need a [user access token](../rest-api/#authentication) to be sent with the POST request.  
+The REST endpoint is `https://<your-app-name>.app.baqend.com/v1/asset/revalidate` and you need a [user access token](../../rest-api/#authentication) to be sent with the POST request.  
 Simply add an authorization header to your request. It looks like this:
 
     authorization: BAT <your-token>
