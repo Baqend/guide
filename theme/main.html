@@ -2,6 +2,8 @@
   {%- set section = 'Speed Kit' -%}
 {%- elif page.parent.title == 'Platform' -%}
   {%- set section = 'Platform' -%}
+{%- elif page.parent.title == 'Starter Kits' -%}
+  {%- set section = 'Platform' -%}
 {%- else -%}
   {%- set section = 'Index' -%}
 {%- endif -%}
@@ -86,16 +88,16 @@
         </div>
         {% endif %}
 
-        <script src="https://code.jquery.com/jquery-1.12.1.min.js"></script>
+        <script src="https://code.jquery.com/jquery-2.2.4.min.js"
+                integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+                crossorigin="anonymous"></script>
 
         {% include "footer.html" %}
 
-        {# For Baqend docs – Bootstrap modals and syntax highlighting #}
         <script src="{{ base_url }}/js/lib/bootstrap.min.js" defer></script>
 
         <script>var base_url = '{{ base_url }}';</script>
-        <script data-main="{{ base_url }}/js/main.js" src="{{ base_url }}/js/lib/require.min.js"></script>
-        <script src="{{ base_url }}/js/base.js" defer></script>
+        <script src="{{ base_url }}/dist/main.bundle.js" defer></script>
         {%- for path in extra_javascript %}
         <script src="{{ path }}"></script>
         {%- endfor %}

@@ -1,6 +1,5 @@
-require([
-  base_url + '/js/modules/highlighting.js',
-  base_url + '/js/modules/stars.js',
-  base_url + '/js/modules/printing.js',
-  base_url + '/js/modules/search.js',
-])
+import './modules/base'
+import './modules/highlighting'
+import './modules/printing'
+import './modules/search'
+import './modules/stars'

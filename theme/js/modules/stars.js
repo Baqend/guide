@@ -1,4 +1,4 @@
-function shootingStar(that, dir) {
+function shootingStar(that) {
   setInterval(function(){
     var topPos = Math.floor(Math.random() * 80) + 1;
     var leftPos = Math.floor(Math.random() * 40) + 1;

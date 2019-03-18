@@ -1,6 +1,14 @@
+# IntelliJ
+/.idea
+
+# Output
 /docs
 /dist
-/.idea
-.DS_Store
-gulpfile.js
+/theme/dist
+
+# Node.js
 node_modules
+*.log
+
+# OS
+.DS_Store

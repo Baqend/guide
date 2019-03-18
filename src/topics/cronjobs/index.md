@@ -1,10 +1,9 @@
-
 ## Cron Jobs: Scheduled Code Execution
 
 You can schedule any Baqend Module for execution by adding an entry to the `jobs.Definition` collection. 
 This can be done in two ways:
 
-- **code**: Save and you Cron job object:
+- **code**: Save a new Cron job object:
 ```js
 job = new DB['jobs.Definition']();
 job.save();

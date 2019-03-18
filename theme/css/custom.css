@@ -52,6 +52,15 @@
   border: 1px solid #bce8f1;
 }
 
+.note pre {
+  margin-top: 12px;
+  margin-bottom: 24px;
+}
+
+.note pre:last-child {
+  margin-bottom: 0;
+}
+
 .tip {
   color: #3c763d;
   background-color: #dff0d8;
@@ -342,4 +351,10 @@ pre {
 }
 .gitter-chat-embed {
   z-index: 9999;
+}
+
+img[src*="#video"] {
+  width: 85%;
+  display: block;
+  margin: 0 auto;
 }

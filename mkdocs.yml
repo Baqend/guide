@@ -67,7 +67,7 @@ nav:
         - Plesk FAQ: 'topics/plesk/faqBundle.md'
 
 theme:
-    name: "mkdocs"
+    name: null
     custom_dir: theme
 
 docs_dir: src

@@ -11,14 +11,15 @@ transfer data to your favorite tracking software, such as **Google Analytics**,
 ## Metrics for the Current User Navigation
 
 Speed Kit provides you with a [global `SpeedKit` object][2] which is bound to
-thw `window` object.
+the `window` object.
 This object exposes several properties that allow you to monitor the current
 user.
-Thw following table explains the metrics in detail:
+The following table explains the metrics in detail:
 
 | Variable                          | Description                                                                 |
 |:----------------------------------|:----------------------------------------------------------------------------|
 | `SpeedKit.userId`                 | A unique ID string for this user viewing your website                       |
+| `SpeedKit.group`                  | The A/B testing group the user belongs to (either `"A"` or `"B"`)           |
 | `SpeedKit.swSupported`            | `true` if this user's browser supports Service Workers                      |
 | `SpeedKit.lastNavigate.firstLoad` | `true` if this is the user's first page load                                |
 | `SpeedKit.lastNavigate.enabled`   | `true` if Speed Kit was enabled for this navigation                         |
@@ -33,8 +34,14 @@ One use case for these variables is that you can perform **A/B tests** with your
 Take for example `SpeedKit.lastNavigate.enabled` as a split criterion for your 
 test and find out which performance differences your users experience and how
 this changes the conversion.
-This allows you to keep an eye on how you can use Speed Kit on your website to
-increase user engagement.
+This allows you to keep an eye on how much Speed Kit increases user engagement
+and performance on your website.
+
+To create a target group with a given probability, you can use the [split property][6]
+of the Speed Kit configuration.
+If you specify e.g. a value of `0.95`, only 95 % all users will be part of
+_Group A_ who will receive Speed Kit while all others are part of _Group B_ who 
+will not.
 
 In the following example, the target group for our A/B test is determined by
 `SpeedKit.lastNavigate.enabled` and `SpeedKit.lastNavigate.firstLoad`.
@@ -42,26 +49,42 @@ The latter is needed to exclude first-load visitors from the “inactive” trac
 because they would bias the performance uplift measurements.
 This is due to the fact that Speed Kit's Service Worker cannot speed up the first
 navigate of a user.
+Furthermore, we set the control group to a size of 15% (so 85% will have Speed
+Kit enabled).
+We use jQuery to await the window to be loaded and report to Google Analytics:
 
 ```js
+// Specify a config
+var speedKit = {
+  appName: 'hello-world-123',
+  split: 0.85 // 85 % of users will have Speed Kit enabled. 
+};
+
+// Speed Kit Snippet
+!function(e,n,t,r,i,o){"use strict";/* ... */}
+
 /**
  * Determines the user's target group in an A/B test.
  */
 function getTargetGroup() {
   if (SpeedKit.lastNavigate.enabled) {
-    return 'Speed Kit active';
+    return 'SPEED_KIT_ACTIVE';
   }
   
   // Speed Kit cannot serve the first load
   if (SpeedKit.lastNavigate.firstLoad) {
-    return 'first load';  
+    return 'FIRST_LOAD';  
   }
   
-  return 'Speed Kit inactive';
+  return 'SPEED_KIT_INACTIVE';
 }
 
-// e.g., set this as a user's dimension in Google Analytics:
-ga('set', 'dimension1', getTargetGroup());
+// Evaluation using the group
+$(function() {
+  var timing = performance.timing;
+  ga('set', 'dimension1', getTargetGroup());
+  ga('set', 'metric1', timing.loadEventEnd - timing.navigationStart);
+});
 ```
 
 
@@ -157,3 +180,4 @@ if (SpeedKit.lastNavigate.timings) {
 [3]: https://support.google.com/analytics/answer/2709828
 [4]: https://www.baqend.com/speed-kit/latest/#ServiceWorkerTimings
 [5]: https://developer.mozilla.org/docs/Web/API/PerformanceTiming
+[6]: https://www.baqend.com/speed-kit/latest/#SpeedKitConfig-split
