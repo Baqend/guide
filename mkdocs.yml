@@ -65,6 +65,7 @@ nav:
         - 'Websockets': 'websockets.md'
         - Plesk Docs: 'topics/plesk/docsBundle.md'
         - Plesk FAQ: 'topics/plesk/faqBundle.md'
+        - Speed Kit FAQ: 'topics/speed-kit/faq.md'
 
 theme:
     name: null
