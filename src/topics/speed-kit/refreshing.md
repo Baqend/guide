@@ -21,6 +21,19 @@ Simply add an authorization header to your request. It looks like this:
 
     authorization: BAT <your-token>
     
+### Example
+
+The following shows an example request sent with [cURL](https://curl.haxx.se/):
+
+```
+curl 'https://<your-app-name>.app.baqend.com/v1/asset/revalidate' \
+    -H 'accept: application/json' \
+    -H 'authorization: BAT <your-user-token>' \
+    -H 'content-type: application/json;charset=UTF-8' \
+    --data-binary '{"contentTypes":["HTML","CSS","JavaScript"],"urls":["https://www.example.com/some-path","https://subdomain.your-CDN.net/static/build/styles/critical.css"]}' \
+    --compressed
+```
+
 ### Obtaining & Revoking the User Token
 
 To get the user token required for the API call described above, do the following:
