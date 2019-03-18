@@ -55,14 +55,14 @@
                 <li>
                     <a href="https://www.baqend.com/tutorial.html">Tutorial</a>
                 </li>
-            {% if section == 'Speed Kit' or page.url == 'index-speed-kit/' %}
+            {% elif section == 'Speed Kit' or page.url == 'index-speed-kit/' %}
             <li>
                 <a href="{{ base_url }}/topics/speed-kit/faq">FAQ</a>
             </li>
             <li>
                 <a href="{{ base_url }}/roadmap">Roadmap</a>
             </li>
-              {% elif section == 'Index' %}
+            {% elif section == 'Index' %}
               <li>
                 <a href="{{ base_url }}/topics/faq">FAQ</a>
               </li>
