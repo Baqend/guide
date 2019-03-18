@@ -12,6 +12,7 @@ nav:
 
     - Speed Kit:
         - Quickstart: 'topics/speed-kit/intro.md'
+        - Speed Kit FAQ: 'topics/speed-kit/faq.md'
         - 'Why Speed Kit': 'topics/speed-kit/why.md'
         - 'Getting Started': 'topics/speed-kit/index.md'
         - Measuring Page Speed: 'topics/speed-kit/analyzer.md'
@@ -65,7 +66,6 @@ nav:
         - 'Websockets': 'websockets.md'
         - Plesk Docs: 'topics/plesk/docsBundle.md'
         - Plesk FAQ: 'topics/plesk/faqBundle.md'
-        - Speed Kit FAQ: 'topics/speed-kit/faq.md'
 
 theme:
     name: null
