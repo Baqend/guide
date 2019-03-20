@@ -50,14 +50,14 @@ every request is rerouted. As soon as the whitelist gets more restrictive, like 
 are touched by Speed Kit. So a simple way to put this is that you can decide if you want to tell us implicitly which sites not to touch by defining a
 whitelist or explicitly by defining a blacklist. 
 
-For details on how to accelerate user-specific content (e.g. product recommendations), see our section on [**personalized content**](../speed-kit/personalized). 
+For details on how to accelerate user-specific content (e.g. product recommendations), see our section on [**personalized content**](../personalized). 
 
 ## Syntax
 
-The white- and blacklists in the Speed Kit config will accept paths as well as regex expressions and even [complex rules](../speed-kit/api#SpeedKitRule). 
+The white- and blacklists in the Speed Kit config will accept paths as well as regex expressions and even [complex rules](../api#SpeedKitRule). 
 All list entries are OR-whatever, so that a request will be blacklisted
 
-To configure the whitelist and blacklist Baqend provides you with [SpeedKitRule](../speed-kit/api#SpeedKitRule).
+To configure the whitelist and blacklist Baqend provides you with [SpeedKitRule](../api#SpeedKitRule).
 With this syntax you are able to formulate complex rules for an individual whitelist and blacklist.
 For example, imagine your website loads some images over the third-party domain `img.example-cdn.com`. 
 In general, you want all resources whose content type is image to be served via Speed Kit.
@@ -92,4 +92,4 @@ whitelist: [
 
 ## Examples
 
-Further examples can be found in our [Configuration Examples](../speed-kit/api#Configuration-Examples).
+Further examples can be found in our [Configuration Examples](../api#Configuration-Examples).
