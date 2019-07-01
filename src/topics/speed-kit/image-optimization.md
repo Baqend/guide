@@ -1,7 +1,7 @@
 # Automatic Image Optimization
 
 In this section, we describe how automatic image optimization works for Speed Kit. 
-For the corresponding feature in Baqend Platform, see the [Platform docs on image optimization](../image-optimization/).
+For the corresponding feature in Baqend Platform, see the [Platform docs on image optimization](../../image-optimization/).
 
 
 ## What does it do?
@@ -19,7 +19,7 @@ Image optimization parameters are controlled by the `image` option of the Speed 
 If you assign an [**object**](#global-configuration), the given parameters will be applied *globally*, i.e. to every image handled by Speed Kit. 
 To apply different optimization parameters for different images, you need to specify a list of [**image rules**](#advanced-configuration-image-rules). 
 
-For an extensive list of all available config parameters and their permitted values, read the [Speed Kit API docs](../speed-kit/api/#ImageOptions). 
+For an extensive list of all available config parameters and their permitted values, read the [Speed Kit API docs](../api/#ImageOptions). 
 
 ### Default Configuration
 Unless specified otherwise, Speed Kit assumes the following default configuration:
