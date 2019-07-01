@@ -60,7 +60,7 @@ var speedKit = {
 To apply distinct rules for different images, you can also assign an array of **image rules**. 
 Here, each image rule has the following 2 properties: 
 
-- **rules**: an array of image selectors (see [API docs](../speed-kit/api/#ImageRule) for details).
+- **rules**: an array of image selectors (see [API docs](../api/#ImageRule) for details).
 - **options**: the options to applied to the matching images (as described above).
 
 
