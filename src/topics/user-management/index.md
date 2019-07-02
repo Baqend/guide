@@ -398,7 +398,7 @@ To set them up, follow these steps:
     </tr>
     <tr>
         <td>[twitter](https://apps.twitter.com/)</td>
-        <td>[docs](https://dev.twitter.com/oauth/overview/faq)</td>
+        <td>[docs](https://developer.twitter.com/en/docs/basics/authentication/overview/oauth.html)</td>
         <td>Add as redirect URL: <br>`https://<appName>.app.baqend.com/v1/db/User/OAuth/twitter`
             Twitter does not support E-Mail scope. In default case a uuid is set as username.
         </td>

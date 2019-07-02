@@ -1,5 +1,5 @@
 # Speed Kit: Intro
-In this section, we describe how to speed up your website with Baqend Speed Kit with 5 easy steps. For a more high-level introduction, see our [overview section](../speed-kit).
+In this section, we describe how to speed up your website with Baqend Speed Kit with 5 easy steps. For a more high-level introduction, see our [overview section](../).
 
 
 Watch this short video to learn how Speed Kit can help you make fast page loads your competitive advantage:
@@ -37,7 +37,7 @@ If you are able to do so, the default case is yours.
 If for whatever reason this is not possible, we provide
 you some implementation options here:
 ####WordPress
-Use our <a href="../wordpress/">WordPress Plugin</a>.
+Use our <a href="../../wordpress">WordPress Plugin</a>.
 ####Apache
 Option 1: Rewrite the request url for the service worker to the actual location:
 ```sh

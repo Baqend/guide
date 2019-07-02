@@ -2,7 +2,7 @@
 
 In this section, we describe how Push Notifications works for Speed Kit. Baqend provides the ability to send push 
 notifications to end users devices. For the corresponding feature in Baqend 
-Platform, see the [Platform docs on push notifications](../push/).
+Platform, see the [Platform docs on push notifications](../../push/).
 
 ## Web Push Setup
 
@@ -21,7 +21,7 @@ you here.
 
 ### Web Push Registration
 Before subscribing the user's device to your push notifications, the user needs to grant permission for receiving them from the browser.
-The [Speed Kit snippet](intro/#integrate-code-snippet)  provides a method to subscribe the user to push notifications that automatically 
+The [Speed Kit snippet](../intro/#integrate-code-snippet)  provides a method to subscribe the user to push notifications that automatically 
 prompts the user for permission. By calling this method, you can decide when to ask the user for permission.
  
 ```js
@@ -29,7 +29,7 @@ SpeedKit.subscribe();
 ```
 
 The `SpeedKit.subscribe()` method returns a `Promise` which resolves to a String: `WebPushState`. For further information about promises read the [Promise 
-guide](../getting-started/#promises).
+guide](../../getting-started/#promises).
 
 One of the following states will be returned:
  <div class="table-wrapper"><table class="table">
