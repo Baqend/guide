@@ -22,7 +22,7 @@ The following step-by-step guide describes how to recover lost data from a backu
     - Download and install MongoDB from the official [MongoDB download page](https://www.mongodb.com/download-center#community) 
       or by using the package manager of your OS. Make sure to use the *official* MongoDB installation, because it contains the [mongorestore](https://docs.mongodb.com/manual/reference/program/mongorestore/) 
       command which is required for the recovery procedure. Also make sure to install MongoDB version 3.4 or higher.
-    - Download the latest Baqend Community Editon from our [download page](https://www.baqend.com/product.html#download).
+    - Download the latest [Baqend Community Editon from GitHub](https://github.com/Baqend/docker-baqend-ce).
     - Install the Baqend CLI tool as described in the [Baqend CLI](../cli/) guide section.
     
 

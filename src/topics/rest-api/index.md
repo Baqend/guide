@@ -32,7 +32,7 @@ CRUD
 
 Baqend uses a token-based authentication mechanism. [Register and login requests](#user-management) 
 return the header `baqend-authorization-token`. The value of this header is the authorization token, which must be 
-attached as the `authorization` header to [permission-protected](topics/user-management/#permissions) 
+attached as the `authorization` header to [permission-protected](../user-management/#permissions) 
 CRUD requests: `authorization: BAT <token>`
 
 CRUD requests may return a renewed token in the `baqend-authorization-token` header. If this happens, the renewed token must be used for all subsequent requests.

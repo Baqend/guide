@@ -1,4 +1,4 @@
-#!["Logo"](/img/bootstrap-baqend.svg) Bootstrap Baqend Starter Kit
+#!["Logo"](../img/bootstrap-baqend.svg) Bootstrap Baqend Starter Kit
 
 With [this starter project](https://github.com/Baqend/bootstrap-starter) you can easily build application based on:
 

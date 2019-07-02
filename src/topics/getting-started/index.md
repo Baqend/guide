@@ -209,7 +209,7 @@ Though Baqend does not make any assumptions on the tooling, here a the tools we 
 - **Hybrid app frameworks** for mobile applications with JavaScript: [Ionic](http://ionic.io/), [Framework7](http://framework7.io/) and [Onsen UI](https://onsen.io/) are based on web views, [React Native](https://facebook.github.io/react-native/) is based on native UIs with JavaScript logic
 - **Build tools** for bundling, deployment and development: [Webpack](https://github.com/webpack/webpack), [Gulp](http://gulpjs.com/) and [Grunt](http://gruntjs.com/) all work well with Baqend
 - **IDEs** and **Text Editors** for developing: [WebStorm](https://www.jetbrains.com/webstorm/) and [Netbeans](https://netbeans.org/) are full-fledged IDEs, [Sublime](https://www.sublimetext.com/), [Visual Studio Code](https://code.visualstudio.com) and [Atom](https://atom.io/) are powerful text and code editors
-- [Baqend Starter Kits](/starter-kits): Boilerplate projects connected to Baqend
+- [Baqend Starter Kits](../../starter-kits): Boilerplate projects connected to Baqend
 
 
 ## Architecture
