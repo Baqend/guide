@@ -61,7 +61,7 @@ In the [dashboard](https://dashboard.baqend.com/apps) enter your App and create 
 </table>
 Now go to the **Data** tab and click **Add** to insert a dummy message to the database.
 
-To learn more about data modeling in Baqend, see the [Schema and Types documentation](/topics/schema/).
+To learn more about data modeling in Baqend, see the [Schema and Types documentation](../schema/).
 </li>
 <li>
 ###Save Data
@@ -94,7 +94,7 @@ function leaveMessage(name, message) {
 ```
 So now we insert a new message, whenever the HTML form is submitted.
 
-See the [**C**reate **R**ead **U**pdate **D**elete documentation](/topics/crud/) to learn more about saving and loading data.
+See the [**C**reate **R**ead **U**pdate **D**elete documentation](../crud/) to learn more about saving and loading data.
 </li>
 <li>
 ###Query Data
@@ -118,13 +118,13 @@ function showMessages() {
 ```
 At this point the application is fully working. Just open the `index.html` in the browser to use your app. If something is not working, press `F12` to see any error messages.
 
-Queries allow you do complex filtering and sorting, see the [Query Docs](/topics/queries/). All data loaded from Baqend Cloud is served with low latency from a global CDN.
+Queries allow you do complex filtering and sorting, see the [Query Docs](../queries/). All data loaded from Baqend Cloud is served with low latency from a global CDN.
 </li>
 <li>
 ###Protect Your Data
 By default, public access to the `Message` table is allowed. Let's restrict that to only allow *inserts*, *reads* and *queries* but disallow any *updates* and *deletes*. Go to the **ACL** (Access Control Lists) tab in the dashboard and revoke delete and update rights from the Public role.
 
-Access rights can be granted and denied both at table level and at object level. This is explained in detail in the [User, Roles and Permissions documentation](/topics/user-management/).
+Access rights can be granted and denied both at table level and at object level. This is explained in detail in the [User, Roles and Permissions documentation](../user-management/).
 
 Baqend has full SSL support. If you want the Baqend connection to be SSL-encrypted by default, add `true` as the second parameter of the `DB.connect` call.
 </li>
@@ -141,7 +141,7 @@ DB.User.register('john.doe@example.com', 'pwd').then(function() {
 DB.User.login('john.doe@example.com', 'pwd').then(...)
 ```
 
-You can enable and customize email verification in the settings page of the dashboard. To support OAuth logins (e.g. "Login with Facebook"), setup OAuth as [described in the User docs](/topics/user-management/#oauth-login), then you can simply call `DB.User.loginWithFacebook`.
+You can enable and customize email verification in the settings page of the dashboard. To support OAuth logins (e.g. "Login with Facebook"), setup OAuth as [described in the User docs](../user-management/#oauth-login), then you can simply call `DB.User.loginWithFacebook`.
 
 
 
@@ -149,7 +149,7 @@ You can enable and customize email verification in the settings page of the dash
 <li>
 ###Install the Baqend CLI and Deploy
 
-Install the [Baqend CLI](/topics/cli/) globally with ([node.js and npm](https://nodejs.org/en/download/) is required):
+Install the [Baqend CLI](../cli/) globally with ([node.js and npm](https://nodejs.org/en/download/) is required):
 
 ```sh
 $ npm install -g baqend

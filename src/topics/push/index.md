@@ -267,7 +267,7 @@ Push notifications can be sent programmatically from within a Baqend code module
 
 ### Sending Push Notifications from Baqend Code
 
-Push notifications can be sent from the dashboard or within [Baqend code](/topics/baqend-code). To send a push notification to one or more devices, you must
+Push notifications can be sent from the dashboard or within [Baqend code](../baqend-code). To send a push notification to one or more devices, you must
 first obtain the desired device IDs. Therefore, you can use the additional data stored in the `Device` object to query those, 
 or you can save the device reference in another object.
 

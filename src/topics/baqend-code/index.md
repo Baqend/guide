@@ -282,7 +282,7 @@ exports.get = function(db, req, res) {
 ```
 
 It is important that you send the content back with one of the express `res.send()` helpers. Otherwise the response will 
-not be sent back to the client. In addition, ensure that you return a [promise](/topics/getting-started#promises) when you make asynchronous calls within 
+not be sent back to the client. In addition, ensure that you return a [promise](../getting-started#promises) when you make asynchronous calls within 
 your Baqend module, otherwise the request will be aborted with an error!
 
 ## Custom Response Headers
@@ -331,7 +331,7 @@ As a part of the advanced request handling, it is also possible to upload and do
 
 To send binary data to your Baqend module, you can specify the 'requestType' option.
 With the 'responseType' option you can receive binary data in the specified type from your Baqend module.
-This works similar to the file API and you can use all the listed [file types](/topics/files) as 'requestType' and 'responseType' too.
+This works similar to the file API and you can use all the listed [file types](../files) as 'requestType' and 'responseType' too.
 
 ```js
 const svgBase64 = 'PHN2ZyB4bWxucz0...';
@@ -520,7 +520,7 @@ exports.onInsert = function(db, obj) {
 You can easily debug any part of your Baqend Code with the powerful Logging API of Baqend. 
 Any uncaught errors and rejected Promises will automatically be logged into the AppLog Table. So keep an eye on it. 
 
-Read more about it in the [Baqend logging chapter](/topics/logging/)
+Read more about it in the [Baqend logging chapter](../logging/)
 
 ## NPM Node Modules
 

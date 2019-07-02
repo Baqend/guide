@@ -174,7 +174,7 @@ cURL: `curl -X DELETE "https://<app-name>.app.baqend.com/v1/db/Message/0d2c40a1-
 User Management
 ---------------
 
-To use Baqend's [user management system](/topics/user-management/), you have to use the user API. It offers the ability
+To use Baqend's [user management system](../user-management/), you have to use the user API. It offers the ability
 to register and login users.
 
 Baqend uses a token-based authentication mechanism. Register and login requests return the header `baqend-authorization-token`.

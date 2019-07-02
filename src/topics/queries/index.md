@@ -18,7 +18,7 @@ DB.Todo.find().resultList((result) => {
 });
 ```
 
-You can also use the `depth`-parameter to query the entities to a specified depth just like for normal [reads](/topics/crud/#read).
+You can also use the `depth`-parameter to query the entities to a specified depth just like for normal [reads](../crud/#read).
 
 
 To find just the first matching object, use the `singleResult` method.
@@ -33,7 +33,7 @@ DB.Todo.find().singleResult((todo) => {
 });
 ```
 
-Both `resultList` and `singleResult` [support deep loading](/topics/deep-loading#deep-loading-with-queries) to also load references.
+Both `resultList` and `singleResult` [support deep loading](../deep-loading#deep-loading-with-queries) to also load references.
 
 If you just need the number of matching objects, use the `count` method.
 ```js
@@ -278,7 +278,7 @@ DB.Todo.find()
 ```
 
 <div class="note"><strong>Note:</strong> <code>DB.user.me</code> refers to the currently logged-in User instance. To learn more about users and the
-login process see the <a href="../topics/user-management/#users-roles-and-permissions">User, Roles and Permission chapter</a>.</div>
+login process see the <a href="../user-management/#users-roles-and-permissions">User, Roles and Permission chapter</a>.</div>
 
 ## Sorting
 

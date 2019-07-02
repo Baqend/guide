@@ -23,7 +23,7 @@ The following step-by-step guide describes how to recover lost data from a backu
       or by using the package manager of your OS. Make sure to use the *official* MongoDB installation, because it contains the [mongorestore](https://docs.mongodb.com/manual/reference/program/mongorestore/) 
       command which is required for the recovery procedure. Also make sure to install MongoDB version 3.4 or higher.
     - Download the latest Baqend Community Editon from our [download page](https://www.baqend.com/product.html#download).
-    - Install the Baqend CLI tool as described in the [Baqend CLI](/topics/cli/) guide section.
+    - Install the Baqend CLI tool as described in the [Baqend CLI](../cli/) guide section.
     
 
 2. Start you local Baqend Server (Community Edition)
@@ -72,6 +72,6 @@ The following step-by-step guide describes how to recover lost data from a backu
     If you get an error explaining that `mongorestore` is an unknown command, ensure that the `mongorestore` binary is on your `PATH` and try again. (Alternatively, you can also use the fully specified command `path/to/mongorestore`.)
     
     Reload the dashboard of your local instance again. The recovered data should appear. 
-    You can now export individual objects or entire collections from your local Baqend app and then import them into your cloud-hosted app using the [export and import](/topics/crud/#exporting-and-importing-tables) functionality.
+    You can now export individual objects or entire collections from your local Baqend app and then import them into your cloud-hosted app using the [export and import](../crud/#exporting-and-importing-tables) functionality.
 
 

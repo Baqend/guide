@@ -4,7 +4,7 @@ These are our recommendations for getting things rolling quickly:
 
 - To get a hands-on overview of how Baqend works, take the [interactive tutorial](https://www.baqend.com/tutorial.html)
 - [Start your first Baqend app](https://dashboard.baqend.com/register) and take the Quickstart to build a real application
-- With the [Starter Kits](/starter-kits/) you get convenient boilerplate projects that work seamlessly with Baqend
+- With the [Starter Kits](../../starter-kits/) you get convenient boilerplate projects that work seamlessly with Baqend
 - This section covers how Baqend and the SDK work
 
 
@@ -25,7 +25,7 @@ To install Baqend, just add our CDN-hosted script in your website (available bot
 For additional setup information visit our [GitHub page](https://github.com/Baqend/js-sdk/blob/master/README.md).
 
 <div class="tip"><strong>Tip:</strong>
-If you use our <a href="/starter-kits/">Starter Kits</a> the Baqend SDK is already included and you can skip this setup.</div>
+If you use our <a href="../../starter-kits/">Starter Kits</a> the Baqend SDK is already included and you can skip this setup.</div>
 
 <div class="note"><strong>Note:</strong>
 It is generally a good idea to use the latest SDK version from <code>//www.baqend.com/js-sdk/latest/baqend.min.js</code> in development to always be up-to-date. In production, however, you should use the last exact version you tested with. Be aware that otherwise minor changes in a newly released version may break parts of your production application. See our <a href="https://github.com/Baqend/js-sdk/blob/master/CHANGELOG.md">latest changes</a> to the SDK.</div>
@@ -112,7 +112,7 @@ DB.ready().then(function() {
 });
 ```
 
-<div class="tip"><strong>Tip:</strong> Baqend not only gives you APIs for serverless development but also hosts and accelerates your assets, like HTML, CSS, images, etc. See <a href="/../hosting/">Hosting</a> for more details.</div>
+<div class="tip"><strong>Tip:</strong> Baqend not only gives you APIs for serverless development but also hosts and accelerates your assets, like HTML, CSS, images, etc. See <a href="../hosting/">Hosting</a> for more details.</div>
 
 ### Accessing Data
 

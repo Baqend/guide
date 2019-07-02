@@ -40,7 +40,7 @@ All assets stored in the **www** root folder can be accessed under your app doma
 
 ### Deployment
 
-To deploy your assets, you can either use the file explorer in the Baqend dashboard (e.g. drag and drop files and folders) or the [**Baqend CLI**](/topics/cli/) for an easy, automated deployment.
+To deploy your assets, you can either use the file explorer in the Baqend dashboard (e.g. drag and drop files and folders) or the [**Baqend CLI**](../cli/) for an easy, automated deployment.
 
 ### Custom Domains
 
@@ -110,7 +110,7 @@ The <code>404.html</code> is returned whenever no hosted file is found for a URL
 
 ### SSL Hosting
 
-All data accessed over the Baqend SDK [can be SSL-secured](/topics/getting-started#connect-your-app-to-baqend) by enforcing encryption at connect. 
+All data accessed over the Baqend SDK [can be SSL-secured](../getting-started#connect-your-app-to-baqend) by enforcing encryption at connect. 
 To enable SSL encryption for your hosted assets as well, generate and activate an SSL certificate for your custom domain.  
 To this end, navigate to the "Hosting" section in the dashboard *settings*.  
 Here, do the following:

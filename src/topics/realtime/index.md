@@ -268,7 +268,7 @@ var stream = DB.Todo.find().eventStream({initial: false, operations: 'insert'});
 
 ### Event Stream Filter Queries
 
-Like regular filter queries, *event stream filter queries* allow you to select entities based on their attribute values by applying [filters](/topics/queries/#filters).
+Like regular filter queries, *event stream filter queries* allow you to select entities based on their attribute values by applying [filters](../queries/#filters).
 
 You can, for instance, have the database send you an event for every todo list that is *created* with a name that matches a particular pattern:
 
