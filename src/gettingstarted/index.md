@@ -141,7 +141,7 @@ DB.User.register('john.doe@example.com', 'pwd').then(function() {
 DB.User.login('john.doe@example.com', 'pwd').then(...)
 ```
 
-You can enable and customize email verification in the settings page of the dashboard. To support OAuth logins (e.g. "Login with Facebook"), setup OAuth as [described in the User docs](../user-management/#oauth-login), then you can simply call `DB.User.loginWithFacebook`.
+You can enable and customize email verification in the settings page of the dashboard. To support OAuth logins (e.g. "Login with Facebook"), setup OAuth as [described in the User docs](../topics/user-management/#oauth-login), then you can simply call `DB.User.loginWithFacebook`.
 
 
 
