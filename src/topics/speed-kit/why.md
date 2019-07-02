@@ -22,7 +22,7 @@ With our [**Page Speed Analyzer**](http://makefast.app.baqend.com/) ([docs](../a
 Just enter the URL of your website and we will compare the speed of your current website and an accelerated version and hence by Speed Kit.  
 
 ## Learn More
-For a gentle introduction into how Speed Kit works, have a look at the [overview section](../speed-kit). 
+For a gentle introduction into how Speed Kit works, have a look at the [overview section](../). 
 For additional details, see the following resources:
 
 - [Speed Kit Pitch deck (PDF)](../speed-kit/speed-kit.pdf)
