@@ -18,7 +18,7 @@ Because it **works for any website**, it is the perfect solution for Publishers,
 
 ## Measure the Improvement!
 
-With our [**Page Speed Analyzer**](http://makefast.app.baqend.com/) ([docs](../speed-kit/analyzer)), you can put a number on how much faster Speed Kit will make your website. 
+With our [**Page Speed Analyzer**](http://makefast.app.baqend.com/) ([docs](../analyzer)), you can put a number on how much faster Speed Kit will make your website. 
 Just enter the URL of your website and we will compare the speed of your current website and an accelerated version and hence by Speed Kit.  
 
 ## Learn More
