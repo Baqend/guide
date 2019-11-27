@@ -3,12 +3,19 @@
 
 On this page, we explain how Speed Kit makes your website faster. In more detail, you can learn
 
-1. *what* [Speed Kit](#speed-kit) does to accelerate your website,
-2. *how* you can [install & configure](#installation-configuration) does to accelerate your website,
-3. *which* metrics are measured by the the [Page Speed Analyzer](#page-speed-analyzer), and
-4. *who* [the people behind Speed Kit](#who-we-are) are.
+1. *which* [market leaders ](#built-for-market-leaders) are accelerated by Speed Kit,
+2. *what* [Speed Kit](#speed-kit) does to accelerate your website,
+3. *how* you can [install & configure](#installation-configuration) does to accelerate your website,
+4. *which* metrics are measured by the the [Page Speed Analyzer](#page-speed-analyzer), and
+5. *who* [the people behind Speed Kit](#who-we-are) are.
 
 See our [in-depth technical survey](https://medium.baqend.com/the-technology-behind-fast-websites-2638196fa60a#d876) for details on Speed Kit and the technology it is built on.
+
+## Built for Market Leaders
+
+Join more than 6,000 websites that load instantly:
+
+<img src="../plesk_customer_logos.png" style="width:85%; display: block; margin-left: auto; margin-right: auto;">
 
 ## Speed Kit
 
@@ -16,7 +23,7 @@ To accelerate content delivery, Speed Kit intercepts requests made by the browse
 Instead of loading content from your original Plesk website, the browser fetches data from Speed Kit's superfast 
 caching infrastructure. The following schematic illustrates this procedure.
 
-<img src="../speedkit_plesk.png" style="width:85%; display: block; margin-left: auto; margin-right: auto;">
+<img src="../speedkit_plesk.svg" style="width:85%; display: block; margin-left: auto; margin-right: auto;">
 
 Whenever a user is visiting a your website, Speed Kit launches a **Service Worker**, a process running concurrently to the
 main thread of execution in your browser. This Service Worker intercepts and reroutes browser requests according to
