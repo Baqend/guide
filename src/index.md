@@ -14,7 +14,7 @@
 
 <div class="chapter-container">
   <div class="chapter-item-outer">
-    <a class="chapter-item" href="index-speed-kit">
+    <a class="chapter-item" href="https://speedkit.zendesk.com/hc/en-us/">
       <span class="chapter-heading">
         <span class="icon"><img src="icons/speedkit.png"/></span>
         <span class="text">Speed Kit</span>

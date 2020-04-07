@@ -1,4 +1,3 @@
-<!-- Platform Guide -->
 <div class="stars">
   <div class="container">
     <h1>Speed Kit Guide</h1>
