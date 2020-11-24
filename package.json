@@ -39,7 +39,7 @@
     "webpack-cli": "^3.2.1"
   },
   "dependencies": {
-    "highlight.js": "^9.13.1",
+    "highlight.js": "^10.1.2",
     "jquery": "^3.3.1",
     "mustache": "^3.0.1"
   }
