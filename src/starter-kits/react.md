@@ -51,7 +51,7 @@ For more detailed information take a look on the provided example actions or in 
 3. Your React app will automatically connect to your app instance
 4. To access your data or backend features it´s recommended to use the [redux-baqend-middleware](http://github.com) within your redux actions
 5. You can also simply import the `db`-object with `import {db} from 'baqend'`
-and see our [Guide](https://www.baqend.com/guide) and [API Docs](https://www.baqend.com/js-sdk/latest/baqend.html) for details
+and see our [Guide](https://www.baqend.com/guide) and [API Docs](https://www.baqend.com/js-sdk/latest/) for details
 
 For more information: on [React](https://facebook.github.io/react/docs/hello-world.html), [Redux](http://redux.js.org/), the structure of this
 [project](https://github.com/facebookincubator/create-react-app), or [Baqend](https://www.baqend.com).
@@ -60,7 +60,7 @@ For more information: on [React](https://facebook.github.io/react/docs/hello-wor
 
 Baqend is a fully managed Backend-as-a-Service platform with a strong focus on performance and scalability
 ([click here for details](https://medium.baqend.com/bringing-web-performance-to-the-next-level-an-overview-of-baqend-be3521bc2faf)).
-The [JavaScript API](https://www.baqend.com/js-sdk/latest/baqend.html) gives you access to common backend features
+The [JavaScript API](https://www.baqend.com/js-sdk/latest/) gives you access to common backend features
 while the [dashboard](https://www.baqend.com/guide/topics/dashboard/) lets you define data models and access rules as
 well as business logic to execute on the server side.
 

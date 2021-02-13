@@ -11,25 +11,25 @@ process to create a new user account. The user class is a predefined class which
 process. A user object has a predefined `username` which uniquely identifies the user (usually an email address) and a `password`. The password
 will be hashed and salted by Baqend before being saved.   
 ```js
-DB.User.register('john.doe@example.com', 'MySecretPassword').then(function() {
+db.User.register('john.doe@example.com', 'MySecretPassword').then(function() {
   //Hey we are logged in
-  console.log(DB.User.me.username); //'john.doe@example.com'
+  console.log(db.User.me.username); //'john.doe@example.com'
 });
 ```    
 
 If you like to set additional user attributes for the registration, you can alternatively create a new user instance and register
 the newly created instance with a password.
 ```js
-var user = new DB.User({
+var user = new db.User({
   'username': 'john.doe@example.com',
   'firstName': 'John',   
   'lastName': 'Doe',   
   'age': 33
 });
 
-DB.User.register(user, 'MySecretPassword').then(function() {
+db.User.register(user, 'MySecretPassword').then(function() {
   //Hey we are logged in
-  console.log(DB.User.me === user); //true
+  console.log(db.User.me === user); //true
 });
 ```
 
@@ -37,9 +37,9 @@ DB.User.register(user, 'MySecretPassword').then(function() {
 If you don't want your user to be logged in or his login only to be valid for the current session after his registration, you can also pass a login option as third parameter:
 
 ```js
-DB.User.register('john.doe@example.com', 'MySecretPassword', DB.User.LoginOption.NO_LOGIN).then(function() {
+db.User.register('john.doe@example.com', 'MySecretPassword', db.User.LoginOption.NO_LOGIN).then(function() {
   //Hey we are not logged in
-  console.log(DB.User.me); //null
+  console.log(db.User.me); //null
 });
 ```
 
@@ -51,7 +51,7 @@ The following login options exist:
 
 <div class="tip">
   <strong>Tip:</strong>
-  You can also use the <code>LoginOption</code> when logging a user in: <code>DB.User.login('username', 'password', DB.User.LoginOption.SESSION_LOGIN)</code>, for example.
+  You can also use the <code>LoginOption</code> when logging a user in: <code>db.User.login('username', 'password', db.User.LoginOption.SESSION_LOGIN)</code>, for example.
 </div>
 
 ### Email Verification
@@ -112,11 +112,11 @@ exports.call = function call(db, email, req) {
 
 ## Login and Logout
 
-When a user is already registered, he can login with the `DB.User.login()` method. 
+When a user is already registered, he can login with the `db.User.login()` method. 
 ```js
-DB.User.login('john.doe@example.com', 'MySecretPassword').then(function() {
+db.User.login('john.doe@example.com', 'MySecretPassword').then(function() {
   //Hey we are logged in again
-  console.log(DB.User.me.username); //'john.doe@example.com'  
+  console.log(db.User.me.username); //'john.doe@example.com'  
 });
 ```  
 
@@ -128,11 +128,11 @@ Sessions in Baqend are stateless, that means there is no state attached to a ses
 When a session is started a session token with a specified lifetime is created to identify the user.
 This session is refreshed as long a the user is active. If this lifetime is exceeded, the session
 is closed automatically. A logout simply locally deletes the session token and removes the current
-`DB.User.me` object.
+`db.User.me` object.
 ```js
-DB.User.logout().then(function() {
+db.User.logout().then(function() {
   //We are logged out again
-  console.log(DB.User.me); //null
+  console.log(db.User.me); //null
 });
 ```
 <div class="note"><strong>Note:</strong> There is no need to close the session on the server side or handle any session state like in a PHP application for example.</div>
@@ -147,7 +147,7 @@ Therefore, you can let Baqend send him an email which includes a “reset passwo
  
 ```js
 // Send a “reset password” email
-DB.User.resetPassword('Username').then(() => {
+db.User.resetPassword('Username').then(() => {
   //User received an email
 });
 ```
@@ -162,7 +162,7 @@ On your reset-password site, you can then set the new password in Baqend by call
 const paramName = 'bq-token='; //Default token parameter 
 const search = location.search;
 const token = search.substring(search.indexOf(paramName) + paramName.length);
-DB.User.newPassword(token, 'NewPassword').then(() => {
+db.User.newPassword(token, 'NewPassword').then(() => {
  //User is now logged in
 });
 ```
@@ -174,15 +174,15 @@ You can also pass [login options](#loginoption) as a third parameter if you don'
 Password can be changed by giving the old password and specifying the new one. Admin users can change the passwords of all users without giving the previous one:
 ```js
 //Using the user name
-DB.User.newPassword('Username', 'oldPassword', 'newPassword').then(() => {
+db.User.newPassword('Username', 'oldPassword', 'newPassword').then(() => {
     //New Password is set
 });
 
 //Using a user object
-DB.User.me.newPassword('oldPassword', 'newPassword').then(...);
+db.User.me.newPassword('oldPassword', 'newPassword').then(...);
 
 //When logged in as an admin
-DB.User.newPassword('Username', '', 'newPassword').then(...);
+db.User.newPassword('Username', '', 'newPassword').then(...);
 ```
 
 ## Change Username (email)
@@ -191,12 +191,12 @@ If email address validation is enabled, the user can also change his or her user
 
 ```js
 // Using the user name
-DB.User.changeUsername('CurrentUsername@example.com', 'NewUsername@example.com', 'Password').then(() => {
+db.User.changeUsername('CurrentUsername@example.com', 'NewUsername@example.com', 'Password').then(() => {
     // A email validation request is send to NewUsername@example.com
 });
 
 // Using a user object
-DB.User.me.changeUsername('NewUsername@example.com', 'Passowrd').then(...);
+db.User.me.changeUsername('NewUsername@example.com', 'Passowrd').then(...);
 ```
 The template for the validation email can be customized in the dashboard under Settings.  The section becomes visible as soon as email address validation is activated.
 Furthermore, it is possible to define redirect URLs for successes and failures.
@@ -204,13 +204,13 @@ Furthermore, it is possible to define redirect URLs for successes and failures.
 ## Automatic Login
 
 During initialization the Baqend SDK checks, if the user is already registered and has been logged in before in this session and has not logged out explicitly.
-As a consequence, returning users are automatically logged in and the `DB.User.me` object is set.
-New user are anonymous by default and no user object is associated with the DB.
+As a consequence, returning users are automatically logged in and the `db.User.me` object is set.
+New user are anonymous by default and no user object is associated with the db.
 ```js
-DB.ready(function() {
-  if (DB.User.me) {
+db.ready(function() {
+  if (db.User.me) {
     //do additional things if user is logged in
-    console.log('Hello ' + DB.User.me.username); //the username of the user
+    console.log('Hello ' + db.User.me.username); //the username of the user
   } else {
     //do additional things if user is not logged in
     console.log('Hello Anonymous');
@@ -232,12 +232,12 @@ contains all the members of a role. A user has a specified role if he is include
 
 ```js
 //create a new role
-var role = new DB.Role({name: 'My First Group'});
+var role = new db.Role({name: 'My First Group'});
 //add current user as a member of the role
-role.addUser(DB.User.me);
+role.addUser(db.User.me);
 //allow the user to modify the role memberships
 //this overwrites the default where everyone has write access
-role.acl.allowWriteAccess(DB.User.me);
+role.acl.allowWriteAccess(db.User.me);
 role.save().then(...);
 ```
 
@@ -347,10 +347,10 @@ The object permissions are split up in read and write permissions. When insertin
 write access is granted to everyone. You can manipulate object permissions only if you have write permissions on the object. If you want to restrict write access to the current user but want to share an object within a group, you 
 can add the role to the read permissions and the current user to the write permissions.
 ```js 
-DB.Role.find().equal('name', 'My First Role').singleResult(function(role) {
-  var todo = new DB.Todo({name: 'My first Todo'});
+db.Role.find().equal('name', 'My First Role').singleResult(function(role) {
+  var todo = new db.Todo({name: 'My first Todo'});
   todo.acl.allowReadAccess(role)
-    .allowWriteAccess(DB.User.me);
+    .allowWriteAccess(db.User.me);
   
   return todo.save();
 }).then(...);
@@ -415,15 +415,15 @@ To set them up, follow these steps:
 In order to use an OAuth provider to register or login users, you call one of the following SDK methods, depending on the provider:
 
 ```js
-DB.User.loginWithGoogle(clientID, options).then((user) => {
+db.User.loginWithGoogle(clientID, options).then((user) => {
 	//logged in successfully
-	DB.User.me == user;
+	db.User.me == user;
 });
 // Same for
-DB.User.loginWithFacebook(...)
-DB.User.loginWithGitHub(...)
-DB.User.loginWithTwitter(...)
-DB.User.loginWithLinkedIn(...)
+db.User.loginWithFacebook(...)
+db.User.loginWithGitHub(...)
+db.User.loginWithTwitter(...)
+db.User.loginWithLinkedIn(...)
 ```
 The login call returns a promise and opens a new window showing the provider-specific login page.
 The promise is resolved with the logged in user, once the login in the new window is completed.
@@ -509,7 +509,7 @@ Your site will be closed and the provider login will open instead.
 loginOption = {'redirect': 'http://.../yourRedirectPage'};
 
 //call SDK method with loginOption
-DB.User.loginWithGoogle(clientID, loginOption).then(function(user) {
+db.User.loginWithGoogle(clientID, loginOption).then(function(user) {
 	...
 });
 ```
@@ -545,9 +545,9 @@ In case of success, you can call the following SDK method with the unique token 
 as parameters to login the user.
 
 ```js
-DB.User.loginWithToken(token, options).then((user) {
+db.User.loginWithToken(token, options).then((user) {
 	//logged in successfully
-	DB.User.me == user;
+	db.User.me == user;
 });
 ```
 

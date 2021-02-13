@@ -126,14 +126,14 @@ exports.onUpdate = function(db, obj) {
 
 ```js
 //on client side without refresh
-DB.Test.load('546c6-a...').then((obj) => {
+db.Test.load('546c6-a...').then((obj) => {
   return obj.save();
 }).then((obj) => {
   //obj.counter == 0
 });
 
 //on client side with refresh
-DB.Test.load('546c6-a...').then((obj) => {
+db.Test.load('546c6-a...').then((obj) => {
   return obj.save({refresh: true});
 }).then((obj) => {
   //obj.counter == 1
@@ -192,7 +192,7 @@ modules can be invoked using `get` for reading data and with `post` to modify da
 - with `post` data is sent in the body of an HTTP POST request
 
 ```js
-DB.modules.post('invite', { email: 'peter@example.com', invite: 'My new event' })
+db.modules.post('invite', { email: 'peter@example.com', invite: 'My new event' })
   .then(() => {
     // Invite was sent successfully
   });
@@ -559,7 +559,7 @@ Baqend is shipped with some pre installed Node Modules. The following additional
 - [crypto](https://nodejs.org/api/crypto.html) - Node.js core crypto api offers a way of encapsulating secure credentials 
 - [zlib](https://nodejs.org/api/zlib.html) - Node.js core zlib api provides compression functionality implemented using Gzip and Deflate/Inflate. 
 - [v8](https://nodejs.org/api/v8.html) - Node.js core v8 api provides functionality for node debug purposes.
-- [baqend](https://www.baqend.com/js-sdk/latest/baqend.html) - The Baqend SDK
+- [baqend](https://www.baqend.com/js-sdk/latest/) - The Baqend SDK
 - [express](http://expressjs.com/4x/api.html) - HTTP server
 - [twilio](http://twilio.github.io/twilio-node/) - APIs for Text Messaging, VoIP & Voice in the Cloud 
 - [node-mailjet](https://github.com/mailjet/mailjet-apiv3-nodejs) [API v3](https://dev.mailjet.com) Official Mailjet API v3 NodeJS wrapper 

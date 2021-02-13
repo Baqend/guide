@@ -11,7 +11,7 @@ The Baqend SDK features a [query builder](https://www.baqend.com/js-sdk/latest/q
 The simplest query is one that has no filter criterion and thus returns all objects.
 The actual result is retrieved via the `resultList` method.
 ```js
-DB.Todo.find().resultList((result) => {
+db.Todo.find().resultList((result) => {
   result.forEach((todo) => {
     console.log(todo.name); //'My first Todo', 'My second Todo', ...
   });
@@ -24,7 +24,7 @@ You can also use the `depth`-parameter to query the entities to a specified dept
 To find just the first matching object, use the `singleResult` method.
 If there is no result, it will give you null.
 ```js
-DB.Todo.find().singleResult((todo) => {
+db.Todo.find().singleResult((todo) => {
   if (!todo) {
     // No todo available…    
   } else {
@@ -37,7 +37,7 @@ Both `resultList` and `singleResult` [support deep loading](../deep-loading#deep
 
 If you just need the number of matching objects, use the `count` method.
 ```js
-DB.Todo.find().count((count) => {
+db.Todo.find().count((count) => {
   console.log(count); //'17'
 });
 ```
@@ -47,7 +47,7 @@ Usually queries are employed to exert some kind of filter. The query builder sup
 [filters](https://www.baqend.com/js-sdk/latest/query.Filter.html),
 that can be applied on entity attributes. By default chained filters are *and*-combined.
 ```js
-DB.Todo.find()
+db.Todo.find()
   .matches('name', /^My Todo/)
   .equal('active', true)
   .lessThanOrEqualTo('activities.start', new Date())
@@ -64,7 +64,7 @@ If you are familiar with [MongoDB queries](http://docs.mongodb.org/manual/tutori
 use the `where` method to describe a query in MongoDB's JSON format. An equivalent query to the above one would look
 like this:
 ```js
-DB.Todo.find()
+db.Todo.find()
   .where({
     "name": { "$regex": "^My Todo" },
     "active": true,
@@ -259,25 +259,25 @@ The following table list all available query filters and the types on which they
 
 <div class="note"><strong>Note on Chaining:</strong> When chaining expressions that rely on the same MongoDB operator, only the most recently called expression will take effect. For example, <code>isNotNull</code> and <code>notEqual</code> both rely on MongoDB's <code>$ne</code> operator, so that the following two query builders will produce the exact same query:
 <ol>
-	<li><code>DB.Test.notEqual('test', '')</code></li>
-	<li><code>DB.Test.isNotNull('test').notEqual('test', '')</code></li>
+	<li><code>db.Test.notEqual('test', '')</code></li>
+	<li><code>db.Test.isNotNull('test').notEqual('test', '')</code></li>
 </ol>
 In the second builder, <code>notEqual</code> overrides the effect of <code>isNotNull</code>, so that the resulting query will match records where the <code>test</code> attribute is <code>null</code>.
 </div>
 
-You can get the current GeoPoint of the User with <code>DB.GeoPoint.current()</code>. This only works with an HTTPS connection.
+You can get the current GeoPoint of the User with <code>db.GeoPoint.current()</code>. This only works with an HTTPS connection.
 
 References can and should be used in filters. Internally references are converted to ids
  and used for filtering. To get all Todos owned by the currently logged-in user, we can simply use the User instance
  in the query builder:
 
 ```js
-DB.Todo.find()
-  .equal('owner', DB.User.me) //any other User reference is also valid here
+db.Todo.find()
+  .equal('owner', db.User.me) //any other User reference is also valid here
   .resultList(...)
 ```
 
-<div class="note"><strong>Note:</strong> <code>DB.user.me</code> refers to the currently logged-in User instance. To learn more about users and the
+<div class="note"><strong>Note:</strong> <code>db.user.me</code> refers to the currently logged-in User instance. To learn more about users and the
 login process see the <a href="../user-management/#users-roles-and-permissions">User, Roles and Permission chapter</a>.</div>
 
 ## Sorting
@@ -285,7 +285,7 @@ login process see the <a href="../user-management/#users-roles-and-permissions">
 It is possible to sort the query result for one or more attributes. The query builder can be used to specify
 which attributes shall be used for sorting. Let's sort our query result by name:
 ```js
-DB.Todo.find()
+db.Todo.find()
   .matches('name', /^My Todo/)
   .ascending('name')
   .resultList(...)
@@ -295,7 +295,7 @@ If you use more than one sort criterion, the order of the result reflects the or
 called. The following query will list all active tasks before the inactive ones and sort the tasks by their name in
 ascending order.
 ```js
-DB.Todo.find()
+db.Todo.find()
   .matches('name', /^My Todo/)
   .ascending('name')
   .descending('active')
@@ -308,7 +308,7 @@ then by active flag, which is only relevant for multiple todos having the same n
 You can also set the sort criteria with the MongoDB [orderby](http://docs.mongodb.org/manual/reference/operator/meta/orderby/)
 syntax by using the `sort()` method. An equivalent expression to the above is this:
 ```js
-DB.Todo.find()
+db.Todo.find()
   .matches('name', /^My Todo/)
   .sort({"name": 1, "active": -1})
   .resultList(...)
@@ -321,7 +321,7 @@ query results. It is therefore possible to skip objects and limit the result siz
 var page = 3;
 var resultsPerPage = 30;
 
-DB.Todo.find()
+db.Todo.find()
   .matches('name', /^My Todo/)
   .ascending('name')
   .offset((page - 1) * resultsPerPage)
@@ -340,7 +340,7 @@ page by a simple greaterThen filter. As the id always has an index this results 
 var pageId = '00000-...';
 var resultsPerPage = 30;
 
-DB.Todo.find()
+db.Todo.find()
   .matches('name', /^My Todo/)
   .greaterThan('id', pageId)
   .ascending('id')
@@ -359,7 +359,7 @@ var resultsPerPage = 30;
 var lastObject = {id: '', createdAt: new Date(0)};
 
 //later page through the pages by the following query
-var qb = DB.Todo.find();
+var qb = db.Todo.find();
 qb.or(qb.equal('createdAt', lastObject.createdAt).greaterThan('id', lastObject.id), qb.greaterThan('createdAt', lastObject.createdAt))
      .ascending('createdAt')
      .ascending('id')
@@ -388,7 +388,7 @@ additional methods to compose filter expressions.
 The following query finds all todos which the logged-in user is not currently working on and all todos which aren't
 done yet:
 ```js
-var queryBuilder = DB.Todo.find();
+var queryBuilder = db.Todo.find();
 var condition1 = queryBuilder
   .matches('name', /^My Todo/)
   .equal('active', false);

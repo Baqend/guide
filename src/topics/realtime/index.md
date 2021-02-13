@@ -3,15 +3,20 @@
 Baqend does not only feature powerful queries, but also real-time mechanisms that **keep query results up-to-date** while the underlying database is under constant change. Baqend Real-Time Queries come in two flavors:
 
 + **Self-maintaining queries** (`.resultStream()`): You'll get the complete (updated) result whenever it changes.
-+ **Event stream queries** (`.eventStream()`): You'll receive an event message for every database write that affects your query.
++ **Event stream queries** (`.eventStream()`): You'll receive an event message for every database write that affects 
+your query.
 
-Calling `.eventStream()` or `.resultStream()` on a query object opens a [websocket](https://developer.mozilla.org/de/docs/WebSockets) connection to Baqend, registers a real-time query and returns an [RxJS observable](http://reactivex.io/documentation/observable.html). This observable provides you with an instant update to your query whenever a relevant change occurs.  
+Calling `.eventStream()` or `.resultStream()` on a query object opens a 
+[websocket](https://developer.mozilla.org/de/docs/WebSockets) connection to Baqend, registers a real-time query and 
+returns an [RxJS observable](http://reactivex.io/documentation/observable.html). This observable provides you with an 
+instant update to your query whenever a relevant change occurs.  
 
-The following sections describe both real-time query types in detail. For information on the underlying messaging protocol, see our [Websocket API Docs](../../websockets/).
+The following sections describe both real-time query types in detail. For information on the underlying messaging 
+protocol, see our [Websocket API Docs](../../websockets/).
 
 <div class="warning"><strong>Real-Time SDK:</strong> 
-To use real-time features, you have to include the <a href="https://github.com/Baqend/js-sdk/blob/master/README.md#baqend-real-time-sdk" target="_blank"><b>Baqend Real-Time SDK</b></a> (<code>baqend-realtime.js</code> or <code>baqend-realtime.min.js</code>) instead of the standard SDK (<code>baqend.js</code> or <code>baqend.min.js</code>). 
-</div>
+To use real-time features, you mus include RxJS
+
 
 ## Self-Maintaining Queries
 
@@ -24,7 +29,7 @@ All you have to do is use <code>result<b><u>Stream</u></b>()</code> instead of <
 To shed more light on the difference between regular and real-time queries, consider the following example: Imagine you and your colleagues are collaborating on a shared todo list that is frequently updated. And let's say you want to keep an eye on the 10 most urgent open tasks by the following query:
 
 ```js
-var query = DB.Todo.find()
+var query = db.Todo.find()
               .matches('name', /^My Todo/)
               .ascending(status)
               .ascending('deadline')
@@ -156,7 +161,7 @@ If you haven't already, you should read the guide section on <b><a href="#observ
 You can create an event stream observable like this:
 
 ```js 
-var query = DB.Todo.find().matches('name', /^My Todo/);
+var query = db.Todo.find().matches('name', /^My Todo/);
 var stream = query.eventStream(); // observable
 ```
 
@@ -192,14 +197,14 @@ subscription.unsubscribe();
 In order to activate event stream updates for a query, all you have to do is register it as an event stream query and provide a function to execute for every received change event:
 
 ```js
-var query = DB.Todo.find()
+var query = db.Todo.find()
               .matches('name', /^My Todo/)
               .ascending('deadline')
               .limit(20);
 var subscription = query.eventStream()
               .subscribe(event => console.log(event));
 //...
-new DB.Todo({name: 'My Todo XYZ'}).insert(); // insert data
+new db.Todo({name: 'My Todo XYZ'}).insert(); // insert data
 //...
 // The insert produces the following event:
 //{
@@ -257,13 +262,13 @@ Filtering events by <b>operation</b> does not work as straightforward as you mig
 For instance, if you are interested in all todo lists and only want to be notified as *new* lists are created, you could subscribe to the following stream:
 
 ```js
-var stream = DB.Todo.find().eventStream({operations: 'insert'});// initial result is delivered by default
+var stream = db.Todo.find().eventStream({operations: 'insert'});// initial result is delivered by default
 ```
 
 If, on the other hand, you only care for the creation of new todo lists and not for the ones that are already in the database, you should not request the initial result set:
 
 ```js
-var stream = DB.Todo.find().eventStream({initial: false, operations: 'insert'});
+var stream = db.Todo.find().eventStream({initial: false, operations: 'insert'});
 ```
 
 ### Event Stream Filter Queries
@@ -273,7 +278,7 @@ Like regular filter queries, *event stream filter queries* allow you to select e
 You can, for instance, have the database send you an event for every todo list that is *created* with a name that matches a particular pattern:
 
 ```js
-var stream = DB.Todo.find()
+var stream = db.Todo.find()
                .matches('name', /^My Todo/)
                .eventStream({initial: false, operations: 'insert'});
 ```
@@ -283,7 +288,7 @@ It is important to note, however, that the above query will only tell you when a
 If you are really looking for an event stream query that gives you new matches irrespective of the triggering operation, you should work with `matchTypes` and leave `operations` at the default:
 
 ```js
-var stream = DB.Todo.find()
+var stream = db.Todo.find()
                .matches('name', /^My Todo/)
                .eventStream({initial: false, matchTypes: 'add'});// operations: ['any'] by default
 ```
@@ -291,7 +296,7 @@ var stream = DB.Todo.find()
 To get the full picture, you can also request the initial result upfront. Initial matches are always delivered with match type `add`:
 
 ```js
-var stream = DB.Todo.find()
+var stream = db.Todo.find()
                .matches('name', /^My Todo/)
                .eventStream({matchTypes: 'add'});// initial: true by default
 ```
@@ -299,7 +304,7 @@ var stream = DB.Todo.find()
 Of course, you can combine several predicates using `and`, `or` and `nor`. The following query keeps you up-to-date on all todo lists that are active and match one pattern or have already been marked as done and match another pattern:
 
 ```js
-var queryBuilder = DB.Todo.find();
+var queryBuilder = db.Todo.find();
 var condition1 = queryBuilder
   .matches('name', /^My Todo/)
   .equal('active', true);
@@ -321,7 +326,7 @@ Events stream sorting queries are great to maintain ordered results such as high
 The following generates events for your top-20 todo lists, sorted by urgency, name and status:
 
 ```js
-var stream = DB.Todo.find()
+var stream = db.Todo.find()
                .matches('name', /^My Todo/)
                .ascending('deadline')
                .ascending('name')
@@ -333,7 +338,7 @@ var stream = DB.Todo.find()
 Entities that sort identically are **implicitly ordered by ID**. Thus, a query without explicit ordering will result in more or less random order by default as IDs are generated randomly:
 
 ```js
-var stream = DB.Todo.find()
+var stream = db.Todo.find()
                .matches('name', /^My Todo/)
                .limit(20)// no order provided? Implicitly ordered by ID!
                .eventStream();
@@ -343,20 +348,20 @@ var stream = DB.Todo.find()
 Since the maximum limit is implicitly enforced, the following three event stream queries are registered identical:
 
 ```js
-var implicitLimit = DB.Todo.find()
+var implicitLimit = db.Todo.find()
                .matches('name', /^My Todo/)
                .ascending('deadline')
                .offset(5)
                .eventStream(); // implicit limit: 495 (= 500 - offset)
                
-var explicitLimit = DB.Todo.find()
+var explicitLimit = db.Todo.find()
                .matches('name', /^My Todo/)
                .ascending('deadline')
                .offset(5)
                .limit(495) // explicit limit
                .eventStream();
                
-var cappedLimit = DB.Todo.find()
+var cappedLimit = db.Todo.find()
                .matches('name', /^My Todo/)
                .ascending('deadline')
                .offset(5)
@@ -367,7 +372,7 @@ var cappedLimit = DB.Todo.find()
 An event stream sorting query with `offset` maintains an ordered result, hiding the first few items from you. However, the first index in a sorted query result is always `0`, irrespective of whether it is specified with `offset` or not. Accordingly, events for the following subscription will carry `index` values in the range between `0` and `9`:
 
 ```js
-var stream = DB.Todo.find()
+var stream = db.Todo.find()
                .matches('name', /^My Todo/)
                .ascending('deadline')
                .ascending('name')
@@ -390,7 +395,7 @@ For an example of how an event stream query behaves, consider the following exam
 
 **Timestamp 1:** <span class="user2">User 2</span> inserts `todo1`:
 ```js
-var todo1 = new DB.Todo({name: 'My Todo 1'});
+var todo1 = new db.Todo({name: 'My Todo 1'});
 todo1.insert();
 
 //actual result: [ todo1 ]
@@ -398,7 +403,7 @@ todo1.insert();
 
 **Timestamp 2:** <span class="user1">User 1</span> subscribes to an event stream query and immediately receives a match event for `todo1`:
 ```js
-var stream = DB.Todo.find()
+var stream = db.Todo.find()
     .matches('name', /^My Todo/)
     .ascending('name')
     .descending('active')
@@ -416,7 +421,7 @@ subscription = stream.subscribe((event) => {
 
 **Timestamp 3:** <span class="user2">User 2</span> inserts `todo2`:
 ```js
-var todo2 = new DB.Todo({name: 'My Todo 2'});
+var todo2 = new db.Todo({name: 'My Todo 2'});
 todo2.insert();
 
 //actual result: [ todo1, todo2 ]
@@ -429,7 +434,7 @@ todo2.insert();
 
 **Timestamp 5:** <span class="user2">User 2</span>: inserts `todo3`:
 ```js
-var todo3 = new DB.Todo({name: 'My Todo 3'});
+var todo3 = new db.Todo({name: 'My Todo 3'});
 todo3.insert();
 
 //actual result: [ todo1, todo2, todo3 ]
@@ -455,7 +460,7 @@ todo3.update();
 
 **Timestamp 9:** <span class="user2">User 2</span> inserts `todo0` which sorts before all other items in the result and therefore is assigned index `0`:
 ```js
-var todo0 = new DB.Todo({name: 'My Todo 0'});
+var todo0 = new db.Todo({name: 'My Todo 0'});
 todo0.insert();
 
 //entities in DB: [ todo0, todo1, todo3 ], todo2

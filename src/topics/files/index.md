@@ -80,13 +80,13 @@ The are multiple ways to reference a file:
 ```js
 let file;
 // Absolute references have to start with '/file' followed by a root folder e.g. '/www'
-file = new DB.File('/file/www/myPic.jpg');
+file = new db.File('/file/www/myPic.jpg');
 // Alternatively you can give the path of the file, starting with the root folder
-file = new DB.File({ path: '/www/myPic.jpg' });
+file = new db.File({ path: '/www/myPic.jpg' });
 // Or you specify the name and parent (folder) of the file
-file = new DB.File({ parent: '/www', name: 'myPic.jpg' });
+file = new db.File({ parent: '/www', name: 'myPic.jpg' });
 // Because '/www' is the default parent in can be omitted
-file = new DB.File({ name: 'myPic.jpg' });
+file = new db.File({ name: 'myPic.jpg' });
 ```
 
 To get the full url to access the file just use the `file.url` shorthand. This ensures that the domain is correctly used, 
@@ -101,9 +101,9 @@ You can also manage your files in folders for example like this:
 ```js
 let file;
 // Creates the same file reference
-file = new DB.File('/file/www/images/myPic.jpg');
+file = new db.File('/file/www/images/myPic.jpg');
 // Parent start with the root folder, e.g. /www and followed by additional folders
-file = new DB.File({parent: '/www/images', name: 'myPic.jpg'});
+file = new db.File({parent: '/www/images', name: 'myPic.jpg'});
 ```
 
 <div class="note"><strong>Note:</strong> Parent paths always start with a root folder, since the access control (who can access and modify the folder contents)
@@ -112,7 +112,7 @@ can only be set for the root folder and is applied to all nested files and folde
 ### Embedded Files
 Files can also be embedded in other objects like for example a profile image in a user object (see [primitive types](../schema/#primitives)):
 ```js
-DB.User.me.load().then((user) => {
+db.User.me.load().then((user) => {
 	const file = user.profileImage;
 	// The file url, e.g. 'http://app.baqend.com/v1/file/users/img/myImg.png'
 	console.log(file.url); 
@@ -128,7 +128,7 @@ Therefore you can use the `loadMetadata` method to get additional file metadata
 (not the [content itself](#downloading-files)):
 
 ```js
-const file = new DB.File('/file/www/images/myPic.jpg');
+const file = new db.File('/file/www/images/myPic.jpg');
 file.loadMetadata(() => {
 	console.log(file.isMetadataLoaded); // true
 	console.log(file.lastModified);     // The time of the last update
@@ -146,8 +146,8 @@ file.isMetadataLoaded // > false if the metadata was not previously fetched by f
 You can also list all files inside a folder. Either provide the path to the folder as string or a file reference representing the folder
 
 ```
-var folder = new DB.File('/file/www/images/');
-DB.File.listFiles(folder).then(function(files) {
+var folder = new db.File('/file/www/images/');
+db.File.listFiles(folder).then(function(files) {
 	// all the files in the folder '/www/images/'
 });
 
@@ -156,7 +156,7 @@ DB.File.listFiles(folder).then(function(files) {
 
 You can also list all **root folders**:
 ```
-DB.File.listBuckets().then(function(rootFolders) {
+db.File.listBuckets().then(function(rootFolders) {
 	// all root folders
 });
 
@@ -168,7 +168,7 @@ To upload a file you must first create a file with its name and its content.
 Afterwards you can simply upload the file by just invoking `upload()`:
 
 ```js
-const file = new DB.File({ name: 'test.png', data: file, type: 'blob' })
+const file = new db.File({ name: 'test.png', data: file, type: 'blob' })
 file.upload().then((file) => {
     // Upload succeed successfully 
     console.log(file.mimeType);     // contains the media type of the file
@@ -192,7 +192,7 @@ function uploadFiles(files) {
 
   for (let i = 0, numFiles = files.length; i < numFiles; i++) {
     // If you omit the name parameter, the name of the provided file object is used
-    const file = new DB.File({data: files[i]});
+    const file = new db.File({data: files[i]});
     pendingUploads.push(file.upload());
   }
   
@@ -205,7 +205,7 @@ function uploadFiles(files) {
 In the cases you want to upload base64 encoded binary data you can use the base64 type in the options object:
 
 ```js
-const file = new DB.File({ name: 'test.png', data: 'R0lGODlhDAAeALMAAG...', type: 'base64', mimeType: 'image/gif' });
+const file = new db.File({ name: 'test.png', data: 'R0lGODlhDAAeALMAAG...', type: 'base64', mimeType: 'image/gif' });
 file.upload().then((file) => {
     // Upload succeed successfully 
     console.log(file.mimeType);     // contains the media type of the file
@@ -294,7 +294,7 @@ download.toFile(db, "http://...test.jpg", "/www/image.jpg");
 Downloading a file works similar to uploading one. Just create a file reference and call `file.download()`:
 
 ```js
-const file = new DB.File({ name: 'myPic.jpg' });
+const file = new db.File({ name: 'myPic.jpg' });
 file.download((data) => {
     console.log(data); // is provided as Blob per default
 
@@ -308,7 +308,7 @@ file.download((data) => {
 To load the file content in a different format, just request a download `type`
 
 ```js
-const file = new DB.File({ name: 'myPic.jpg', type: 'data-url' });
+const file = new db.File({ name: 'myPic.jpg', type: 'data-url' });
 file.download((data) => {
     // Data is now a data URL string
     console.log(data); // "data:image/jpeg;base64,R0lGODlhDAA..."
@@ -322,7 +322,7 @@ file.download((data) => {
 To delete a file just call the `delete()` method after creating the file reference:
 
 ```js
-const file = new DB.File({ name: 'test.png' });
+const file = new db.File({ name: 'test.png' });
 file.delete().then((file) => {
     // Deletion succeed
 }, (error) => {
@@ -388,12 +388,12 @@ But if you like to change the permissions programmatically you can use the `save
 
 ```js
 // Grant full access on the pictures root folder for the current user
-DB.File.saveMetadata('pictures', {
-   load:   new DB.util.Permission().allowAccess(DB.User.me),
-   insert: new DB.util.Permission().allowAccess(DB.User.me),
-   update: new DB.util.Permission().allowAccess(DB.User.me),
-   delete: new DB.util.Permission().allowAccess(DB.User.me),
-   query:  new DB.util.Permission().allowAccess(DB.User.me)
+db.File.saveMetadata('pictures', {
+   load:   new db.util.Permission().allowAccess(db.User.me),
+   insert: new db.util.Permission().allowAccess(db.User.me),
+   update: new db.util.Permission().allowAccess(db.User.me),
+   delete: new db.util.Permission().allowAccess(db.User.me),
+   query:  new db.util.Permission().allowAccess(db.User.me)
 });
 ```
 
@@ -406,12 +406,12 @@ The file permissions can be set when a file is uploaded. Therefore you can pass 
 or to the upload method. 
 
 ```js
-const file = new DB.File({
+const file = new db.File({
     name: 'test.png', 
     data: file, 
-    acl: new DB.Acl()
-        .allowReadAccess(DB.User.me)
-        .allowWriteAccess(DB.User.me)
+    acl: new db.Acl()
+        .allowReadAccess(db.User.me)
+        .allowWriteAccess(db.User.me)
 });
 file.upload().then(...);
 ```

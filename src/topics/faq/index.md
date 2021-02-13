@@ -91,7 +91,7 @@ That is, of course, a valid question and we would like to address it. The first 
 
 We are one of the only BaaS providers that has a [Community Edition](https://www.baqend.com/features.html#download) which allows running Baqend and its database on premises. You can completely migrate your cloud-based Baqend application and continue running it on your own hardware, should Baqend ever go out of business. The only limitation is that you have to manage the infrastructure yourself, scalability above 20K requests per second is harder and we cannot automate performance optimization.
 
-Also, we try to keep vendor lock-in minimal. We create nightly backups of your data that you can import in a self-hosted MongoDB. We have APIs and a dashboard for exporting the data, schema, and code of everything that makes up your app. All the Baqend code of your app relies on the Node.js ecosystem and can be ported to any environment that can run Node servers (e.g., Heroku or AWS).
+Also, we try to keep vendor lock-in minimal. We create nightly backups of your data that you can import in a self-hosted Mongodb. We have APIs and a dashboard for exporting the data, schema, and code of everything that makes up your app. All the Baqend code of your app relies on the Node.js ecosystem and can be ported to any environment that can run Node servers (e.g., Heroku or AWS).
 
 Additionally, in our enterprise plan, we can provide source code escrow agreements and other terms that explicitly handle the case of how we hand over the Baqend technology if Baqend Cloud is discontinued. Baqend Enterprise can be deployed on private clouds and provides the same performance and scalability as Baqend Cloud.
 
@@ -111,8 +111,8 @@ There are a few rate limits in Baqend, to prevent abuse:
 
 Users are rate-limited, unless they are associated with the *admin or the node role*. If you ran into the rate limit and wan to unblock an IP, go into the dashboard, open the developer console (F12) and use the following command:
 
-    DB.send(new DB.message.Unban()) //unban everyone
-    DB.send(new DB.message.UnbanIp("192.168.0.1")) //unban a particular IP
+    db.send(new db.message.Unban()) //unban everyone
+    db.send(new db.message.UnbanIp("192.168.0.1")) //unban a particular IP
 
 If you need to change the above rate limiting settings, contact [support@baqend.com](mailto:support@baqend.com)
 

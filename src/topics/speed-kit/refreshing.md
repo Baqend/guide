@@ -42,7 +42,7 @@ To get the user token required for the API call described above, do the followin
 2. **Open console**: open the console of your browser 
 3. **Request the token**:
 
-        DB.User.me.requestAPIToken(console.log)
+        db.User.me.requestAPIToken(console.log)
         
 <div class="note">
     <strong>Note:</strong>
@@ -53,7 +53,7 @@ To get the user token required for the API call described above, do the followin
 
 In order to revoke it, log into your dashboard and open your console as [described above](#obtaining-revoking-the-user-token). Then, call the following:
 
-        DB.User.revokeTokens(DB.User.me)
+        db.User.revokeTokens(db.User.me)
 
 
 

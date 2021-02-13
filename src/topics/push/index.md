@@ -119,8 +119,8 @@ to check whether it is really necessary. As illustrated below, you thus only hav
 device is currently not registered.
 
 ```js
-DB.ready().then(function() {
-    if (!DB.Device.isRegistered) {
+db.ready().then(function() {
+    if (!db.Device.isRegistered) {
        // register the device
     }
 });
@@ -135,26 +135,26 @@ A common use case is to save the user with a device, that allows you to send a p
 later on.
 
 ```js
-var device = new DB.Device({
-    "user": DB.User.me
+var device = new db.Device({
+    "user": db.User.me
 });
 
-DB.Device.register('IOS', deviceToken, device);
+db.Device.register('IOS', deviceToken, device);
 ```
 
 ### Hybrid Apps
 
 To register an iOS or Android device, you need to retrieve the token from the used device. It depends on the used 
 framework how to get that token. In this example, we use the `requestDeviceToken()` method to fetch that token. After 
-successfully getting it, pass the token to the `DB.Device.register` method as shown below:
+successfully getting it, pass the token to the `db.Device.register` method as shown below:
 
 ```js
-DB.ready().then(function() {
-    if (!DB.Device.isRegistered) {
+db.ready().then(function() {
+    if (!db.Device.isRegistered) {
         //helper method which fetch a new device token, using your favor framework 
         var deviceToken = requestDeviceToken();
     
-        DB.Device.register('IOS', deviceToken);
+        db.Device.register('IOS', deviceToken);
     }
 });
 ```
@@ -190,23 +190,23 @@ Google.
 
 
 After successfully enabling the notification, you need to get the subscribe options with the generated public key, 
-which you can access via `DB.Device.loadWebPushKey()`:
+which you can access via `db.Device.loadWebPushKey()`:
 ```js
 async function getSubscribeOptions() {
   return {
     userVisibleOnly: true,
-    applicationServerKey: await DB.Device.loadWebPushKey()
+    applicationServerKey: await db.Device.loadWebPushKey()
   }
 }
 ```
 
 Then, you need to pass the `subscribeOptions` object when registering a new device to the subscribe method of the `Push Manager`.
-You'll get a `pushSubscription` JSON, which you need to pass on to the `DB.Device.register` method. 
+You'll get a `pushSubscription` JSON, which you need to pass on to the `db.Device.register` method. 
 
 Example code is shown below for registering a new device:
 ```js
 async function subscribe() {
-  if (DB.Device.isRegistered) {
+  if (db.Device.isRegistered) {
     return;
   }
 
@@ -219,7 +219,7 @@ async function subscribe() {
   }
 
   const pushSubscription = await registration.pushManager.subscribe(await getSubscribeOptions());
-  return await DB.Device.register('WebPush', pushSubscription);
+  return await db.Device.register('WebPush', pushSubscription);
 }
 ```
 

@@ -25,7 +25,7 @@ Here is an example for creating the data model of Todo objects in the dashboard:
 
 ![Schema Tutorial](tutorial-schema-cropped.gif)
 
-Under the hood, Baqend stores data in MongoDB. However, in contrast to data modelling in MongoDB, Baqend supports a rich schema that is checked and validated whenever data ist stored. By using the JSON data types Baqend objects can have arbitrary schemaless parts.
+Under the hood, Baqend stores data in Mongodb. However, in contrast to data modelling in MongoDB, Baqend supports a rich schema that is checked and validated whenever data ist stored. By using the JSON data types Baqend objects can have arbitrary schemaless parts.
 
 
 <div class="tip"><strong>Tip:</strong> Best practices for <a href="http://martinfowler.com/articles/schemaless">schemaless</a> and <a href="https://en.wikipedia.org/wiki/Relational_model">schema-rich</a> data modelling can both be applied in Baqend by mixing data types with JSON.</div>
@@ -38,7 +38,7 @@ To manipulate your domain model through application code, you first have to conn
 
 ```javascript
 // Create entity manager factor object:
-let emf = new DB.EntityManagerFactory({ host: 'your-app-name' });
+let emf = new db.EntityManagerFactory({ host: 'your-app-name' });
 // Create a db instance that shares its authentication token with the meta model (see below)
 let db = emf.createEntityManager(true);
 // Wait for the db initialization
@@ -57,10 +57,10 @@ Using the `metamodel`, you can now update your schema in various ways.
 For example, you can create a new entity type (`Person`) and add a string attribute to it (`name`):
 ```javascript
 // You can now add new types to this metamodel
-const personType = new DB.metamodel.EntityType('Person', metamodel.entity(Object));
+const personType = new db.metamodel.EntityType('Person', metamodel.entity(Object));
 metamodel.addType(personType);
 //  And lastly you can add attributes to your generated types
-personType.addAttribute(new DB.metamodel.SingularAttribute('name', metamodel.baseType(String)));
+personType.addAttribute(new db.metamodel.SingularAttribute('name', metamodel.baseType(String)));
 ```
 
 When you have specified all desired changes, you have to save your changes to apply them to your Baqend instance:
@@ -98,7 +98,7 @@ identity, version and access rights. They can be directly saved, loaded and upda
 id. The id is immutable and set at object creation time.
 
 ```js
-var todo = new DB.Todo({name: 'My first Todo'});
+var todo = new db.Todo({name: 'My first Todo'});
 console.log(todo.id); //'84b9...'
 ```
 
@@ -106,7 +106,7 @@ Instead of relying on automatic generation, objects can also have a *custom id*.
 memorable and meaningful.
 
 ```js
-var todo = new DB.Todo({id: 'Todo1', name: 'My first Todo'});
+var todo = new db.Todo({id: 'Todo1', name: 'My first Todo'});
 console.log(todo.id); //'Todo1'
 todo.save();
 ```
@@ -118,8 +118,8 @@ todo.save();
 Entity objects can reference other entities by reference, i.e. their id. Referenced objects will not be persisted 
 inside another entity, instead only a reference to the other entity is be persisted.
 ```js
-var firstTodo = new DB.Todo({name: 'My first Todo'});
-var secondTodo = new DB.Todo({name: 'My second Todo'});
+var firstTodo = new db.Todo({name: 'My first Todo'});
+var secondTodo = new db.Todo({name: 'My second Todo'});
 
 firstTodo.doNext = secondTodo;
 ```
@@ -142,7 +142,7 @@ When an entity is loaded from Baqend, referenced entities will not be loaded by 
  not available* error will be thrown.
 ```js
 //while loading the todo, the reference will be resolved to the referenced entity
-DB.Todo.load('7b2c...').then(function(firstTodo) {
+db.Todo.load('7b2c...').then(function(firstTodo) {
   console.log(firstTodo.name); //'My first Todo'
   console.log(firstTodo.doNext.name); //will throw an object not available error
 });
@@ -150,7 +150,7 @@ DB.Todo.load('7b2c...').then(function(firstTodo) {
 
 The `isReady` field indicates if an entity is already resolved.
 ```js
-DB.Todo.load('7b2c...').then(function(firstTodo) {
+db.Todo.load('7b2c...').then(function(firstTodo) {
   console.log(firstTodo.doNext.isReady); //false
 });
 ```
@@ -166,7 +166,7 @@ firstTodo.doNext.load(function() {
 If the object graph is not very deep, references can easily be resolved by reachability.
 ```js
 //loading the todo will also load the referenced todo
-DB.Todo.load('7b2c...', {depth: true}).then(function(firstTodo) {
+db.Todo.load('7b2c...', {depth: true}).then(function(firstTodo) {
   console.log(firstTodo.name); //'My first Todo'
   console.log(firstTodo.doNext.name); //'My second Todo'
 });
@@ -183,21 +183,21 @@ saved, loaded and updated with their owning entity and will be persisted togethe
 
 Embedded objects can be created and used like entity objects.
 ```js
-var activity = new DB.Activity({start: new Date()});
+var activity = new db.Activity({start: new Date()});
 console.log(activity.start); //something like 'Tue Mar 24 2015 10:46:13 GMT'
 activity.end = new Date();
 ```
 
 Since embeddables do not have an identity, they hold neither an id, version nor acl attribute.
 ```js
-var activity = new DB.Activity({start: new Date()});
+var activity = new db.Activity({start: new Date()});
 console.log(activity.id); //undefined
 ```
 
 To actually persist an embedded object you have to assign the embedded object to an entity and save that outer entity.
 ```js
-var activity = new DB.Activity({start: new Date()});
-var todo = new DB.Todo({name: 'My first Todo', activities: [activity]});
+var activity = new db.Activity({start: new Date()});
+var todo = new db.Todo({name: 'My first Todo', activities: [activity]});
 todo.save();
 ```
 
@@ -267,8 +267,8 @@ and their corresponding JavaScript types.
   </tr>
   <tr>
     <td>GeoPoint</td>
-    <td>DB.GeoPoint(&lt;lat&gt;, &lt;lng&gt;)</td>
-    <td>new DB.GeoPoint(53.5753, 10.0153)</td>
+    <td>db.GeoPoint(&lt;lat&gt;, &lt;lng&gt;)</td>
+    <td>new db.GeoPoint(53.5753, 10.0153)</td>
     <td>You can get the current GeoPoint of the User with <code>GeoPoint.current()</code>. This only works with an HTTPS connection.<br></td>
   </tr>
   <tr>
@@ -298,18 +298,18 @@ supports 3 type of collections, which are mapped to native JavaScript arrays, es
   </tr>
   <tr>
     <td>collection.List</td>
-    <td>`new DB.List([1,2,3])` or <br> `new Array(1,2,3)`</td>
+    <td>`new db.List([1,2,3])` or <br> `new Array(1,2,3)`</td>
     <td>All non-collection types are supported as values</td>
   </tr>
   <tr>
     <td>collection.Set</td>
-    <td>`new DB.Set([1,2,3])` or <br> `new Set([1,2,3])`</td>
+    <td>`new db.Set([1,2,3])` or <br> `new Set([1,2,3])`</td>
     <td>Only String, Boolean, Integer, Double, Date, Time, DateTime and References are allowed as values. Only this
     types can be compared by identity.</td>
   </tr>
   <tr>
     <td>collection.Map</td>
-    <td>`new DB.Map([["x", 3], ["y", 5]])` or <br> `new Map([["x", 3], ["y", 5]])`</td>
+    <td>`new db.Map([["x", 3], ["y", 5]])` or <br> `new Map([["x", 3], ["y", 5]])`</td>
     <td>Only String, Boolean, Integer, Double, Date, Time, DateTime and References are allowed as keys.<br>
     All non collection types are supported as values.</td>
   </tr>

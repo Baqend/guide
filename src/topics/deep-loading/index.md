@@ -7,7 +7,7 @@ owning entity as dirty on modifications. The big advantage of this dirty trackin
 to persist object graphs, only those objects that were actually changed are transferred. This saves performance and 
 bandwidth.
 ```js
-DB.Todo.load('Todo1').then(function(todo) {
+db.Todo.load('Todo1').then(function(todo) {
   todo.save(); //will not perform a Baqend request since the object is not dirty   
 });
 ```
@@ -18,7 +18,7 @@ As described in the [References](../schema#references) chapter, references betwe
 from embedded objects or collections. The referenced objects will not be loaded with the referencing entity by default.
 ```js
 //while loading the todo, the reference will be resolved to the referenced entity
-DB.Todo.load('7b2c...').then(function(firstTodo) {
+db.Todo.load('7b2c...').then(function(firstTodo) {
   console.log(firstTodo.name); //'My first Todo'
   console.log(firstTodo.doNext.name); //will throw an object not available error
 });
@@ -27,7 +27,7 @@ DB.Todo.load('7b2c...').then(function(firstTodo) {
 In a more complex scenario you may have references in a collection. These references won't be be loaded by default 
 neither.
 ```js
-DB.Todo.load('7b2c...').then(function(firstTodo) {  
+db.Todo.load('7b2c...').then(function(firstTodo) {  
   //will throw an object not available error
   console.log(firstTodo.upComingTodos[0].name); 
 });
@@ -36,7 +36,7 @@ DB.Todo.load('7b2c...').then(function(firstTodo) {
 To load dependant objects, you can pass the `depth` option while loading the entity. The depth option allows to 
 set a reference-depth which will automatically be loaded. A depth value of `0` (the default) just loads the entity. 
 ```js
-DB.Todo.load('7b2c...', {depth: 0}).then(function(firstTodo) {   
+db.Todo.load('7b2c...', {depth: 0}).then(function(firstTodo) {   
   //will throw an object not available error
   console.log(firstTodo.doNext.name); 
   //will still throw an object not available error
@@ -47,7 +47,7 @@ DB.Todo.load('7b2c...', {depth: 0}).then(function(firstTodo) {
 A depth value of `1` loads the entity and one additional level of references. This also includes references in 
 collections and embedded objects.
 ```js
-DB.Todo.load('7b2c...', {depth: 1}).then(function(firstTodo) {
+db.Todo.load('7b2c...', {depth: 1}).then(function(firstTodo) {
   console.log(firstTodo.doNext.name); //'My second Todo'
   console.log(firstTodo.upComingTodos[0].name); //'My second Todo'  
   //will throw an object not available error
@@ -65,7 +65,7 @@ load all references by reachability. But be aware of that is dangerous for large
 Deep loading also works for query results obtained via `resultList` and `singleResult`:
 
 ```js
-DB.Todo.find().resultList({depth: 1}, function(result) {
+db.Todo.find().resultList({depth: 1}, function(result) {
   result.forEach(function(todo) {
     console.log(todo.doNext.name);
   });
@@ -81,8 +81,8 @@ references. When an entity is loaded it is stored into this instance cache and w
 instance is requested. This ensures that you will always get the same instance for a given object id. That means 
 object equality is always guaranteed for objects having the same ids. 
 ```js
-DB.Todo.load('MyFirstTodo', {depth: 1}).then(function(firstTodo) {
-  DB.Todo.load('MySecondTodo').then(function(secondTodo) {
+db.Todo.load('MyFirstTodo', {depth: 1}).then(function(firstTodo) {
+  db.Todo.load('MySecondTodo').then(function(secondTodo) {
     //true, object equality is guaranteed by the DB instance cache
     console.log(firstTodo.doNext == secondTodo); 
   });  
@@ -95,8 +95,8 @@ As with deep loading, you can also save referenced entities with the referencing
  If you call `save()` without any options, only the entity itself will be saved, but not any referenced entity. This is the 
 same behaviour as passing `depth` with the value `0`.
 ```js
-var firstTodo = new DB.Todo({name: 'My first Todo'});
-var secondTodo = new DB.Todo({name: 'My second Todo'});
+var firstTodo = new db.Todo({name: 'My first Todo'});
+var secondTodo = new db.Todo({name: 'My second Todo'});
 
 firstTodo.doNext = secondTodo;
 firstTodo.save(); //will save firstTodo, but not the secondTodo
@@ -104,7 +104,7 @@ firstTodo.save(); //will save firstTodo, but not the secondTodo
 
 By passing the depth option with a value of `1` the entity and all its direct referenced entities will be saved.
 ```js
-var thirdTodo = new DB.Todo({name: 'My third Todo'});
+var thirdTodo = new db.Todo({name: 'My third Todo'});
 
 firstTodo.doNext = secondTodo;
 secondTodo.doNext = thirdTodo;

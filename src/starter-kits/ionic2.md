@@ -24,7 +24,7 @@ The easiest way to use this starter is to use the ionic cli:
 
 ## How Baqend fits your Backend requirements
 
-Baqend is a fully managed Backend-as-a-Service platform with a strong focus on performance and scalability ([click here for details](https://medium.baqend.com/bringing-web-performance-to-the-next-level-an-overview-of-baqend-be3521bc2faf)). The [JavaScript API](https://www.baqend.com/js-sdk/latest/baqend.html) gives you access to common backend features while the [dashboard](https://www.baqend.com/guide/#baqend-dashboard) lets you define data models and access rules as well as business logic to execute on the server side.
+Baqend is a fully managed Backend-as-a-Service platform with a strong focus on performance and scalability ([click here for details](https://medium.baqend.com/bringing-web-performance-to-the-next-level-an-overview-of-baqend-be3521bc2faf)). The [JavaScript API](https://www.baqend.com/js-sdk/latest/) gives you access to common backend features while the [dashboard](https://www.baqend.com/guide/#baqend-dashboard) lets you define data models and access rules as well as business logic to execute on the server side.
 
 Baqend's feature set includes:
 

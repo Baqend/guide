@@ -35,7 +35,7 @@ To install Baqend to the application (already included in the zip you downloaded
 at the end of the `<body>` section of the index.html using your favourite IDE (e.g. [WebStorm](https://www.jetbrains.com/webstorm/))
 or text editor (e.g. [Sublime](https://www.sublimetext.com/3)):
 ```html
-<script src="https://www.baqend.com/js-sdk/latest/baqend.min.js"></script>
+<script src="https://www.baqend.com/js-sdk/latest/baqend.es5.min.js"></script>
 ```
 Other installation methods (e.g. npm) are explained [on Github](https://github.com/Baqend/js-sdk/blob/master/README.md).
 </li>
@@ -170,7 +170,7 @@ You can use the app you just created as a baseline for a real app. To explore Ba
 <ul>
     <li>Take the [Interactive Tutorial](https://www.baqend.com/tutorial.html)</li>
     <li>Read the [Developer Guide](/), to learn about server-side code &amp; validations, push notifications, logging, etc.</li>
-    <li>Read the [JavaScript API Docs](https://www.baqend.com/js-sdk/latest/baqend.html)</li>
+    <li>Read the [JavaScript API Docs](https://www.baqend.com/js-sdk/latest/)</li>
     <li>Play with the Interative REST API: [Open Your App](https://dashboard.baqend.com) and go to *API Explorer*</li>
     <li>If you're starting from scratch, have a look at frontend bootstraping tools: [Initializr](http://www.initializr.com/) (used here), [HTML5 Boilerplate](https://html5boilerplate.com/), [Bootstrap](http://getbootstrap.com/), [Yeoman](http://yeoman.io/) and popular frontend frameworks: [Ionic](http://ionic.io/), [AngularJS](https://angularjs.org/), [React](https://facebook.github.io/react/), [Ember](http://emberjs.com/)</li>
 </ul>

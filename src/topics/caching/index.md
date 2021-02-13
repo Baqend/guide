@@ -41,7 +41,7 @@ There are two settings affecting Bloom filter freshness that can be configured i
 If you want to override the total staleness in individual clients, you can set it manually:
 
 ```js
-DB.configure({
+db.configure({
     staleness : 10
 }).connect().then(...);
 ```
@@ -50,7 +50,7 @@ For individual operations you can optionally bypass the cache to get **strong co
 
 ```js
 //To get the newest version via the id
-var todo = DB.Todo.load("myTodo", {refresh : true });
+var todo = db.Todo.load("myTodo", {refresh : true });
 
 //To update a known instance to the latest version
 todo.load({refresh : true });
@@ -61,14 +61,14 @@ todo.load({refresh : true });
 You can request already loaded objects using the `local` flag. It will try to give you an instance you have already loaded and only load it, if it's not present:
 ```js
 //If we have seen "myTodo" in the code we will get exactly that instance
-DB.Todo.load("myTodo", {local : true }).then(...);
+db.Todo.load("myTodo", {local : true }).then(...);
 
 //local is the default for the instance method
 todo.load().then(...);
 
 //This is also useful to see your own unsaved changes, irrespective of updates from other users
 todo.done = true;
-DB.Todo.load("myTodo", {local : true }).then(function() {
+db.Todo.load("myTodo", {local : true }).then(function() {
     console.log(todo.done); // true
 });
 ```

@@ -226,7 +226,7 @@
     </a>
   </div>
   <div class="chapter-item-outer">
-    <a class="chapter-item" href="https://www.baqend.com/js-sdk/latest/baqend.html">
+    <a class="chapter-item" href="https://www.baqend.com/js-sdk/latest/">
       <span class="chapter-heading">
         <span class="icon"><img src="../icons/jsapi.png"/></span>
         <span class="text">JS API</span>

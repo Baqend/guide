@@ -9,7 +9,7 @@ After creating a new object, the object can be persisted to Baqend with an `inse
 that the object always get its own unique id by generating a new one if none was provided.
 
 ```js
-var todo = new DB.Todo({id: 'Todo1', name: 'My first Todo'});
+var todo = new db.Todo({id: 'Todo1', name: 'My first Todo'});
 //we can use the object id right now
 console.log(todo.id) //'Todo1' 
 
@@ -23,7 +23,7 @@ todo.insert().then(function() {
 If an object is persisted it can be loaded by its id (aka primary key). This method is very handy with custom (i.e. 
 non-generated) ids.
 ```js
-DB.Todo.load('Todo1').then(function(todo) {
+db.Todo.load('Todo1').then(function(todo) {
   console.log(todo.name); //'My first Todo'  
 });
 ```
@@ -31,7 +31,7 @@ DB.Todo.load('Todo1').then(function(todo) {
 If an object is loaded from the Baqend all its attributes, collections and embedded objects will be loaded, too.
 References to other entities will not be loaded by default. You can, however, specify an optional `depth`-parameter to indicate how deep referenced entities should be loaded:
 ```js
-DB.Todo.load('Todo1', {depth: 1}).then(function(todo) {
+db.Todo.load('Todo1', {depth: 1}).then(function(todo) {
   // With 'depth: 1' all directly referenced objects will be loaded.
 });
 ```
@@ -40,8 +40,8 @@ When you load the same object a second time, the object will be loaded from the 
 always get the same object instance for a given object id.
 
 ```js
-DB.Todo.load('Todo1').then(function(todo1) {
-  DB.Todo.load('Todo1').then(function(todo2) {
+db.Todo.load('Todo1').then(function(todo1) {
+  db.Todo.load('Todo1').then(function(todo2) {
     console.log(todo1 === todo2); //true
   });
 });
@@ -122,7 +122,7 @@ irrelevant if the object is already persisted to the Baqend just use the `save()
 update or an insert, depending on the current state of the object.
 
 ```js
-var todo = new DB.Todo({id: 'Todo1', name: 'My first Todo'});
+var todo = new db.Todo({id: 'Todo1', name: 'My first Todo'});
 todo.save().then(function() { //inserts the object
   todo.name = 'My first Todo of this day';
   todo.save(); //updates the object
@@ -136,7 +136,7 @@ Without the explicit `force` flag, updates and saves can fail due to concurrent 
 Under the hood, this pattern of optimistic concurrency control relies on version numbers of the objects and conditional HTTP requests that only apply changes when the underlying object has not been changed.
 
 ```js
-var todo = new DB.Todo.load("myTodo");
+var todo = new db.Todo.load("myTodo");
 todo.optimisticSave(function(todo, abort) {
   //this method may get called multiple times
   if(todo.participants.length > 10) { 
@@ -194,10 +194,10 @@ See the following examples to understand the functionality of references:
 
 ```js
 // Create a reference to the user with ID “1”:
-const userRef = DB.User.ref(1);
+const userRef = db.User.ref(1);
 
 // You can also use the full object ID:
-const userIdRef = DB.User.ref('/db/User/1');
+const userIdRef = db.User.ref('/db/User/1');
 console.log(userRef === userIdRef); // true
 
 // You cannot access data of a reference
@@ -221,9 +221,9 @@ Therefore, the `obj.getReferencing()` method finds all objects which reference `
 Here is an example:
 
 ```js
-someRoleObject.users === [DB.User.me]; // true
+someRoleObject.users === [db.User.me]; // true
 
-DB.User.me.getReferencing().then((allReferencingObjects) => {
+db.User.me.getReferencing().then((allReferencingObjects) => {
     // “allReferencingObjects” is an array containing loaded objects
     
     console.log(allReferencingObjects.indexOf(someRoleObject) >= 0); // true; e.g., “someRoleObject” will be found
@@ -233,9 +233,9 @@ DB.User.me.getReferencing().then((allReferencingObjects) => {
 You can pass an array of class names to the method to only find instances of those classes to reference your object:
 
 ```js
-someRoleObject.users === [DB.User.me]; // again, this is true
+someRoleObject.users === [db.User.me]; // again, this is true
 
-DB.User.me.getReferencing({ classes: ['/db/Role'] }).then((allReferencingRoles) => {
+db.User.me.getReferencing({ classes: ['/db/Role'] }).then((allReferencingRoles) => {
     // “allReferencingRoles” is an array containing loaded instances of the “Role” class
     
     console.log(allReferencingRoles === [someRoleObject]); // true

@@ -24,10 +24,10 @@ Logging from the browser:
 ```js
 //Use the debug level while developing. 
 //You can then easily disable all logs by just removing this line
-DB.log.level = 'debug'; 
+db.log.level = 'debug'; 
 
-DB.log.debug('A simple debug message', {test: 'some test data'})
-DB.log.info('A simple message that always be logged');
+db.log.debug('A simple debug message', {test: 'some test data'})
+db.log.info('A simple message that always be logged');
 ```
 
 The SDK provides a simple log method which takes a log level, a message, arguments and an optional data object.
@@ -52,7 +52,7 @@ You can use multiple log levels to categorize your logs. You can use one of the 
 `trace`, `debug`, `info`, `warn`, `error`. Log levels can later be used to filter logs.
 
 ```js
-DB.log('debug', 'A simple debug message');
+db.log('debug', 'A simple debug message');
 ```
 
 If you do not provide a log level, the log level becomes `info`.
@@ -60,17 +60,17 @@ If you do not provide a log level, the log level becomes `info`.
 For easier usage the log method also expose additional log methods for each log level:
 
 ```js
-DB.log.trace('A simple trace message');
-DB.log.debug('A simple debug message');
-DB.log.info('A simple info message');
-DB.log.warn('A simple warn message');
-DB.log.error('A simple error message');
+db.log.trace('A simple trace message');
+db.log.debug('A simple debug message');
+db.log.info('A simple info message');
+db.log.warn('A simple warn message');
+db.log.error('A simple error message');
 ```
 
 By default only `error`, `warn` and `info` logs are activated. If you want to use `debug` or `trace` logs or maybe deactivate one of the other levels you can specify the minimum log level to track like this:
 ```js
-DB.log.level = 'debug'; // to track all logs except for 'trace'
-DB.log.level = 'warn'; // to track only 'warn' and 'error'
+db.log.level = 'debug'; // to track all logs except for 'trace'
+db.log.level = 'warn'; // to track only 'warn' and 'error'
 ```
 
 ### Log Arguments
@@ -81,7 +81,7 @@ The can use the placeholders `%s` for strings, `%d` for numbers and `%j` for a J
 included in the log message.
  
 ```js
-DB.log.debug('The value %d is greater then %d', 10, 5);
+db.log.debug('The value %d is greater then %d', 10, 5);
 //logs the message 'The value 10 is greater then 5'
 ```
 
@@ -90,7 +90,7 @@ All the log methods allow one additional argument as the last argument.
 The argument should be a JSON like object and will be logged in addition to the log message. 
 
 ```js
-DB.log.debug('The value %d is greater then %d', 10, 5, {val1: 10, val2: 5});
+db.log.debug('The value %d is greater then %d', 10, 5, {val1: 10, val2: 5});
 //logs the message 'The value 10 is greater then 5'
 //and the data {val1: 10, val2: 5}
 ```
@@ -102,13 +102,13 @@ You can use the `Array.from` method to convert them first to an array:
 var set = new Set();
 set.add(34);
 
-DB.log.debug('The set value is', Array.from(set));
+db.log.debug('The set value is', Array.from(set));
 //logs the data {data: [34]}
 
 var map = new Map();
 map.set("key", 34);
 
-DB.log.debug('The map value is', Array.from(map));
+db.log.debug('The map value is', Array.from(map));
 //logs the data {data: [["key",34]]} Maps are serialized by an array of key value pairs
 ```
 
@@ -116,7 +116,7 @@ You can also log errors by just logging the errors stack
 
 ```js
 var error = new Error('An Error');
-DB.log.debug('The error is: ', error.stack);
+db.log.debug('The error is: ', error.stack);
 // logs somthing simmilar to the following: The error is:, Error: An Error    at <anonymous>:1:21
 ```
 

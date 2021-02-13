@@ -76,7 +76,7 @@ Use it to overwrite a value in the database without reading it first.
 
 ```js
 function changeNicknameAndAge(userId) {
-  return DB.User.load(userId)
+  return db.User.load(userId)
   .then((user) => {
     const update = user.partialUpdate()
       .set('nickname', 'Alice') // sets "nickname" to "Alice"
@@ -97,7 +97,7 @@ The following example is equivalent to the one above.
 
 ```js
 function changeNicknameAndAgeClassLevel(userId) {
-  return DB.User.partialUpdate(userId)
+  return db.User.partialUpdate(userId)
     .set('nickname', 'Alice') // sets "nickname" to "Alice"
     .set('age', 42)           // sets "age" to 42
     .execute()
@@ -120,7 +120,7 @@ To increment a value of an object by a given number, use the **increment** opera
 ```js
 function visitPage(pageId) {
   let oldVisitorCounter, oldHitCounter;
-  return DB.Page.load(pageId)
+  return db.Page.load(pageId)
   .then((page) => {  
     oldVisitorCounter = page.visitorCounter;
     oldHitCounter = page.hitCounter;
@@ -142,7 +142,7 @@ As a shorthand to increment a field by a negative value, you can use **decrement
  
 ```js
 function eatCake(cakeId) {
-  return DB.Cake.load(cakeId)
+  return db.Cake.load(cakeId)
   .then((cake) => {  
     const pieces = cake.pieces;
     const update = cake.partialUpdate()
@@ -162,7 +162,7 @@ You can multiply Double and Integer values by a numeric factor using **multiply*
 
 ```js
 function calculateTax(itemId) {
-  return DB.Item.load(itemId)
+  return db.Item.load(itemId)
   .then((item) => {  
     const price = item.price;
     const update = item.partialUpdate()
@@ -184,7 +184,7 @@ With min, you update the field to the lower value compared to the one you give a
   
 ```js
 function weAreTooExpensive(itemId) {
-  return DB.Item.load(itemId)
+  return db.Item.load(itemId)
   .then((item) => {  
     const price1 = item.price1; //  5.99
     const price2 = item.price2; //  9.99
@@ -208,7 +208,7 @@ To do the same but using the higher value, you can use **max**.
 
 ```js
 function weAreTooCheap(itemId) {
-  return DB.Item.load(itemId)
+  return db.Item.load(itemId)
   .then((item) => {  
     const price1 = item.price1; //  5.99
     const price2 = item.price2; //  9.99
@@ -238,7 +238,7 @@ You can **push** to add new elements to the end of a list or **unshift** to add 
 
 ```js
 function addSomePhysicists(scienceId) {
-  const science = new DB.Science();
+  const science = new db.Science();
   science.name = 'physics';
   science.pioneers = ['Einstein', 'Bohr'];
   science.save()
@@ -263,7 +263,7 @@ You can use **pop** to remove an element at the end or **shift** to remove an el
 
 ```js
 function removeSomePhysicists(scienceId) {
-  const science = new DB.Science();
+  const science = new db.Science();
   science.name = 'physics';
   science.pioneers = ['Galilei', 'Newton', 'Schrödinger'];
   
@@ -294,7 +294,7 @@ Furthermore, you can also use **replace** elements within a list to change them.
 
 ```js
 function replaceSomePhysicists(scienceId) {
-  const science = new DB.Science();
+  const science = new db.Science();
   science.name = 'physics';
   science.pioneers = ['Galilei', 'Newton', 'Schrödinger'];
   
@@ -319,7 +319,7 @@ You can **add** elements into and **remove** elements from a set.
 
 ```js
 function lookForPlanets(galaxyId) {
-  return DB.Galaxy.partialUpdate(galaxyId)
+  return db.Galaxy.partialUpdate(galaxyId)
     .add('knownPlanets', 'Kepler-186f') // will add "Kepler-186f" to "knownPlanets"
     .execute()
   .then((galaxy) => {
@@ -341,7 +341,7 @@ You can **put** elements in and **remove** elements from a map.
 
 ```js
 function updateSolarSystem(galaxyId) {
-  return DB.Galaxy.partialUpdate(galaxyId)
+  return db.Galaxy.partialUpdate(galaxyId)
     .put('planetDistance', 'Earth', '1 au') // assign "1 au" to "Earth"
     .execute()    
   .then((galaxy) => {
@@ -376,7 +376,7 @@ Use **toNow** to update a field to the current date and time in case of a *DateT
  
 ```js
 function countTheStars(galaxyId) {
-  const update = DB.Galaxy.partialUpdate(galaxyId)
+  const update = db.Galaxy.partialUpdate(galaxyId)
     .set('amountOfStars', 42)
     .toNow('countedStarsAt'); // assign the current date time to "countedStarsAt"
  
@@ -391,7 +391,7 @@ You can also manipulate your Integer fields with **bitwise operations**, e.g. if
 
 ```js
 function manipulateRoboParams(robotId) {
-  return DB.Robot.load(robotId)
+  return db.Robot.load(robotId)
   .then((robot) => {  
     console.log(robot.parameter1 === 0b00001111);
     console.log(robot.parameter2 === 0b11110000);

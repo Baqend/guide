@@ -11,7 +11,7 @@ These are our recommendations for getting things rolling quickly:
 ## Javascript SDK
 
 The JavaScript SDK is packaged as an UMD module, it can be used with RequireJS, browserify or without any module loader.
-To get started please install the Baqend SDK with [npm](https://www.npmjs.com/package/baqend) or [bower](https://libraries.io/bower/baqend) or 
+To get started please install the Baqend SDK with [npm](https://www.npmjs.com/package/baqend) or 
 download the complete package from [GitHub](https://github.com/Baqend/js-sdk/releases/latest).
 
 <div class="note"><strong>Note:</strong> If you are not using JavaScript you can use Baqend via its <b>REST API</b> from the programming language of your choice. Baqend's REST API is documented with <a href="http://swagger.io/">Swagger</a> and can be explored <a href="https://dashboard.baqend.com/swagger-ui/?url=https%3A%2F%2Ftoodle.app.baqend.com%2Fv1%2Fspec&#/crud">here</a>. In the <a href="https://dashboard.baqend.com/">dashboard of you Baqend app</a> you can goto "API Explorer" to explore and use the REST API of your own instance.</div>
@@ -19,7 +19,7 @@ download the complete package from [GitHub](https://github.com/Baqend/js-sdk/rel
 To install Baqend, just add our CDN-hosted script in your website (available both over HTTPS and HTTP).
 <div class="release">
 ```html
-<script src="//www.baqend.com/js-sdk/latest/baqend.min.js"></script>
+<script src="https://www.baqend.com/js-sdk/latest/baqend.es5.min.js"></script>
 ```
 </div>
 For additional setup information visit our [GitHub page](https://github.com/Baqend/js-sdk/blob/master/README.md).
@@ -28,18 +28,16 @@ For additional setup information visit our [GitHub page](https://github.com/Baqe
 If you use our <a href="../../starter-kits/">Starter Kits</a> the Baqend SDK is already included and you can skip this setup.</div>
 
 <div class="note"><strong>Note:</strong>
-It is generally a good idea to use the latest SDK version from <code>//www.baqend.com/js-sdk/latest/baqend.min.js</code> in development to always be up-to-date. In production, however, you should use the last exact version you tested with. Be aware that otherwise minor changes in a newly released version may break parts of your production application. See our <a href="https://github.com/Baqend/js-sdk/blob/master/CHANGELOG.md">latest changes</a> to the SDK.</div>
+It is generally a good idea to use the latest SDK version from <code>//www.baqend.com/js-sdk/latest/baqend.es5.min.js</code> 
+in development to always be up-to-date. In production, however, you should use the last exact version you tested with. 
+Be aware that otherwise minor changes in a newly released version may break parts of your production application. 
+See our <a href="https://github.com/Baqend/js-sdk/blob/master/CHANGELOG.md">latest changes</a> to the SDK.</div>
 
 
 The Baqend SDK is written and tested for Chrome 24+, Firefox 18+, Internet Explorer 9+, Safari 7+, Node 4+, IOS 7+, Android 4+ and PhantomJS 1.9+
 
-
-The Baqend SDK does not require any additional dependencies, however it is shipped with a few bundled dependencies:
-
-- core-js, a shim library
-- node-uuid, A uuid generator
-- validator, A validation library
-
+The Baqend SDK does not require any additional dependencies, however there exists to optional dependencies validator 
+ (required for client side validation) and rxjs (for realtime):
 
 The Baqend JavaScript SDK and all its bundled dependencies are shipped under the
 [MIT License](https://github.com/Baqend/js-sdk/blob/master/LICENSE.md).
@@ -47,8 +45,9 @@ The Baqend JavaScript SDK and all its bundled dependencies are shipped under the
 To see that Baqend is working, paste the following after the Baqend script tag. It will replace the HTML body with 5 raw todo items from the [tutorial application](https://www.baqend.com/tutorial.html). Delete the snippet afterwards.
 ```html
 <script>
-  DB.connect('toodle').then(function() {
-    return DB.Todo.find().limit(5).resultList();
+  var { db } = Baqend; // Baqend is globally exposed if no module loader is used
+  db.connect('toodle').then(function() {
+    return db.Todo.find().limit(5).resultList();
   }).then(function(result) {
     document.querySelector('body').innerHTML = "<pre>" + JSON.stringify(result, null, " ") + "</pre>";
   });
@@ -59,12 +58,21 @@ To see that Baqend is working, paste the following after the Baqend script tag. 
 
 The Baqend SDK is fully compatible with [Node.js](https://nodejs.org/en/). This means you can use the SDK in a Node.js-based application for saving data, logging in users, etc. Additionally [Baqend modules](../baqend-code/#modules) and [handlers](../baqend-code/#handlers) are based on Node.js and run and scaled automatically by Baqend.
 
-To install the SDK for a Node.js project do an `npm install --save baqend` and use `require('baqend')` in your code.
+To install the SDK for a Node.js project do an `npm install --save baqend` and use `var { db } = require('baqend')` or 
+`import { db } from 'baqend';` in your code.
 
 ```js
-var DB = require('baqend');
-DB.connect('example');
+var { db } = require('baqend');
+db.connect('example');
 ```
+
+or 
+
+```js
+import { db } from 'baqend';
+db.connect('example');
+```
+
 
 The Baqend SDK is compatible with Require.JS, Browserify, ES6 and TypeScript and all majors build tools (Gulp, Grunt, Webpack, NPM scripts, etc.).
 
@@ -74,9 +82,9 @@ After including the Baqend SDK in your app, connect it with your Baqend. Simply 
 method on the DB variable:
 ```js
 //connect to the example app
-DB.connect('example');
+db.connect('example');
 //Or use a TLS-encrypted (SSL) connection to Baqend
-DB.connect('example', true);
+db.connect('example', true);
 ```
 
 If your app is [hosted on Baqend](../hosting), you do not have to specify any parameters, since the 
@@ -84,31 +92,31 @@ SDK will automatically detect and use the domain and protocol over which the pag
 
 ```js
 // No parameters needed if your App is hosted on Baqend
-DB.connect();
+db.connect();
 ```
 
 <div class="note"><strong>Note:</strong> If you use a custom deployment, e.g. the Baqend community edition you must pass a hostname or a complete URL
-to the connect call: <code>DB.connect('https://mybaqend.example.com/v1')</code></div>
+to the connect call: <code>db.connect('https://mybaqend.example.com/v1')</code></div>
 
 You can pass a callback as a second argument, which will be called when the connection is successfully established.
 ```js
-DB.connect('example', function() {
+db.connect('example', function() {
   //work with the DB
-  DB.Todo.load(...)
+  db.Todo.load(...)
 });
 ```
 
 Behind the scenes Baqend is requested, the metadata of your app is loaded and the [Data Models](../schema/) are created and initialized.
 If you want to register the handler afterwards, you can use the ready method to wait on the SDK initialization.
 ```js
-DB.ready(function() { DB... //work with the DB });
+db.ready(function() { db... //work with the DB });
 ```
 
 If you are familiar with [Promises](#promises) you can alternatively use the returned promise instead of passing 
 a callback. This works for all places in the Baqend SDK that exhibit asynchronous behaviour.
 ```js
-DB.ready().then(function() {
-  DB... //work with the DB
+db.ready().then(function() {
+  db... //work with the DB
 });
 ```
 
@@ -119,20 +127,20 @@ DB.ready().then(function() {
 After the Baqend SDK has been successfully initialized, all defined classes can be accessed using the DB instance. 
 Just use the name of the class to access the *object factory*.
 ```js
-DB.ready(function() {
-  DB.Todo //The Todo class factory
+db.ready(function() {
+  db.Todo //The Todo class factory
 });
 ```
 
 The object factory can be called or can be used like a normal JavaScript constructor to create instances.
 ```js
-var todo = new DB.Todo({name: 'My first Todo'});
+var todo = new db.Todo({name: 'My first Todo'});
 ```
 The constructor accepts one optional argument, which is a (JSON-)object containing the initial values of the object.
 
 The object attributes can be accessed and changed by their names.
 ```js
-var todo = new DB.Todo({name: 'My first Todo'});
+var todo = new db.Todo({name: 'My first Todo'});
 console.log(todo.name); //'My first Todo'
 todo.active = true;
 ```
