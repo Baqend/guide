@@ -15,8 +15,8 @@ The following sections describe both real-time query types in detail. For inform
 protocol, see our [Websocket API Docs](../../websockets/).
 
 <div class="warning"><strong>Real-Time SDK:</strong> 
-To use real-time features, you mus include RxJS
-
+To use real-time features, you must include RxJS.
+</div>
 
 ## Self-Maintaining Queries
 
