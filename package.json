@@ -36,7 +36,7 @@
     "run-sequence": "^1.0.2",
     "through2": "^0.6.5",
     "webpack": "^4.28.1",
-    "webpack-cli": "^3.2.1"
+    "webpack-cli": "^3.3.12"
   },
   "dependencies": {
     "highlight.js": "^9.13.1",
