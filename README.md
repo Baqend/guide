@@ -1,8 +1,5 @@
 Baqend Guide
 ============
-
-![Baqend.com](https://www.baqend.com/guide/img/baqend_logo.svg)
-
 To learn more visit our website [www.baqend.com](https://www.baqend.com).
 
 You can read this [Guide](https://www.baqend.com/guide/) online.
